@@ -418,9 +418,9 @@ def main():
     raw_input()
     tutorial.go_to_joint_state()
 
-    print("============ Press `Enter` to execute a movement using a pose goal ...")
-    raw_input()
-    tutorial.go_to_pose_goal()
+    #print("============ Press `Enter` to execute a movement using a pose goal ...")
+    #raw_input()
+    #tutorial.go_to_pose_goal()
 
     print("============ Press `Enter` to plan and display a Cartesian path ...")
     raw_input()
