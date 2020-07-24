@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   interactive_markers
   moveit_core
+  moveit_commander
   moveit_ros_planning
   moveit_ros_planning_interface
   moveit_ros_perception
@@ -111,6 +112,7 @@ catkin_package(
     moveit_core
     moveit_ros_planning_interface
     interactive_markers
+    moveit_commander
 )
 
 ###########
