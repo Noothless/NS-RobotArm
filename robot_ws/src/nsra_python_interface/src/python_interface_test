@@ -193,10 +193,11 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     wpose = move_group.get_current_pose().pose
     wpose.position.z += scale * 0.2  # First move up (z)
-    wpose.position.y += scale * 0.5  # and sideways (y)
+    wpose.position.y += scale * 0.3  # and sideways (y)
     waypoints.append(copy.deepcopy(wpose))
 
     wpose.position.x += scale * 0.2  # Second move forward/backwards in (x)
+    wpose.orientation.w = 0.1
     waypoints.append(copy.deepcopy(wpose))
 
     wpose.position.y -= scale * 0.2  # Third move sideways (y)
