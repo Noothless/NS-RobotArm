@@ -10,6 +10,15 @@ project(nsra_python_interface)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
+  interactive_markers
+  moveit_core
+  moveit_visual_tools
+  moveit_ros_planning
+  moveit_ros_planning_interface
+  moveit_ros_perception
+  pluginlib
+  geometric_shapes
+  rosbag
 )
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -97,10 +106,13 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES ODrive_Interface_test
-  CATKIN_DEPENDS std_msgs
-#  DEPENDS system_lib
+  LIBRARIES
+  INCLUDE_DIRS
+  CATKIN_DEPENDS
+    moveit_core
+    moveit_visual_tools
+    moveit_ros_planning_interface
+    interactive_markers
 )
 
 ###########
