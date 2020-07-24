@@ -204,18 +204,6 @@ class MoveGroupPythonIntefaceTutorial(object):
     wpose.orientation.y = 0.05
     waypoints.append(copy.deepcopy(wpose))
 
-    wpose.orientation.y = 0.1
-    waypoints.append(copy.deepcopy(wpose))
-
-    wpose.orientation.y = 0.2
-    waypoints.append(copy.deepcopy(wpose))
-
-    wpose.orientation.y = 0.3
-    waypoints.append(copy.deepcopy(wpose))
-
-    wpose.orientation.y = 0.4
-    waypoints.append(copy.deepcopy(wpose))
-
     #wpose.position.y -= scale * 0.2  # Third move sideways (y)
     #waypoints.append(copy.deepcopy(wpose))
 
