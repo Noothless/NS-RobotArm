@@ -123,7 +123,6 @@ class MoveGroupPythonIntefaceTutorial(object):
     joint_goal[3] = -pi/2
     joint_goal[4] = 0
     joint_goal[5] = pi/3
-    joint_goal[6] = 0
 
     # The go command can be called with joint values, poses, or without any
     # parameters if you have already set the pose or joint target for the group
