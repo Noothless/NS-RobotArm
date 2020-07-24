@@ -119,11 +119,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     # We can get the joint values from the group and adjust some of the values:
     joint_goal = move_group.get_current_joint_values()
     joint_goal[0] = 0
-    joint_goal[1] = -pi/4
+    joint_goal[1] = 0
     joint_goal[2] = 0
-    joint_goal[3] = -pi/2
+    joint_goal[3] = 0
     joint_goal[4] = 0
-    joint_goal[5] = pi/3
+    joint_goal[5] = 0
 
     # The go command can be called with joint values, poses, or without any
     # parameters if you have already set the pose or joint target for the group
@@ -422,48 +422,26 @@ def main():
     print("")
     tutorial = MoveGroupPythonIntefaceTutorial()
 
-    #print("============ Press `Enter` to execute a movement using a joint state goal ...")
-    #raw_input()
-    #tutorial.go_to_joint_state()
+    print("============ Press `Enter` to execute a movement using a joint state goal ...")
+    raw_input()
+    tutorial.go_to_joint_state()
 
     #print("============ Press `Enter` to execute a movement using a pose goal ...")
     #raw_input()
     #tutorial.go_to_pose_goal()
 
-    print("============ Press `Enter` to plan and display a Cartesian path ...")
-    raw_input()
-    cartesian_plan, fraction = tutorial.plan_cartesian_path()
+    #print("============ Press `Enter` to plan and display a Cartesian path ...")
+    #raw_input()
+    #cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
-    print("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
-    raw_input()
-    tutorial.display_trajectory(cartesian_plan)
+    #print("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
+    #raw_input()
+    #tutorial.display_trajectory(cartesian_plan)
 
-    print("============ Press `Enter` to execute a saved path ...")
-    raw_input()
-    tutorial.execute_plan(cartesian_plan)
+    #print("============ Press `Enter` to execute a saved path ...")
+    #raw_input()
+    #tutorial.execute_plan(cartesian_plan)
 
-    print("============ Press `Enter` to add a box to the planning scene ...")
-    raw_input()
-    tutorial.add_box()
-
-    print("============ Press `Enter` to attach a Box to the Panda robot ...")
-    raw_input()
-    tutorial.attach_box()
-
-    print("============ Press `Enter` to plan and execute a path with an attached collision object ...")
-    raw_input()
-    cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
-    tutorial.execute_plan(cartesian_plan)
-
-    print("============ Press `Enter` to detach the box from the Panda robot ...")
-    raw_input()
-    tutorial.detach_box()
-
-    print("============ Press `Enter` to remove the box from the planning scene ...")
-    raw_input()
-    tutorial.remove_box()
-
-    print("============ Python tutorial demo complete!")
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
