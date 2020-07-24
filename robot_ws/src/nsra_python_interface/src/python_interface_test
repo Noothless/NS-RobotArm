@@ -194,8 +194,8 @@ class MoveGroupPythonIntefaceTutorial(object):
     wpose = move_group.get_current_pose().pose
     print(wpose)
     #wpose.position.z += scale * 0.2  # First move up (z)
-    wpose.position.y += scale * 0.3  # and sideways (y)
-    waypoints.append(copy.deepcopy(wpose))
+    #wpose.position.y += scale * 0.3  # and sideways (y)
+    #waypoints.append(copy.deepcopy(wpose))
 
     #wpose.position.x += scale * 0.2  # Second move forward/backwards in (x)
     #wpose.orientation.x = -0.5
@@ -203,11 +203,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     wpose.orientation.y = 0.5
     waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.y -= scale * 0.2  # Third move sideways (y)
-    waypoints.append(copy.deepcopy(wpose))
+    #wpose.position.y -= scale * 0.2  # Third move sideways (y)
+    #waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.z -= scale * 0.2  # Third move sideways (y)
-    waypoints.append(copy.deepcopy(wpose))
+    #wpose.position.z -= scale * 0.2  # Third move sideways (y)
+    #waypoints.append(copy.deepcopy(wpose))
 
     # We want the Cartesian path to be interpolated at a resolution of 1 cm
     # which is why we will specify 0.01 as the eef_step in Cartesian
