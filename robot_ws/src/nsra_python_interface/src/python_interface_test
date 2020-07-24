@@ -198,7 +198,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     waypoints.append(copy.deepcopy(wpose))
 
     wpose.position.x += scale * 0.2  # Second move forward/backwards in (x)
-    wpose.orientation.x = -0.2
+    #wpose.orientation.x = -0.2
     wpose.orientation.z = 0.3
     waypoints.append(copy.deepcopy(wpose))
 
