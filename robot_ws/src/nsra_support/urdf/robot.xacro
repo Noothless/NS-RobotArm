@@ -160,7 +160,7 @@
   <parent link="Component1_1"/>
   <child link="Component2_1"/>
   <axis xyz="0.01 -0.0 -0.0"/>
-  <limit effort="30" velocity="1.0" lower="-2" upper="1" />
+  <limit effort="1" velocity="1.0" lower="-1.5708" upper="1.5708" />
 </joint>
 <transmission name="Rev2_tran">
   <type>transmission_interface/SimpleTransmission</type>
@@ -177,7 +177,7 @@
   <parent link="Component2_1"/>
   <child link="Component3_1"/>
   <axis xyz="-0.01 0.0 -0.0"/>
-  <limit effort="30" velocity="1.0" lower="-2.2" upper="0.7" />
+  <limit effort="1" velocity="1.0" lower="-1.5708" upper="1.5708" />
 </joint>
 <transmission name="Rev3_tran">
   <type>transmission_interface/SimpleTransmission</type>
@@ -194,6 +194,7 @@
   <parent link="Component3_1"/>
   <child link="Component4_1"/>
   <axis xyz="-0.0 -0.0 0.01"/>
+  <limit effort="1" velocity="1.0" lower="-3.1415" upper="3.1415" />
 </joint>
 <transmission name="Rev4_tran">
   <type>transmission_interface/SimpleTransmission</type>
@@ -210,6 +211,7 @@
   <parent link="Component4_1"/>
   <child link="Component5_1"/>
   <axis xyz="-0.01 0.0 0.0"/>
+  <limit effort="1" velocity="1.0" lower="-1.7453" upper="1.7453" />
 </joint>
 <transmission name="Rev5_tran">
   <type>transmission_interface/SimpleTransmission</type>
@@ -242,6 +244,7 @@
   <parent link="base_link"/>
   <child link="Component1_1"/>
   <axis xyz="0.0 0.01 0.0"/>
+  <limit effort="1" velocity="1.0" lower="-2.0944" upper="2.0944" />
 </joint>
 <transmission name="Rev1_tran">
   <type>transmission_interface/SimpleTransmission</type>
