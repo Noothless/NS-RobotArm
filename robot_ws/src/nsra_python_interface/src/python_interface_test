@@ -36,6 +36,7 @@
 
 import sys
 import copy
+import tf
 import rospy
 import moveit_commander
 import moveit_msgs.msg
