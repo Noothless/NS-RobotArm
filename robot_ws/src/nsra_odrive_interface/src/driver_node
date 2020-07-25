@@ -182,7 +182,7 @@ def dump_errors(data):
     if data.data == 2:
         dump_errors(odrv2)
 
-rospy.init_node('nsra/driver')
+rospy.init_node('driver')
 
 rospy.Subscriber("/nsra/drive_pub1", Int32, drive_pub1)
 rospy.Subscriber("/nsra/drive_pub2", Int32, drive_pub2)
