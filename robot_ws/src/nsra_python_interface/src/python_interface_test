@@ -194,7 +194,7 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     wpose = move_group.get_current_pose().pose
     print(tf.transformations.euler_from_quaternion([wpose.orientation.x, wpose.orientation.y, wpose.orientation.z, wpose.orientation.w]))
-    #wpose.position.z += scale * 0.2  # First move up (z)
+    wpose.position.z += scale * 0.1  # First move up (z)
     wpose.position.y += scale * 0.3  # and sideways (y)
     waypoints.append(copy.deepcopy(wpose))
 
@@ -206,8 +206,8 @@ class MoveGroupPythonIntefaceTutorial(object):
     wpose.orientation.w = quaternion[3]
     waypoints.append(copy.deepcopy(wpose))
 
-    #wpose.position.y -= scale * 0.2  # Third move sideways (y)
-    #waypoints.append(copy.deepcopy(wpose))
+    wpose.position.y -= scale * 0.2  # Third move sideways (y)
+    waypoints.append(copy.deepcopy(wpose))
 
     #wpose.position.z -= scale * 0.2  # Third move sideways (y)
     #waypoints.append(copy.deepcopy(wpose))
@@ -422,25 +422,25 @@ def main():
     print("")
     tutorial = MoveGroupPythonIntefaceTutorial()
 
-    print("============ Press `Enter` to execute a movement using a joint state goal ...")
-    raw_input()
-    tutorial.go_to_joint_state()
+    #print("============ Press `Enter` to execute a movement using a joint state goal ...")
+    #raw_input()
+    #tutorial.go_to_joint_state()
 
     #print("============ Press `Enter` to execute a movement using a pose goal ...")
     #raw_input()
     #tutorial.go_to_pose_goal()
 
-    #print("============ Press `Enter` to plan and display a Cartesian path ...")
-    #raw_input()
-    #cartesian_plan, fraction = tutorial.plan_cartesian_path()
+    print("============ Press `Enter` to plan and display a Cartesian path ...")
+    raw_input()
+    cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
-    #print("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
-    #raw_input()
-    #tutorial.display_trajectory(cartesian_plan)
+    print("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
+    raw_input()
+    tutorial.display_trajectory(cartesian_plan)
 
-    #print("============ Press `Enter` to execute a saved path ...")
-    #raw_input()
-    #tutorial.execute_plan(cartesian_plan)
+    print("============ Press `Enter` to execute a saved path ...")
+    raw_input()
+    tutorial.execute_plan(cartesian_plan)
 
   except rospy.ROSInterruptException:
     return
