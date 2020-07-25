@@ -194,8 +194,9 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     wpose = move_group.get_current_pose().pose
     print(tf.transformations.euler_from_quaternion([wpose.orientation.x, wpose.orientation.y, wpose.orientation.z, wpose.orientation.w]))
-    wpose.position.z += scale * 0.1  # First move up (z)
+    wpose.position.z -= scale * 0.1  # First move up (z)
     wpose.position.y += scale * 0.3  # and sideways (y)
+    wpose.position.x += scale * 0.2
     waypoints.append(copy.deepcopy(wpose))
 
     #wpose.position.x += scale * 0.2  # Second move forward/backwards in (x)
@@ -209,8 +210,8 @@ class MoveGroupPythonIntefaceTutorial(object):
     wpose.position.y -= scale * 0.2  # Third move sideways (y)
     waypoints.append(copy.deepcopy(wpose))
 
-    #wpose.position.z -= scale * 0.2  # Third move sideways (y)
-    #waypoints.append(copy.deepcopy(wpose))
+    wpose.position.x -= scale * 0.2  # Third move sideways (y)
+    waypoints.append(copy.deepcopy(wpose))
 
     # We want the Cartesian path to be interpolated at a resolution of 1 cm
     # which is why we will specify 0.01 as the eef_step in Cartesian
