@@ -35,13 +35,13 @@ while True:
 	detections = net.Detect(img, overlay=opt.overlay)
 
 	for detection in detections:
-		print(detection)
+		print(detection.Center)
 
 	output.Render(img)
 
 	output.SetStatus("{:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkFPS()))
 
-	net.PrintProfilerTimes()
+	#net.PrintProfilerTimes()
 
 	if not input.IsStreaming() or not output.IsStreaming():
 		break
