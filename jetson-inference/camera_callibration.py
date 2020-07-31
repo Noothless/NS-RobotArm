@@ -3,22 +3,19 @@ import cv2
 import numpy as np
 import scipy as sp
 import scipy.interpolate
-import enum
 
-cap = cv2.VideoCapture("rtsp://192.168.1.171")
-#cv2.VideoCapture.set(CV_CAP_PROP_FRAME_WIDTH , double width)
-#cv2.VideoCapture.set(CV_CAP_PROP_FRAME_HEIGHT , double height)
+cap = cv2.VideoCapture("rtsp://192.168.1.102")
 
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
-t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
+t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140 ])
 c_points = np.float32
 i_points = np.float32([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
 
-K = np.float64([[ 1.8339756155283853e+03, 0, 9.5950000000000000e+02],
-                [0, 1.8339756155283853e+03, 5.3950000000000000e+02],
+K = np.float64([[1.8196232063840237e+03, 0, 9.5950000000000000e+02],
+                [0, 1.8196232063840237e+03, 5.3950000000000000e+02],
                 [0.0, 0.0, 1.0]])
 
-dist_coef = np.float64([1.7834173741249823e-01, -2.9096984431872402e-01, 0, 0, -3.7034625992175947e+00])
+dist_coef = np.float64([ 2.4139278295843511e-01, -1.3984627843184050e+00 , 0, 0, 2.3861901454190999e+00])
 
 def dist_to_camera(dist):
     tnew=np.arange(start=702,stop=140,step=-1)
@@ -32,7 +29,7 @@ while True:
     hsv_frame = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)
 
     # Red color
-    low_red = np.array([95,180,0])
+    low_red = np.array([50,80,0])
     high_red = np.array([115, 255, 255])
     red_mask = cv2.inRange(hsv_frame, low_red, high_red)
 
@@ -44,7 +41,7 @@ while True:
     params = cv2.SimpleBlobDetector_Params()
 
     params.filterByArea = True
-    params.minArea = 50
+    params.minArea = 30
     params.maxArea = 10000
 
     params.filterByCircularity = True
@@ -94,8 +91,6 @@ while True:
             y = int(c_points[i,1])
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(red_mask,st[i],(x,y), font, 4,(10,10,10),2,cv2.LINE_AA)
-        
-
 
     imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     #imgKeyPoints = cv2.drawKeypoints(blur_frame, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)

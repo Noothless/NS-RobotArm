@@ -5,6 +5,15 @@ import jetson.utils
 import argparse
 import sys
 
+import cv2
+import numpy as np
+
+K = np.float64([[  1.8196232063840237e+03 , 0, 9.5950000000000000e+02],
+                [0, 1.8196232063840237e+03, 5.3950000000000000e+02 ],
+                [0.0, 0.0, 1.0]])
+
+dist_coef = np.float64([ 2.4139278295843511e-01, -1.3984627843184050e+00 , 0, 0, 2.3861901454190999e+00])
+
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
                                  formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage() +
