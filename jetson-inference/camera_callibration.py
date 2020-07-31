@@ -11,8 +11,14 @@ cap = cv2.VideoCapture("rtsp://192.168.1.171")
 
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
-c_points = np.array
-i_points = np.array([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
+c_points = np.float32
+i_points = np.float32([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
+
+K = np.float64([[ 1.7687647977551158e+03, 0, 9.5950000000000000e+02],
+                [0, 1.7687647977551158e+03, 5.3950000000000000e+02],
+                [0.0, 0.0, 1.0]])
+
+dist_coef = np.float64([1.0688378565415844e-01, -3.0397876507092140e-02, 0, 0, -1.5447191059828060e+00])
 
 def dist_to_camera(dist):
     tnew=np.arange(start=702,stop=140,step=-1)
@@ -26,7 +32,7 @@ while True:
     hsv_frame = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)
 
     # Red color
-    low_red = np.array([90,90,0])
+    low_red = np.array([95,180,0])
     high_red = np.array([115, 255, 255])
     red_mask = cv2.inRange(hsv_frame, low_red, high_red)
 
@@ -74,7 +80,10 @@ while True:
             c_points[[0,1],:] = c_points[[1,0],:]
 
         if c_points[2,1] > c_points[3,1]:
-               c_points[[2,3],:] = c_points[[3,2],:]
+            c_points[[2,3],:] = c_points[[3,2],:]
+
+        c_points[[0,2],:] = c_points[[2,0],:]
+        c_points[[1,3],:] = c_points[[3,1],:]
 
         #print("sorted:")
         #print(c_points)
@@ -107,4 +116,10 @@ while True:
         break
     elif key == 13:
         print(c_points)
-        
+        _ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
+        print(rvec)
+        print(tvec)
+        rotM = cv2.Rodrigues(rvec)[0]
+        print(rotM)
+        cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
+        print(cameraPosition)
