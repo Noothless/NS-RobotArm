@@ -112,8 +112,7 @@ public:
                     inputType = VIDEO_FILE;
             }
             if (inputType == CAMERA)
-                cout << "test" << endl;
-                inputCapture.open(input);
+                inputCapture.open(cameraID);
             if (inputType == VIDEO_FILE)
                 inputCapture.open(ros::package::getPath("nsra_computer_vision") + "/" + input);
             if (inputType != IMAGE_LIST && !inputCapture.isOpened())
