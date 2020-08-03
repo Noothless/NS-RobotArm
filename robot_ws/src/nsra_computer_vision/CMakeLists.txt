@@ -162,6 +162,7 @@ target_link_libraries(single_cam_callibration
 install(PROGRAMS
   src/blob_detection
   src/cbc_detection
+  src/stereo_callibration
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
