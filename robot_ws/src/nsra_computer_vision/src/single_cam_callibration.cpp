@@ -197,8 +197,6 @@ public:
     string outputFileName;      // The name of the file where to write
     bool showUndistorsed;       // Show undistorted images after calibration
     string input;               // The input ->
-    const string output_path;
-    const string input_path;
 
 
     int cameraID;
@@ -232,9 +230,9 @@ int main(int argc, char* argv[])
 {
     help();
     Settings s;
-    s.input_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[1];
-    const string inputSettingsFile = s.input_path;
-    s.output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[2]
+    const string input_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[1];
+    const string inputSettingsFile = input_path;
+    const string output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[2]
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
     {
@@ -483,7 +481,7 @@ static void saveCameraParams( Settings& s, Size& imageSize, Mat& cameraMatrix, M
                               double totalAvgErr )
 {
 
-    FileStorage fs( s.output_path, FileStorage::WRITE );
+    FileStorage fs( "test.xml", FileStorage::WRITE );
 
     time_t tm;
     time( &tm );
