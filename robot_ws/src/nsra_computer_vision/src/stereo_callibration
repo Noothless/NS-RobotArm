@@ -107,7 +107,7 @@ while True:
     if key == 27:
         c1_points = corners1
         c2_points = corners2
-        print(c1_points)
+        print(i_points)
 
         _ret1, rvec1, tvec1 = cv2.solvePnP(i_points, c1_points, K1, dist_coef1)
         _ret2, rvec2, tvec2 = cv2.solvePnP(i_points, c2_points, K2, dist_coef2)
