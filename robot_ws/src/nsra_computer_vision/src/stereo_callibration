@@ -155,8 +155,8 @@ while True:
 
     #print(corners)
 
-    cv2.imshow("Frame", blur_frame1)
-    cv2.imshow("Frame", blur_frame2)
+    cv2.imshow("Frame1", blur_frame1)
+    cv2.imshow("Frame2", blur_frame2)
 
     key = cv2.waitKey(1)
     if key == 27:
