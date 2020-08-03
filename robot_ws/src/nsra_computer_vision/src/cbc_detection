@@ -21,8 +21,9 @@ while True:
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
 
     if retval:
+        r,g,b=cv2.split(blur_frame)
         criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
-        cv2.cornerSubPix(blur_frame, corners, (5,5), (-1,-1), criteria)
+        cv2.cornerSubPix(r, corners, (5,5), (-1,-1), criteria)
 
     cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
