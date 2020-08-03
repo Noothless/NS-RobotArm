@@ -31,16 +31,16 @@ target_link_libraries(single_cam_callibration
   ${catkin_LIBRARIES}
 )
 
-add_executable(calibrate calib_intrinsic.cpp popt_pp.h)
+add_executable(calibrate src/calib_intrinsic.cpp src/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
-add_executable(read read_images.cpp)
+add_executable(read src/read_images.cpp)
 target_link_libraries(read ${OpenCV_LIBS} "-lpopt")
 
-add_executable(calibrate_stereo calib_stereo.cpp)
+add_executable(calibrate_stereo src/calib_stereo.cpp)
 target_link_libraries(calibrate_stereo ${OpenCV_LIBS} "-lpopt")
 
-add_executable(undistort_rectify undistort_rectify.cpp)
+add_executable(undistort_rectify src/undistort_rectify.cpp)
 target_link_libraries(undistort_rectify ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
