@@ -231,7 +231,7 @@ int main(int argc, char* argv[])
 {
     help();
     Settings s;
-    string path = ros::package::getPath('nsra_computer_vision') + "/default.xml";
+    string path = ros::package::getPath("nsra_computer_vision") + "/default.xml";
     const string inputSettingsFile = argc > 1 ? argv[1] : path;
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
