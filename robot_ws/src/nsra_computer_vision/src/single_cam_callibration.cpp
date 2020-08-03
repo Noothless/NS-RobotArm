@@ -95,7 +95,7 @@ public:
                 inputType = INVALID;
         else
         {
-            inputCapture.open(input);
+            inputCapture.open("rtsp://192.168.1.171");
         }
         if (inputType == INVALID)
         {
@@ -442,7 +442,6 @@ static bool runCalibration( Settings& s, Size& imageSize, Mat& cameraMatrix, Mat
     objectPoints.resize(imagePoints.size(),objectPoints[0]);
 
     //Find intrinsic and extrinsic camera parameters
-    cout << objectPoints << endl;
     double rms = calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix,
                                  distCoeffs, rvecs, tvecs, s.flag|CALIB_FIX_K4|CALIB_FIX_K5);
 
