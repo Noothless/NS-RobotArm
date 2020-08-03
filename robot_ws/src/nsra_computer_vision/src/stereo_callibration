@@ -165,7 +165,7 @@ while True:
         print("Callibration Aborted!")
         break
     elif key == 13:
-
+        print("test")
 
 #_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
 #rotM = cv2.Rodrigues(rvec)[0]
