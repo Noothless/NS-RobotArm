@@ -27,8 +27,9 @@ while True:
 
     cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
-    cv2.imshow("Frame", blur_frame)
+    print(corners)
 
+    cv2.imshow("Frame", blur_frame)
 
     key = cv2.waitKey(1)
     if key == 27:
