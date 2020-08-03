@@ -160,7 +160,8 @@ target_link_libraries(single_cam_callibration
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-  src/camera_callibration
+  src/blob_detection
+  src/cbc_detection
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
