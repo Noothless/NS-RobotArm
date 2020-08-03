@@ -112,7 +112,7 @@ public:
                     inputType = VIDEO_FILE;
             }
             if (inputType == CAMERA)
-                inputCapture.open(cameraID);
+                inputCapture.open("rtsp://192.168.1.171");
             if (inputType == VIDEO_FILE)
                 inputCapture.open(ros::package::getPath("nsra_computer_vision") + "/" + input);
             if (inputType != IMAGE_LIST && !inputCapture.isOpened())
