@@ -63,6 +63,6 @@ install(TARGETS
 install(FILES
   camera1.xml
   camera2.xml
-  popt_pp.h
+  src/popt_pp.h
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
