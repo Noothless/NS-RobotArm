@@ -1,9 +1,15 @@
 #!/usr/bin/python
 import cv2
 import numpy as np
+import rospkg
+
+rospack = rospkg.RosPack()
 
 cap1 = cv2.VideoCapture("rtsp://192.168.1.171")
 cap2 = cv2.VideoCapture("rtsp://192.168.1.102")
+
+fs1 = cv2.FileStorage(rospack.get_path('nsra_computer_vision') + "/camera1_conf.xml", cv2.FILE_STORAGE_READ)
+fs2 = cv2.FileStorage(rospack.get_path('nsra_computer_vision') + "/camera2_conf.xml", cv2.FILE_STORAGE_READ)
 
 c_points = np.float32([[1269.7775,   450.22125],
                        [1275.9633,   501.22632],
@@ -115,17 +121,13 @@ i_points = np.float32([[0  ,  0 , 0],
                        [200, 100, 0],
                        [200, 125, 0]])
 
-K1 = np.float64([[1.0290992351720377e+03, 0, 640],
-                [0, 1.0290992351720377e+03, 360],
-                [0.0, 0.0, 1.0]])
+K1 = fs1.getNode("Camera_Matrix").mat()
+dist_coef1 = fs1.getNode("Distortion_Coefficients").mat()
 
-dist_coef1 = np.float64([2.7258212667342552e-01, -1.6061222485059845e+00 , 0, 0, 3.1977588055852539e+00])
+print(K1)
 
-K2 = np.float64([[1.0312039718924589e+03, 0, 640],
-                [0, 1.0312039718924589e+03, 360],
-                [0.0, 0.0, 1.0]])
-
-dist_coef2 = np.float64([2.4182504793263560e-01, -1.2804337456541415e+00 , 0, 0, 2.4110615497528509e+00])
+K2 = fs2.getNode("Camera_Matrix").mat()
+dist_coef2 = fs2.getNode("Distortion_Coefficients").mat()
 
 while True:
     _, frame1 = cap1.read()
@@ -160,9 +162,10 @@ while True:
 
     key = cv2.waitKey(1)
     if key == 27:
-        print("---------------------")
-        #print(values)
+        print("Callibration Aborted!")
         break
+    elif key == 13:
+
 
 #_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
 #rotM = cv2.Rodrigues(rvec)[0]
