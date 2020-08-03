@@ -188,6 +188,7 @@ install(TARGETS
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
   default.xml
+  IMG_0685.MOV
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
