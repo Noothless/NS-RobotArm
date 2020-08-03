@@ -13,6 +13,7 @@ set(OpenCV_DIR /usr/share/OpenCV/)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   roscpp
+  roslib
   std_msgs
   OpenCV 
 )
@@ -103,8 +104,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   LIBRARIES
-  INCLUDE_DIRS
-  CATKIN_DEPENDS
+  INCLUDE_DIRS include
+  CATKIN_DEPENDS roslib roscpp std_msgs
 )
 
 ###########
