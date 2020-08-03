@@ -110,6 +110,7 @@ while True:
 
         c1_points.astype(np.float32)
         c2_points.astype(np.float32)
+        i_points.astype(np.float32)
 
         R, T, E, F = cv2.stereoCalibrate(i_points, c1_points, c2_points, K1, dist_coef1, K2, dist_coef2, (1280,720), None, None, None, None)
 
