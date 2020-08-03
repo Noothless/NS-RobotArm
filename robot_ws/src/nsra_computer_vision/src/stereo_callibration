@@ -108,6 +108,9 @@ while True:
         c1_points = corners1.reshape(corners1.shape[0],corners1.shape[2])
         c2_points = corners2.reshape(corners2.shape[0],corners2.shape[2])
 
+        c1_points.astype(float32)
+        c2_points.astype(float32)
+
         print(c1_points)
 
         _ret1, rvec1, tvec1 = cv2.solvePnP(i_points, c1_points, K1, dist_coef1)
