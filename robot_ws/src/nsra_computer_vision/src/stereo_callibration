@@ -120,7 +120,7 @@ while True:
         cameraPosition1 = -np.matrix(rotM1).T * np.matrix(tvec1)
         cameraPosition2 = -np.matrix(rotM2).T * np.matrix(tvec2)
 
-        print(c1_points)
+        print(i_points)
 
         R, T, E, F = cv2.stereoCalibrate(i_points, c1_points, c2_points, K1, dist_coef1, K2, dist_coef2, (1280,720))
         print(R)
