@@ -118,7 +118,7 @@ while True:
         print(c2_points)
         print(i_points)
 
-        ret, matrix, dist, rvecs, tvecs = cv2.calibrateCamera(c1_points, i_points, gray.shape[::-1], None, None)
+        ret, matrix, dist, rvecs, tvecs = cv2.calibrateCamera(c1_points, i_points, (1280,720), None, None)
 
         #R, T, E, F = cv2.stereoCalibrate(i_points, c1_points, c2_points, K1, dist_coef1, K2, dist_coef2, (1280,720), flags=cv2.CALIB_FIX_INTRINSIC)
 
