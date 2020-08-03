@@ -122,7 +122,7 @@ while True:
 
         print(i_points)
 
-        R, T, E, F = cv2.stereoCalibrate(i_points, c1_points, c2_points, K1, dist_coef1, K2, dist_coef2)
+        R, T, E, F = cv2.stereoCalibrate(i_points, c1_points, c2_points, K1, dist_coef1, K2, dist_coef2, (1280,720), None, None, None, None)
         print(R)
         print(T)
         print(E)
