@@ -94,7 +94,7 @@ while True:
     #font = cv2.FONT_HERSHEY_SIMPLEX
     #cv2.putText(red_mask,'1',(int(c_points[0,0]),int(c_points[0,1])), font, 4,(50,50,50),2,cv2.LINE_AA)
 
-    retval, corners = cv2.findChessboardCorners(hsv_frame, (6,9), flags=CV_CALIB_CB_ADAPTIVE_THRESH)
+    retval, corners = cv2.findChessboardCorners(hsv_frame, (6,9), flags=CALIB_CB_ADAPTIVE_THRESH)
 
     cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
