@@ -10,6 +10,7 @@ project(nsra_computer_vision)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
+  cv-bridge
   OpenCV 
 )
 ## System dependencies are found with CMake's conventions
