@@ -480,7 +480,7 @@ static void saveCameraParams( Settings& s, Size& imageSize, Mat& cameraMatrix, M
                               const vector<float>& reprojErrs, const vector<vector<Point2f> >& imagePoints,
                               double totalAvgErr )
 {
-    FileStorage fs( s.outputFileName, FileStorage::WRITE );
+    FileStorage fs( ros::package::getPath("nsra_computer_vision") + "/" + s.outputFileName, FileStorage::WRITE );
 
     time_t tm;
     time( &tm );
