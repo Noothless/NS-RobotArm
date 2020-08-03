@@ -2,6 +2,9 @@
 import cv2
 import numpy as np
 
+cap1 = cv2.VideoCapture("rtsp://192.168.1.171")
+cap2 = cv2.VideoCapture("rtsp://192.168.1.102")
+
 c_points = np.float32([[1269.7775,   450.22125],
                        [1275.9633,   501.22632],
                        [1282.4819,   553.8286 ],
@@ -112,17 +115,56 @@ i_points = np.float32([[0  ,  0 , 0],
                        [200, 100, 0],
                        [200, 125, 0]])
 
-K = np.float64([[1.8196232063840237e+03, 0, 9.5950000000000000e+02],
-                [0, 1.8196232063840237e+03, 5.3950000000000000e+02],
+K1 = np.float64([[1.0290992351720377e+03, 0, 640],
+                [0, 1.0290992351720377e+03, 360],
                 [0.0, 0.0, 1.0]])
 
-dist_coef = np.float64([2.4139278295843511e-01, -1.3984627843184050e+00 , 0, 0, 2.3861901454190999e+00])
+dist_coef1 = np.float64([2.7258212667342552e-01, -1.6061222485059845e+00 , 0, 0, 3.1977588055852539e+00])
 
-print(c_points)
-_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
-print(rvec)
-print(tvec)
-rotM = cv2.Rodrigues(rvec)[0]
-print(rotM)
-cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
-print(cameraPosition)
+K2 = np.float64([[1.0312039718924589e+03, 0, 640],
+                [0, 1.0312039718924589e+03, 360],
+                [0.0, 0.0, 1.0]])
+
+dist_coef2 = np.float64([2.4182504793263560e-01, -1.2804337456541415e+00 , 0, 0, 2.4110615497528509e+00])
+
+while True:
+    _, frame1 = cap1.read()
+    _, frame2 = cap2.read()
+
+    blur_frame1 = cv2.GaussianBlur(frame1, (5,5), 1)
+    hsv_frame1 = cv2.cvtColor(blur_frame1, cv2.COLOR_BGR2HSV)
+
+    blur_frame2 = cv2.GaussianBlur(frame2, (5,5), 1)
+    hsv_frame2 = cv2.cvtColor(blur_frame2, cv2.COLOR_BGR2HSV)
+
+    retval1, corners1 = cv2.findChessboardCorners(blur_frame1, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
+    retval2, corners2 = cv2.findChessboardCorners(blur_frame2, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
+
+    if retval1:
+        r,g,b=cv2.split(blur_frame1)
+        criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
+        cv2.cornerSubPix(r, corners1, (11,11), (-1,-1), criteria)
+
+    if retval2:
+        r,g,b=cv2.split(blur_frame2)
+        criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
+        cv2.cornerSubPix(r, corners2, (11,11), (-1,-1), criteria)
+
+    cv2.drawChessboardCorners(blur_frame1, (6,9), corners1, retval1)
+    cv2.drawChessboardCorners(blur_frame2, (6,9), corners2, retval2)
+
+    #print(corners)
+
+    cv2.imshow("Frame", blur_frame1)
+    cv2.imshow("Frame", blur_frame2)
+
+    key = cv2.waitKey(1)
+    if key == 27:
+        print("---------------------")
+        #print(values)
+        break
+
+#_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
+#rotM = cv2.Rodrigues(rvec)[0]
+#cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
+#cv2.stereoCalibrate(i_points, c_points)
