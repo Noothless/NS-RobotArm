@@ -108,8 +108,8 @@ while True:
         c1_points = corners1.reshape(corners1.shape[0],corners1.shape[2])
         c2_points = corners2.reshape(corners2.shape[0],corners2.shape[2])
 
-        c1_points.astype(float32)
-        c2_points.astype(float32)
+        c1_points.astype(np.float32)
+        c2_points.astype(np.float32)
 
         print(c1_points)
 
