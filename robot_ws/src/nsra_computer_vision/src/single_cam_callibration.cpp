@@ -226,13 +226,15 @@ enum { DETECTION = 0, CAPTURING = 1, CALIBRATED = 2 };
 bool runCalibrationAndSave(Settings& s, Size imageSize, Mat&  cameraMatrix, Mat& distCoeffs,
                            vector<vector<Point2f> > imagePoints );
 
+const string output_path;
+
 int main(int argc, char* argv[])
 {
     help();
     Settings s;
     const string input_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[1];
     const string inputSettingsFile = input_path;
-    const string output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[2];
+    output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[2];
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
     {
@@ -481,7 +483,7 @@ static void saveCameraParams( Settings& s, Size& imageSize, Mat& cameraMatrix, M
                               double totalAvgErr )
 {
 
-    FileStorage fs( "test.xml", FileStorage::WRITE );
+    FileStorage fs( output_path, FileStorage::WRITE );
 
     time_t tm;
     time( &tm );
