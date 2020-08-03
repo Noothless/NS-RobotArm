@@ -111,8 +111,6 @@ while True:
         c1_points.astype(np.float32)
         c2_points.astype(np.float32)
 
-        print(c1_points)
-
         _ret1, rvec1, tvec1 = cv2.solvePnP(i_points, c1_points, K1, dist_coef1)
         _ret2, rvec2, tvec2 = cv2.solvePnP(i_points, c2_points, K2, dist_coef2)
 
@@ -121,6 +119,8 @@ while True:
 
         cameraPosition1 = -np.matrix(rotM1).T * np.matrix(tvec1)
         cameraPosition2 = -np.matrix(rotM2).T * np.matrix(tvec2)
+
+        print(c1_points)
 
         R, T, E, F = cv2.stereoCalibrate(i_points, c1_points, c2_points, K1, dist_coef1, K2, dist_coef2, (1280,720))
         print(R)
