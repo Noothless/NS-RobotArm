@@ -105,9 +105,6 @@ while True:
 
     key = cv2.waitKey(1)
     if key == 27:
-        print("Callibration Aborted!")
-        break
-    elif key == 13:
         c1_points = corners1
         c2_points = corners2
 
@@ -125,3 +122,5 @@ while True:
         print(T)
         print(E)
         print(F)
+        break
+        
