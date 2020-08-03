@@ -114,8 +114,7 @@ public:
             if (inputType == CAMERA)
                 inputCapture.open(cameraID);
             if (inputType == VIDEO_FILE)
-                string path = ros::package::getPath("nsra_computer_vision") + "/" + input;
-                inputCapture.open(path);
+                inputCapture.open(ros::package::getPath("nsra_computer_vision") + "/" + input);
             if (inputType != IMAGE_LIST && !inputCapture.isOpened())
                     inputType = INVALID;
         }
