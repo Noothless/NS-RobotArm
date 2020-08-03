@@ -58,6 +58,10 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>message_runtime</exec_depend>
 
+  <build_depend>opencv</build_depend>
+  <exec_depend>opencv</exec_depend>
+  <build_export_depend>opencv</build_export_depend>
+
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->

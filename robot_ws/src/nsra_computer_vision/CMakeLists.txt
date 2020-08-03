@@ -10,6 +10,7 @@ project(nsra_computer_vision)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
+  opencv
 )
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
