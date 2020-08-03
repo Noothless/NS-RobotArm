@@ -191,8 +191,8 @@ install(TARGETS
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
-  default.xml
-  IMG_0685.MOV
+  camera1.xml
+  camera2.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
