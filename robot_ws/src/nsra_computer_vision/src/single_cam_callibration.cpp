@@ -95,28 +95,7 @@ public:
                 inputType = INVALID;
         else
         {
-            if (input[0] >= '0' && input[0] <= '9')
-            {
-                stringstream ss(input);
-                ss >> cameraID;
-                inputType = CAMERA;
-            }
-            else
-            {
-                if (isListOfImages(input) && readStringList(input, imageList))
-                    {
-                        inputType = IMAGE_LIST;
-                        nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
-                    }
-                else
-                    inputType = VIDEO_FILE;
-            }
-            if (inputType == CAMERA)
-                inputCapture.open("rtsp://192.168.1.171");
-            if (inputType == VIDEO_FILE)
-                inputCapture.open(ros::package::getPath("nsra_computer_vision") + "/" + input);
-            if (inputType != IMAGE_LIST && !inputCapture.isOpened())
-                    inputType = INVALID;
+            inputCapture.open(input);
         }
         if (inputType == INVALID)
         {
