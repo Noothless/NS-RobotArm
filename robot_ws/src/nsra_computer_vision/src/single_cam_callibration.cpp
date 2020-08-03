@@ -8,7 +8,6 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include <ros/ros.h>
 #include <ros/package.h>
 
 #ifndef _CRT_SECURE_NO_WARNINGS
@@ -198,7 +197,8 @@ public:
     string outputFileName;      // The name of the file where to write
     bool showUndistorsed;       // Show undistorted images after calibration
     string input;               // The input ->
-
+    const string output_path;
+    const string input_path;
 
 
     int cameraID;
@@ -230,28 +230,11 @@ bool runCalibrationAndSave(Settings& s, Size imageSize, Mat&  cameraMatrix, Mat&
 
 int main(int argc, char* argv[])
 {
-    std::string param;
-    ros::init(argc, argv, "sc_callibration_node");
-    ros::NodeHandle nh("~");
-    nh.getParam("param", param);
-
-    if(param.compare("blue")==0)
-    {
-        cout << "blue" << endl;
-    }
-    else if(param.compare("green")==0)
-    {
-        cout<< "green" << endl;
-    }        
-    else
-    {
-        cout << "Don't run anything !! " << endl;
-    }
-
     help();
     Settings s;
-    string path = ros::package::getPath("nsra_computer_vision") + "/default.xml";
-    const string inputSettingsFile = argc > 1 ? argv[1] : path;
+    s.input_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[1];
+    const string inputSettingsFile = s.input_path;
+    s.output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[2]
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
     {
@@ -499,7 +482,8 @@ static void saveCameraParams( Settings& s, Size& imageSize, Mat& cameraMatrix, M
                               const vector<float>& reprojErrs, const vector<vector<Point2f> >& imagePoints,
                               double totalAvgErr )
 {
-    FileStorage fs( ros::package::getPath("nsra_computer_vision") + "/" + s.outputFileName, FileStorage::WRITE );
+
+    FileStorage fs( s.output_path, FileStorage::WRITE );
 
     time_t tm;
     time( &tm );
