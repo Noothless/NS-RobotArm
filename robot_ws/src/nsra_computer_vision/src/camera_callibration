@@ -1,13 +1,9 @@
-#!C:/Python27/python.exe
+#!/usr/bin/python3
 import cv2
 import numpy as np
-import scipy as sp
-import scipy.interpolate
 
 cap = cv2.VideoCapture("rtsp://192.168.1.171")
 
-v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
-t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140 ])
 c_points = np.float32
 i_points = np.float32([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
 
