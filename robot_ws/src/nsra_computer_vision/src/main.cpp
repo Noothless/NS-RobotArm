@@ -8,6 +8,8 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+#include <ros/package.h>
+
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -229,7 +231,8 @@ int main(int argc, char* argv[])
 {
     help();
     Settings s;
-    const string inputSettingsFile = argc > 1 ? argv[1] : "default.xml";
+    string path = ros::package::getPath(ros::this_package::getName()) + "/default.xml";
+    const string inputSettingsFile = argc > 1 ? argv[1] : path;
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
     {
