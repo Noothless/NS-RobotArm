@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
     std::string param;
     ros::init(argc, argv, "sc_callibration_node");
     ros::NodeHandle nh("~");
-    nh.getParam("param", param)
+    nh.getParam("param", param);
 
     if(param.compare("blue")==0)
     {
