@@ -12,6 +12,7 @@ set(OpenCV_DIR /usr/share/OpenCV/)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  roscpp
   std_msgs
   OpenCV 
 )

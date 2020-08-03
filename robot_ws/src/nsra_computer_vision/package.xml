@@ -58,6 +58,12 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>message_runtime</exec_depend>
 
+  <build_depend>roscpp</build_depend>
+  <build_depend>roslib</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>roslib</run_depend>
+
   <build_depend>OpenCV</build_depend>
   <exec_depend>OpenCV</exec_depend>
   <build_export_depend>OpenCV</build_export_depend>
