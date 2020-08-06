@@ -23,10 +23,10 @@ void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   imwrite(filename1, img1);
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char **argv)
 {
   char* cam_address;
-  string name;
+  char* name;
   int im_width, im_height;
 
   static struct poptOption options[] = {
