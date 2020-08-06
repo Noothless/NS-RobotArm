@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  char *const_name = "node";
+  char *const_name = (char *)"node";
   ros::init(argc, argv, const_name);
   ros::NodeHandle n;
 
