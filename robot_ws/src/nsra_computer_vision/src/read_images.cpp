@@ -67,6 +67,7 @@ int main(int argc, char** argv)
       cout << "Saving img pair " << x << endl;
       imwrite(filename1, img_res1);
     } else if(waitKey(30) == 27) {
+      cout << "end" << endl;
       break;
     }
     ros::spinOnce();
