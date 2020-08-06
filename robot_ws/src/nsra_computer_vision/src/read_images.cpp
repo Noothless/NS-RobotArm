@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
   while (1) {
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
-    imshow("IMG: " + cam_address, img_res1);
+    imshow(cam_address, img_res1);
     int key = waitKey(50);
     if ((key != 255) && t) {
       x++;
