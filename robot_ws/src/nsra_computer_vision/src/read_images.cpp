@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
 
   VideoCapture cap1("rtsp://192.168.1.105");
   //VideoCapture cap2("rtsp://192.168.1.105");
-  Mat img1, img_res1//, img2, img_res2;
+  Mat img1, img_res1;//, img2, img_res2;
   while (1) {
     cap1 >> img1;
     //cap2 >> img2;
