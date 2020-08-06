@@ -65,7 +65,7 @@ int main(int argc, char** argv)
       x++;
       char filename1[200];
       sprintf(filename1, "%s%s%d.%s", imgs_directory, name, x, extension);
-      cout << "Saving img pair " << x << endl;
+      cout << "Saving " << name << " image " << x << endl;
       imwrite(filename1, img_res1);
     } else if(key == 27) {
       cout << "end" << endl;
