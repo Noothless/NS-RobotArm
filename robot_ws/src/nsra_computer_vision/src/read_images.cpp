@@ -57,9 +57,8 @@ int main(int argc, char const *argv[])
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
 
-  while(img1 == 0){
-    
-  }
+  cap1 >> img1;
+  cap2 >> img2;
 
   while(1){
     imshow("IMG1", img1);
