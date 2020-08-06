@@ -24,7 +24,7 @@ VideoCapture cap2("rtsp://192.168.1.190");
 void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
   while(1){
     m1.lock();
-    cap1.read(img1);
+    img1 << cap1;
     m1.unlock();
   }
 }
@@ -32,7 +32,7 @@ void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
 void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
   while(1){
     m2.lock();
-    cap2.read(img2);
+    img2 << cap2;
     m2.unlock();
   }
 }
