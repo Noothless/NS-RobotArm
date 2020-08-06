@@ -26,8 +26,6 @@ void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "left_camera_img_read");
-
   char* cam_address;
   char* name;
   int im_width, im_height;
@@ -47,7 +45,7 @@ int main(int argc, char** argv)
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  
+  ros::init(argc, argv, "left_camera_img_read");
   ros::NodeHandle n;
 
   ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
