@@ -9,6 +9,7 @@ using namespace std;
 using namespace cv;
 
 int x = 0;
+bool t = true;
 
 int main(int argc, char const *argv[])
 {
@@ -39,7 +40,8 @@ int main(int argc, char const *argv[])
     resize(img2, img_res2, Size(im_width, im_height));
     imshow("IMG1", img_res1);
     imshow("IMG2", img_res2);
-    if (waitKey(30) > 0) {
+    int key = waitKey(50);
+    if ((key != 255) && t) {
       x++;
       char filename1[200], filename2[200];
       sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
@@ -47,6 +49,9 @@ int main(int argc, char const *argv[])
       cout << "Saving img pair " << x << endl;
       imwrite(filename1, img_res1);
       imwrite(filename2, img_res2);
+      t = false;
+    } else if (key == 255){
+      t = true;
     }
   }
   return 0;
