@@ -40,7 +40,7 @@ void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
   while (1) {
     cap2 >> img2;
     resize(img2, img_res2, Size(im_width, im_height));
-    imshow("IMG1", img2);
+    imshow("IMG2", img2);
     int key = waitKey(50);
     if ((key != 255) && t) {
       x++;
