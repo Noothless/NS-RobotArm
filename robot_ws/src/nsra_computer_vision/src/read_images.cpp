@@ -49,7 +49,7 @@ int main(int argc, char const *argv[])
   while((c = popt.getNextOpt()) >= 0) {}
   
   cap1.set(CAP_PROP_BUFFERSIZE, 2);
-  cap2.set(CAP_PROP_BUFFERSIZE, 2;)
+  cap2.set(CAP_PROP_BUFFERSIZE, 2);
 
   while(1){
     std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
