@@ -18,9 +18,6 @@ Mat img1, img_res1,img2, img_res2;
 VideoCapture cap1("rtsp://192.168.1.171");
 VideoCapture cap2("rtsp://192.168.1.190");
 
-cap1.set(CAP_PROP_BUFFERSIZE, 2)
-cap2.set(CAP_PROP_BUFFERSIZE, 2)
-
 void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
 
   cap1 >> img1;
@@ -51,7 +48,8 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
   
-  
+  cap1.set(CAP_PROP_BUFFERSIZE, 2);
+  cap2.set(CAP_PROP_BUFFERSIZE, 2;)
 
   while(1){
     std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
