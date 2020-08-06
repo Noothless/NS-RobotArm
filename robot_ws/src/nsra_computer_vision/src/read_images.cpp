@@ -26,7 +26,7 @@ void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
 int main(int argc, char const *argv[])
 {
   char* cam_address;
-  char* name;
+  string name;
   int im_width, im_height;
 
   static struct poptOption options[] = {
@@ -44,8 +44,8 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  const char *const_name = name;
-  ros::init(argc, argv, const_name);
+  //const char *const_name = name;
+  ros::init(argc, argv, name);
   ros::NodeHandle n;
 
   ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
