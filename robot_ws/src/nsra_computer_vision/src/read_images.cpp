@@ -60,7 +60,7 @@ int main(int argc, char** argv)
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
     imshow(name, img_res1);
-    key = waitKey(30);
+    int key = waitKey(30);
     if ((key != 255) && (key != 27)) {
       x++;
       char filename1[200];
