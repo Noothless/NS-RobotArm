@@ -15,8 +15,8 @@ bool t2 = true;
 bool t = true;
 Mat img1, img_res1,img2, img_res2;
 
-VideoCapture cap1("rtsp://192.168.1.171", 3);
-VideoCapture cap2("rtsp://192.168.1.190", 3);
+VideoCapture cap1("rtsp://192.168.1.171");
+VideoCapture cap2("rtsp://192.168.1.190");
 
 void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
 
