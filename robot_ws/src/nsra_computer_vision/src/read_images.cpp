@@ -4,14 +4,9 @@
 #include <stdio.h>
 #include <iostream>
 #include "popt_pp.h"
-#include <chrono>
-#include <thread>
 
 using namespace std;
 using namespace cv;
-using namespace std::this_thread;   
-using namespace std::chrono_literals; 
-using std::chrono::system_clock;
 
 int x = 0;
 
@@ -44,14 +39,16 @@ int main(int argc, char const *argv[])
     resize(img2, img_res2, Size(im_width, im_height));
     imshow("IMG1", img_res1);
     imshow("IMG2", img_res2);
-    x++;
-    char filename1[200], filename2[200];
-    sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
-    sprintf(filename2, "%sright%d.%s", imgs_directory, x, extension);
-    cout << "Saving img pair " << x << endl;
-    imwrite(filename1, img_res1);
-    imwrite(filename2, img_res2);
-    sleep_for(1s);
+    cout << waitKey(30) << endl;
+    if (waitKey(30) > 0) {
+      x++;
+      char filename1[200], filename2[200];
+      sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
+      sprintf(filename2, "%sright%d.%s", imgs_directory, x, extension);
+      cout << "Saving img pair " << x << endl;
+      imwrite(filename1, img_res1);
+      imwrite(filename2, img_res2);
+    }
   }
   return 0;
 }
