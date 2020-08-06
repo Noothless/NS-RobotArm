@@ -19,8 +19,8 @@ char* extension;
 void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   x++;
   char filename1[200];
-  sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
-  cout << "Saving img pair " << x << endl;
+  sprintf(filename1, "%s%s%d.%s", imgs_directory, name, x, extension);
+  cout << "Saving " << name << " image " << x << endl;
   imwrite(filename1, img1);
 }
 
