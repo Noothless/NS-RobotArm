@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     { "img_height",'h',POPT_ARG_INT,&im_height,0,"Image height","NUM" },
     { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory,0,"Directory to save images in","STR" },
     { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
-    { "cam_address",'e',POPT_ARG_STRING,&cam_address,0,"RTSP Camera Address","STR" },
+    { "cam_address",'c',POPT_ARG_STRING,&cam_address,0,"RTSP Camera Address","STR" },
     POPT_AUTOHELP
     { NULL, 0, 0, NULL, 0, NULL, NULL }
   };
