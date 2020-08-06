@@ -27,7 +27,6 @@ int main(int argc, char const *argv[])
 {
   char* imgs_directory;
   char* extension;
-  char* cam_address;
   int im_width, im_height;
 
   static struct poptOption options[] = {
@@ -35,7 +34,6 @@ int main(int argc, char const *argv[])
     { "img_height",'h',POPT_ARG_INT,&im_height,0,"Image height","NUM" },
     { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory,0,"Directory to save images in","STR" },
     { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
-    { "cam_address",'c',POPT_ARG_STRING,&cam_address,0,"RTSP Camera Address","STR" },
     POPT_AUTOHELP
     { NULL, 0, 0, NULL, 0, NULL, NULL }
   };
@@ -50,7 +48,7 @@ int main(int argc, char const *argv[])
 
   //ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
 
-  VideoCapture cap1(cam_address);
+  VideoCapture cap1("rtsp://192.168.1.171");
 
   cap1.set(CAP_PROP_BUFFERSIZE, 2);
   //ros::Rate r(100);
