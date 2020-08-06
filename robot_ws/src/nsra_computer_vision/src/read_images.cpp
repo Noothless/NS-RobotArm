@@ -15,15 +15,15 @@ bool t2 = true;
 bool t = true;
 Mat img1, img_res1,img2, img_res2;
 
-VideoCapture cap1("rtsp://192.168.1.171");
-VideoCapture cap2("rtsp://192.168.1.190");
+VideoCapture cap1("rtsp://192.168.1.171", 3);
+VideoCapture cap2("rtsp://192.168.1.190", 3);
 
-void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
+void cam1(int im_width, int im_height){
   cap1 >> img1;
   resize(img1, img_res1, Size(im_width, im_height));
 }
 
-void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
+void cam2(int im_width, int im_height){
   cap2 >> img2;
   resize(img2, img_res2, Size(im_width, im_height));
 }
@@ -52,8 +52,8 @@ int main(int argc, char const *argv[])
   
 
   while(1){
-    std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-    std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+    std::thread thread1(cam1, im_width_arg, im_height_arg); 
+    std::thread thread2(cam2, im_width_arg, im_height_arg);
     thread1.join();
     thread2.join();
     imshow("IMG1", img_res1);
