@@ -62,10 +62,10 @@ int main(int argc, char const *argv[])
   int im_width_arg, im_height_arg;
 
   static struct poptOption options[] = {
-    { "img_width",'w',POPT_ARG_INT,&im_width,0,"Image width","NUM" },
-    { "img_height",'h',POPT_ARG_INT,&im_height,0,"Image height","NUM" },
-    { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory,0,"Directory to save images in","STR" },
-    { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
+    { "img_width",'w',POPT_ARG_INT,&im_width_arg,0,"Image width","NUM" },
+    { "img_height",'h',POPT_ARG_INT,&im_height_arg,0,"Image height","NUM" },
+    { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory_arg,0,"Directory to save images in","STR" },
+    { "extension",'e',POPT_ARG_STRING,&extension_arg,0,"Image extension","STR" },
     POPT_AUTOHELP
     { NULL, 0, 0, NULL, 0, NULL, NULL }
   };
