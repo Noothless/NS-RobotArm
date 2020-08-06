@@ -13,31 +13,6 @@ int x = 0;
 bool k = true;
 bool t = true;
 
-int main(int argc, char const *argv[])
-{
-  char* imgs_directory;
-  char* extension;
-  int im_width, im_height;
-
-  static struct poptOption options[] = {
-    { "img_width",'w',POPT_ARG_INT,&im_width,0,"Image width","NUM" },
-    { "img_height",'h',POPT_ARG_INT,&im_height,0,"Image height","NUM" },
-    { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory,0,"Directory to save images in","STR" },
-    { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
-    POPT_AUTOHELP
-    { NULL, 0, 0, NULL, 0, NULL, NULL }
-  };
-
-  POpt popt(NULL, argc, argv, options, 0);
-  int c;
-  while((c = popt.getNextOpt()) >= 0) {}
-  
-  std::thread thread1(cam1); 
-  std::thread thread2(cam2); 
-  
-  return 0;
-}
-
 void cam1(){
   VideoCapture cap1("rtsp://192.168.1.171");
   Mat img1, img_res1;
@@ -78,4 +53,29 @@ void cam2(){
       t = true;
     }
   }
+}
+
+int main(int argc, char const *argv[])
+{
+  char* imgs_directory;
+  char* extension;
+  int im_width, im_height;
+
+  static struct poptOption options[] = {
+    { "img_width",'w',POPT_ARG_INT,&im_width,0,"Image width","NUM" },
+    { "img_height",'h',POPT_ARG_INT,&im_height,0,"Image height","NUM" },
+    { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory,0,"Directory to save images in","STR" },
+    { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
+    POPT_AUTOHELP
+    { NULL, 0, 0, NULL, 0, NULL, NULL }
+  };
+
+  POpt popt(NULL, argc, argv, options, 0);
+  int c;
+  while((c = popt.getNextOpt()) >= 0) {}
+  
+  std::thread thread1(cam1); 
+  std::thread thread2(cam2); 
+  
+  return 0;
 }
