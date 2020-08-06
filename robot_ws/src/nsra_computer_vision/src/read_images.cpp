@@ -26,7 +26,7 @@ void imgSaveCallback() {
 int main(int argc, char const *argv[])
 {
   char* cam_address;
-  char* name;
+  string name;
   int im_width, im_height;
 
   static struct poptOption options[] = {
@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
   ros::init(argc, argv, name);
   ros::NodeHandle n;
 
-  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
+  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback());
 
   VideoCapture cap1(cam_address);
 
