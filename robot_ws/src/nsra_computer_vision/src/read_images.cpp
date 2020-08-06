@@ -44,10 +44,11 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  ros::init(argc, argv, name.c_str());
+  const char *const_name = name.c_str();
+  ros::init(argc, argv, const_name);
   ros::NodeHandle n;
 
-  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback;
+  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
 
   VideoCapture cap1(cam_address);
 
