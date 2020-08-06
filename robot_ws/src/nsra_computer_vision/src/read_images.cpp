@@ -54,14 +54,14 @@ int main(int argc, char** argv)
   VideoCapture cap1(cam_address);
 
   cap1.set(CAP_PROP_BUFFERSIZE, 2);
-  ros::Rate r(100);
+  //ros::Rate r(100);
 
   while (1) {
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
     imshow(name, img_res1);
-    ros::spinOnce();
-    r.sleep();
+    //ros::spinOnce();
+    //r.sleep();
   }
   return 0;
 }
