@@ -76,6 +76,7 @@ int main(int argc, char const *argv[])
   
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-  
+  thread1.join();
+  thread2.join();
   return 0;
 }
