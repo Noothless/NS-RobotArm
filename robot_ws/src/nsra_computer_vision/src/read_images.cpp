@@ -34,14 +34,14 @@ int main(int argc, char const *argv[])
   VideoCapture cap2("rtsp://192.168.1.190");
   Mat img1, img_res1, img2, img_res2;
   while (1) {
-    cap1 >> img1;
-    cap2 >> img2;
-    //resize(img1, img_res1, Size(im_width, im_height));
-    //resize(img2, img_res2, Size(im_width, im_height));
-    imshow("IMG1", img1);
-    imshow("IMG2", img2);
+    //imshow("IMG1", img1);
+    //imshow("IMG2", img2);
     int key = waitKey(50);
     if ((key != 255) && k) {
+      cap1 >> img1;
+      cap2 >> img2;
+      resize(img1, img_res1, Size(im_width, im_height));
+      resize(img2, img_res2, Size(im_width, im_height));
       x++;
       char filename1[200], filename2[200];
       sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
@@ -56,3 +56,8 @@ int main(int argc, char const *argv[])
   }
   return 0;
 }
+/*
+void cam1(VideoCapture cap){
+
+}
+*/
