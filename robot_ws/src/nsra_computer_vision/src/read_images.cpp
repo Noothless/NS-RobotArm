@@ -64,8 +64,12 @@ int main(int argc, char const *argv[])
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
 
+  m1.lock();
   cap1.read(img1);
+  m1.unlock();
+  m2.lock();
   cap2.read(img2);
+  m2.unlock();
 
   while(1){
     m1.lock();
