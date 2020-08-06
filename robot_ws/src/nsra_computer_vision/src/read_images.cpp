@@ -10,7 +10,8 @@ using namespace std;
 using namespace cv;
 
 int x = 0;
-bool k = true;
+bool t1 = true;
+bool t2 = true;
 bool t = true;
 
 void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
@@ -21,15 +22,15 @@ void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
     resize(img1, img_res1, Size(im_width, im_height));
     imshow("IMG1", img1);
     int key = waitKey(50);
-    if ((key != 255) && k) {
+    if (t && t1) {
       x++;
       char filename1[200];
       sprintf(filename1, "%sright%d.%s", imgs_directory, x, extension);
       cout << "Saving right img " << x << endl;
       imwrite(filename1, img1);
-      k = false;
-    } else if (key == 255){
-      k = true;
+      t1 = false;
+    } else {
+      t1 = true;
     }
   }
 }
@@ -41,16 +42,14 @@ void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
     cap2 >> img2;
     resize(img2, img_res2, Size(im_width, im_height));
     imshow("IMG2", img2);
-    int key = waitKey(50);
-    if ((key != 255) && t) {
-      x++;
+    if (t && t2) {
       char filename2[200];
       sprintf(filename2, "%sleft%d.%s", imgs_directory, x, extension);
       cout << "Saving left img " << x << endl;
       imwrite(filename2, img2);
-      t = false;
-    } else if (key == 255){
-      t = true;
+      t2 = false;
+    } else {
+      t2 = true;
     }
   }
 }
@@ -75,7 +74,15 @@ int main(int argc, char const *argv[])
   while((c = popt.getNextOpt()) >= 0) {}
   
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
+  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+  while(1){
+    int key = waitKey(50);
+    if ((key != 255)) {
+      t = true;
+    } else if (key == 255){
+      t = false;
+    }
+  }
   thread1.join();
   thread2.join();
   return 0;
