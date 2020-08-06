@@ -30,8 +30,8 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  VideoCapture cap1("rtsp://192.168.1.190");
-  VideoCapture cap2("rtsp://192.168.1.171");
+  VideoCapture cap1("rtsp://192.168.1.171");
+  VideoCapture cap2("rtsp://192.168.1.190");
   Mat img1, img_res1, img2, img_res2;
   while (1) {
     cap1 >> img1;
