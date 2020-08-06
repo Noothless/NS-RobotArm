@@ -62,8 +62,8 @@ int main(int argc, char const *argv[])
   cap2.set(CAP_PROP_BUFFERSIZE, 2);
 
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);¨
-  
+  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+
   while(1){
     m1.lock();
     img_res1 = img1;
