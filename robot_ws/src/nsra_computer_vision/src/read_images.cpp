@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
     imshow("IMG1", img_res1);
     imshow("IMG2", img_res2);
     cout << waitKey(30) << endl;
-    if (waitKey(30) > 0) {
+    if (waitKey(30) != 255) {
       x++;
       char filename1[200], filename2[200];
       sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
