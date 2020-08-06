@@ -5,6 +5,7 @@
 #include <iostream>
 #include "popt_pp.h"
 #include <thread> 
+#include <mutex>
 
 using namespace std;
 using namespace cv;
@@ -14,16 +15,25 @@ bool t1 = true;
 bool t2 = true;
 bool t = true;
 Mat img1, img_res1, img2, img_res2;
+mutex m1;
+mutex m2;
 
-void cam1(VideoCapture cap, char* imgs_directory, char* extension, int im_width, int im_height){
+VideoCapture cap1("rtsp://192.168.1.171");
+VideoCapture cap2("rtsp://192.168.1.190");
+
+void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
   while(1){
+    m1.lock();
     cap1.read(img1);
+    m1.unlock();
   }
 }
 
-void cam2(VideoCapture cap, char* imgs_directory, char* extension, int im_width, int im_height){
+void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
   while(1){
+    m2.lock();
     cap2.read(img2);
+    m2.unlock();
   }
 }
 
@@ -47,26 +57,25 @@ int main(int argc, char const *argv[])
   POpt popt(NULL, argc, argv, options, 0);
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
-
-  VideoCapture cap1("rtsp://192.168.1.171");
-  VideoCapture cap2("rtsp://192.168.1.190");
-
-  while(!cap1.isOpened() && !cap2.isOpened()){
-
-  }
   
   cap1.set(CAP_PROP_BUFFERSIZE, 2);
   cap2.set(CAP_PROP_BUFFERSIZE, 2);
 
-  std::thread thread1(cam1, &cap1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-  std::thread thread2(cam2, &cap2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+  std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
+  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
 
   cap1.read(img1);
   cap2.read(img2);
 
   while(1){
-    imshow("IMG1", img1);
-    imshow("IMG2", img2);
+    m1.lock();
+    img_res1 = img1;
+    m1.unlock();
+    m2.lock();
+    img_res2 = img2;
+    m2.unlock();
+    imshow("IMG1", img_res1);
+    imshow("IMG2", img_res2);
     int key = waitKey(50);
     if ((key != 255)) {
       x++;
@@ -74,8 +83,8 @@ int main(int argc, char const *argv[])
       sprintf(filename1, "%sright%d.%s", imgs_directory_arg, x, extension_arg);
       sprintf(filename2, "%sleft%d.%s", imgs_directory_arg, x, extension_arg);
       cout << "Saving img pair" << x << endl;
-      imwrite(filename1, img1);
-      imwrite(filename2, img2);
+      imwrite(filename1, img_res1);
+      imwrite(filename2, img_res2);
       t = true;
     } else if (key == 255){
       t = false;
