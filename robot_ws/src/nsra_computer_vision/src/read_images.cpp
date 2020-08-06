@@ -13,7 +13,7 @@ int x = 0;
 bool t1 = true;
 bool t2 = true;
 bool t = true;
-Mat img1, img_res1,img2, img_res2;
+Mat img1, img_res1, img2, img_res2;
 
 VideoCapture cap1("rtsp://192.168.1.171");
 VideoCapture cap2("rtsp://192.168.1.190");
@@ -56,6 +56,10 @@ int main(int argc, char const *argv[])
 
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+
+  while(img1 == 0){
+    
+  }
 
   while(1){
     imshow("IMG1", img1);
