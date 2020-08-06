@@ -4,14 +4,9 @@
 #include <stdio.h>
 #include <iostream>
 #include "popt_pp.h"
-#include <chrono>
-#include <thread>
 
 using namespace std;
 using namespace cv;
-using namespace std::this_thread;   
-using namespace std::chrono_literals; 
-using std::chrono::system_clock;
 
 int x = 0;
 bool k = true;
@@ -39,26 +34,25 @@ int main(int argc, char const *argv[])
   VideoCapture cap2("rtsp://192.168.1.190");
   Mat img1, img_res1, img2, img_res2;
   while (1) {
-    //imshow("IMG1", img1);
-    //imshow("IMG2", img2);
-    //int key = waitKey(50);
-    //if ((key != 255) && k) {
     cap1 >> img1;
-    cap2 >> img2;
+    //cap2 >> img2;
     resize(img1, img_res1, Size(im_width, im_height));
-    resize(img2, img_res2, Size(im_width, im_height));
-    x++;
-    char filename1[200], filename2[200];
-    sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
-    sprintf(filename2, "%sright%d.%s", imgs_directory, x, extension);
-    cout << "Saving img pair " << x << endl;
-    imwrite(filename1, img1);
-    imwrite(filename2, img2);
-    k = false;
-    sleep_for(1s);
-    //} else if (key == 255){
-    //  k = true;
-    //}
+    //resize(img2, img_res2, Size(im_width, im_height));
+    imshow("IMG1", img1);
+    //imshow("IMG2", img2);
+    int key = waitKey(50);
+    if ((key != 255) && k) {
+      x++;
+      char filename1[200];//, filename2[200];
+      sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
+      //sprintf(filename2, "%sright%d.%s", imgs_directory, x, extension);
+      cout << "Saving img pair " << x << endl;
+      imwrite(filename1, img1);
+      //imwrite(filename2, img2);
+      k = false;
+    } else if (key == 255){
+      k = true;
+    }
   }
   return 0;
 }
