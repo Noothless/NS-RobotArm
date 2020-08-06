@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
     //imshow("IMG2", img_res2);
     if (waitKey(30) > 0) {
       x++;
-      char filename1[200]//, filename2[200];
+      char filename1[200];//, filename2[200];
       sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
       //sprintf(filename2, "%sright%d.%s", imgs_directory, x, extension);
       cout << "Saving img pair " << x << endl;
