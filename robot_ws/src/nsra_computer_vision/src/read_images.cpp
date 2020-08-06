@@ -13,57 +13,22 @@ int x = 0;
 bool t1 = true;
 bool t2 = true;
 bool t = true;
+Mat img1, img_res1,img2, img_res2;
+
+VideoCapture cap1("rtsp://192.168.1.171");
+VideoCapture cap2("rtsp://192.168.1.190");
 
 void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
-  VideoCapture cap1("rtsp://192.168.1.171");
-  Mat img1, img_res1;
-  while (1) {
-    cap1 >> img1;
-    resize(img1, img_res1, Size(im_width, im_height));
-    imshow("IMG1", img1);
-    int key = waitKey(50);
-    if (t && t1) {
-      x++;
-      char filename1[200];
-      sprintf(filename1, "%sright%d.%s", imgs_directory, x, extension);
-      cout << "Saving right img " << x << endl;
-      imwrite(filename1, img1);
-      t1 = false;
-    } else {
-      t1 = true;
-    }
-  }
+  cap1 >> img1;
+  resize(img1, img_res1, Size(im_width, im_height));
 }
 
 void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
-  VideoCapture cap2("rtsp://192.168.1.190");
-  Mat img2, img_res2;
-  while (1) {
-    cap2 >> img2;
-    resize(img2, img_res2, Size(im_width, im_height));
-    imshow("IMG2", img2);
-    if (t && t2) {
-      char filename2[200];
-      sprintf(filename2, "%sleft%d.%s", imgs_directory, x, extension);
-      cout << "Saving left img " << x << endl;
-      imwrite(filename2, img2);
-      t2 = false;
-    } else {
-      t2 = true;
-    }
-  }
+  cap2 >> img2;
+  resize(img2, img_res2, Size(im_width, im_height));
 }
 
-void keypress(){
-    while(1){
-    int key = waitKey(50);
-    if ((key != 255)) {
-      t = true;
-    } else if (key == 255){
-      t = false;
-    }
-  }
-}
+
 
 int main(int argc, char const *argv[])
 {
@@ -84,13 +49,28 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
   
-  std::thread thread(keypress);
-  std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+  
 
-  thread.join();
-  thread1.join();
-  thread2.join();
-
+  while(1){
+    std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
+    std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
+    thread1.join();
+    thread2.join();
+    imshow("IMG1", img_res1);
+    imshow("IMG2", img_res2);
+    int key = waitKey(50);
+    if ((key != 255)) {
+      x++;
+      char filename1[200], filename2[200];
+      sprintf(filename1, "%sright%d.%s", imgs_directory_arg, x, extension_arg);
+      sprintf(filename2, "%sleft%d.%s", imgs_directory_arg, x, extension_arg);
+      cout << "Saving img pair" << x << endl;
+      imwrite(filename1, img_res1);
+      imwrite(filename2, img_res2);
+      t = true;
+    } else if (key == 255){
+      t = false;
+    }
+  }
   return 0;
 }
