@@ -13,7 +13,7 @@ int x = 0;
 bool k = true;
 bool t = true;
 
-void cam1(){
+void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
   VideoCapture cap1("rtsp://192.168.1.171");
   Mat img1, img_res1;
   while (1) {
@@ -34,7 +34,7 @@ void cam1(){
   }
 }
 
-void cam2(){
+void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
   VideoCapture cap2("rtsp://192.168.1.190");
   Mat img2, img_res2;
   while (1) {
@@ -57,9 +57,9 @@ void cam2(){
 
 int main(int argc, char const *argv[])
 {
-  char* imgs_directory;
-  char* extension;
-  int im_width, im_height;
+  char* imgs_directory_arg;
+  char* extension_arg;
+  int im_width_arg, im_height_arg;
 
   static struct poptOption options[] = {
     { "img_width",'w',POPT_ARG_INT,&im_width,0,"Image width","NUM" },
@@ -74,8 +74,8 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
   
-  std::thread thread1(cam1); 
-  std::thread thread2(cam2); 
+  std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
+  std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   
   return 0;
 }
