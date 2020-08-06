@@ -59,6 +59,12 @@ int main(int argc, char const *argv[])
     imshow("IMG1", img_res1);
     //ros::spinOnce();
     //r.sleep();
+    if (waitKey(30) != 255) {
+      x++;
+      char filename1[200];
+      sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
+      cout << "Saving img pair " << x << endl;
+    }
   }
   return 0;
 }
