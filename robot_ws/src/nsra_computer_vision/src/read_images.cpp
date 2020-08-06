@@ -11,13 +11,22 @@ using namespace std;
 using namespace cv;
 
 int x = 0;
-bool t = true;
+Mat img1, img_res1;
+char* imgs_directory;
+char* extension;
+
+void imgSaveCallback() {
+  x++;
+  char filename1[200];
+  sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
+  cout << "Saving img pair " << x << endl;
+  imwrite(filename1, img1);
+}
 
 int main(int argc, char const *argv[])
 {
-  char* imgs_directory;
-  char* extension;
   char* cam_address;
+  char* name;
   int im_width, im_height;
 
   static struct poptOption options[] = {
@@ -26,6 +35,7 @@ int main(int argc, char const *argv[])
     { "imgs_directory",'d',POPT_ARG_STRING,&imgs_directory,0,"Directory to save images in","STR" },
     { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
     { "cam_address",'c',POPT_ARG_STRING,&cam_address,0,"RTSP Camera Address","STR" },
+    { "name",'n',POPT_ARG_STRING,&name,0,"Camera Name","STR" },
     POPT_AUTOHELP
     { NULL, 0, 0, NULL, 0, NULL, NULL }
   };
@@ -34,26 +44,20 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
+  ros::init(argc, argv, name);
+  ros::NodeHandle n;
+
+  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
+
   VideoCapture cap1(cam_address);
 
   cap1.set(CAP_PROP_BUFFERSIZE, 2);
 
-  Mat img1, img_res1;
   while (1) {
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
-    imshow(cam_address, img_res1);
-    int key = waitKey(50);
-    if ((key != 255) && t) {
-      x++;
-      char filename1[200];
-      sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
-      cout << "Saving img pair " << x << endl;
-      imwrite(filename1, img_res1);
-      t = false;
-    } else if (key == 255){
-      t = true;
-    }
+    imshow(name, img_res1);
+    ros::spinOnce();
   }
   return 0;
 }
