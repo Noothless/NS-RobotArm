@@ -44,8 +44,7 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  const std::string& name2 = 'test';
-  ros::init(argc, argv, name2);
+  ros::init(argc, argv, "left_camera_img_read");
   ros::NodeHandle n;
 
   ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
