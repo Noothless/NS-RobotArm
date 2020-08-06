@@ -12,10 +12,8 @@ using namespace std;
 using namespace cv;
 
 int x = 0;
-Mat img1, img_res1;
-char* imgs_directory;
-char* extension;
 
+/*
 void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   x++;
   char filename1[200];
@@ -23,9 +21,12 @@ void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   cout << "Saving img pair " << x << endl;
   imwrite(filename1, img1);
 }
+*/
 
 int main(int argc, char const *argv[])
 {
+  char* imgs_directory;
+  char* extension;
   char* cam_address;
   char* name;
   int im_width, im_height;
@@ -55,7 +56,7 @@ int main(int argc, char const *argv[])
 
   cap1.set(CAP_PROP_BUFFERSIZE, 2);
   //ros::Rate r(100);
-
+  Mat img1, img_res1;
   while (1) {
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
