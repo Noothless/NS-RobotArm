@@ -15,7 +15,7 @@ Mat img1, img_res1;
 char* imgs_directory;
 char* extension;
 
-void imgSaveCallback() {
+void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   x++;
   char filename1[200];
   sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
@@ -44,10 +44,10 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  ros::init(argc, argv, name);
+  ros::init(argc, argv, name.c_str());
   ros::NodeHandle n;
 
-  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback());
+  ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback;
 
   VideoCapture cap1(cam_address);
 
