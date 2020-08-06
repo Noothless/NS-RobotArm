@@ -54,6 +54,17 @@ void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
   }
 }
 
+void keypress(){
+    while(1){
+    int key = waitKey(50);
+    if ((key != 255)) {
+      t = true;
+    } else if (key == 255){
+      t = false;
+    }
+  }
+}
+
 int main(int argc, char const *argv[])
 {
   char* imgs_directory_arg;
@@ -73,17 +84,13 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
   
+  std::thread thread(keypress);
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
-  while(1){
-    int key = waitKey(50);
-    if ((key != 255)) {
-      t = true;
-    } else if (key == 255){
-      t = false;
-    }
-  }
+
+  thread.join();
   thread1.join();
   thread2.join();
+
   return 0;
 }
