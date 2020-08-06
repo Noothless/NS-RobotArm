@@ -4,9 +4,14 @@
 #include <stdio.h>
 #include <iostream>
 #include "popt_pp.h"
+#include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace cv;
+using namespace std::this_thread;   
+using namespace std::chrono_literals; 
+using std::chrono::system_clock;
 
 int x = 0;
 
@@ -46,7 +51,7 @@ int main(int argc, char const *argv[])
     cout << "Saving img pair " << x << endl;
     imwrite(filename1, img_res1);
     imwrite(filename2, img_res2);
-    sleep(1);
+    sleep_for(1s);
     }
   }
   return 0;
