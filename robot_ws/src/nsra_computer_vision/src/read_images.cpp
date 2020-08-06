@@ -18,17 +18,6 @@ Mat img1, img_res1,img2, img_res2;
 VideoCapture cap1("rtsp://192.168.1.171");
 VideoCapture cap2("rtsp://192.168.1.190");
 
-void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
-
-  cap1 >> img1;
-}
-
-void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
-  cap2 >> img2;
-}
-
-
-
 int main(int argc, char const *argv[])
 {
   char* imgs_directory_arg;
@@ -52,10 +41,8 @@ int main(int argc, char const *argv[])
   cap2.set(CAP_PROP_BUFFERSIZE, 2);
 
   while(1){
-    std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
-    std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
-    thread1.join();
-    thread2.join();
+    cap1 >> img1;
+    cap2 >> img2;
     imshow("IMG1", img1);
     imshow("IMG2", img2);
     int key = waitKey(50);
