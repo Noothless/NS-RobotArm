@@ -59,7 +59,7 @@ void cam1(){
   }
 }
 
-void cam1(){
+void cam2(){
   VideoCapture cap2("rtsp://192.168.1.190");
   Mat img2, img_res2;
   while (1) {
