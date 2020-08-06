@@ -52,7 +52,6 @@ int main(int argc, char const *argv[])
     imwrite(filename1, img_res1);
     imwrite(filename2, img_res2);
     sleep_for(1s);
-    }
   }
   return 0;
 }
