@@ -20,13 +20,13 @@ VideoCapture cap2("rtsp://192.168.1.190");
 
 void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
   while(1){
-    cap1 >> img1;
+    cap1.read(img1);
   }
 }
 
 void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
   while(1){
-    cap2 >> img2;
+    cap2.read(img2);
   }
 }
 
@@ -57,8 +57,8 @@ int main(int argc, char const *argv[])
   std::thread thread1(cam1, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg); 
   std::thread thread2(cam2, imgs_directory_arg, extension_arg, im_width_arg, im_height_arg);
 
-  cap1 >> img1;
-  cap2 >> img2;
+  cap1.read(img1);
+  cap2.read(img2);
 
   while(1){
     imshow("IMG1", img1);
