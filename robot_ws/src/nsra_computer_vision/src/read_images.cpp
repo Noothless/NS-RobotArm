@@ -24,8 +24,8 @@ void cam1(char* imgs_directory, char* extension, int im_width, int im_height){
     if ((key != 255) && k) {
       x++;
       char filename1[200];
-      sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
-      cout << "Saving img pair " << x << endl;
+      sprintf(filename1, "%sright%d.%s", imgs_directory, x, extension);
+      cout << "Saving right img " << x << endl;
       imwrite(filename1, img1);
       k = false;
     } else if (key == 255){
@@ -46,7 +46,7 @@ void cam2(char* imgs_directory, char* extension, int im_width, int im_height){
       x++;
       char filename2[200];
       sprintf(filename2, "%sleft%d.%s", imgs_directory, x, extension);
-      cout << "Saving img pair " << x << endl;
+      cout << "Saving left img " << x << endl;
       imwrite(filename2, img2);
       t = false;
     } else if (key == 255){
