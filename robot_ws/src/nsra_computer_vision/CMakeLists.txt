@@ -35,7 +35,7 @@ add_executable(calibrate src/calib_intrinsic.cpp src/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
 add_executable(read src/read_images.cpp)
-target_link_libraries(read ${OpenCV_LIBS} "-lpopt")
+target_link_libraries(read ${OpenCV_LIBS} "-lpopt" -lpthread)
 
 add_executable(calibrate_stereo src/calib_stereo.cpp)
 target_link_libraries(calibrate_stereo ${OpenCV_LIBS} "-lpopt")
