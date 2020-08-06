@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
   while((c = popt.getNextOpt()) >= 0) {}
 
   //const char *const_name = name;
-  ros::init(argc, argv, name);
+  ros::init(argc, argv, name.c_str());
   ros::NodeHandle n;
 
   ros::Subscriber sub = n.subscribe("save_img", 1000, imgSaveCallback);
