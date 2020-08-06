@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
   while (1) {
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
-    imshow(name, img_res1);
+    imshow("name", img_res1);
     //ros::spinOnce();
     //r.sleep();
   }
