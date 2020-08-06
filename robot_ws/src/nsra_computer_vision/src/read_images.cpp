@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <iostream>
 #include "popt_pp.h"
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include <sstream>
+//#include "ros/ros.h"
+//#include "std_msgs/String.h"
+//#include <sstream>
 
 using namespace std;
 using namespace cv;
@@ -56,7 +56,7 @@ int main(int argc, char const *argv[])
   while (1) {
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
-    imshow("name", img_res1);
+    imshow("IMG1", img_res1);
     //ros::spinOnce();
     //r.sleep();
   }
