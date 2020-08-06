@@ -15,6 +15,7 @@ int x = 0;
 Mat img1, img_res1;
 char* imgs_directory;
 char* extension;
+char* name;
 
 void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   x++;
@@ -27,7 +28,6 @@ void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
 int main(int argc, char** argv)
 {
   char* cam_address;
-  char* name;
   int im_width, im_height;
 
   static struct poptOption options[] = {
