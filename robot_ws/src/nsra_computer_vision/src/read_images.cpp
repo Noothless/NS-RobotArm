@@ -60,13 +60,14 @@ int main(int argc, char** argv)
     cap1 >> img1;
     resize(img1, img_res1, Size(im_width, im_height));
     imshow(name, img_res1);
-    if ((waitKey(30) != 255) && (waitKey(30) != 27)) {
+    key = waitKey(30);
+    if ((key != 255) && (key != 27)) {
       x++;
       char filename1[200];
       sprintf(filename1, "%sleft%d.%s", imgs_directory, x, extension);
       cout << "Saving img pair " << x << endl;
       imwrite(filename1, img_res1);
-    } else if(waitKey(30) == 27) {
+    } else if(key == 27) {
       cout << "end" << endl;
       break;
     }
