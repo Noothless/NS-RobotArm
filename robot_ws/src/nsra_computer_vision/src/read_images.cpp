@@ -24,7 +24,7 @@ void imgSaveCallback(const std_msgs::String::ConstPtr& msg) {
   imwrite(filename1, img1);
 }
 
-int main(int argc, char** argv)
+int main(int argc, char const *argv[])
 {
   char* cam_address;
   char* name;
