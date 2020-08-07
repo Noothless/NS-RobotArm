@@ -120,3 +120,5 @@ while True:
         #print(rotM)
         #cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
         #print(cameraPosition)
+    else:
+        print(key)
