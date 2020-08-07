@@ -109,7 +109,7 @@ while True:
         print("---------------------")
         #print(values)
         break
-    elif key == 13:
+    elif key == 10:
         print("x: " + str(c_points[i,0]) + " -- y: " + str(c_points[i,1]))
         #print(c_points)
         #_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
