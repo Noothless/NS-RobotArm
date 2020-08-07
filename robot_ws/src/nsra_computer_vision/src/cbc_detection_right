@@ -7,11 +7,11 @@ from std_msgs.msg import String
 rospy.init_node('corner_detect_right')
 pub = rospy.Publisher('corner_right', String, queue_size=10)
 
-corners
+corners_str = ""
 
 def ReqCallback(data):
     global corners
-    pub.publish(String(str(corners[0,0,0]) + "/" + str(corners[0,0,1])))
+    pub.publish(String(corners_str))
 
 rospy.Subscriber("corner_right_req", String, ReqCallback)
 
@@ -41,6 +41,8 @@ while True:
     cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
     #print(corners)
+
+    corners_str = str(corners[0,0,0]) + "/" + str(corners[0,0,1])
 
     cv2.imshow("Frame", blur_frame)
 
