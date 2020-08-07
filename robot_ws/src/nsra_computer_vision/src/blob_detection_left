@@ -135,4 +135,4 @@ while True:
         #cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
         #print(cameraPosition)
 
-    rospy.spin()
+    #rospy.spin()
