@@ -46,7 +46,8 @@ target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpo
 install(PROGRAMS
   src/blob_detection_left
   src/blob_detection_right
-  src/cbc_detection
+  src/cbc_detection_left
+  src/cbc_detection_right
   src/stereo_callibration
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
