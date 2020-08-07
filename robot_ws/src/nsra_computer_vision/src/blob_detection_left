@@ -13,6 +13,7 @@ gh = 255
 bh = 255
 
 def paramsChangeCallback(data):
+    print("msg")
     msg = data.data
     msg.split("/")
     print(msg)
