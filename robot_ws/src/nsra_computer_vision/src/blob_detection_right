@@ -1,4 +1,4 @@
-#!C:/python27/python.exe
+#!/usr/bin/python
 import cv2
 import numpy as np
 
