@@ -81,14 +81,16 @@ while True:
         #print("sorted:")
         #print(c_points)
 
+        imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
         for i in range(4):
             st = ['1', '2', '3', '4']
             x = int(c_points[i,0])
             y = int(c_points[i,1])
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(red_mask,st[i],(x,y), font, 2,(10,10,10),2,cv2.LINE_AA)
+            cv2.putText(imgKeyPoints,st[i],(x,y), font, 2,(10,10,10),2,cv2.LINE_AA)
 
-    imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    
     #imgKeyPoints = cv2.drawKeypoints(blur_frame, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #font = cv2.FONT_HERSHEY_SIMPLEX
