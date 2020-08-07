@@ -31,7 +31,7 @@ target_link_libraries(single_cam_callibration
   ${catkin_LIBRARIES}
 )
 
-add_executable(calibrate src/deprecated/calib_intrinsic.cpp src/include/popt_pp.h)
+add_executable(calibrate src/deprecated/calib_intrinsic.cpp src/calibration/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
 add_executable(read src/calibration/read_images.cpp)
@@ -66,6 +66,6 @@ install(FILES
   config/camera2.xml
   config/camera1_conf.xml
   config/camera2_conf.xml
-  src/include/popt_pp.h
+  src/calibration/popt_pp.h
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
