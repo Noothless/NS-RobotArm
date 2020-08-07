@@ -95,7 +95,7 @@ public:
                 inputType = INVALID;
         else
         {
-            inputCapture.open("rtsp://192.168.1.171");
+            inputCapture.open(input);
         }
         if (inputType == INVALID)
         {
