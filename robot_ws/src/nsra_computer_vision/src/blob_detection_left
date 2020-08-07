@@ -133,7 +133,7 @@ while True:
         break
     elif key == 10:
         print("x: " + str(c_points[i,0]) + " -- y: " + str(c_points[i,1]))
-        pub.publish(std_msgs.msg.String(str(c_points[i,0]) + "/" + str(c_points[i,1]))
+        pub.publish(std_msgs.msg.String(str(c_points[i,0]) + "/" + str(c_points[i,1])))
         #print(c_points)
         #_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
         #print(rvec)
