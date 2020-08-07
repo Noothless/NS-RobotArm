@@ -39,7 +39,7 @@ def dist_to_camera(dist):
 
 rospy.init_node('blob_detect_right')
 rospy.Subscriber("bdl_params", String, paramsChangeCallback)
-pub = rospy.Publisher('blob_right', std_msgs.msg.String, queue_size=10)
+pub = rospy.Publisher('blob_right', String, queue_size=10)
 
 while True:
     _, frame = cap.read()
