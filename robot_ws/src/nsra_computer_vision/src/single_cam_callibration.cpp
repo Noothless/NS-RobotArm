@@ -496,8 +496,8 @@ static void saveCameraParams( Settings& s, Size& imageSize, Mat& cameraMatrix, M
 
     fs << "flagValue" << s.flag;
 
-    fs << "Camera_Matrix" << cameraMatrix;
-    fs << "Distortion_Coefficients" << distCoeffs;
+    fs << "K" << cameraMatrix;
+    fs << "D" << distCoeffs;
 
     fs << "Avg_Reprojection_Error" << totalAvgErr;
     if( !reprojErrs.empty() )
