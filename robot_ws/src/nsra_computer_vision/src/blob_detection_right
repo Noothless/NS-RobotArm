@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!C:/python27/python.exe
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture("rtsp://192.168.1.171")
+cap = cv2.VideoCapture("rtsp://192.168.1.102")
 
 c_points = np.float32
 i_points = np.float32([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
@@ -25,7 +25,7 @@ while True:
     hsv_frame = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)
 
     # Red color
-    low_red = np.array([30,40,100])
+    low_red = np.array([80,40,70])
     high_red = np.array([115, 255, 255])
     red_mask = cv2.inRange(hsv_frame, low_red, high_red)
 
@@ -37,7 +37,7 @@ while True:
     params = cv2.SimpleBlobDetector_Params()
 
     params.filterByArea = True
-    params.minArea = 30
+    params.minArea = 15
     params.maxArea = 10000
 
     params.filterByCircularity = True
@@ -98,11 +98,11 @@ while True:
 
     #cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
-    cv2.imshow("Frame", blur_frame)
+    cv2.imshow("Frame Right", blur_frame)
 
     #cv2.imshow("Red", red)
 
-    cv2.imshow("Keypoints", imgKeyPoints)
+    cv2.imshow("Keypoints Right", imgKeyPoints)
 
     key = cv2.waitKey(1)
     if key == 27:
@@ -110,7 +110,7 @@ while True:
         #print(values)
         break
     elif key == 13:
-        print(keypoints[0])
+        print("x: " + str(c_points[i,0]) + " -- y: " + str(c_points[i,1]))
         #print(c_points)
         #_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
         #print(rvec)
