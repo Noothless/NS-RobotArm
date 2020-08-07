@@ -16,7 +16,7 @@ def paramsChangeCallback(data):
     print("msg")
     msg = str(data.data)
     msg.split("/")
-    print(msg)
+    print(msg[0])
     rl = int(msg[0])
     gl = int(msg[1])
     bl = int(msg[2])
