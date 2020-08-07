@@ -7,6 +7,14 @@ from std_msgs.msg import String
 rospy.init_node('corner_detect_right')
 pub = rospy.Publisher('corner_right', String, queue_size=10)
 
+corners
+
+def ReqCallback(data):
+    global corners
+    pub.publish(String(str(corners[0,0,0]) + "/" + str(corners[0,0,1])))
+
+rospy.Subscriber("corner_right_req", String, ReqCallback)
+
 cap = cv2.VideoCapture("rtsp://192.168.1.102")
 
 c_points = np.float32
