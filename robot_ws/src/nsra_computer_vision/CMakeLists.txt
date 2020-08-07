@@ -31,24 +31,23 @@ target_link_libraries(single_cam_callibration
   ${catkin_LIBRARIES}
 )
 
-add_executable(calibrate src/calib_intrinsic.cpp src/popt_pp.h)
+add_executable(calibrate src/calibration/calib_intrinsic.cpp src/include/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
-add_executable(read src/read_images.cpp)
+add_executable(read src/calibration/read_images.cpp)
 target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
-add_executable(calibrate_stereo src/calib_stereo.cpp)
+add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
 target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
-add_executable(undistort_rectify src/undistort_rectify.cpp)
+add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
 target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
-  src/blob_detection_left
-  src/blob_detection_right
-  src/cbc_detection_left
-  src/cbc_detection_right
-  src/stereo_callibration
+  src/blob_detection/blob_detection_left
+  src/blob_detection/blob_detection_right
+  src/corner_detection/cbc_detection_left
+  src/corner_detection/cbc_detection_right
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -67,6 +66,6 @@ install(FILES
   config/camera2.xml
   config/camera1_conf.xml
   config/camera2_conf.xml
-  src/popt_pp.h
+  src/include/popt_pp.h
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
