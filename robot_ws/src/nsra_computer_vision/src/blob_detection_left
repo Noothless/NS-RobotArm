@@ -133,3 +133,5 @@ while True:
         #print(rotM)
         #cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
         #print(cameraPosition)
+
+    rospy.wait_for_message("bdl_params", String)
