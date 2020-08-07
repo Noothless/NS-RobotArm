@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "popt_pp.h"
+#include <ros/package.h>
 
 using namespace std;
 using namespace cv;
