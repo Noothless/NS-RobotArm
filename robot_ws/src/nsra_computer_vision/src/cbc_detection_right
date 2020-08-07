@@ -42,8 +42,10 @@ while True:
 
     #print(corners)
 
-    if(corners.all() != None):
+    try:
         corners_str = str(corners[0,0,0]) + "/" + str(corners[0,0,1])
+    except:
+        print("No corners found yet!")
 
     cv2.imshow("Frame", blur_frame)
 
