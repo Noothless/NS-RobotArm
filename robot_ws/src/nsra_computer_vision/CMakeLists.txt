@@ -41,7 +41,7 @@ add_executable(calibrate_stereo src/calib_stereo.cpp)
 target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 add_executable(undistort_rectify src/undistort_rectify.cpp)
-target_link_libraries(undistort_rectify ${OpenCV_LIBS} "-lpopt")
+target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
   src/blob_detection
