@@ -53,6 +53,8 @@ while True:
 
     keypoints = detector.detect(red_mask)
 
+    imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
     if len(keypoints) == 4:
         x = [keypoints[0].pt[0], keypoints[1].pt[0], keypoints[2].pt[0], keypoints[3].pt[0]]
         x.sort()
@@ -79,9 +81,7 @@ while True:
         c_points[[1,3],:] = c_points[[3,1],:]
 
         #print("sorted:")
-        #print(c_points)
-
-        imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+        #print(c_points)imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
         for i in range(4):
             st = ['1', '2', '3', '4']
