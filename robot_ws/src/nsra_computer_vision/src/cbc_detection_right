@@ -4,7 +4,7 @@ import numpy as np
 import rospy
 from std_msgs.msg import String
 
-rospy.init_node('corner_detect_right)
+rospy.init_node('corner_detect_right')
 pub = rospy.Publisher('corner_right', String, queue_size=10)
 
 cap = cv2.VideoCapture("rtsp://192.168.1.102")
