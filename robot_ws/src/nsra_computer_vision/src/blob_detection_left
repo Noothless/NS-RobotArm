@@ -16,12 +16,7 @@ def paramsChangeCallback(data):
     print("msg")
     msg = str(data.data)
     sp_msg = msg.split("/")
-    print(sp_msg[0])
-    print(sp_msg[1])
-    print(sp_msg[2])
-    print(sp_msg[3])
-    print(sp_msg[4])
-    print(sp_msg[5])
+    
     rl = int(sp_msg[0])
     gl = int(sp_msg[1])
     bl = int(sp_msg[2])
@@ -40,6 +35,7 @@ rospy.init_node('blob_detect_left')
 rospy.Subscriber("bdl_params", String, paramsChangeCallback)
 
 while True:
+    print(rl)
     _, frame = cap.read()
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     hsv_frame = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)
