@@ -17,12 +17,12 @@ def paramsChangeCallback(data):
     msg = str(data.data)
     sp_msg = msg.split("/")
     
-    rl = int(sp_msg[0])
-    gl = int(sp_msg[1])
-    bl = int(sp_msg[2])
-    rh = int(sp_msg[3])
-    gh = int(sp_msg[4])
-    bh = int(sp_msg[5])
+    global rl = int(sp_msg[0])
+    global gl = int(sp_msg[1])
+    global bl = int(sp_msg[2])
+    global rh = int(sp_msg[3])
+    global gh = int(sp_msg[4])
+    global bh = int(sp_msg[5])
 
 
 def dist_to_camera(dist):
