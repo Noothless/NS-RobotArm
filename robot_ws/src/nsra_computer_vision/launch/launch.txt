@@ -1,0 +1,2 @@
+rosrun nsra_computer_vision single_cam_callibration "camera1.xml" "cam_right_config.xml"
+rosrun nsra_computer_vision read -w 1080 -h 720 -d ~/images/ -e "jpg" -c "rtsp://192.168.1.171" -n "right"

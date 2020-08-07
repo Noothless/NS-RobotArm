@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "popt_pp.h"
+#include <ros/package.h>
 
 using namespace std;
 using namespace cv;
@@ -111,8 +112,8 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
-  FileStorage fsl(leftcalib_file, FileStorage::READ);
-  FileStorage fsr(rightcalib_file, FileStorage::READ);
+  FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/" + leftcalib_file, FileStorage::READ);
+  FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/" + rightcalib_file, FileStorage::READ);
 
   load_image_points(fsl["board_Width"], fsl["board_Height"], num_imgs, fsl["square_Size"],
                    leftimg_dir, rightimg_dir, leftimg_filename, rightimg_filename, extension);
@@ -132,7 +133,7 @@ int main(int argc, char const *argv[])
   
   stereoCalibrate(object_points, left_img_points, right_img_points, K1, D1, K2, D2, img1.size(), R, T, E, F);
 
-  cv::FileStorage fs1(out_file, cv::FileStorage::WRITE);
+  cv::FileStorage fs1(ros::package::getPath("nsra_computer_vision") + "/" + out_file, cv::FileStorage::WRITE);
   fs1 << "K1" << K1;
   fs1 << "K2" << K2;
   fs1 << "D1" << D1;
