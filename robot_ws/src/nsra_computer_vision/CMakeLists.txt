@@ -62,11 +62,12 @@ install(TARGETS
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(FILES
-  config/camera1.xml
-  config/camera2.xml
-  config/camera1_conf.xml
-  config/camera2_conf.xml
-  src/calibration/popt_pp.h
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  PATTERN ".svn" EXCLUDE)
+
+install(DIRECTORY config/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
+  PATTERN ".svn" EXCLUDE)
+
+install(DIRECTORY include/   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
