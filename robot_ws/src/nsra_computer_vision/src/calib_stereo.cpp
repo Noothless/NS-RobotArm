@@ -114,7 +114,7 @@ int main(int argc, char const *argv[])
   FileStorage fsl(leftcalib_file, FileStorage::READ);
   FileStorage fsr(rightcalib_file, FileStorage::READ);
 
-  load_image_points(fsl["board_width"], fsl["board_height"], num_imgs, fsl["square_size"],
+  load_image_points(fsl["board_Width"], fsl["board_Height"], num_imgs, fsl["square_Size"],
                    leftimg_dir, rightimg_dir, leftimg_filename, rightimg_filename, extension);
 
   printf("Starting Calibration\n");
