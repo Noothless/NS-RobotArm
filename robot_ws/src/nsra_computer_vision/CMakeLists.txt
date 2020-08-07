@@ -19,10 +19,11 @@ catkin_package(
 )
 
 include_directories(
- ${catkin_INCLUDE_DIRS}
- ${OpenCV_INCLUDE_DIRS}
+  include/
+  config/
+  ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
-
 
 add_executable(single_cam_callibration src/calibration/single_cam_callibration.cpp)
 
@@ -31,7 +32,7 @@ target_link_libraries(single_cam_callibration
   ${catkin_LIBRARIES}
 )
 
-add_executable(calibrate src/deprecated/calib_intrinsic.cpp src/calibration/popt_pp.h)
+add_executable(calibrate src/deprecated/calib_intrinsic.cpp popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
 add_executable(read src/calibration/read_images.cpp)
