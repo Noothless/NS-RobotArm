@@ -211,9 +211,9 @@ int main(int argc, char* argv[])
 {
     help();
     Settings s;
-    const string input_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[1];
+    const string input_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[0];
     const string inputSettingsFile = input_path;
-    output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[2];
+    output_path = ros::package::getPath("nsra_computer_vision") + "/" + argv[1];
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
     {
