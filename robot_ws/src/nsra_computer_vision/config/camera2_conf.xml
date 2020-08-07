@@ -10,20 +10,20 @@
 <FixAspectRatio>1.</FixAspectRatio>
 <!-- flags:  +fix_aspectRatio +fix_principal_point +zero_tangent_dist -->
 <flagValue>14</flagValue>
-<Camera_Matrix type_id="opencv-matrix">
+<K type_id="opencv-matrix">
   <rows>3</rows>
   <cols>3</cols>
   <dt>d</dt>
   <data>
     1.0312039718924589e+03 0. 640. 0. 1.0312039718924589e+03 360. 0. 0.
-    1.</data></Camera_Matrix>
-<Distortion_Coefficients type_id="opencv-matrix">
+    1.</data></K>
+<D type_id="opencv-matrix">
   <rows>5</rows>
   <cols>1</cols>
   <dt>d</dt>
   <data>
     2.4182504793263560e-01 -1.2804337456541415e+00 0. 0.
-    2.4110615497528509e+00</data></Distortion_Coefficients>
+    2.4110615497528509e+00</data></D>
 <Avg_Reprojection_Error>2.1333350189785669e-01</Avg_Reprojection_Error>
 <Per_View_Reprojection_Errors type_id="opencv-matrix">
   <rows>50</rows>
