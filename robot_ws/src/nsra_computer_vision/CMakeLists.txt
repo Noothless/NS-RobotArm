@@ -32,7 +32,7 @@ target_link_libraries(single_cam_callibration
   ${catkin_LIBRARIES}
 )
 
-add_executable(calibrate src/deprecated/calib_intrinsic.cpp popt_pp.h)
+add_executable(calibrate src/deprecated/calib_intrinsic.cpp include/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
 add_executable(read src/calibration/read_images.cpp)
