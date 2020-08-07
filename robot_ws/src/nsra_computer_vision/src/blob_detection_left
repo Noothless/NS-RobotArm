@@ -31,7 +31,7 @@ def dist_to_camera(dist):
     vcubic=fvcubic(tnew)
     return int(vcubic[int(702-dist)])
 
-rospy.init_node('blob_detect_left', anonymous=True)
+rospy.init_node('blob_detect_left')
 rospy.Subscriber("bdl_params", String, paramsChangeCallback)
 
 while True:
