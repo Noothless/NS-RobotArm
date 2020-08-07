@@ -15,6 +15,7 @@ bh = 255
 def paramsChangeCallback(data):
     msg = data.data
     msg.split("/")
+    print(msg)
     rl = int(msg[0])
     gl = int(msg[1])
     bl = int(msg[2])
