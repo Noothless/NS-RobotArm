@@ -42,7 +42,7 @@ while True:
 
     #print(corners)
 
-    if(corners != None):
+    if(corners.all() != None):
         corners_str = str(corners[0,0,0]) + "/" + str(corners[0,0,1])
 
     cv2.imshow("Frame", blur_frame)
