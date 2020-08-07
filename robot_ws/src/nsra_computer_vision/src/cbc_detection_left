@@ -7,7 +7,15 @@ from std_msgs.msg import String
 rospy.init_node('corner_detect_left')
 pub = rospy.Publisher('corner_left', String, queue_size=10)
 
-cap = cv2.VideoCapture("rtsp://192.168.1.171")
+corners_str = ""
+
+def ReqCallback(data):
+    global corners
+    pub.publish(String(corners_str))
+
+rospy.Subscriber("corner_left_req", String, ReqCallback)
+
+cap = cv2.VideoCapture("rtsp://192.168.1.102")
 
 c_points = np.float32
 i_points = np.float32([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
@@ -33,6 +41,11 @@ while True:
     cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
     #print(corners)
+
+    try:
+        corners_str = str(corners[0,0,0]) + "/" + str(corners[0,0,1])
+    except:
+        print("No corners found yet!")
 
     cv2.imshow("Frame", blur_frame)
 
