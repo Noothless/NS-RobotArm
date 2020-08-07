@@ -110,11 +110,12 @@ while True:
         #print(values)
         break
     elif key == 13:
-        print(c_points)
-        _ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
-        print(rvec)
-        print(tvec)
-        rotM = cv2.Rodrigues(rvec)[0]
-        print(rotM)
-        cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
-        print(cameraPosition)
+        print(keypoints[0])
+        #print(c_points)
+        #_ret, rvec, tvec = cv2.solvePnP(i_points, c_points, K, dist_coef)
+        #print(rvec)
+        #print(tvec)
+        #rotM = cv2.Rodrigues(rvec)[0]
+        #print(rotM)
+        #cameraPosition = -np.matrix(rotM).T * np.matrix(tvec)
+        #print(cameraPosition)
