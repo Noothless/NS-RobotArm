@@ -32,10 +32,10 @@ int main(int argc, char** argv)
     cout << P1 << endl;
     cout << P2 << endl;
 
-    cam0pnts.at<double>(0,0) = 967.0;
-    cam0pnts.at<double>(0,1) = 500.5;
-    cam1pnts.at<double>(0,0) = 1759.2518;
-    cam1pnts.at<double>(0,1) = 533.6814;
+    cam0pnts.at<double>(0,0) = 663.07874;
+    cam0pnts.at<double>(0,1) = 698.88965;
+    cam1pnts.at<double>(0,0) = 1176.7567;
+    cam1pnts.at<double>(0,1) = 732.3928;
     
     triangulatePoints(P1,P2,cam1pnts,cam0pnts,pnts3D);
 
