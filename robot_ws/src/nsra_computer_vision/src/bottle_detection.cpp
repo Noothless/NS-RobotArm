@@ -45,7 +45,7 @@ int main(int argc, char** argv)
         cam1pnts.at<double>(0,0) = vec[i][2];
         cam1pnts.at<double>(0,1) = vec[i][3];
     
-        triangulatePoints(P1,P2,cam1pnts,cam0pnts,pnts3D);
+        triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
 
         //cout << pnts3D << endl;
 
