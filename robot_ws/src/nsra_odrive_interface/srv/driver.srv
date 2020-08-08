@@ -1,7 +1,6 @@
 #request
-int16 axis
-float32 value
-int32 timestamp
+int16 req
 ---
 #response
-bool result
+float32 x
+float32 y
