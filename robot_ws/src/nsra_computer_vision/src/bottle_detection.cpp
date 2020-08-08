@@ -6,7 +6,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <sstream>
-#include "nsra_computer_vision/coords.h"
+#include "nsra_odrive_interface/coords.h"
 
 using namespace std;
 using namespace cv;
