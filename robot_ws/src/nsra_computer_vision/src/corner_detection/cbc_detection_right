@@ -17,15 +17,6 @@ rospy.Subscriber("corner_right_req", String, ReqCallback)
 
 cap = cv2.VideoCapture("rtsp://192.168.1.102")
 
-c_points = np.float32
-i_points = np.float32([[0, 0, 0], [0, 130, 0], [130, 0, 0], [130, 130, 0]])
-
-K = np.float64([[1.8196232063840237e+03, 0, 9.5950000000000000e+02],
-                [0, 1.8196232063840237e+03, 5.3950000000000000e+02],
-                [0.0, 0.0, 1.0]])
-
-dist_coef = np.float64([2.4139278295843511e-01, -1.3984627843184050e+00 , 0, 0, 2.3861901454190999e+00])
-
 while True:
     _, frame = cap.read()
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
