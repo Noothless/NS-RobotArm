@@ -53,7 +53,6 @@ add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
 target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 add_executable(bottle_detection src/bottle_detection.cpp)
-add_dependencies(bottle_detection beginner_tutorials_gencpp ${bottle_detection_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
