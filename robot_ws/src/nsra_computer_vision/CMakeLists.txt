@@ -9,13 +9,21 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslib
   std_msgs
-  OpenCV 
+  OpenCV
+  message_generation
+)
+
+add_service_files(DIRECTORY srv FILES 2d_coords.srv)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs 
 )
 
 catkin_package(
   LIBRARIES
   INCLUDE_DIRS
-  CATKIN_DEPENDS roslib roscpp std_msgs
+  CATKIN_DEPENDS roslib roscpp std_msgs message_runtime
 )
 
 include_directories(
@@ -60,6 +68,10 @@ install(TARGETS
   undistort_rectify
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(FILES
+  srv/2d_coords.srv
 )
 
 install(DIRECTORY launch/

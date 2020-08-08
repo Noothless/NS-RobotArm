@@ -1,0 +1,6 @@
+#request
+bool req
+---
+#response
+float32 x
+float32 y
