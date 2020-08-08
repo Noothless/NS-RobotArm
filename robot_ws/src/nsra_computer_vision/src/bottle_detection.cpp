@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     cam1pnts.at<double>(0,0) = 1381.2324;
     cam1pnts.at<double>(0,1) = 483.25412;
     
-    triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
+    triangulatePoints(P1,P2,cam1pnts,cam0pnts,pnts3D);
 
     cout << pnts3D << endl;
 
