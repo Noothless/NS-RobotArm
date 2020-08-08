@@ -3,59 +3,87 @@ rosrun nsra_computer_vision read -w 1080 -h 720 -d ~/images/ -e "jpg" -c "rtsp:/
 rostopic pub -1 /save_img std_msgs/String hello
 rosrun nsra_computer_vision calibrate_stereo -n 24 -u cam_left_config.xml -v cam_right_config.xml -L ~/images/ -R ~/images/ -l left -r right -o cam_stereo.yml -e jpg
 rosrun nsra_computer_vision undistort_rectify -l ~/images/left1.jpg -r ~/images/right1.jpg -c cam_stereo.yml -L ~/images/left_u.jpg -R ~/images/right_u.jpg
-
+A1
 right:
 876.5602,474.18985
 left:
 1381.2324,483.25412
 3d:
 1339.8854, 10.34113, 1128.6909
-
+B1
 right:
 1034.2808,487.31534
 left:
 1499.1863,507.90436
 3d:
 1547.7162, 26.172697, 1225.092
-
+C1
 right:
 1175.1108/198.12099
 left:
 1565.3248/216.99852
 3d:
 1906.3218, -242.30658, 1459.5925
-
+D1
 right:
 769.4005/163.86307
 left:
 1149.2888/191.61871
 3d:
 1554.9827, -277.72974, 1498.9943
-
+E1
 right:
 1384.322/196.36264
 left:
 1773.9098/212.04694
 3d:
 2106.4553, -245.87463, 1462.0063
-
+F1
 right:
 704.57416/487.79544
 left:
 1163.3735/516.9963
 3d:
 1298.8679, 30.3552, 1241.2028
-
+G1
 right:
 967.0/500.5
 left:
 1759.2518/533.6814
 3d:
 1028.9773, 24.404612, 718.85443
-
+H1
 right:
 663.07874/698.88965
 left:
 1176.7567/732.3928
 3d:
 1169.6613, 179.82785, 1108.5457
+
+TL:
+right:
+763.9179/146.99612
+left:
+1136.4603/189.02242
+3d:
+
+TR:
+right:
+1410.4741/178.00208
+left:
+1789.9531/202.65692
+3d:
+
+BL:
+right:
+662.7758/640.4207
+left:
+1161.9884/684.38464
+3d:
+
+BR:
+right:
+1211.7473/679.71954
+left:
+1729.7555/708.58624
+3d:
