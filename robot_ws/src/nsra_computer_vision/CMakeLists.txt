@@ -72,6 +72,7 @@ install(TARGETS
 
 install(FILES
   srv/2d_coords.srv
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 install(DIRECTORY launch/
