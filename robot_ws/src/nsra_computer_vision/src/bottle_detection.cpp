@@ -43,4 +43,17 @@ int main(int argc, char** argv)
     triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
 
     cout << pnts3D << endl;
+
+    cv::Mat1f Thomogeneous(4, 1); 
+    Thomogeneous(0) = pnts3D.at<double>(0,0);
+    Thomogeneous(1) = pnts3D.at<double>(0,1);
+    Thomogeneous(2) = pnts3D.at<double>(0,2);
+    Thomogeneous(3) = pnts3D.at<double>(0,3);
+
+    Mat Th = Thomogeneous.reshape(4);
+
+    cv::Mat T;
+    cv::convertPointsFromHomogeneous(Th, T);
+
+    cout << T << endl;
 }
