@@ -1,4 +1,5 @@
 #include <opencv2/core/core.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <stdio.h>
@@ -37,7 +38,7 @@ int main(int argc, char** argv)
     cam0pnts->data.db = c0;
     cam1pnts->data.db = c1;
     
-    cv::triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
+    triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
 
     cout << pnts3D << endl;
 }
