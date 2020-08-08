@@ -7,13 +7,14 @@
 #include "std_msgs/String.h"
 #include <sstream>
 #include "nsra_odrive_interface/coords.h"
+#include <ros/package.h>
 
 using namespace std;
 using namespace cv;
 
-Mat pnts3D(1,N,CV_64FC4);
-Mat cam0pnts(1,N,CV_64FC2);
-Mat cam1pnts(1,N,CV_64FC2);
+Mat pnts3D(1,1,CV_64FC4);
+Mat cam0pnts(1,1,CV_64FC2);
+Mat cam1pnts(1,1,CV_64FC2);
 Mat P1, P2;
 
 int main(int argc, char** argv)
@@ -27,4 +28,6 @@ int main(int argc, char** argv)
     fs["P1"] >> P1;
     fs["P2"] >> P2;
 
+    print(P1);
+    print(P2);
 }
