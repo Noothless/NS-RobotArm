@@ -1,5 +1,5 @@
 #request
-bool req
+int16 test
 ---
 #response
 float32 x
