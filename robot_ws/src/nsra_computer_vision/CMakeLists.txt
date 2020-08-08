@@ -52,6 +52,9 @@ target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpop
 add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
 target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
+add_executable(bottle_detection src/bottle_detection.cpp)
+target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+
 install(PROGRAMS
   src/blob_detection/blob_detection_left
   src/blob_detection/blob_detection_right
@@ -66,6 +69,7 @@ install(TARGETS
   read
   calibrate_stereo
   undistort_rectify
+  bottle_detection
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
