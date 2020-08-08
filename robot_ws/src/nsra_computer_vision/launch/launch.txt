@@ -3,3 +3,13 @@ rosrun nsra_computer_vision read -w 1080 -h 720 -d ~/images/ -e "jpg" -c "rtsp:/
 rostopic pub -1 /save_img std_msgs/String hello
 rosrun nsra_computer_vision calibrate_stereo -n 24 -u cam_left_config.xml -v cam_right_config.xml -L ~/images/ -R ~/images/ -l left -r right -o cam_stereo.yml -e jpg
 rosrun nsra_computer_vision undistort_rectify -l ~/images/left1.jpg -r ~/images/right1.jpg -c cam_stereo.yml -L ~/images/left_u.jpg -R ~/images/right_u.jpg
+
+right:
+876.5602,474.18985
+left:
+1381.2324,483.25412
+
+right:
+1034.2808,487.31534
+left:
+1499.1863,507.90436
