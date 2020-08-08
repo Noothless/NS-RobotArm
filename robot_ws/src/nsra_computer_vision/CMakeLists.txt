@@ -11,13 +11,20 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   OpenCV
   message_generation
-  nsra_odrive_interface
+  nsra_computer_vision
+)
+
+add_service_files(DIRECTORY srv FILES coords.srv)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
 )
 
 catkin_package(
   LIBRARIES
   INCLUDE_DIRS
-  CATKIN_DEPENDS roslib roscpp std_msgs message_runtime nsra_odrive_interface
+  CATKIN_DEPENDS roslib roscpp std_msgs message_runtime nsra_computer_vision
 )
 
 include_directories(
@@ -69,7 +76,7 @@ install(TARGETS
 )
 
 install(FILES
-  srv/2d_coords.srv
+  srv/coords.srv
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

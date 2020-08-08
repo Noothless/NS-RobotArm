@@ -68,8 +68,8 @@
   <exec_depend>OpenCV</exec_depend>
   <build_export_depend>OpenCV</build_export_depend>
 
-  <build_depend>nsra_odrive_interface</build_depend>
-  <exec_depend>nsra_odrive_interface</exec_depend>
+  <build_depend>nsra_computer_vision</build_depend>
+  <exec_depend>nsra_computer_vision</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
