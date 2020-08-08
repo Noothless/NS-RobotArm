@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 
     fs["P1"] >> P1;
     fs["P2"] >> P2;
-    /*
+    
     cout << P1 << endl;
     cout << P2 << endl;
-    */
+    
 }
