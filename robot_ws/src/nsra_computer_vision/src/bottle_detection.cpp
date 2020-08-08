@@ -35,8 +35,10 @@ int main(int argc, char** argv)
     double c0[] = {876.5602,474.18985};
     double c1[] = {1381.2324,483.25412};
 
-    cam0pnts = c0;
-    cam1pnts = c1;
+    cam0pnts[0,0] = 876.5602;
+    cam0pnts[0,1] = 474.18985;
+    cam1pnts[1,0] = 1381.2324;
+    cam1pnts[1,1] = 483.25412;
     
     triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
 
