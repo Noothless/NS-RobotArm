@@ -52,7 +52,7 @@ target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpop
 add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
 target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
-add_executable(bottle_detection src/bottle_detection.cpp include/2d_coords.h)
+add_executable(bottle_detection src/bottle_detection.cpp)
 target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
