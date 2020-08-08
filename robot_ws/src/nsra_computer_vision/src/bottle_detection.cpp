@@ -31,4 +31,5 @@ int main(int argc, char** argv)
     cout << P1 << endl;
     cout << P2 << endl;
     
+    //cv::triangulatePoints(cam0,cam1,cam0pnts,cam1pnts,pnts3D);
 }

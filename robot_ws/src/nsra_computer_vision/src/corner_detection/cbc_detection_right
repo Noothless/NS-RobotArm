@@ -15,7 +15,7 @@ def ReqCallback(data):
 
 rospy.Subscriber("corner_right_req", String, ReqCallback)
 
-cap = cv2.VideoCapture("rtsp://192.168.1.102")
+cap = cv2.VideoCapture("rtsp://192.168.1.171")
 
 while True:
     _, frame = cap.read()
