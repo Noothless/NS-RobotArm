@@ -13,7 +13,7 @@
 using namespace std;
 using namespace cv;
 
-Mat pnts3D(1,1,CV_64FC4);
+cv::Mat points4d;
 Mat cam0pnts(1,1,CV_64FC2);
 Mat cam1pnts(1,1,CV_64FC2);
 Mat P1, P2;
@@ -45,9 +45,11 @@ int main(int argc, char** argv)
         cam1pnts.at<double>(0,0) = vec[i][2];
         cam1pnts.at<double>(0,1) = vec[i][3];
     
-        triangulatePoints(P1,P2,cam0pnts,cam1pnts,pnts3D);
+        triangulatePoints(P1,P2,cam0pnts,cam1pnts,points4d);
 
         //cout << pnts3D << endl;
+
+        /*
 
         cv::Mat1f Thomogeneous(4, 1); 
         Thomogeneous(0) = pnts3D.at<double>(0,0);
@@ -60,6 +62,16 @@ int main(int argc, char** argv)
         cv::Mat T;
         cv::convertPointsFromHomogeneous(Th, T);
 
-        cout << T << endl;
+        */
+
+        std::vector<Point3d> results;
+
+        Point3d point = Point3d(points4d.at<double>(0, 0) / points4d.at<double>(3, 0),
+                                points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
+                                points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
+        results.emplace_back(point);
+    
+
+        cout << results << endl;
     }
 }
