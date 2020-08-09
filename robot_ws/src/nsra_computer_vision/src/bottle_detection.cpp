@@ -73,5 +73,6 @@ int main(int argc, char** argv)
     
 
         cout << results << endl;
+        cout << i << endl;
     }
 }
