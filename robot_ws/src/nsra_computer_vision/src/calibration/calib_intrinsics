@@ -99,17 +99,16 @@ pack_path = rospack.get_path('nsra_computer_vision')
 def findCBC_LEFT(img):
     image_name = pack_path + '/images/left' + str(img_nb) + '.jpg'
     cv2.imwrite(image_name, img)
-    global img_nb
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
-    print("findCBC1")
     if ret == True:
-        objpoints.append(objp)
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_left.append(corners2)
-        img_nb -= 1
-        print(corners2)
-        print("Remaining Images: " + str(img_nb))
+    else:
+        print("No corners detected in the left image!")
+
+        
+        
 
 def findCBC_RIGHT(img):
     image_name = pack_path + '/images/right' + str(img_nb) + '.jpg'
@@ -120,7 +119,8 @@ def findCBC_RIGHT(img):
     if ret == True:
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_right.append(corners2)
-        print(corners2)
+    else:
+        print("No corners detected in the right image!")
 
 
 while(1):
@@ -137,6 +137,9 @@ while(1):
     elif (key == 10) and (img_nb > 0):
         thread.start_new_thread(findCBC_LEFT,(img_left,))
         thread.start_new_thread(findCBC_RIGHT,(img_right,))
+        print("Remaining Images: " + str(img_nb))
+        img_nb -= 1
+        objpoints.append(objp)
     elif(img_nb == 0):
         ret1, mtx1, dist1, rvecs1, tvecs1 = cv2.calibrateCamera(objpoints, imgpoints_left, (1920,1080), None, None)
 
