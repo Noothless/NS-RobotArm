@@ -112,7 +112,7 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
   
-  const string img_dir = ros::package::getPath("nsra_computer_vision") + "/images/";
+  string img_dir = ros::package::getPath("nsra_computer_vision") + "/images/";
 
   FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/" + leftcalib_file, FileStorage::READ);
   FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/" + rightcalib_file, FileStorage::READ);
