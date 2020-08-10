@@ -34,7 +34,7 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable(single_cam_callibration src/depricated/single_cam_callibration.cpp)
+add_executable(single_cam_callibration src/deprecated/single_cam_callibration.cpp)
 
 target_link_libraries(single_cam_callibration
   ${OpenCV_LIBS}
@@ -44,7 +44,7 @@ target_link_libraries(single_cam_callibration
 add_executable(calibrate src/deprecated/calib_intrinsic.cpp include/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
-add_executable(read src/depricated/read_images.cpp)
+add_executable(read src/deprecated/read_images.cpp)
 target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
 add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
