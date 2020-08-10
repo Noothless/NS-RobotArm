@@ -18,7 +18,7 @@ vector< vector< Point2f > > left_img_points, right_img_points;
 Mat img1, img2, gray1, gray2;
 
 void load_image_points(int board_width, int board_height, int num_imgs, float square_size,
-                      char* leftimg_dir, char* rightimg_dir, char* leftimg_filename, char* rightimg_filename, char* extension) {
+                      const char* leftimg_dir, const char* rightimg_dir, char* leftimg_filename, char* rightimg_filename, char* extension) {
 
   Size board_size = Size(board_width, board_height);
   int board_n = board_width * board_height;
