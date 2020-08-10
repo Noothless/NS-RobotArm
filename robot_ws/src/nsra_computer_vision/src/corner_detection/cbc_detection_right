@@ -43,7 +43,6 @@ while True:
 
     key = cv2.waitKey(1)
     if key == 27:
-        print("---------------------")
         break
     elif key == 10:
         print(corners[0,0,0])
