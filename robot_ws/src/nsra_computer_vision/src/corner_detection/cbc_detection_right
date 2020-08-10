@@ -136,3 +136,8 @@ while True:
     print(key)
     if key == 27:
         break
+
+cv2.destroyAllWindows()     
+
+cam_left.end()
+cam_right.end()
