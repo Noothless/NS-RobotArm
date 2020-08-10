@@ -150,5 +150,6 @@ while(1):
             
 cv2.destroyAllWindows()     
 
-cam.end()
+cam1.end()
+cam2.end()
 
