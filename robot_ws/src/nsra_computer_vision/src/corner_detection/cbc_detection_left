@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import String
-from nsra_odrive_interface.srv import *
+from nsra_odrive_interface.srv import coords
 
 rospy.init_node('corner_detect_left')
 
