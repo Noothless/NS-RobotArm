@@ -33,9 +33,11 @@ while True:
     cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
 
     #print(corners)
-
-    corner_x = corners[0,0,0]
-    corner_y = corners[0,0,1]
+    try:
+        corner_x = corners[0,0,0]
+        corner_y = corners[0,0,1]
+    except:
+        print("No corners found yet!")
 
     cv2.imshow(str(sys.argv[1]), blur_frame)
 
