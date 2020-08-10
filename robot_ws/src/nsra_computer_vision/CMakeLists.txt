@@ -61,6 +61,7 @@ install(PROGRAMS
   src/blob_detection/blob_detection_right
   src/corner_detection/cbc_detection_left
   src/corner_detection/cbc_detection_right
+  src/multiprocessing_test
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
