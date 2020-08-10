@@ -13,16 +13,24 @@
 using namespace std;
 using namespace cv;
 
-cv::Mat points4d;
-Mat cam0pnts(1,1,CV_64FC2);
-Mat cam1pnts(1,1,CV_64FC2);
-Mat P1, P2;
+
+
+void calcCallback(const std_msgs::StringConstPtr& str)
+{
+    nsra_odrive_interface::coords coords;
+    coords.request.test = 1;
+    axis_position.call(,coords);
+    double x = coords.response.x;
+    double y = coords.response.y;
+}
 
 int main(int argc, char** argv)
 {
 
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
+    ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);
+
 
     FileStorage fs(ros::package::getPath("nsra_computer_vision") + "/" + "cam_stereo.yml", FileStorage::READ);
 
