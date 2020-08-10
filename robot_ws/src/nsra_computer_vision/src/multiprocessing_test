@@ -93,11 +93,11 @@ while(1):
     img = cam.get_frame(0.65)
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, corners = cv2.findChessboardCorners(gray, (7,7), None)
+    #ret, corners = cv2.findChessboardCorners(gray, (7,7), None)
 
-    if ret == True:
-        corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
-        img = cv2.drawChessboardCorners(img, (7,7), corners2, ret)
+    #if ret == True:
+    #    corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
+    #    img = cv2.drawChessboardCorners(img, (7,7), corners2, ret)
 
     cv2.imshow('img', img)
 
