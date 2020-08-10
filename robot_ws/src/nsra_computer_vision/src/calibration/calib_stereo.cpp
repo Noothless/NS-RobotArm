@@ -111,8 +111,8 @@ int main(int argc, char const *argv[])
   POpt popt(NULL, argc, argv, options, 0);
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
-  
-  char *img_dir = ros::package::getPath("nsra_computer_vision") + ("/images/").c_str();
+  const string addon = "/images/";
+  char *img_dir = ros::package::getPath("nsra_computer_vision") + addon.c_str();
 
   FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/" + leftcalib_file, FileStorage::READ);
   FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/" + rightcalib_file, FileStorage::READ);
