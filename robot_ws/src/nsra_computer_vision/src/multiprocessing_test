@@ -144,7 +144,7 @@ while(1):
         data2 = {'camera_matrix': np.asarray(mtx2).tolist(),
                 'dist_coeff': np.asarray(dist2).tolist()}
 
-        with open(rospack.get_path('nsra_computer_vision') + "/config/calibration_matrix1.yaml", "w") as f2:
+        with open(rospack.get_path('nsra_computer_vision') + "/config/calibration_matrix2.yaml", "w") as f2:
             yaml.dump(data2, f2)
         break
             
