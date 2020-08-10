@@ -116,7 +116,7 @@ while(1):
     elif (key == 10) and (img_nb > 0):
         thread.start_new_thread(findCBC,(img,))
     elif(img_nb == 0):
-        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, (1920,1080)), None, None)
+        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, (1920,1080), None, None)
 
         data = {'camera_matrix': np.asarray(mtx).tolist(),
                 'dist_coeff': np.asarray(dist).tolist()}
