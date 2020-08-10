@@ -97,7 +97,7 @@ img_nb = 20
 pack_path = rospack.get_path('nsra_computer_vision')
 
 def findCBC_LEFT(img):
-    image_name = '~/images/left' + str(img_nb) + '.jpg'
+    image_name = '~/images/left.jpg'
     cv2.imwrite(image_name, img)
     global img_nb
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
