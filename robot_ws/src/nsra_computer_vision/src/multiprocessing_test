@@ -74,7 +74,7 @@ class camera():
 
 cam = camera("rtsp://192.168.1.105")
 
-print(f"Camera is alive?: {cam.p.is_alive()}")
+#print(f"Camera is alive?: {cam.p.is_alive()}")
 
 while(1):
     frame = cam.get_frame(0.65)
