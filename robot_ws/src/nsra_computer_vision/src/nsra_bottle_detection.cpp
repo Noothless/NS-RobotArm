@@ -18,21 +18,17 @@ Mat cam_left_pnts(1,1,CV_64FC2);
 Mat cam_right_pnts(1,1,CV_64FC2);
 Mat PL, PR;
 
-ros::ServiceClient right_camera;
-ros::ServiceClient left_camera;
+ros::ServiceClient cameras;
 
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
-    nsra_odrive_interface::coords right_camera_coords;
-    nsra_odrive_interface::coords left_camera_coords;
-    right_camera_coords.request.test = 1;
-    left_camera_coords.request.test = 1;
-    right_camera.call(right_camera_coords);
-    left_camera.call(left_camera_coords);
-    cam_right_pnts.at<double>(0,0) = right_camera_coords.response.x;
-    cam_right_pnts.at<double>(0,1) = right_camera_coords.response.y;
-    cam_left_pnts.at<double>(0,0) = left_camera_coords.response.x;
-    cam_left_pnts.at<double>(0,1) = left_camera_coords.response.y;
+    nsra_odrive_interface::coords camera_coords;
+    camera_coords.request.test = 1;
+    cameras.call(camera_coords);
+    cam_right_pnts.at<double>(0,0) = camera_coords.response.x_right;
+    cam_right_pnts.at<double>(0,1) = camera_coords.response.y_right;
+    cam_left_pnts.at<double>(0,0) = camera_coords.response.x_left;
+    cam_left_pnts.at<double>(0,1) = camera_coords.response.y_left;
 
     triangulatePoints(PL,PR,cam_left_pnts,cam_right_pnts,points4d);
     /*
@@ -64,8 +60,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
     ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);
-    right_camera = n.serviceClient<nsra_odrive_interface::coords>("right_camera");
-    left_camera = n.serviceClient<nsra_odrive_interface::coords>("left_camera");
+    cameras = n.serviceClient<nsra_odrive_interface::coords>("get2dcoords");
 
     FileStorage fs(ros::package::getPath("nsra_computer_vision") + "/" + "cam_stereo.yml", FileStorage::READ);
 
@@ -76,5 +71,5 @@ int main(int argc, char** argv)
     cout << PR << endl;
 
     ros::spin();
-    
+
 }

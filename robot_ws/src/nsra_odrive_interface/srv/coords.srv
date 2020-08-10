@@ -2,5 +2,7 @@
 int16 test
 ---
 #response
-float32 x
-float32 y
+float32 x_left
+float32 y_left
+float32 x_right
+float32 y_right
