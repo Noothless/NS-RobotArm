@@ -110,6 +110,10 @@ while(1):
 
     cv2.imshow('img', img)
 
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret, corners = cv2.findChessboardCorners(gray, (7,7), None)
+    print(corners)
+
     key = cv2.waitKey(1)
 
     if key == 27:
