@@ -98,8 +98,8 @@ int main(int argc, char const *argv[])
     { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
     { "leftcalib_file",'u',POPT_ARG_STRING,&leftcalib_file,0,"Left camera calibration","STR" },
     { "rightcalib_file",'v',POPT_ARG_STRING,&rightcalib_file,0,"Right camera calibration","STR" },
-    { "leftimg_dir",'L',POPT_ARG_STRING,&leftimg_dir,0,"Directory containing left images","STR" },
-    { "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
+    //{ "leftimg_dir",'L',POPT_ARG_STRING,&leftimg_dir,0,"Directory containing left images","STR" },
+    //{ "rightimg_dir",'R',POPT_ARG_STRING,&rightimg_dir,0,"Directory containing right images","STR" },
     { "leftimg_filename",'l',POPT_ARG_STRING,&leftimg_filename,0,"Left image prefix","STR" },
     { "rightimg_filename",'r',POPT_ARG_STRING,&rightimg_filename,0,"Right image prefix","STR" },
     { "extension",'e',POPT_ARG_STRING,&extension,0,"Image extension","STR" },
@@ -115,8 +115,8 @@ int main(int argc, char const *argv[])
   FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/" + leftcalib_file, FileStorage::READ);
   FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/" + rightcalib_file, FileStorage::READ);
 
-  load_image_points(fsl["board_Width"], fsl["board_Height"], num_imgs, fsl["square_Size"],
-                   leftimg_dir, rightimg_dir, leftimg_filename, rightimg_filename, extension);
+  load_image_points(9, 6, num_imgs, fsl["square_Size"],
+                   ros::package::getPath("nsra_computer_vision") + "/images/", ros::package::getPath("nsra_computer_vision") + "/images/", leftimg_filename, rightimg_filename, extension);
 
   printf("Starting Calibration\n");
   Mat K1, K2, R, F, E;

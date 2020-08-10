@@ -1,5 +1,5 @@
 #rosrun nsra_computer_vision single_cam_callibration "camera1.xml" "cam_right_config.xml"
-rosrun nsra_computer_vision multiprocessing_test "rtsp://192.168.1.171" "rtsp://192.168.1.105" 30
+rosrun nsra_computer_vision calib_intrinsics "rtsp://192.168.1.171" "rtsp://192.168.1.105" 30
 #rosrun nsra_computer_vision read -w 1080 -h 720 -d ~/images/ -e "jpg" -c "rtsp://192.168.1.171" -n "right"
 #rostopic pub -1 /save_img std_msgs/String hello
 rosrun nsra_computer_vision calibrate_stereo -n 24 -u intrinsics_left.yaml -v intrinsics_right.yaml -L ~/images/ -R ~/images/ -l left -r right -o cam_stereo.yml -e jpg
