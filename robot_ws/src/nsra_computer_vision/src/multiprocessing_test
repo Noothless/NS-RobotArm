@@ -78,51 +78,74 @@ class camera():
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
-cam = camera("rtsp://192.168.1.105")
+cam1 = camera("rtsp://192.168.1.105")
+cam2 = camera("rtsp://192.168.1.171")
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 objp = np.zeros((6*9,3), np.float32)
 objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
 
-objpoints = [] # 3d point in real world space
-imgpoints = [] # 2d points in image plane.
+objpoints = [] 
+
+imgpoints1 = [] 
+imgpoints2 = [] 
 
 img_nb = 20
 
-def findCBC(img):
+def findCBC1(img):
     global img_nb
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
-    print("findCBC")
+    print("findCBC1")
     if ret == True:
         objpoints.append(objp)
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
-        imgpoints.append(corners2)
+        imgpoints1.append(corners2)
         img_nb -= 1
         print(corners2)
         print("Remaining Images: " + str(img_nb))
 
+def findCBC2(img):
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
+    print("findCBC2")
+    if ret == True:
+        corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
+        imgpoints2.append(corners2)
+        print(corners2)
+
 
 while(1):
-    img = cam.get_frame(0.65)
+    img1 = cam1.get_frame(0.65)
+    img2 = cam2.get_frame(0.65)
 
-    cv2.imshow('img', img)
+    cv2.imshow('img1', img1)
+    cv2.imshow('img2', img2)
 
     key = cv2.waitKey(1)
 
     if key == 27:
         break
     elif (key == 10) and (img_nb > 0):
-        thread.start_new_thread(findCBC,(img,))
+        thread.start_new_thread(findCBC1,(img1,))
+        thread.start_new_thread(findCBC2,(img2,))
     elif(img_nb == 0):
-        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, (1920,1080), None, None)
+        ret1, mtx1, dist1, rvecs1, tvecs1 = cv2.calibrateCamera(objpoints, imgpoints1, (1920,1080), None, None)
 
-        data = {'camera_matrix': np.asarray(mtx).tolist(),
-                'dist_coeff': np.asarray(dist).tolist()}
+        data1 = {'camera_matrix': np.asarray(mtx1).tolist(),
+                'dist_coeff': np.asarray(dist1).tolist()}
 
-        with open(rospack.get_path('nsra_computer_vision') + "/config/calibration_matrix.yaml", "w") as f:
-            yaml.dump(data, f)
+        with open(rospack.get_path('nsra_computer_vision') + "/config/calibration_matrix1.yaml", "w") as f1:
+            yaml.dump(data1, f1)
+
+        ret2, mtx2, dist2, rvecs2, tvecs2 = cv2.calibrateCamera(objpoints, imgpoints2, (1920,1080), None, None)
+
+        data2 = {'camera_matrix': np.asarray(mtx2).tolist(),
+                'dist_coeff': np.asarray(dist2).tolist()}
+
+        with open(rospack.get_path('nsra_computer_vision') + "/config/calibration_matrix1.yaml", "w") as f2:
+            yaml.dump(data2, f2)
         break
             
 cv2.destroyAllWindows()     
