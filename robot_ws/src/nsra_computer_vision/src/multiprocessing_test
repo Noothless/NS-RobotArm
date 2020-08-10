@@ -100,6 +100,7 @@ def findCBC(img):
         imgpoints.append(corners2)
         img = cv2.drawChessboardCorners(img, (7,7), corners2, ret)
         img_nb -= 1
+        print(corners2)
 
 
 while(1):
