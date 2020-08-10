@@ -3,6 +3,11 @@
 import cv2
 import time
 import multiprocessing as mp
+import numpy as np
+import rospkg
+import yaml
+
+rospack = rospkg.RosPack()
 
 class camera():
 
@@ -72,23 +77,49 @@ class camera():
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
-cam1 = camera("rtsp://192.168.1.105")
-cam2 = camera("rtsp://192.168.1.171")
+cam = camera("rtsp://192.168.1.105")
 
-#print(f"Camera is alive?: {cam.p.is_alive()}")
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+
+objp = np.zeros((7*7,3), np.float32)
+objp[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)
+
+objpoints = [] # 3d point in real world space
+imgpoints = [] # 2d points in image plane.
+
+img_nb = 50
 
 while(1):
-    frame1 = cam1.get_frame(0.65)
-    frame2 = cam2.get_frame(0.65)
+    img = cam.get_frame(0.65)
 
-    cv2.imshow("Feed1",frame1)
-    cv2.imshow("Feed2",frame2)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret, corners = cv2.findChessboardCorners(gray, (7,7), None)
+
+    if ret == True:
+        corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
+        img = cv2.drawChessboardCorners(img, (7,7), corners2, ret)
+
+    cv2.imshow('img', img)
 
     key = cv2.waitKey(1)
 
-    if key == 13: #13 is the Enter Key
+    if key == 27:
         break
+    elif (key == 10) and (img_nb > 0):
+        img_nb -= 1
+        objpoints.append(objp)          
+        imgpoints.append(corners2)
+    elif(img_nb == 0):
+        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
+        data = {'camera_matrix': np.asarray(mtx).tolist(),
+                'dist_coeff': np.asarray(dist).tolist()}
+
+        with open(rospack.get_path('nsra_computer_vision') + "/config/calibration_matrix.yaml", "w") as f:
+            yaml.dump(data, f)
+        break
+            
 cv2.destroyAllWindows()     
 
 cam.end()
+
