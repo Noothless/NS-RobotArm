@@ -14,20 +14,40 @@ using namespace std;
 using namespace cv;
 
 cv::Mat points4d;
-Mat cam0pnts(1,1,CV_64FC2);
-Mat cam1pnts(1,1,CV_64FC2);
-Mat P1, P2;
+Mat cam_left_pnts(1,1,CV_64FC2);
+Mat cam_right_pnts(1,1,CV_64FC2);
+Mat PL, PR;
 
 ros::ServiceClient right_camera;
 ros::ServiceClient left_camera;
 
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
-    nsra_odrive_interface::coords coords;
-    coords.request.test = 1;
-    right_camera.call(coords);
-    double x = coords.response.x;
-    double y = coords.response.y;
+    nsra_odrive_interface::coords right_camera_coords;
+    nsra_odrive_interface::coords left_camera_coords;
+    right_camera_coords.request.test = 1;
+    left_camera_coords.request.test = 1;
+    right_camera.call(right_camera_coords);
+    left_camera.call(left_camera_coords);
+    cam_right_pnts.at<double>(0,0) = right_camera_coords.response.x;
+    cam_right_pnts.at<double>(0,1) = right_camera_coords.response.y;
+    cam_left_pnts.at<double>(0,0) = left_camera_coords.response.x;
+    cam_left_pnts.at<double>(0,1) = left_camera_coords.response.y;
+
+    triangulatePoints(PL,PR,cam_left_pnts,cam_right_pnts,points4d);
+
+    cv::Mat1f Thomogeneous(4, 1); 
+    Thomogeneous(0) = pnts3D.at<double>(0,0);
+    Thomogeneous(1) = pnts3D.at<double>(0,1);
+    Thomogeneous(2) = pnts3D.at<double>(0,2);
+    Thomogeneous(3) = pnts3D.at<double>(0,3);
+
+    Mat Th = Thomogeneous.reshape(4);
+
+    cv::Mat T;
+    cv::convertPointsFromHomogeneous(Th, T);
+
+    cout << T << endl;
 }
 
 int main(int argc, char** argv)
@@ -41,53 +61,20 @@ int main(int argc, char** argv)
 
     FileStorage fs(ros::package::getPath("nsra_computer_vision") + "/" + "cam_stereo.yml", FileStorage::READ);
 
-    fs["P1"] >> P1;
-    fs["P2"] >> P2;
+    fs["PL"] >> PL;
+    fs["PR"] >> PR;
     
-    cout << P1 << endl;
-    cout << P2 << endl;
+    cout << PL << endl;
+    cout << PR << endl;
 
-    vector<vector<double>> vec{ {763.9179 , 146.99612, 1136.4603, 189.02242},
-                                {1410.4741, 178.00208, 1789.9531, 202.65692},
-                                {662.7758 , 640.4207 , 1161.9884, 684.38464},
-                                {1211.7473, 679.71954, 1729.7555, 708.58624} };
+    ros::spin();
+        
+    /*
+    std::vector<Point3d> results;
 
-
-
-    for(int i = 0; i < 4; i++) {
-        cam0pnts.at<double>(0,0) = vec[i][0];
-        cam0pnts.at<double>(0,1) = vec[i][1];
-        cam1pnts.at<double>(0,0) = vec[i][2];
-        cam1pnts.at<double>(0,1) = vec[i][3];
-    
-        triangulatePoints(P1,P2,cam0pnts,cam1pnts,points4d);
-
-        //cout << pnts3D << endl;
-
-        /*
-
-        cv::Mat1f Thomogeneous(4, 1); 
-        Thomogeneous(0) = pnts3D.at<double>(0,0);
-        Thomogeneous(1) = pnts3D.at<double>(0,1);
-        Thomogeneous(2) = pnts3D.at<double>(0,2);
-        Thomogeneous(3) = pnts3D.at<double>(0,3);
-
-        Mat Th = Thomogeneous.reshape(4);
-
-        cv::Mat T;
-        cv::convertPointsFromHomogeneous(Th, T);
-
-        */
-
-        std::vector<Point3d> results;
-
-        Point3d point = Point3d(points4d.at<double>(0, 0) / points4d.at<double>(3, 0),
-                                points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
-                                points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
-        results.emplace_back(point);
-    
-
-        cout << results << endl;
-        cout << i << endl;
-    }
+    Point3d point = Point3d(points4d.at<double>(0, 0) / points4d.at<double>(3, 0),
+                            points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
+                            points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
+    results.emplace_back(point);
+    */
 }

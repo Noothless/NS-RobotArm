@@ -121,25 +121,25 @@ int main(int argc, char const *argv[])
                    img_dir.c_str(), img_dir.c_str(), leftimg_filename, rightimg_filename, extension);
 
   printf("Starting Calibration\n");
-  Mat K1, K2, R, F, E;
+  Mat KL, KR, R, F, E;
   Vec3d T;
-  Mat D1, D2;
-  fsl["K"] >> K1;
-  fsr["K"] >> K2;
-  fsl["D"] >> D1;
-  fsr["D"] >> D2;
+  Mat DL, DR;
+  fsl["K"] >> KL;
+  fsr["K"] >> KR;
+  fsl["D"] >> DL;
+  fsr["D"] >> DR;
   int flag = 0;
   flag |= CV_CALIB_FIX_INTRINSIC;
   
   cout << "Read intrinsics" << endl;
   
-  stereoCalibrate(object_points, left_img_points, right_img_points, K1, D1, K2, D2, img1.size(), R, T, E, F);
+  stereoCalibrate(object_points, left_img_points, right_img_points, KL, DL, KR, DR, img1.size(), R, T, E, F);
 
   cv::FileStorage fs1(ros::package::getPath("nsra_computer_vision") + "/" + out_file, cv::FileStorage::WRITE);
-  fs1 << "K1" << K1;
-  fs1 << "K2" << K2;
-  fs1 << "D1" << D1;
-  fs1 << "D2" << D2;
+  fs1 << "KL" << KL;
+  fs1 << "KR" << KR;
+  fs1 << "DL" << DL;
+  fs1 << "DR" << DR;
   fs1 << "R" << R;
   fs1 << "T" << T;
   fs1 << "E" << E;
@@ -149,13 +149,13 @@ int main(int argc, char const *argv[])
 
   printf("Starting Rectification\n");
 
-  cv::Mat R1, R2, P1, P2, Q;
-  stereoRectify(K1, D1, K2, D2, img1.size(), R, T, R1, R2, P1, P2, Q);
+  cv::Mat RL, RR, PL, PR, Q;
+  stereoRectify(KL, DL, KR, DR, img1.size(), R, T, RL, RR, PL, PR, Q);
 
-  fs1 << "R1" << R1;
-  fs1 << "R2" << R2;
-  fs1 << "P1" << P1;
-  fs1 << "P2" << P2;
+  fs1 << "RL" << RL;
+  fs1 << "RR" << RR;
+  fs1 << "PL" << PL;
+  fs1 << "PR" << PR;
   fs1 << "Q" << Q;
 
   printf("Done Rectification\n");
