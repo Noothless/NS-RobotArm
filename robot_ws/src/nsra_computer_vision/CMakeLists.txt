@@ -34,7 +34,7 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable(single_cam_callibration src/calibration/single_cam_callibration.cpp)
+add_executable(single_cam_callibration src/depricated/single_cam_callibration.cpp)
 
 target_link_libraries(single_cam_callibration
   ${OpenCV_LIBS}
@@ -44,7 +44,7 @@ target_link_libraries(single_cam_callibration
 add_executable(calibrate src/deprecated/calib_intrinsic.cpp include/popt_pp.h)
 target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
-add_executable(read src/calibration/read_images.cpp)
+add_executable(read src/depricated/read_images.cpp)
 target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
 add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
@@ -61,7 +61,7 @@ install(PROGRAMS
   src/blob_detection/blob_detection_right
   src/corner_detection/cbc_detection_left
   src/corner_detection/cbc_detection_right
-  src/multiprocessing_test
+  src/calibration/calib_intrinsics
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
