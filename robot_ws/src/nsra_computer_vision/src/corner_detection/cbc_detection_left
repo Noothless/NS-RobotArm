@@ -3,14 +3,14 @@ import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import String
-from nsra_computer_vision.srv import *
+from nsra_odrive_interface.srv import *
 
 rospy.init_node('corner_detect_left')
 
 corner_x = 0.0
 corner_y = 0.0
 
-def left_camera(data):
+def left_camera(req):
     return coordsResponse(corner_x, corner_y)
     
 s = rospy.Service('left_camera', coords, left_camera)
