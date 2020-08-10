@@ -35,7 +35,7 @@ void calcCallback(const std_msgs::StringConstPtr& str)
     cam_left_pnts.at<double>(0,1) = left_camera_coords.response.y;
 
     triangulatePoints(PL,PR,cam_left_pnts,cam_right_pnts,points4d);
-
+    /*
     cv::Mat1f Thomogeneous(4, 1); 
     Thomogeneous(0) = pnts3D.at<double>(0,0);
     Thomogeneous(1) = pnts3D.at<double>(0,1);
@@ -46,8 +46,16 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
     cv::Mat T;
     cv::convertPointsFromHomogeneous(Th, T);
+    */
 
-    cout << T << endl;
+    std::vector<Point3d> results;
+
+    Point3d point = Point3d(points4d.at<double>(0, 0) / points4d.at<double>(3, 0),
+                            points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
+                            points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
+    results.emplace_back(point);
+
+    cout << results << endl;
 }
 
 int main(int argc, char** argv)
@@ -68,13 +76,5 @@ int main(int argc, char** argv)
     cout << PR << endl;
 
     ros::spin();
-        
-    /*
-    std::vector<Point3d> results;
-
-    Point3d point = Point3d(points4d.at<double>(0, 0) / points4d.at<double>(3, 0),
-                            points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
-                            points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
-    results.emplace_back(point);
-    */
+    
 }
