@@ -97,7 +97,7 @@ img_nb = 20
 pack_path = rospack.get_path('nsra_computer_vision')
 
 def findCBC_LEFT(img):
-    image_name = pack_path + '/left' + str(img_nb) + '.jpg'
+    image_name = pack_path + '/images/left' + str(img_nb) + '.jpg'
     cv2.imwrite(image_name, img)
     global img_nb
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -112,7 +112,7 @@ def findCBC_LEFT(img):
         print("Remaining Images: " + str(img_nb))
 
 def findCBC_RIGHT(img):
-    image_name = pack_path + '/right' + str(img_nb) + '.jpg'
+    image_name = pack_path + '/images/right' + str(img_nb) + '.jpg'
     cv2.imwrite(image_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
