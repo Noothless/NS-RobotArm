@@ -115,7 +115,6 @@ def findCBC_RIGHT(img):
     cv2.imwrite(image_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
-    print("findCBC2")
     if ret == True:
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_right.append(corners2)
