@@ -4,6 +4,7 @@ import numpy as np
 import rospy
 from std_msgs.msg import String
 from nsra_odrive_interface.srv import coords
+import sys
 
 rospy.init_node('corner_detect_left')
 
@@ -15,7 +16,7 @@ def left_camera(req):
     
 s = rospy.Service('left_camera', coords, left_camera)
 
-cap = cv2.VideoCapture("rtsp://192.168.1.102")
+cap = cv2.VideoCapture(str(sys.argv[1]))
 
 while True:
     _, frame = cap.read()
@@ -36,7 +37,7 @@ while True:
     corner_x = corners[0,0,0]
     corner_y = corners[0,0,1]
 
-    cv2.imshow("Frame", blur_frame)
+    cv2.imshow(str(sys.argv[1]), blur_frame)
 
     key = cv2.waitKey(1)
     if key == 27:
