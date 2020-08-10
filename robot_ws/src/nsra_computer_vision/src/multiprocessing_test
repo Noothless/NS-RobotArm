@@ -113,7 +113,7 @@ while(1):
     if key == 27:
         break
     elif (key == 10) and (img_nb > 0):
-        thread.start_new_thread(findCBC,(img))
+        thread.start_new_thread(findCBC,(img,))
     elif(img_nb == 0):
         ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
