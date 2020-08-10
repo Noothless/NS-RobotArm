@@ -112,11 +112,13 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
 
+  char *img_dir = ros::package::getPath("nsra_computer_vision") + "/images/";
+
   FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/" + leftcalib_file, FileStorage::READ);
   FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/" + rightcalib_file, FileStorage::READ);
 
   load_image_points(9, 6, num_imgs, fsl["square_Size"],
-                   ros::package::getPath("nsra_computer_vision") + "/images/", ros::package::getPath("nsra_computer_vision") + "/images/", leftimg_filename, rightimg_filename, extension);
+                   img_dir, img_dir, leftimg_filename, rightimg_filename, extension);
 
   printf("Starting Calibration\n");
   Mat K1, K2, R, F, E;
