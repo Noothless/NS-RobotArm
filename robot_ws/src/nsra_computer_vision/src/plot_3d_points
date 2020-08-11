@@ -13,6 +13,9 @@ y = np.array([])
 z = np.array([])
 
 def plot_callback(data):
+    global x
+    global y
+    global z
     xn, yn, zn = data.data.split("/")
     print(xn)
     print(yn)
