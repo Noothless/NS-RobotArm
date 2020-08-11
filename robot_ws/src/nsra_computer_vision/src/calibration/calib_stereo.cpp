@@ -53,7 +53,8 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
       cv::cornerSubPix(gray1, corners1, cv::Size(5, 5), cv::Size(-1, -1),
       cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray1, board_size, corners1, found1);
-      cv::imwrite(left_img_corners, gray1);
+      cv::drawChessboardCorners(img1, board_size, corners1, found1);
+      cv::imwrite(left_img_corners, img1);
 
     }
     if (found2)
@@ -61,7 +62,8 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
       cv::cornerSubPix(gray2, corners2, cv::Size(5, 5), cv::Size(-1, -1),
       cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray2, board_size, corners2, found2);
-      cv::imwrite(right_img_corners, gray2);
+      cv::drawChessboardCorners(img2, board_size, corners2, found2);
+      cv::imwrite(right_img_corners, img2);
     }
 
     vector< Point3f > obj;
