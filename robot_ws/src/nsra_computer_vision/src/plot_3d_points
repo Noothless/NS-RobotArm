@@ -32,5 +32,5 @@ def plot_callback(data):
 
 rospy.init_node('plot_3d_points')
 rospy.Subscriber("3DPointCoords", String, plot_callback)
-
+ax.scatter(x, y, z)
 plt.show()
