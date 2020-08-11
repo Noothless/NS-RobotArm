@@ -52,8 +52,8 @@ void calcCallback(const std_msgs::StringConstPtr& str)
                             points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
                             points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
     results.emplace_back(point);
-    String msg;
-    msg.data = string(results[0]) + "/" + string(results[0]) + "/" + string(results[0]);
+    std_msgs::String msg;
+    msg.data = string(results);
     pub.publish(msg);
 
     cout << results << endl;
