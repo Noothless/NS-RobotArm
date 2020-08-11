@@ -5,12 +5,12 @@ import rospy
 from std_msgs.msg import String
 
 def plot_callback(data):
-    x, y, z = data.split("/")
+    x, y, z = data.data.split("/")
     print(x)
     print(y)
     print(z)
 
 rospy.init_node('plot_3d_points')
-rospy.Subscriber("3d_coords", String, plot_callback)
+rospy.Subscriber("3d_point_coords", String, plot_callback)
 
 rospy.spin()
