@@ -8,9 +8,9 @@ from std_msgs.msg import String
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 
-x = np.array([])
-y = np.array([])
-z = np.array([])
+x = np.array([1])
+y = np.array([1])
+z = np.array([1])
 
 def plot_callback(data):
     global x
