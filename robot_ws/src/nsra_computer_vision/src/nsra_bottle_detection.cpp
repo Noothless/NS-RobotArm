@@ -23,8 +23,15 @@ std::vector<Point3d> coordBuffer;
 ros::ServiceClient cameras;
 
 ros::Publisher pub;
+ros::Publisher pub1;
 
-cv::FileStorage fs(ros::package::getPath("nsra_computer_vision") + "/" + "storedPoints.yml", cv::FileStorage::WRITE);
+cv::FileStorage fs1(ros::package::getPath("nsra_computer_vision") + "/" + "storedPoints.yml", cv::FileStorage::WRITE);
+
+void saveCallback(const std_msgs::StringConstPtr& str)
+{
+    cv::Mat mat(coordBuffer, false);
+    fs1 << "Points" << mat;
+}
 
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
@@ -71,6 +78,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
     ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);
+    ros::Subscriber sub1 = n.subscribe("saveCoords", 1, saveCallback);
     cameras = n.serviceClient<nsra_odrive_interface::coords>("get2dcoords");
     pub = n.advertise<std_msgs::String>("PointCoords", 5);
 
@@ -84,7 +92,4 @@ int main(int argc, char** argv)
 
     ros::spin();
 
-    cv::Mat mat(coordBuffer, false);
-
-    fs << "Points" << mat;
 }
