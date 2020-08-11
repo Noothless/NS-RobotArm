@@ -4,13 +4,17 @@ import matplotlib.pyplot as plt
 import rospy
 from std_msgs.msg import String
 
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+
 def plot_callback(data):
     x, y, z = data.data.split("/")
     print(x)
     print(y)
     print(z)
+    ax.scatter3D(x, y, z, c=z, cmap='Greens')
 
 rospy.init_node('plot_3d_points')
-rospy.Subscriber("3d_point_coords", String, plot_callback)
+rospy.Subscriber("3DPointCoords", String, plot_callback)
 
 rospy.spin()
