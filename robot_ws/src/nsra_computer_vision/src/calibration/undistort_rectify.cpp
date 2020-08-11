@@ -40,17 +40,17 @@ int main(int argc, char const *argv[])
   Mat img2 = imread(rightimg_filename, CV_LOAD_IMAGE_COLOR);
 
   cv::FileStorage fs1( ros::package::getPath("nsra_computer_vision") + "/" + calib_file, cv::FileStorage::READ);
-  fs1["K1"] >> K1;
-  fs1["K2"] >> K2;
-  fs1["D1"] >> D1;
-  fs1["D2"] >> D2;
+  fs1["KL"] >> K1;
+  fs1["KR"] >> K2;
+  fs1["DL"] >> D1;
+  fs1["DR"] >> D2;
   fs1["R"] >> R;
   fs1["T"] >> T;
 
-  fs1["R1"] >> R1;
-  fs1["R2"] >> R2;
-  fs1["P1"] >> P1;
-  fs1["P2"] >> P2;
+  fs1["RL"] >> R1;
+  fs1["RR"] >> R2;
+  fs1["PL"] >> P1;
+  fs1["PR"] >> P2;
   fs1["Q"] >> Q;
 
   cv::Mat lmapx, lmapy, rmapx, rmapy;
