@@ -18,9 +18,9 @@ fn = fs.getNode("Points")
 
 flag = False
 
-x=fn[:,0]
-y=fn[:,1]
-z=fn[:,2]
+x=fn.mat()[:,0]
+y=fn.mat()[:,1]
+z=fn.mat()[:,2]
 
 ax.scatter(x, y, z)
 plt.show()
