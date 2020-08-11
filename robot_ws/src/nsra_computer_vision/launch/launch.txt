@@ -1,8 +1,8 @@
 #rosrun nsra_computer_vision single_cam_callibration "camera1.xml" "cam_right_config.xml"
-rosrun nsra_computer_vision calib_intrinsics "rtsp://192.168.1.171" "rtsp://192.168.1.105" 30
+rosrun nsra_computer_vision calib_intrinsics "rtsp://192.168.1.191" "rtsp://192.168.1.171" 50
 #rosrun nsra_computer_vision read -w 1080 -h 720 -d ~/images/ -e "jpg" -c "rtsp://192.168.1.171" -n "right"
 #rostopic pub -1 /save_img std_msgs/String hello
-rosrun nsra_computer_vision calibrate_stereo -n 24 -u intrinsics_left.yaml -v intrinsics_right.yaml -L ~/images/ -R ~/images/ -l left -r right -o cam_stereo.yml -e jpg
+rosrun nsra_computer_vision calibrate_stereo -n 50 -u intrinsics_left.yml -v intrinsics_right.yml -l left -r right -o cam_stereo.yml -e jpg
 rosrun nsra_computer_vision undistort_rectify -l ~/images/left1.jpg -r ~/images/right1.jpg -c cam_stereo.yml -L ~/images/left_u.jpg -R ~/images/right_u.jpg
 export ROS_MASTER_URI=http://192.168.1.107:11311
 rosrun nsra_computer_vision cbc_detection_right "rtsp://192.168.1.171" "rtsp://192.168.1.105"

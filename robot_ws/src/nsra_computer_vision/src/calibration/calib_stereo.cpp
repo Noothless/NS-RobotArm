@@ -135,6 +135,9 @@ int main(int argc, char const *argv[])
   fsr["D"] >> DR;
   int flag = 0;
   flag |= CV_CALIB_FIX_INTRINSIC;
+
+  cout << KL << endl;
+  cout << KR << endl;
   
   cout << "Read intrinsics" << endl;
   
