@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import numpy as np
+import cv2
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 import rospy
@@ -18,6 +19,7 @@ def plot_callback(data):
     global x
     global y
     global z
+    global flag
     xn, yn, zn = data.data.split("/")
     print(xn)
     print(yn)
@@ -32,6 +34,9 @@ rospy.init_node('plot_3d_points')
 rospy.Subscriber("3DPointCoords", String, plot_callback)
 
 while(1):
+    key = cv2.waitKey(1)
+    if key == 27:
+        break
     if flag:
         plt.show()
         flag = False
