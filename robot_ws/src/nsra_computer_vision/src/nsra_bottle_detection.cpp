@@ -53,7 +53,7 @@ void calcCallback(const std_msgs::StringConstPtr& str)
                             points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
     results.emplace_back(point);
     //std_msgs::String msg;
-    string str = to_string(results[0]);
+    string str1 = results[0];
     //msg.data = to_string(results[0]) + "/" + to_string(results[1]) + "/" + to_string(results[2]);
     //pub.publish(msg);
 
