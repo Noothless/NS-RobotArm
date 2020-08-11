@@ -141,19 +141,30 @@ while(1):
     elif(img_nb == 0):
         ret1, mtx1, dist1, rvecs1, tvecs1 = cv2.calibrateCamera(objpoints_left, imgpoints_left, (1920,1080), None, None)
 
-        data1 = {'K': np.asarray(mtx1).tolist(),
-                'D': np.asarray(dist1).tolist()}
+        #data1 = {'K': np.asarray(mtx1).tolist(),
+        #        'D': np.asarray(dist1).tolist()}
 
-        with open(pack_path + "/config/intrinsics_left.yaml", "w") as f1:
-            yaml.dump(data1, f1)
+        #with open(pack_path + "/config/intrinsics_left.yaml", "w") as f1:
+        #    yaml.dump(data1, f1)
+
+        fsl = cv2.FileStorage(pack_path + "/config/intrinsics_left.yml", flags=1)
+        fsl.write(name='K', value=mtx1)
+        fsl.write(name='D', value=dist1)
+        fsl.release()
 
         ret2, mtx2, dist2, rvecs2, tvecs2 = cv2.calibrateCamera(objpoints_right, imgpoints_right, (1920,1080), None, None)
 
-        data2 = {'K': np.asarray(mtx2).tolist(),
-                'D': np.asarray(dist2).tolist()}
+        #data2 = {'K': np.asarray(mtx2).tolist(),
+        #        'D': np.asarray(dist2).tolist()}
 
-        with open(pack_path + "/config/intrinsics_right.yaml", "w") as f2:
-            yaml.dump(data2, f2)
+        #with open(pack_path + "/config/intrinsics_right.yaml", "w") as f2:
+        #    yaml.dump(data2, f2)
+
+        fsr = cv2.FileStorage(pack_path + "/config/intrinsics_right.yml", flags=1)
+        fsr.write(name='K', value=mtx2)
+        fsr.write(name='D', value=dist2)
+        fsr.release()
+
         break
             
 cv2.destroyAllWindows()     
