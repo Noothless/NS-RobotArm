@@ -12,6 +12,8 @@ x = np.array([1])
 y = np.array([1])
 z = np.array([1])
 
+flag = False
+
 def plot_callback(data):
     global x
     global y
@@ -24,9 +26,14 @@ def plot_callback(data):
     y = np.append(y, yn)
     z = np.append(z, zn)
     ax.scatter(x, y, z)
-    plt.show()
+    flag = True
 
 rospy.init_node('plot_3d_points')
 rospy.Subscriber("3DPointCoords", String, plot_callback)
+
+while(1):
+    if flag:
+        plt.show()
+        flag = False
 
 rospy.spin()
