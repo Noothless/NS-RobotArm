@@ -96,7 +96,7 @@ public:
         else
         {
             inputCapture.open(input);
-            inputCapture.set(CAP_PROP_BUFFERSIZE, 2);
+            //inputCapture.set(CAP_PROP_BUFFERSIZE, 2);
         }
         if (inputType == INVALID)
         {
