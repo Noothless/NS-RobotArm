@@ -62,6 +62,7 @@ install(PROGRAMS
   src/corner_detection/cbc_detection_left
   src/corner_detection/cbc_detection_right
   src/calibration/calib_intrinsics
+  src/plot_3d_points
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
