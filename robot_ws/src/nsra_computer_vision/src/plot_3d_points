@@ -6,7 +6,7 @@ import rospy
 from std_msgs.msg import String
 
 fig = plt.figure()
-ax = plt.axes(projection='3d')
+ax = fig.add_subplot(111, projection='3d')
 
 x = np.array([1])
 y = np.array([1])
@@ -23,7 +23,8 @@ def plot_callback(data):
     x = np.append(x, xn)
     y = np.append(y, yn)
     z = np.append(z, zn)
-    ax.scatter3D(x, y, z, c=1, cmap='Greens')
+    ax.scatter(x, y, z)
+    plt.show()
 
 rospy.init_node('plot_3d_points')
 rospy.Subscriber("3DPointCoords", String, plot_callback)
