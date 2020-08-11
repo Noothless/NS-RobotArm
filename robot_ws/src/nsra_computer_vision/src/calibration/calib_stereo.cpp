@@ -24,9 +24,11 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
   int board_n = board_width * board_height;
 
   for (int i = 1; i <= num_imgs; i++) {
-    char left_img[100], right_img[100];
+    char left_img[100], right_img[100], left_img_corners[100], right_img_corners[100];
     sprintf(left_img, "%s%s%d.%s", leftimg_dir, leftimg_filename, i, extension);
     sprintf(right_img, "%s%s%d.%s", rightimg_dir, rightimg_filename, i, extension);
+    sprintf(left_img_corners, "%s%s%d_corners.%s", leftimg_dir, leftimg_filename, i, extension);
+    sprintf(right_img_corners, "%s%s%d_corners.%s", rightimg_dir, rightimg_filename, i, extension);
     img1 = imread(left_img, CV_LOAD_IMAGE_COLOR);
     img2 = imread(right_img, CV_LOAD_IMAGE_COLOR);
     cvtColor(img1, gray1, CV_BGR2GRAY);
@@ -51,7 +53,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
       cv::cornerSubPix(gray1, corners1, cv::Size(5, 5), cv::Size(-1, -1),
       cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray1, board_size, corners1, found1);
-      cv::imwrite(leftimg_filename + i + extension, gray1);
+      cv::imwrite(left_img_corners, gray1);
 
     }
     if (found2)
@@ -59,7 +61,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
       cv::cornerSubPix(gray2, corners2, cv::Size(5, 5), cv::Size(-1, -1),
       cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray2, board_size, corners2, found2);
-      cv::imwrite(rightimg_filename + i + extension, gray2);
+      cv::imwrite(right_img_corners, gray2);
     }
 
     vector< Point3f > obj;
