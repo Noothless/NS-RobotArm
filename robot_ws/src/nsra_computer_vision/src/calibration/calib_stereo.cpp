@@ -125,6 +125,8 @@ int main(int argc, char const *argv[])
   load_image_points(9, 6, num_imgs, fsl["square_Size"],
                    img_dir.c_str(), img_dir.c_str(), leftimg_filename, rightimg_filename, extension);
 
+  cout << fsl["square_Size"] << endl;
+
   printf("Starting Calibration\n");
   Mat KL, KR, R, F, E;
   Vec3d T;
