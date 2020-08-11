@@ -20,7 +20,7 @@ Mat PL, PR;
 
 ros::ServiceClient cameras;
 
-pub = rospy.Publisher('3d_points', std_msgs.msg.String, queue_size=10);
+ros::Publisher pub;
 
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
@@ -52,8 +52,9 @@ void calcCallback(const std_msgs::StringConstPtr& str)
                             points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
                             points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
     results.emplace_back(point);
-
-    pub.publish(String(string(results[0])) + "/" + string(results[0])) + "/" + string(results[0])));
+    String msg;
+    msg.data = string(results[0]) + "/" + string(results[0]) + "/" + string(results[0]);
+    pub.publish(msg);
 
     cout << results << endl;
 }
@@ -65,6 +66,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
     ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);
     cameras = n.serviceClient<nsra_odrive_interface::coords>("get2dcoords");
+    pub = = n.advertise<std_msgs::String>("3d_coords", 5);
 
     FileStorage fs(ros::package::getPath("nsra_computer_vision") + "/" + "cam_stereo.yml", FileStorage::READ);
 
