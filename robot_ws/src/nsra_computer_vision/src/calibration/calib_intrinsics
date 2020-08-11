@@ -87,7 +87,8 @@ criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 objp = np.zeros((6*9,3), np.float32)
 objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
 
-objpoints = [] 
+objpoints_left = [] 
+objpoints_right = [] 
 
 imgpoints_left = [] 
 imgpoints_right = [] 
@@ -102,6 +103,7 @@ def findCBC_LEFT(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
     if ret == True:
+        objpoints_left.append(objp)
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_left.append(corners2)
     else:
@@ -113,6 +115,7 @@ def findCBC_RIGHT(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
     if ret == True:
+        objpoints_right.append(objp)
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_right.append(corners2)
     else:
@@ -132,11 +135,11 @@ while(1):
     elif (key == 10) and (img_nb > 0):
         print("Remaining Images: " + str(img_nb))
         img_nb -= 1
-        objpoints.append(objp)
+        
         thread.start_new_thread(findCBC_LEFT,(img_left,))
         thread.start_new_thread(findCBC_RIGHT,(img_right,))
     elif(img_nb == 0):
-        ret1, mtx1, dist1, rvecs1, tvecs1 = cv2.calibrateCamera(objpoints, imgpoints_left, (1920,1080), None, None)
+        ret1, mtx1, dist1, rvecs1, tvecs1 = cv2.calibrateCamera(objpoints_left, imgpoints_left, (1920,1080), None, None)
 
         data1 = {'K': np.asarray(mtx1).tolist(),
                 'D': np.asarray(dist1).tolist()}
@@ -144,7 +147,7 @@ while(1):
         with open(pack_path + "/config/intrinsics_left.yaml", "w") as f1:
             yaml.dump(data1, f1)
 
-        ret2, mtx2, dist2, rvecs2, tvecs2 = cv2.calibrateCamera(objpoints, imgpoints_right, (1920,1080), None, None)
+        ret2, mtx2, dist2, rvecs2, tvecs2 = cv2.calibrateCamera(objpoints_right, imgpoints_right, (1920,1080), None, None)
 
         data2 = {'K': np.asarray(mtx2).tolist(),
                 'D': np.asarray(dist2).tolist()}
