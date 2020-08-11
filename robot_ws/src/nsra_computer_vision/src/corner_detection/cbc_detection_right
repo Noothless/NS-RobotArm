@@ -8,7 +8,7 @@ from nsra_odrive_interface.srv import *
 import multiprocessing as mp
 import yaml
 import sys
-import thread
+from threading import Thread
 
 rospy.init_node('corner_detect_right')
 
@@ -119,8 +119,11 @@ def findCBC_RIGHT(img):
         print("No corners detected in the left image!")   
 
 def get2dcoords(req):
-    t1 = thread.start_new_thread(findCBC_LEFT,(img_left,))
-    t2 = thread.start_new_thread(findCBC_RIGHT,(img_right,))
+    t1 = Thread(findCBC_LEFT,(img_left,))
+    t2 = Thread(findCBC_RIGHT,(img_right,))
+
+    t1.start()
+    t2.start()
 
     t1.join()
     t2.join()
