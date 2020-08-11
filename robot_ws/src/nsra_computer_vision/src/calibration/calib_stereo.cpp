@@ -114,8 +114,8 @@ int main(int argc, char const *argv[])
   
   string img_dir = ros::package::getPath("nsra_computer_vision") + "/images/";
 
-  FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/config/" + leftcalib_file, FileStorage::READ);
-  FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/config/" + rightcalib_file, FileStorage::READ);
+  FileStorage fsl(ros::package::getPath("nsra_computer_vision") + "/" + leftcalib_file, FileStorage::READ);
+  FileStorage fsr(ros::package::getPath("nsra_computer_vision") + "/" + rightcalib_file, FileStorage::READ);
 
   load_image_points(9, 6, num_imgs, fsl["square_Size"],
                    img_dir.c_str(), img_dir.c_str(), leftimg_filename, rightimg_filename, extension);
