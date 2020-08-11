@@ -18,9 +18,13 @@ Mat cam_left_pnts(1,1,CV_64FC2);
 Mat cam_right_pnts(1,1,CV_64FC2);
 Mat PL, PR;
 
+std::vector<Point3d> coordBuffer;
+
 ros::ServiceClient cameras;
 
 ros::Publisher pub;
+
+cv::FileStorage fs(ros::package::getPath("nsra_computer_vision") + "/" + "storedPoints.yml", cv::FileStorage::WRITE);
 
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
@@ -55,6 +59,12 @@ void calcCallback(const std_msgs::StringConstPtr& str)
     std_msgs::String msg;
     msg.data = to_string(results[0].x) + "/" + to_string(results[0].y) + "/" + to_string(results[0].z);
     pub.publish(msg);
+
+    coordBuffer.push_back(results);
+
+    cv::Mat mat(coordBuffer, false);
+
+    fs << "Points" << mat;
 
     cout << results << endl;
 }
