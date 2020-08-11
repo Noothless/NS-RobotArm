@@ -129,7 +129,7 @@ while True:
     img_left = cam_left.get_frame(0.65)
     img_right = cam_right.get_frame(0.65)
 
-    cv2.imshow('left_camera', img_left)
+    cv2.imshow('left camera', img_left)
     cv2.imshow('right camera', img_right)
 
     key = cv2.waitKey(1)
