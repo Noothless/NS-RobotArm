@@ -9,9 +9,9 @@ from std_msgs.msg import String
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-x = np.array([1])
-y = np.array([1])
-z = np.array([1])
+x = np.array([10])
+y = np.array([20])
+z = np.array([3])
 
 flag = False
 
@@ -33,10 +33,4 @@ def plot_callback(data):
 rospy.init_node('plot_3d_points')
 rospy.Subscriber("3DPointCoords", String, plot_callback)
 
-while(1):
-    key = cv2.waitKey(1)
-    if key == 27:
-        break
-    if flag:
-        plt.show()
-        flag = False
+plt.show()
