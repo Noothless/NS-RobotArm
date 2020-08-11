@@ -119,8 +119,8 @@ def findCBC_RIGHT(img):
         print("No corners detected in the left image!")   
 
 def get2dcoords(req):
-    t1 = Thread(findCBC_LEFT,(img_left,))
-    t2 = Thread(findCBC_RIGHT,(img_right,))
+    t1 = Thread(target=findCBC_LEFT,args=(img_left))
+    t2 = Thread(target=findCBC_RIGHT,args=(img_right))
 
     t1.start()
     t2.start()
