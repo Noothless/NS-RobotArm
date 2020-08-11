@@ -119,8 +119,12 @@ def findCBC_RIGHT(img):
         print("No corners detected in the left image!")   
 
 def get2dcoords(req):
-    thread.start_new_thread(findCBC_LEFT,(img_left,))
-    thread.start_new_thread(findCBC_RIGHT,(img_right,))
+    t1 = thread.start_new_thread(findCBC_LEFT,(img_left,))
+    t2 = thread.start_new_thread(findCBC_RIGHT,(img_right,))
+
+    t1.join()
+    t2.join()
+
     return coordsResponse(corner_left_x, corner_left_y, corner_right_x, corner_right_y)
     
 s = rospy.Service('get2dcoords', coords, get2dcoords)
