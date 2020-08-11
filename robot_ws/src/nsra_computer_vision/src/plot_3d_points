@@ -14,9 +14,9 @@ z = np.array([])
 
 def plot_callback(data):
     xn, yn, zn = data.data.split("/")
-    print(x)
-    print(y)
-    print(z)
+    print(xn)
+    print(yn)
+    print(zn)
     x.append(x, xn)
     x.append(y, yn)
     x.append(z, zn)
