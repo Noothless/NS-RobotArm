@@ -8,11 +8,18 @@ from std_msgs.msg import String
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 
+x = np.array([])
+y = np.array([])
+z = np.array([])
+
 def plot_callback(data):
-    x, y, z = data.data.split("/")
+    xn, yn, zn = data.data.split("/")
     print(x)
     print(y)
     print(z)
+    x.append(x, xn)
+    x.append(y, yn)
+    x.append(z, zn)
     ax.scatter3D(x, y, z, c=1, cmap='Greens')
 
 rospy.init_node('plot_3d_points')
