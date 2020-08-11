@@ -5,32 +5,22 @@ from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 import rospy
 from std_msgs.msg import String
+import rospkg
+
+rospack = rospkg.RosPack()
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-x = np.array([10])
-y = np.array([20])
-z = np.array([3])
+fs = cv2.FileStorage(rospack.get_path('nsra_computer_vision') + "/storedPoints.yml", cv2.FILE_STORAGE_WRITE)
+
+fn = fs.getNode("Points")
 
 flag = False
 
-def plot_callback(data):
-    global x
-    global y
-    global z
-    global flag
-    xn, yn, zn = data.data.split("/")
-    print(xn)
-    print(yn)
-    print(zn)
-    x = np.append(x, xn)
-    y = np.append(y, yn)
-    z = np.append(z, zn)
-    ax.scatter(x, y, z)
-    flag = True
+x=fn[:,0]
+y=fn[:,1]
+z=fn[:,2]
 
-rospy.init_node('plot_3d_points')
-rospy.Subscriber("3DPointCoords", String, plot_callback)
 ax.scatter(x, y, z)
 plt.show()
