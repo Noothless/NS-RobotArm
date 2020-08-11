@@ -62,10 +62,6 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
     coordBuffer.push_back(results[0]);
 
-    cv::Mat mat(coordBuffer, false);
-
-    fs << "Points" << mat;
-
     cout << results << endl;
 }
 
@@ -88,4 +84,7 @@ int main(int argc, char** argv)
 
     ros::spin();
 
+    cv::Mat mat(coordBuffer, false);
+
+    fs << "Points" << mat;
 }
