@@ -20,6 +20,8 @@ Mat PL, PR;
 
 ros::ServiceClient cameras;
 
+pub = rospy.Publisher('3d_points', std_msgs.msg.String, queue_size=10);
+
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
     nsra_odrive_interface::coords camera_coords;
@@ -50,6 +52,8 @@ void calcCallback(const std_msgs::StringConstPtr& str)
                             points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
                             points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
     results.emplace_back(point);
+
+    pub.publish(String(string(results[0])) + "/" + string(results[0])) + "/" + string(results[0])));
 
     cout << results << endl;
 }
