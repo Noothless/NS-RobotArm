@@ -60,7 +60,7 @@ void calcCallback(const std_msgs::StringConstPtr& str)
     msg.data = to_string(results[0].x) + "/" + to_string(results[0].y) + "/" + to_string(results[0].z);
     pub.publish(msg);
 
-    coordBuffer.push_back(results);
+    coordBuffer.push_back(results[0]);
 
     cv::Mat mat(coordBuffer, false);
 
