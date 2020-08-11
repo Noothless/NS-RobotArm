@@ -141,7 +141,9 @@ int main(int argc, char const *argv[])
   
   cout << "Read intrinsics" << endl;
   
-  stereoCalibrate(object_points, left_img_points, right_img_points, KL, DL, KR, DR, img1.size(), R, T, E, F);
+  double rms = stereoCalibrate(object_points, left_img_points, right_img_points, KL, DL, KR, DR, img1.size(), R, T, E, F);
+
+  cout << "Re-projection error reported by stereoCalibrate: "<< rms << endl;
 
   cv::FileStorage fs1(ros::package::getPath("nsra_computer_vision") + "/" + out_file, cv::FileStorage::WRITE);
   fs1 << "KL" << KL;
