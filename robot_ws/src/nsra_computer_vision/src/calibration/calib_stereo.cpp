@@ -117,6 +117,7 @@ int main(int argc, char const *argv[])
   string calib_dir_right = ros::package::getPath("nsra_computer_vision") + "/config/" + rightcalib_file;
 
   cout << calib_dir_right << endl;
+  cout << calib_dir_left << endl;
 
   FileStorage fsl(calib_dir_left.c_str(), FileStorage::READ);
   FileStorage fsr(calib_dir_right.c_str(), FileStorage::READ);
