@@ -165,9 +165,9 @@ def bd_y_coords(req):
     global x_coord
     global y_coord
     global origin
-    pts_array = np.array([[]])
-    for i in range(len(x_coord)):
-        b = np.array([[x_coord[i] - origin[0], y_coord[i] - origin[1]]])
+    pts_array = np.array([[x_coord[0] - origin[0], y_coord[0] - origin[1]]])
+    for i in range(len(x_coord)-1):
+        b = np.array([[x_coord[i+1] - origin[0], y_coord[i+1] - origin[1]]])
         pts_array = np.concatenate((pts_array, b), axis=0)
     rotated_pts = rot_pts(pts_array)
     print("Pts: " + str(pts_array))
