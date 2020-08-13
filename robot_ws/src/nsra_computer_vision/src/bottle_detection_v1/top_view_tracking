@@ -176,12 +176,11 @@ def bd_y_coords(req):
     x_coord_rot = rotated_pts[:,0]
     y_coord_rot = rotated_pts[:,1]
 
-    print(x_coord_rot)
-    print(y_coord_rot)
+    idx = find_nearest(x_coord, req.x_coord)
 
     #print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
 
-    return bd_coordsResponse(y[find_nearest(x_coord, req.x_coord)])
+    return bd_coordsResponse(y_coord_rot[idx])
 
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
