@@ -9,12 +9,6 @@ import multiprocessing as mp
 from nsra_odrive_interface.srv import *
 import math
 
-a = np.array([[math.cos(0.461645492137), math.sin(0.461645492137)],
-              [-math.sin(0.461645492137), math.cos(0.461645492137)]])
-b = np.array([-600,-38])
-
-print(a.dot(b))
-
 rl = 90
 gl = 40
 bl = 100
@@ -103,7 +97,7 @@ def rot_pts(pts):
     global rotation
     a = np.array([[math.cos(rotation), math.sin(rotation)],
                   [-math.sin(rotation), math.cos(rotation)]])
-    print(a)
+    print(pts[0,:])
     for i in range(len(pts)):
         print(a.dot(pts[i,:]))
         pts[i,:] = a.dot(pts[i,:])
