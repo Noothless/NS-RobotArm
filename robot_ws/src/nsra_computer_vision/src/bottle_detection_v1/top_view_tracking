@@ -102,7 +102,7 @@ def find_cb_corners():
     global cam
     frame = cam.get_frame(0.65)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
-    retval, corners = cv2.findChessboardCorners(blur_frame, (9,6), flags=cv2.CALIB_CB_FAST_CHECK)
+    retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
     if retval:
         r,g,b=cv2.split(blur_frame)
         criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
