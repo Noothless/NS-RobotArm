@@ -120,10 +120,12 @@ def find_cb_corners():
         A = math.atan(x_vec[0]/x_vec[1])
         A = math.degrees(A)
         rotation = A
+        print("")
         print("Calibration successful!")
         print("origin: " + str(origin))
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " degrees")
+        print("")
 
     else:
         print("No corners detected!")
