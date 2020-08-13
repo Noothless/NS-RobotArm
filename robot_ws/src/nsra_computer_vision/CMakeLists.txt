@@ -64,7 +64,9 @@ install(PROGRAMS
   src/calibration/calib_intrinsics
   src/plot_3d_points
   src/bottle_detection_v1/top_view_tracking
-  src/jetson_inference/detectnet.py
+  src/bottle_detection_v1/object_detection.py
+  src/bottle_detection_v1/front_view_tracking
+  src/bottle_detection_v1/nsra_bottle_detection
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

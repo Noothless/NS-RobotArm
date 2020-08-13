@@ -5,6 +5,12 @@ import jetson.utils
 import argparse
 import sys
 
+import rospy
+from std_msgs.msg import Float32MultiArray
+
+rospy.init_node('bd_top_view')
+bd = rospy.Publisher('bottle_detection', Float32MultiArray, queue_size=10)
+
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
                                  formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage() +
@@ -36,6 +42,7 @@ while True:
 
 	for detection in detections:
 		print(detection.Center)
+		bd.publish([detection.Center, detection.Top, detection.Right, detection.Top, detection.Bottom])
 
 	output.Render(img)
 

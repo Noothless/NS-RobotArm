@@ -110,6 +110,7 @@ def find_cb_corners():
     global x_vec
     global rotation
     global scaling_factor
+    global calibrated
     frame = cam.get_frame(1)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
@@ -134,8 +135,8 @@ def find_cb_corners():
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
-        print("")
-
+        print("")   
+        calibrated = True
     else:
         print("No corners detected!")
 
@@ -188,6 +189,14 @@ def bd_y_coords(req):
     #ofst_corr_pt = x_coord_rot[idx]*scaling_factor-((960 - (origin[0] - x_coord_rot[idx]*scaling_factor))*offset_factor*x_coord_rot[idx]*scaling_factor)
     ofst_corr_pt = ((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[idx]))*offset_factor)*scaling_factor
     return bd_coordsResponse(ofst_corr_pt)
+
+while True:
+    key = cv2.waitKey(1)
+    if key == 27:
+        break
+    if key == 10:
+        find_cb_corners()
+        break
 
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
