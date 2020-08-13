@@ -173,7 +173,13 @@ def bd_y_coords(req):
     rotated_pts = rot_pts(pts_array)
     print("rot_pts: " + str(rotated_pts))
 
-    print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
+    x_coord_rot = rotated_pts[:,0]
+    y_coord_rot = rotated_pts[:,1]
+
+    print(x_coord_rot)
+    print(y_coord_rot)
+
+    #print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
 
     return bd_coordsResponse(y[find_nearest(x_coord, req.x_coord)])
 
