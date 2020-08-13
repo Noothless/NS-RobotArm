@@ -205,7 +205,7 @@ params.minInertiaRatio = 0.1
 detector = cv2.SimpleBlobDetector_create(params)
 
 while True:
-    frame = cam.get_frame(0.65)
+    frame = cam.get_frame(1)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     hsv_frame = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)
 
