@@ -166,9 +166,9 @@ def bd_y_coords(req):
     global origin
     global scaling_factor
     print(y_coord)
-    pts_array = np.array([[x_coord[0] - origin[0], origin[1] - y_coord[0]]])
+    pts_array = np.array([[x_coord[0] - origin[0], y_coord[0] - origin[1]]])
     for i in range(len(x_coord)-1):
-        b = np.array([[x_coord[i+1] - origin[0], origin[1] - y_coord[i+1]]])
+        b = np.array([[x_coord[i+1] - origin[0], y_coord[i+1] - origin[1]]])
         pts_array = np.concatenate((pts_array, b), axis=0)
     print("Pts: " + str(pts_array))
     rotated_pts = rot_pts(pts_array)
