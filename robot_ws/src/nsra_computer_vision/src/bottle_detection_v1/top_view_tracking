@@ -23,8 +23,6 @@ rh = 115
 gh = 255
 bh = 255
 
-x = np.array([])
-
 class camera():
 
     def __init__(self,rtsp_url):        
@@ -153,6 +151,7 @@ while True:
 
     keypoints = detector.detect(red_mask)
 
+    x = np.array([])
     for i in len(keypoints):
         x = np.append(x, keypoints[i].pt[0])
 
