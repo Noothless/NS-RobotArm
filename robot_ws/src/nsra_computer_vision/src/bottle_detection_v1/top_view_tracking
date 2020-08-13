@@ -23,6 +23,8 @@ rh = 115
 gh = 255
 bh = 255
 
+ref_point = np.array([0,0])
+
 x_coord = np.array([])
 y_coord = np.array([])
 
@@ -95,6 +97,21 @@ class camera():
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 cam = camera(str(sys.argv[1]))
+
+def find_cb_corners():
+    global cam
+    frame = cam.get_frame(0.65)
+    blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
+    retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
+    if retval:
+        r,g,b=cv2.split(blur_frame)
+        criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
+        cv2.cornerSubPix(r, corners, (11,11), (-1,-1), criteria)
+        print(corners)
+    else:
+        print("No corners detected!")
+
+find_cb_corners()
 
 def find_nearest(array, value):
     array = np.asarray(array)
