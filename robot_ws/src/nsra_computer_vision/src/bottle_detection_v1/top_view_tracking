@@ -160,7 +160,6 @@ while True:
         break
     if key == 10:
         x = np.array([])
-        print(len(keypoints))
-        for i in len(keypoints):
+        for i in range(len(keypoints)):
             x = np.append(x, keypoints[i].pt[0])
         print(x)
