@@ -63,7 +63,7 @@ install(PROGRAMS
   src/corner_detection/cbc_detection_right
   src/calibration/calib_intrinsics
   src/plot_3d_points
-  src/2d_bottle_detection/2d_bottle_detection
+  src/bottle_detection_v1/top_view_tracking
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

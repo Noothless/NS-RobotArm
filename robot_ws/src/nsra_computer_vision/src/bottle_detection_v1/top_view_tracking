@@ -6,6 +6,7 @@ from std_msgs.msg import String
 import sys
 import time
 import multiprocessing as mp
+from nsra_odrive_interface.srv import *
 
 a = np.array([[ 5, 1 ,3], 
               [ 1, 1 ,1], 
@@ -21,6 +22,8 @@ bl = 100
 rh = 115
 gh = 255
 bh = 255
+
+x = np.array([])
 
 class camera():
 
@@ -110,9 +113,12 @@ def paramsChangeCallback(data):
     gh = int(sp_msg[4])
     bh = int(sp_msg[5])
 
-rospy.init_node('blob_detect')
+def bd_y_coords(req):
+    return coordsResponse(corner_x, corner_y)
+
+rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
-pub = rospy.Publisher('blob', String, queue_size=10)
+s = rospy.Service('bd_y_coords', bd_coords, bd_y_coords)
 
 params = cv2.SimpleBlobDetector_Params()
 
@@ -146,6 +152,11 @@ while True:
     red_mask = cv2.dilate(red_mask, kernal)
 
     keypoints = detector.detect(red_mask)
+
+    for i in len(keypoints):
+        x = np.append(x, keypoints[i].pt[0])
+
+    print(x)
 
     imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
