@@ -16,6 +16,8 @@ rh = 115
 gh = 255
 bh = 255
 
+offset_factor = 0.8/960
+
 origin = np.array([0,0])
 x_vec = np.array([0,0])
 rotation = 0.0
@@ -165,6 +167,7 @@ def bd_y_coords(req):
     global y_coord
     global origin
     global scaling_factor
+    global offset_factor
     print(y_coord)
     pts_array = np.array([[origin[0] - x_coord[0], y_coord[0] - origin[1]]])
     for i in range(len(x_coord)-1):
@@ -181,7 +184,9 @@ def bd_y_coords(req):
 
     #print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
 
-    return bd_coordsResponse(x_coord_rot[idx])
+    ofst_corr_pt = x_coord_rot[idx]*(origin[0] - x_coord_rot[idx])*offset_factor
+
+    return bd_coordsResponse(ofst_corr_pt)
 
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
