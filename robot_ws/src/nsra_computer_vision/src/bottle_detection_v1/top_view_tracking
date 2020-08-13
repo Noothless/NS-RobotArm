@@ -108,7 +108,7 @@ def find_cb_corners():
         criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
         cv2.cornerSubPix(r, corners, (11,11), (-1,-1), criteria)
         cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
-        cv2.imwrite("~/images/ref_point.jpg", blur_frame)
+        cv2.imwrite("ref_point.jpg", blur_frame)
         print(corners)
     else:
         print("No corners detected!")
