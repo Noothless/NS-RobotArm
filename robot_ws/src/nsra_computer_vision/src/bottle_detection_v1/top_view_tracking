@@ -97,7 +97,7 @@ def rot_pts(pts):
     global rotation
     a = np.array([[math.cos(rotation), math.sin(rotation)],
                   [-math.sin(rotation), math.cos(rotation)]])
-    print(pts[0,:])
+    print("PT: " + str(pts[0,:]))
     for i in range(len(pts)):
         print(a.dot(pts[i,:]))
         pts[i,:] = a.dot(pts[i,:])
@@ -166,8 +166,8 @@ def bd_y_coords(req):
     for i in range(len(x_coord)-1):
         b = np.array([[x_coord[i+1] - origin[0], y_coord[i+1] - origin[1]]])
         pts_array = np.concatenate((pts_array, b), axis=0)
-    rotated_pts = rot_pts(pts_array)
     print("Pts: " + str(pts_array))
+    rotated_pts = rot_pts(pts_array)
     print("rot_pts: " + str(rotated_pts))
     return bd_coordsResponse(y[find_nearest(x_coord, req.x_coord)])
 
