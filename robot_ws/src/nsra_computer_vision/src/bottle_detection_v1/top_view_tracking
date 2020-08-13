@@ -95,8 +95,13 @@ class camera():
 
 cam = camera(str(sys.argv[1]))
 
-def rot_pts():
-    print("rot")
+def rot_pts(pts):
+    global rotation
+    a = np.array([[math.cos(rotation), -math.sin(rotation)],
+                  [math.sin(rotation), math.cos(rotation)]])
+    for i in range(len(pts)):
+        pts[i] = a.dot(pts[i])
+    return pts
 
 def find_cb_corners():
     global cam
@@ -156,6 +161,13 @@ def paramsChangeCallback(data):
 def bd_y_coords(req):
     global x_coord
     global y_coord
+    global origin
+    pts_array = np.array([])
+    for i in range(len(x_coord)):
+        pts_array = np.append(pts_array, [x_coord[i] - origin[0], y_coord[i] - origin[1]])
+    rotated_pts = rot_pts(pts_array)
+    print("Pts: " + str(pts_array))
+    print("rot_pts: " + str(rotated_pts))
     return bd_coordsResponse(y[find_nearest(x_coord, req.x_coord)])
 
 rospy.init_node('bd_top_view')
