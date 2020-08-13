@@ -186,7 +186,7 @@ def bd_y_coords(req):
     #print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
     print(str((960 - (origin[0] - x_coord_rot[idx]))*offset_factor))
     #ofst_corr_pt = x_coord_rot[idx]*scaling_factor-((960 - (origin[0] - x_coord_rot[idx]*scaling_factor))*offset_factor*x_coord_rot[idx]*scaling_factor)
-    ofst_corr_pt = ((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[idx]))*0.67)*scaling_factor
+    ofst_corr_pt = ((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[idx]))*0.7)*scaling_factor
     return bd_coordsResponse(ofst_corr_pt)
 
 rospy.init_node('bd_top_view')
