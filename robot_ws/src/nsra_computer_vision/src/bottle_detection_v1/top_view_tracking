@@ -99,6 +99,7 @@ def rot_pts(pts):
     global rotation
     a = np.array([[math.cos(rotation), -math.sin(rotation)],
                   [math.sin(rotation), math.cos(rotation)]])
+    print(len(pts))
     for i in range(len(pts)):
         pts[i] = a.dot(pts[i])
     return pts
