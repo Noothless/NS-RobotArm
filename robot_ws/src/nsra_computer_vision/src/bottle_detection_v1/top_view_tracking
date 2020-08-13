@@ -9,6 +9,12 @@ import multiprocessing as mp
 from nsra_odrive_interface.srv import *
 import math
 
+a = np.array([[math.cos(0.461645492137), math.sin(0.461645492137)],
+              [-math.sin(0.461645492137), math.cos(0.461645492137)]])
+b = np.array([-600,-38])
+
+print(a.dot(b))
+
 rl = 90
 gl = 40
 bl = 100
