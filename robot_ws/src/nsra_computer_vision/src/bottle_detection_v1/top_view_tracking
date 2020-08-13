@@ -190,7 +190,7 @@ s = rospy.Service('bd_y_coords', bd_coords, bd_y_coords)
 params = cv2.SimpleBlobDetector_Params()
 
 params.filterByArea = True
-params.minArea = 20
+params.minArea = 100
 params.maxArea = 10000
 
 params.filterByCircularity = True
