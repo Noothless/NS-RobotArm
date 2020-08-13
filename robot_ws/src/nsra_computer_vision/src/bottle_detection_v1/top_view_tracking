@@ -116,6 +116,7 @@ def find_cb_corners():
         x_vec = [corners[5,0,0] - corners[0,0,0], corners[5,0,1] - corners[0,0,1]]
         print(str(x_vec[0]) + " / " + str(x_vec[1]))
         A = math.atan(x_vec[0]/x_vec[1])
+        A = math.degrees(A)
         print(A)
 
     else:
