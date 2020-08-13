@@ -23,6 +23,9 @@ rh = 115
 gh = 255
 bh = 255
 
+x_coord = np.array([])
+y_coord = np.array([])
+
 class camera():
 
     def __init__(self,rtsp_url):        
@@ -93,6 +96,11 @@ class camera():
 
 cam = camera(str(sys.argv[1]))
 
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
+
 def paramsChangeCallback(data):
     msg = str(data.data)
     sp_msg = msg.split("/")
@@ -112,7 +120,9 @@ def paramsChangeCallback(data):
     bh = int(sp_msg[5])
 
 def bd_y_coords(req):
-    return coordsResponse(corner_x, corner_y)
+    global x_coord
+    global y_coord
+    return bd_coordsResponse(y[find_nearest(x_coord, req.x_coord)])
 
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
@@ -151,6 +161,14 @@ while True:
 
     keypoints = detector.detect(red_mask)
 
+    x = np.array([])
+    y = np.array([])
+    for i in range(len(keypoints)):
+        x = np.append(x, keypoints[i].pt[0])
+        y = np.append(y, keypoints[i].pt[1])
+    x_coord = x
+    y_coord = y
+
     imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     cv2.imshow("Keypoints Left", imgKeyPoints)
@@ -158,8 +176,4 @@ while True:
     key = cv2.waitKey(1)
     if key == 27:
         break
-    if key == 10:
-        x = np.array([])
-        for i in range(len(keypoints)):
-            x = np.append(x, keypoints[i].pt[0])
-        print(x)
+        
