@@ -185,7 +185,7 @@ def bd_y_coords(req):
 
     #print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
     print(str(abs(960 - origin[0] - x_coord_rot[idx])*offset_factor))
-    ofst_corr_pt = x_coord_rot[idx]*scaling_factor-abs(960 - origin[0] - x_coord_rot[idx])*offset_factor
+    ofst_corr_pt = x_coord_rot[idx]*scaling_factor-abs(960 - origin[0] - x_coord_rot[idx])*offset_factor*x_coord_rot[idx]
 
     return bd_coordsResponse(ofst_corr_pt)
 
