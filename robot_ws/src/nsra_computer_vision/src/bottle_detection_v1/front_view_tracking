@@ -114,4 +114,12 @@ def find_cb_corners():
     else:
         print("No corners detected!")
 
-find_cb_corners()
+while True:
+    frame = cam.get_frame(1)
+    cv2.imshow("Front view", frame)
+    key = cv2.waitKey(1)
+    if key == 27:
+        break
+    if key == 10:
+        find_cb_corners()
+        
