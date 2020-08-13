@@ -110,7 +110,7 @@ def find_cb_corners():
     global x_vec
     global rotation
     global scaling_factor
-    frame = cam.get_frame(0.65)
+    frame = cam.get_frame(1)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
     if retval:
