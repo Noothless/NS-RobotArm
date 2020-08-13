@@ -168,7 +168,8 @@ def bd_y_coords(req):
     global origin
     global scaling_factor
     global offset_factor
-    print(y_coord)
+    print("y: " + str(y_coord)))
+    print("x: " + str(x_coord))
     pts_array = np.array([[origin[0] - x_coord[0], y_coord[0] - origin[1]]])
     for i in range(len(x_coord)-1):
         b = np.array([[origin[0] - x_coord[i+1], y_coord[i+1] - origin[1]]])
