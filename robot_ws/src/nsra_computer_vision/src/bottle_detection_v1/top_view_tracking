@@ -113,7 +113,7 @@ def find_cb_corners():
         #print(corners)
 
         origin = [corners[0,0,0], corners[0,0,0]]
-        x_vec = [corners[0,5,0] - corners[0,0,0], corners[0,5,1] - corners[0,0,1]]
+        x_vec = [corners[5,0,0] - corners[0,0,0], corners[5,0,1] - corners[0,0,1]]
         A = math.atan(x_vec[1]/x_vec[0])
         print(A)
 
