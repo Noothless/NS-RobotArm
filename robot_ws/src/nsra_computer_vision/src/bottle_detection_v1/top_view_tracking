@@ -100,10 +100,10 @@ def rot_pts(pts):
     a = np.array([[math.cos(rotation), -math.sin(rotation)],
                   [math.sin(rotation), math.cos(rotation)]])
     print(pts)
-    print(pts[0])
+    print(pts[0,:])
     for i in range(len(pts)):
-        print(a.dot(pts[i]))
-        pts[i] = a.dot(pts[i])
+        print(a.dot(pts[i,:]))
+        pts[i,:] = a.dot(pts[i,:])
     return pts
 
 def find_cb_corners():
