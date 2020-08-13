@@ -121,9 +121,9 @@ def find_cb_corners():
         A = math.degrees(A)
         rotation = A
         print("Calibration successful!")
-        print("origin: " + origin)
-        print("x_vec: " + x_vec)
-        print("rotation: " + rotation + " degrees")
+        print("origin: " + str(origin))
+        print("x_vec: " + str(x_vec))
+        print("rotation: " + str(rotation) + " degrees")
 
     else:
         print("No corners detected!")
