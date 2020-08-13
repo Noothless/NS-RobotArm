@@ -125,7 +125,7 @@ def find_cb_corners():
         A = math.atan(x_vec[0]/x_vec[1])
         #A = math.degrees(A)
         rotation = A
-        scaling_factor = np.linalg.norm(x_vec)
+        scaling_factor = 172/np.linalg.norm(x_vec)
         print("")
         print("Calibration successful!")
         print("origin: " + str(origin))
@@ -164,6 +164,7 @@ def bd_y_coords(req):
     global x_coord
     global y_coord
     global origin
+    global scaling_factor
     pts_array = np.array([[x_coord[0] - origin[0], y_coord[0] - origin[1]]])
     for i in range(len(x_coord)-1):
         b = np.array([[x_coord[i+1] - origin[0], y_coord[i+1] - origin[1]]])
@@ -171,6 +172,9 @@ def bd_y_coords(req):
     print("Pts: " + str(pts_array))
     rotated_pts = rot_pts(pts_array)
     print("rot_pts: " + str(rotated_pts))
+
+    print(np.linalg.norm(rotated_pts[0,:])*scaling_factor)
+
     return bd_coordsResponse(y[find_nearest(x_coord, req.x_coord)])
 
 rospy.init_node('bd_top_view')
