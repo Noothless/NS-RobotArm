@@ -34,12 +34,12 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable(single_cam_callibration src/deprecated/single_cam_callibration.cpp)
+#add_executable(single_cam_callibration src/deprecated/single_cam_callibration.cpp)
 
-target_link_libraries(single_cam_callibration
+#target_link_libraries(single_cam_callibration
   #${OpenCV_LIBS}
-  ${catkin_LIBRARIES}
-)
+  #${catkin_LIBRARIES}
+#)
 
 #add_executable(calibrate src/deprecated/calib_intrinsic.cpp include/popt_pp.h)
 #target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
