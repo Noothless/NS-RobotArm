@@ -8,8 +8,10 @@ import sys
 import rospy
 from std_msgs.msg import Float32MultiArray
 
+from nsra_odrive_interface import bd_coords
+
 rospy.init_node('bd_object_detection')
-bd = rospy.Publisher('bottle_detection', Float32MultiArray, queue_size=10)
+bd = rospy.Publisher('bottle_detection', bd_coords, queue_size=10)
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
@@ -41,8 +43,13 @@ while True:
 	detections = net.Detect(img, overlay=opt.overlay)
 
 	for detection in detections:
-		array = Float32MultiArray(data=[detection.Center, detection.Top, detection.Right, detection.Left, detection.Bottom])
-		bd.publish(array)
+		msg = bd_coords()
+		msg.Center = detection.Center
+		msg.Top = detection.Top
+		msg.Right = detection.Right
+		msg.Left = detection.Left
+		msg.Bottom = detection.Bottom
+		bd.publish(msg)
 
 	output.Render(img)
 
