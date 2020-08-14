@@ -104,8 +104,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     self.group_names = group_names
 
   def print_robot_info(self):
-    robot = self.robot
-    print(robot.get_current_pose())
+    print(self.move_group.get_current_pose().pose)
 
   def go_to_joint_state(self):
     # Copy class variables to local variables to make the web tutorials more clear.
