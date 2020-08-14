@@ -105,7 +105,7 @@ class MoveGroupPythonIntefaceTutorial(object):
 
   def print_robot_info(self):
     robot = self.robot
-    print(robot.get_current_state())
+    print(robot.get_current_pose())
 
   def go_to_joint_state(self):
     # Copy class variables to local variables to make the web tutorials more clear.
@@ -433,7 +433,7 @@ def main():
     tutorial = MoveGroupPythonIntefaceTutorial()
 
     tutorial.print_robot_info()
-    
+
     #print("============ Press `Enter` to execute a movement using a joint state goal ...")
     #raw_input()
     #tutorial.go_to_joint_state()
