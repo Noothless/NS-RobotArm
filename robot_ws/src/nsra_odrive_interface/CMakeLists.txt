@@ -48,7 +48,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
    FILES
-   bd_coords.msg
+   obj_det.msg
  )
 
 ## Generate services in the 'srv' folder
