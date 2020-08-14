@@ -141,7 +141,10 @@ bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
 while True:
     frame = cam.get_frame(1)
 
-    x_coords, y_coords = bd_y_coords(0)
+    resp = bd_y_coords(0)
+
+    x_coords = resp.x_coords
+    y_coords = resp.y_coords
 
     if len(x_coords) != 0:
         for i in range(len(x_coords)):
