@@ -186,14 +186,6 @@ def bd_y_coords(req):
 
     return bd_coordsResponse(ofst_corr_pt_x, ofst_corr_pt_y)
 
-while True:
-    key = cv2.waitKey(1)
-    if key == 27:
-        break
-    if key == 10:
-        find_cb_corners()
-        break
-
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
 s = rospy.Service('bd_y_coords', bd_coords, bd_y_coords)
