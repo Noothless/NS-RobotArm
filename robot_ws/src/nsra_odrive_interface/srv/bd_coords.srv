@@ -1,5 +1,5 @@
 #request
-int test
+int16 test
 ---
 #response
 float32[] x_coords
