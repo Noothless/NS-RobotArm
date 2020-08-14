@@ -43,12 +43,14 @@ while True:
 
 	for detection in detections:
 		msg = obj_det()
-		msg.Center = detection.Center
-		msg.Top = detection.Top
-		msg.Right = detection.Right
-		msg.Left = detection.Left
-		msg.Bottom = detection.Bottom
-		bd.publish(msg)
+		msg.Center_x.append(detection.Center[0])
+		msg.Center_y.append(detection.Center[1])
+		msg.Top.append(detection.Top)
+		msg.Right.append(detection.Right)
+		msg.Left.append(detection.Left)
+		msg.Bottom.append(detection.Bottom)
+	
+	bd.publish(msg)
 
 	output.Render(img)
 

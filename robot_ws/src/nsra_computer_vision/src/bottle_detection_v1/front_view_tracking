@@ -3,18 +3,18 @@ import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import String
-from std_msgs.msg import Float32MultiArray
 import sys
 import time
 import multiprocessing as mp
 import math
+from nsra_odrive_interface.msg import obj_det
 
 origin = np.array([0,0])
 x_vec = np.array([0,0])
 rotation = 0.0
 scaling_factor = 1.0
 
-pts_array = np.array([])
+pts_center = 0.0
 
 class camera():
 
@@ -121,12 +121,12 @@ def find_cb_corners():
         print("No corners detected!")
 
 def JI_Callback(data):
-    global pts_array
+    global pts_center
     print(data.data)
-    pts_array = data.data
+    pts_center = data.Center
 
 rospy.init_node('bd_front_view')
-rospy.Subscriber('bottle_detection', Float32MultiArray, JI_Callback)
+rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
 
 while True:
     frame = cam.get_frame(1)
