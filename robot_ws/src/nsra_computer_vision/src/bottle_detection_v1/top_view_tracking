@@ -180,9 +180,14 @@ def bd_y_coords(req):
     x_coord_rot = rotated_pts[:,0]
     y_coord_rot = rotated_pts[:,1]
 
-    for i in range(len(x_coord_rot)):
-        ofst_corr_pt_x = ((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i]))*offset_factor)*scaling_factor
-        ofst_corr_pt_y = ((origin[0] - 960) + (960 - (origin[0] - y_coord_rot[i]))*offset_factor)*scaling_factor
+    ofst_corr_pt_x = np.array([((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor])
+    ofst_corr_pt_y = np.array([((origin[0] - 960) + (960 - (origin[0] - y_coord_rot[0]))*offset_factor)*scaling_factor])
+
+    for i in range(len(x_coord_rot)-1):
+        b1 = np.array([((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor])]
+        b2 = np.array([((origin[0] - 960) + (960 - (origin[0] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])]
+        ofst_corr_pt_x = np.concatenate((ofst_corr_pt_x, b1), axis=0)
+        ofst_corr_pt_y = np.concatenate((ofst_corr_pt_x, b2), axis=0)
     print(ofst_corr_pt_x)
     print(ofst_corr_pt_y)
     return bd_coordsResponse(tuple(ofst_corr_pt_x), tuple(ofst_corr_pt_y))
