@@ -43,7 +43,7 @@ while True:
 	detections = net.Detect(img, overlay=opt.overlay)
 
 	for detection in detections:
-		msg = bd_coords()
+		msg = obj_det()
 		msg.Center = detection.Center
 		msg.Top = detection.Top
 		msg.Right = detection.Right
