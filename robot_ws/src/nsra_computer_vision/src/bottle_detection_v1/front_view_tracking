@@ -134,7 +134,7 @@ rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
 
 while True:
     frame = cam.get_frame(1)
-    for i in range(len(pts_center))
+    for i in range(len(pts_center)):
         cv2.circle(frame,(pts_center[i]), 5, (0,0,255), -1)
 
     cv2.imshow("Front view", frame)
