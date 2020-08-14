@@ -40,9 +40,9 @@ output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
 while True:
 	img = input.Capture()
 	detections = net.Detect(img, overlay=opt.overlay)
-
+			
+	msg = obj_det()
 	for detection in detections:
-		msg = obj_det()
 		msg.Center_x.append(detection.Center[0])
 		msg.Center_y.append(detection.Center[1])
 		msg.Top.append(detection.Top)
