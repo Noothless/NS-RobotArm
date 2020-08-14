@@ -8,7 +8,7 @@ import time
 import multiprocessing as mp
 import math
 from nsra_odrive_interface.msg import obj_det
-from nsra_odrive_interface.msg import *
+from nsra_odrive_interface.srv import *
 
 origin = np.array([0,0])
 x_vec = np.array([0,0])
