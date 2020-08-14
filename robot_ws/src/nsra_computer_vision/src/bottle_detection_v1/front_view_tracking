@@ -148,7 +148,7 @@ while True:
 
     if len(x_coords) != 0:
         for i in range(len(x_coords)):
-            cv2.circle(frame,(int(x_coords[i]), 540), 5, (0,255,0), -1)
+            cv2.circle(frame,(int(y_coords[i]), 540), 5, (0,255,0), -1)
 
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
