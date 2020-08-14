@@ -8,13 +8,15 @@ import time
 import multiprocessing as mp
 import math
 from nsra_odrive_interface.msg import obj_det
+from nsra_odrive_interface.msg import *
 
 origin = np.array([0,0])
 x_vec = np.array([0,0])
 rotation = 0.0
 scaling_factor = 1.0
 
-pts_center = np.array([])
+pts_ji = np.array([])
+pts_tv = np.array([])
 
 class camera():
 
@@ -132,12 +134,22 @@ def JI_Callback(data):
 rospy.init_node('bd_front_view')
 rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
 
+rospy.wait_for_service('bd_y_coords')
+
+bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
+
 while True:
     frame = cam.get_frame(1)
 
+    x_coords, y_coords = bd_y_coords(0)
+
+    if len(x_coords) != 0:
+        for i in range(len(x_coords)):
+            cv2.circle(frame,(int(x_coords[i]), int(y_coords[i])), 5, (0,255,0), -1)
+
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
-            cv2.circle(frame,(int(pts_center[i,0]), int(pts_center[i,1])), 50, (0,0,255), -1)
+            cv2.circle(frame,(int(pts_center[i,0]), int(pts_center[i,1])), 5, (0,0,255), -1)
 
     cv2.imshow("Front view", frame)
 
