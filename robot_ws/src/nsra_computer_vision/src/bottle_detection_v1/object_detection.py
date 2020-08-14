@@ -8,7 +8,7 @@ import sys
 import rospy
 from std_msgs.msg import Float32MultiArray
 
-from nsra_odrive_interface import obj_det
+from nsra_odrive_interface import *
 
 rospy.init_node('bd_object_detection')
 bd = rospy.Publisher('bottle_detection', obj_det, queue_size=10)
