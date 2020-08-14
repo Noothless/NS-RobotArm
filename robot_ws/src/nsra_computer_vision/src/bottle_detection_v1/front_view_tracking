@@ -122,11 +122,12 @@ def find_cb_corners():
 
 def JI_Callback(data):
     global pts_center
-    center = np.array([[data.Center_x[0], data.Center_y[0]]])
-    for i in range(len(data.Center_x)-1):
-        b = np.array([[data.Center_x[i+1], data.Center_y[i+1]]])
-        center = np.concatenate((center, b), axis=0)
-    pts_center = center
+    if len(data.Center_x) != 0:
+        center = np.array([[data.Center_x[0], data.Center_y[0]]])
+        for i in range(len(data.Center_x)-1):
+            b = np.array([[data.Center_x[i+1], data.Center_y[i+1]]])
+            center = np.concatenate((center, b), axis=0)
+        pts_center = center
 
 rospy.init_node('bd_front_view')
 rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
