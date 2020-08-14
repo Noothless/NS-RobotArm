@@ -431,7 +431,14 @@ def main():
     print("")
     tutorial = MoveGroupPythonIntefaceTutorial()
 
-    tutorial.print_robot_info()
+    while True:
+      try:
+        tutorial.print_robot_info()
+        raw_input()
+      except rospy.ROSInterruptException:
+        return
+      except KeyboardInterrupt:
+        return
 
     #print("============ Press `Enter` to execute a movement using a joint state goal ...")
     #raw_input()
