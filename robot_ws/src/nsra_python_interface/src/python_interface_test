@@ -103,6 +103,9 @@ class MoveGroupPythonIntefaceTutorial(object):
     self.eef_link = eef_link
     self.group_names = group_names
 
+  def print_robot_info(self):
+    robot = self.robot
+    print(robot.get_current_state())
 
   def go_to_joint_state(self):
     # Copy class variables to local variables to make the web tutorials more clear.
@@ -429,6 +432,8 @@ def main():
     print("")
     tutorial = MoveGroupPythonIntefaceTutorial()
 
+    tutorial.print_robot_info()
+    
     #print("============ Press `Enter` to execute a movement using a joint state goal ...")
     #raw_input()
     #tutorial.go_to_joint_state()
@@ -437,17 +442,17 @@ def main():
     #raw_input()
     #tutorial.go_to_pose_goal()
 
-    print("============ Press `Enter` to plan and display a Cartesian path ...")
-    raw_input()
-    cartesian_plan, fraction = tutorial.plan_cartesian_path()
+    #print("============ Press `Enter` to plan and display a Cartesian path ...")
+    #raw_input()
+    #cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
-    print("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
-    raw_input()
-    tutorial.display_trajectory(cartesian_plan)
+    #print("============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ...")
+    #raw_input()
+    #tutorial.display_trajectory(cartesian_plan)
 
-    print("============ Press `Enter` to execute a saved path ...")
-    raw_input()
-    tutorial.execute_plan(cartesian_plan)
+    #print("============ Press `Enter` to execute a saved path ...")
+    #raw_input()
+    #tutorial.execute_plan(cartesian_plan)
 
   except rospy.ROSInterruptException:
     return

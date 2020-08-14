@@ -7,6 +7,7 @@ import sys
 import time
 import multiprocessing as mp
 from nsra_odrive_interface.srv import *
+from nsra_odrive_interface.msg import bd_robot_coords
 import math
 
 rl = 90
@@ -25,6 +26,10 @@ scaling_factor = 1.0
 
 x_coord = np.array([])
 y_coord = np.array([])
+
+robot_x = 0.0
+robot_y = 0.0
+robot_z = 100
 
 class camera():
 
@@ -167,6 +172,9 @@ def bd_y_coords(req):
     global origin
     global scaling_factor
     global offset_factor
+    global robot_x
+    global robot_y
+
     if len(x_coord) == 0:
         return bd_coordsResponse(tuple(0.0), tuple(0.0))
     print("y: " + str(y_coord))
@@ -192,11 +200,27 @@ def bd_y_coords(req):
         ofst_corr_pt_y = np.concatenate((ofst_corr_pt_y, b2), axis=0)
     print(ofst_corr_pt_x)
     print(ofst_corr_pt_y)
+
+    robot_x = ofst_corr_pt_x[0]
+    robot_y = ofst_corr_pt_y[0]
+
     return bd_coordsResponse(tuple(ofst_corr_pt_x), tuple(ofst_corr_pt_y))
 
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
 s = rospy.Service('bd_y_coords', bd_coords, bd_y_coords)
+pub = rospy.Publisher('bottle_detection', bd_robot_coords, queue_size=10)
+
+def robot_pub():
+    global robot_x
+    global robot_y
+    global robot_z
+
+    msg = bd_robot_coords()
+    msg.x = robot_x
+    msg.y = robot_y
+    msg.z = robot_z
+    pub.publish(msg)
 
 params = cv2.SimpleBlobDetector_Params()
 
@@ -244,9 +268,10 @@ while True:
     cv2.imshow("Keypoints Left", imgKeyPoints)
 
     key = cv2.waitKey(1)
-    print(key)
     if key == 27:
         break
     if key == 10:
         find_cb_corners()
+    if key == 32:
+        robot_pub()
         
