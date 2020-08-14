@@ -41,7 +41,7 @@ while True:
 	detections = net.Detect(img, overlay=opt.overlay)
 
 	for detection in detections:
-		Float32MultiArray array
+		array = Float32MultiArray()
 		array.data.clear()
 		array.data.push_back(detection.Bottom)
 		array.data.push_back(detection.Left)
