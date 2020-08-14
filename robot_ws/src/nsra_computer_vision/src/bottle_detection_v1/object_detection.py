@@ -6,7 +6,6 @@ import argparse
 import sys
 
 import rospy
-from std_msgs.msg import Float32MultiArray
 
 from nsra_odrive_interface.msg import obj_det
 
