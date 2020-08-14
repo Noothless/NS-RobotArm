@@ -41,13 +41,7 @@ while True:
 	detections = net.Detect(img, overlay=opt.overlay)
 
 	for detection in detections:
-		array = Float32MultiArray()
-		array.data.clear()
-		array.data.push_back(detection.Bottom)
-		array.data.push_back(detection.Left)
-		array.data.push_back(detection.Right)
-		array.data.push_back(detection.Top)
-		array.data.push_back(detection.Center)
+		array = Float32MultiArray(data=[detection.Center, detection.Top, detection.Right, detection.Left, detection.Bottom])
 		bd.publish(array)
 
 	output.Render(img)
