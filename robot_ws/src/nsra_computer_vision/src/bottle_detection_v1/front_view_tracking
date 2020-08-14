@@ -122,7 +122,6 @@ def find_cb_corners():
 
 def JI_Callback(data):
     global pts_center
-    print(data.data)
     center = np.array([[data.Center_x[0], data.Center_y[0]]])
     for i in range(len(data.Center_x)-1):
         b = np.array([[data.Center_x[i+1], data.Center_y[i+1]]])
@@ -135,7 +134,7 @@ rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
 while True:
     frame = cam.get_frame(1)
     for i in range(len(pts_center)):
-        cv2.circle(frame,(pts_center[i]), 5, (0,0,255), -1)
+        cv2.circle(frame,(pts_center[i]), 50, (0,0,255), -1)
 
     cv2.imshow("Front view", frame)
 
