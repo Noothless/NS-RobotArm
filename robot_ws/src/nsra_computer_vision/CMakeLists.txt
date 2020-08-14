@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(nsra_computer_vision)
 
-set(OpenCV_DIR /usr/share/OpenCV/)
+#set(OpenCV_DIR /usr/share/OpenCV/)
 
 
 find_package(catkin REQUIRED COMPONENTS
@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslib
   std_msgs
-  OpenCV
+  #OpenCV
   message_generation
   nsra_odrive_interface
 )
@@ -37,24 +37,24 @@ include_directories(
 add_executable(single_cam_callibration src/deprecated/single_cam_callibration.cpp)
 
 target_link_libraries(single_cam_callibration
-  ${OpenCV_LIBS}
+  #${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
 
-add_executable(calibrate src/deprecated/calib_intrinsic.cpp include/popt_pp.h)
-target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
+#add_executable(calibrate src/deprecated/calib_intrinsic.cpp include/popt_pp.h)
+#target_link_libraries(calibrate ${OpenCV_LIBS} "-lpopt")
 
-add_executable(read src/deprecated/read_images.cpp)
-target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
+#add_executable(read src/deprecated/read_images.cpp)
+#target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
-add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
-target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+#add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
+#target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
-add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
-target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+#add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
+#target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
-add_executable(bottle_detection src/nsra_bottle_detection.cpp)
-target_link_libraries(bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+#add_executable(bottle_detection src/nsra_bottle_detection.cpp)
+#target_link_libraries(bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
   src/blob_detection/blob_detection_left
@@ -70,21 +70,21 @@ install(PROGRAMS
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(TARGETS
-  single_cam_callibration
-  calibrate
-  read
-  calibrate_stereo
-  undistort_rectify
-  bottle_detection
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+#install(TARGETS
+#  single_cam_callibration
+#  calibrate
+#  read
+#  calibrate_stereo
+#  undistort_rectify
+#  bottle_detection
+#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#)
 
-install(FILES
-  srv/coords.srv
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+#install(FILES
+#  srv/coords.srv
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#)
 
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch

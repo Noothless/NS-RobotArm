@@ -8,7 +8,7 @@ import sys
 import rospy
 from std_msgs.msg import Float32MultiArray
 
-rospy.init_node('bd_top_view')
+rospy.init_node('bd_object_detection')
 bd = rospy.Publisher('bottle_detection', Float32MultiArray, queue_size=10)
 
 # parse the command line

@@ -3,10 +3,18 @@ import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import String
+from std_msgs.msg import Float32MultiArray
 import sys
 import time
 import multiprocessing as mp
 import math
+
+origin = np.array([0,0])
+x_vec = np.array([0,0])
+rotation = 0.0
+scaling_factor = 1.0
+
+pts_array = np.array([])
 
 class camera():
 
@@ -84,7 +92,6 @@ def find_cb_corners():
     global x_vec
     global rotation
     global scaling_factor
-    global calibrated
     frame = cam.get_frame(1)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
@@ -110,16 +117,24 @@ def find_cb_corners():
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
         print("")   
-        calibrated = True
     else:
         print("No corners detected!")
 
+def JI_Callback(data):
+    global pts_array
+    print(data.data)
+    pts_array = data.data
+
+rospy.init_node('bd_front_view')
+rospy.Subscriber('bottle_detection', Float32MultiArray, JI_Callback)
+
 while True:
     frame = cam.get_frame(1)
+    for i in range(len(pts_array))
+        cv2.circle(frame,(pts_array[i]), 5, (0,0,255), -1)
+
     cv2.imshow("Front view", frame)
+
     key = cv2.waitKey(1)
     if key == 27:
         break
-    if key == 10:
-        find_cb_corners()
-        
