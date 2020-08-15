@@ -18,6 +18,11 @@ rotation = 0.0
 scaling_factor = 1.0
 dist_factor = 277.0/166.0
 
+table_hight = 740
+camera_hight = 1360
+
+camera_distance = 0
+
 pts_ji = np.array([])
 pts_tv = np.array([])
 
@@ -103,6 +108,9 @@ def find_cb_corners():
     global t
     global v
     global dist_factor
+    global camera_distance
+    global table_hight
+    global camera_hight
     frame = cam.get_frame(1)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
@@ -127,6 +135,7 @@ def find_cb_corners():
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
         vcubic=fvcubic(tnew)
         dist = int(np.linalg.norm(dist_vec))
+        camera_distance = dist**2-(camera_hight-table_hight)**2
         print(dist_factor)
         print("")
         print("Calibration successful!")
@@ -134,7 +143,8 @@ def find_cb_corners():
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
-        print("Distance : " + str(np.round(vcubic[702-dist],0)*dist_factor))
+        print("Distance: " + str(np.round(vcubic[702-dist],0)*dist_factor))
+        print("Y-Distance: " + camera_distance)
         print("")   
     else:
         print("No corners detected!")
