@@ -134,7 +134,7 @@ def find_cb_corners():
         cb_dist_vec = np.array([corners[48,0,0] - corners[0,0,0], corners[48,0,1] - corners[0,0,1]])
         cb_dist = int(np.linalg.norm(cb_dist_vec))
 
-        scaling_factor = 172/np.linalg.norm(cb_dist_vec)
+        scaling_factor = 277/np.linalg.norm(cb_dist_vec)
 
         tnew=np.arange(start=702,stop=140,step=-1)
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
