@@ -144,7 +144,7 @@ def find_cb_corners():
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
         print("Distance: " + str(np.round(vcubic[702-dist],0)*dist_factor))
-        print("Y-Distance: " + camera_distance)
+        print("Y-Distance: " + str(camera_distance))
         print("")   
     else:
         print("No corners detected!")
