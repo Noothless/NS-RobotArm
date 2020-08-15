@@ -143,11 +143,6 @@ def find_cb_corners():
     else:
         print("No corners detected!")
 
-def find_nearest(array, value):
-    array = np.asarray(array)
-    idx = (np.abs(array - value)).argmin()
-    return idx
-
 def paramsChangeCallback(data):
     msg = str(data.data)
     sp_msg = msg.split("/")

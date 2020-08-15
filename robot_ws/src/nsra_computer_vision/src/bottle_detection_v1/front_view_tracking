@@ -26,6 +26,8 @@ camera_hight = 1360
 camera_distance = 0
 
 pts_center = np.array([])
+pts_top_left = np.array([])
+pts_botton_right = np.array([])
 
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
@@ -100,6 +102,11 @@ class camera():
 
 cam = camera(str(sys.argv[1]))
 
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
+
 def find_cb_corners():
     global cam
     global origin
@@ -158,11 +165,19 @@ def find_cb_corners():
 
 def JI_Callback(data):
     global pts_center
+    global pts_top_left
+    global pts_botton_right
     if len(data.Center_x) != 0:
         center = np.array([[data.Center_x[0], data.Center_y[0]]])
+        pts_top_left = np.array([[data.Top[0], data.Left[0]]])
+        pts_botton_right = np.array([[data.Bottom[0], data.Right[0]]])
         for i in range(len(data.Center_x)-1):
             b = np.array([[data.Center_x[i+1], data.Center_y[i+1]]])
+            c = np.array([[data.Top[i+1], data.Left[i+1]]])
+            d = np.array([[data.Bottom[i+1], data.Right[i+1]]])
             center = np.concatenate((center, b), axis=0)
+            pts_top_left = np.concatenate((pts_top_left, c), axis=0)
+            pts_botton_right = np.concatenate((pts_botton_right, d), axis=0)
         pts_center = center
 
 rospy.init_node('bd_front_view')
@@ -196,6 +211,7 @@ while True:
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
             cv2.circle(frame,(int(pts_center[i,0]), 270), 5, (0,0,255), -1)
+            cv2.rectangle(frame, int(pts_top_left), int(pts_botton_right), (255,0,0), 3)
 
     cv2.imshow("Front view", frame)
 
