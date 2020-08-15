@@ -226,11 +226,11 @@ while True:
             except:
                 of_f = 1.0
             x_coords_corr[i] = x_coords[i]*scaling_factor*of_f + origin[0]
-            cv2.circle(frame,(int(x_coords[i]*scaling_factor*of_f + origin[0]), 270), 5, (0,255,0), -1)
+            cv2.circle(frame,(int(x_coords[i]*scaling_factor*of_f + origin[0]), pts_center[i,1]), 5, (0,255,0), -1)
          
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
-            cv2.circle(frame,(int(pts_center[i,0]), 270), 5, (0,0,255), -1)
+            cv2.circle(frame,(int(pts_center[i,0]), pts_center[i,1]), 5, (0,0,255), -1)
             cv2.rectangle(frame, (int(pts_top_left[i,0]), int(pts_top_left[i,1])), (int(pts_botton_right[i,0]), int(pts_botton_right[i,1])), (255,0,0), 3)
 
     cv2.imshow(windowname, frame)
