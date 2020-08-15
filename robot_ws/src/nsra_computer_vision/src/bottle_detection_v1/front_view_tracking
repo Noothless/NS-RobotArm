@@ -127,14 +127,14 @@ def find_cb_corners():
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
         vcubic=fvcubic(tnew)
         dist = int(np.linalg.norm(dist_vec))
-
+        print(dist_factor)
         print("")
         print("Calibration successful!")
         print("origin: " + str(origin))
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
-        print("Distance : " + str((np.round(vcubic[702-dist],0))*dist_factor))
+        print("Distance : " + str(np.round(vcubic[702-dist],0)))
         print("")   
     else:
         print("No corners detected!")
