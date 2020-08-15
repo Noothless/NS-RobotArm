@@ -19,7 +19,7 @@ scaling_factor = 1.0
 dist_factor = 277.0/166.0
 offset_factor = 1.0
 
-scaling_factor_offset = 1.1
+scaling_factor_offset = 1.2
 table_hight = 740
 camera_hight = 1360
 
