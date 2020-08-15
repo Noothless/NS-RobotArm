@@ -225,8 +225,7 @@ while True:
                 of_f = 1 - 1/(camera_distance/y_coords[i]*scaling_factor)
             except:
                 of_f = 1.0
-            #x_coords_corr[i,0] = x_coords[i]*scaling_factor*of_f + origin[0]
-            print(x_coords_corr)
+            x_coords_corr[i] = x_coords[i]*scaling_factor*of_f + origin[0]
             cv2.circle(frame,(int(x_coords[i]*scaling_factor*of_f + origin[0]), 270), 5, (0,255,0), -1)
          
     if len(pts_center) != 0:
