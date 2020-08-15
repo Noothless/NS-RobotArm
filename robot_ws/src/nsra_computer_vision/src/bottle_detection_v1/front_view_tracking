@@ -21,7 +21,7 @@ offset_factor = 1.0
 
 scaling_factor_offset = 1.0
 table_hight = 740
-camera_hight = 1360
+camera_hight = 1552
 
 camera_distance = 0
 
@@ -182,6 +182,7 @@ def JI_Callback(data):
 
 def mouseCallback(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDBLCLK:
+        if x >= 
         print(x,y)
 
 rospy.init_node('bd_front_view')
