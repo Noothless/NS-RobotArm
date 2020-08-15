@@ -183,8 +183,12 @@ def JI_Callback(data):
 def mouseCallback(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDBLCLK:
         for i in range(len(pts_center)):
-            if y >= pts_top_left[i,0] and y <= pts_botton_right[i,0] and x <= pts_top_left[i,1] and x >= pts_botton_right[i,1]:
-                print(x,y)
+            print(pts_top_left[i,0])
+            print(pts_botton_right[i,0])
+            print(pts_top_left[i,1])
+            print(pts_botton_right[i,1])
+            #if y >= pts_top_left[i,0] and y <= pts_botton_right[i,0] and x <= pts_top_left[i,1] and x >= pts_botton_right[i,1]:
+            print(x,y)
 
 rospy.init_node('bd_front_view')
 rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
