@@ -29,6 +29,9 @@ pts_center = np.array([])
 pts_top_left = np.array([])
 pts_botton_right = np.array([])
 
+x_coords = np.array([])
+y_coords = np.array([])
+
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
@@ -181,14 +184,17 @@ def JI_Callback(data):
         pts_center = center
 
 def mouseCallback(event, x, y, flags, params):
+    global x_coords
+    global y_coords
+    global pts_botton_right
+    global pts_top_left
+    global pts_center
     if event == cv2.EVENT_LBUTTONDBLCLK:
         for i in range(len(pts_center)):
-            #print(pts_top_left[i,0])
-            #print(pts_botton_right[i,0])
-            #print(pts_top_left[i,1])
-            #print(pts_botton_right[i,1])
             if x >= pts_top_left[i,0] and x <= pts_botton_right[i,0] and y >= pts_top_left[i,1] and y <= pts_botton_right[i,1]:
+                idx = find_nearest(x_coords, pts_center[i,0])
                 print(x,y)
+                print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
 
 rospy.init_node('bd_front_view')
 rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
@@ -205,9 +211,6 @@ while True:
     frame = cam.get_frame(1)
 
     resp = bd_y_coords(0)
-
-    x_coords = np.array([])
-    y_coords = np.array([])
 
     x_coords = resp.x_coords
     y_coords = resp.y_coords
