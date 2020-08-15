@@ -457,11 +457,12 @@ def main():
     #raw_input()
     #tutorial.execute_plan(cartesian_plan)
 
-  rospy.spin()
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
     return
+    
+  rospy.spin()
 
 if __name__ == '__main__':
   main()
