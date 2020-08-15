@@ -42,8 +42,10 @@ import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
 from math import pi
+import math
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
+from nsra_odrive_interface.msg import bd_robot_coords
 
 def all_close(goal, actual, tolerance):
 
@@ -141,7 +143,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     return all_close(joint_goal, current_joints, 0.01)
 
 
-  def go_to_pose_goal(self):
+  def go_to_pose_goal(self, x, y, z):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -153,11 +155,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## ^^^^^^^^^^^^^^^^^^^^^^^
     ## We can plan a motion for this group to a desired pose for the
     ## end-effector:
-    pose_goal = geometry_msgs.msg.Pose()
-    pose_goal.orientation.v = 0
-    pose_goal.position.x = 0.4
-    pose_goal.position.y = 0.1
-    pose_goal.position.z = 0.4
+    pose_goal = move_group.get_current_pose().pose
+    pose_goal.position.x = x
+    pose_goal.position.y = y
+    pose_goal.position.z = z
 
     move_group.set_pose_target(pose_goal)
 
@@ -420,6 +421,11 @@ class MoveGroupPythonIntefaceTutorial(object):
     # We wait for the planning scene to update.
     return self.wait_for_state_update(box_is_attached=False, box_is_known=False, timeout=timeout)
 
+def robot_grasp(data):
+  tutorial = MoveGroupPythonIntefaceTutorial()
+  tutorial.go_to_pose_goal(data.x/1000, -data.y/1000, data.z/1000)
+
+rospy.Subscriber('bottle_detection', bd_robot_coords, robot_grasp)
 
 def main():
   try:
@@ -430,15 +436,6 @@ def main():
     print("Press Ctrl-D to exit at any time")
     print("")
     tutorial = MoveGroupPythonIntefaceTutorial()
-
-    while True:
-      try:
-        tutorial.print_robot_info()
-        raw_input()
-      except rospy.ROSInterruptException:
-        return
-      except KeyboardInterrupt:
-        return
 
     #print("============ Press `Enter` to execute a movement using a joint state goal ...")
     #raw_input()
@@ -460,6 +457,7 @@ def main():
     #raw_input()
     #tutorial.execute_plan(cartesian_plan)
 
+  rospy.spin()
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
