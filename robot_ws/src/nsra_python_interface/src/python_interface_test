@@ -149,6 +149,9 @@ class MoveGroupPythonIntefaceTutorial(object):
     # reason not to.
     move_group = self.move_group
 
+    move_group.set_max_velocity_scaling_factor(0.7)
+    move_group.set_max_acceleration_scaling_factor(0.3)
+
     ## BEGIN_SUB_TUTORIAL plan_to_pose
     ##
     ## Planning to a Pose Goal
