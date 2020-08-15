@@ -440,6 +440,8 @@ def main():
     print("")
     tutorial = MoveGroupPythonIntefaceTutorial()
 
+    tutorial.print_robot_info()
+
     #print("============ Press `Enter` to execute a movement using a joint state goal ...")
     #raw_input()
     #tutorial.go_to_joint_state()
