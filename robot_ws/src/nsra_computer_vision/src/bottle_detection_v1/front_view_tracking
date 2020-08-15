@@ -135,7 +135,7 @@ def find_cb_corners():
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
         vcubic=fvcubic(tnew)
         dist = int(np.linalg.norm(dist_vec))
-        camera_distance = dist**2-(camera_hight-table_hight)**2
+        camera_distance = int(dist)**2-(camera_hight-table_hight)**2
         print(dist_factor)
         print("")
         print("Calibration successful!")
