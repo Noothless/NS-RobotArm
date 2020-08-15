@@ -13,7 +13,7 @@ rostopic pub -1 /bd_params std_msgs/String  50/100/50/100/255/100
 rosrun nsra_computer_vision front_view_tracking "rtsp://192.168.1.105"
 rosrun nsra_computer_vision top_view_tracking "rtsp://192.168.1.171"
 
-
+export ROS_MASTER_URI=http://192.168.1.107:11311
 rosrun nsra_python_interface python_interface_test
 rostopic pub -1 /bd_params std_msgs/String  30/30/40/80/200/120
 rosrun nsra_computer_vision object_detection.py "rtsp://192.168.1.102" "rtp://192.168.1.144:1234" --network=coco-bottle --input-codec=h264
