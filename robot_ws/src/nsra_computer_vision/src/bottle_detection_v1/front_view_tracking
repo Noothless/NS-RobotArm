@@ -17,6 +17,7 @@ x_vec = np.array([0,0])
 rotation = 0.0
 scaling_factor = 1.0
 dist_factor = 277.0/166.0
+offset_factor = 1.0
 
 table_hight = 740
 camera_hight = 1360
@@ -128,10 +129,12 @@ def find_cb_corners():
         A = math.atan(x_vec[0]/x_vec[1])
         #A = math.degrees(A)
         rotation = A
-        scaling_factor = 172/np.linalg.norm(x_vec)
+        
 
         cb_dist_vec = np.array([corners[48,0,0] - corners[0,0,0], corners[48,0,1] - corners[0,0,1]])
         cb_dist = int(np.linalg.norm(cb_dist_vec))
+
+        scaling_factor = 172/np.linalg.norm(cb_dist_vec)
 
         tnew=np.arange(start=702,stop=140,step=-1)
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
@@ -147,8 +150,7 @@ def find_cb_corners():
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
-        print("Distance: " + str(dist))
-        print("Y-Distance: " + str(camera_distance))
+        print("Camera distance: " + str(camera_distance))
         print("")   
     else:
         print("No corners detected!")
@@ -179,7 +181,7 @@ while True:
 
     if len(x_coords) != 0:
         for i in range(len(x_coords)):
-            cv2.circle(frame,(int(x_coords[i] + origin[0]), 540), 5, (0,255,0), -1)
+            cv2.circle(frame,(int(x_coords[i] + origin[0])*scaling_factor, 540), 5, (0,255,0), -1)
 
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
