@@ -425,7 +425,7 @@ def robot_grasp(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
   tutorial.go_to_pose_goal(data.x/1000, -data.y/1000, data.z/1000)
 
-rospy.Subscriber('bottle_detection', bd_robot_coords, robot_grasp)
+rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
 
 def main():
   try:
@@ -461,7 +461,7 @@ def main():
     return
   except KeyboardInterrupt:
     return
-    
+
   rospy.spin()
 
 if __name__ == '__main__':
