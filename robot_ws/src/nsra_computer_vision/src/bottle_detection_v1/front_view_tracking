@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import cv2
 import numpy as np
+import scipy as sp
+import scipy.interpolate
 import rospy
 from std_msgs.msg import String
 import sys
@@ -17,6 +19,9 @@ scaling_factor = 1.0
 
 pts_ji = np.array([])
 pts_tv = np.array([])
+
+t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
+v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
 class camera():
 
@@ -94,6 +99,8 @@ def find_cb_corners():
     global x_vec
     global rotation
     global scaling_factor
+    global t
+    global v
     frame = cam.get_frame(1)
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
@@ -112,12 +119,20 @@ def find_cb_corners():
         #A = math.degrees(A)
         rotation = A
         scaling_factor = 172/np.linalg.norm(x_vec)
+
+        dist_vec = np.array([corners[48,0,0] - corners[0,0,0], corners[48,0,1] - corners[0,0,1]])
+        tnew=np.arange(start=702,stop=140,step=-1)
+        fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
+        vcubic=fvcubic(tnew)
+        dist = np.linalg.norm(dist_vec)
+
         print("")
         print("Calibration successful!")
         print("origin: " + str(origin))
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
+        print("Distance : " + np.round(vcubic[702-dist],0))
         print("")   
     else:
         print("No corners detected!")
