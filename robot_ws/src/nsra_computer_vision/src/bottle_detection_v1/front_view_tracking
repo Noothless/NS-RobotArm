@@ -124,7 +124,7 @@ def find_cb_corners():
         tnew=np.arange(start=702,stop=140,step=-1)
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
         vcubic=fvcubic(tnew)
-        dist = np.linalg.norm(dist_vec)
+        dist = int(np.linalg.norm(dist_vec))
 
         print("")
         print("Calibration successful!")
