@@ -11,6 +11,7 @@ import multiprocessing as mp
 import math
 from nsra_odrive_interface.msg import obj_det
 from nsra_odrive_interface.srv import *
+from nsra_odrive_interface.msg import bd_robot_coords
 
 origin = np.array([0,0])
 x_vec = np.array([0,0])
@@ -21,7 +22,7 @@ offset_factor = 1.0
 
 scaling_factor_offset = 0.9
 table_hight = 740
-camera_hight = 1552
+camera_hight = 1347
 
 camera_distance = 0
 
@@ -36,6 +37,14 @@ x_coords_corr = np.array([])
 
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
+
+robot_origin = np.array([357,513,245])
+bottle_hight = 115
+gripper_offset = 168
+
+robot_x = 0.0
+robot_y = 0.0
+robot_z = robot_origin[2] + 115.0
 
 class camera():
 
@@ -191,12 +200,16 @@ def mouseCallback(event, x, y, flags, params):
     global pts_botton_right
     global pts_top_left
     global pts_center
+    global robot_x
+    global robot_y
     if event == cv2.EVENT_LBUTTONDBLCLK:
         for i in range(len(pts_center)):
             if x >= pts_top_left[i,0] and x <= pts_botton_right[i,0] and y >= pts_top_left[i,1] and y <= pts_botton_right[i,1]:
                 idx = find_nearest(x_coords_corr, pts_center[i,0])
-                print(x,y)
+                #print(x,y)
                 print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
+                robot_x = x_coords[idx]
+                robot_y = y_coords[idx]
 
 rospy.init_node('bd_front_view')
 rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
@@ -204,6 +217,19 @@ rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
 rospy.wait_for_service('bd_y_coords')
 
 bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
+
+pub = rospy.Publisher('bottle_detection', bd_robot_coords, queue_size=10)
+
+def robot_pub():
+    global robot_x
+    global robot_y
+    global robot_z
+
+    msg = bd_robot_coords()
+    msg.x = robot_x
+    msg.y = robot_y
+    msg.z = robot_z
+    pub.publish(msg)
 
 windowname = "Front view"
 cv2.namedWindow(windowname)
