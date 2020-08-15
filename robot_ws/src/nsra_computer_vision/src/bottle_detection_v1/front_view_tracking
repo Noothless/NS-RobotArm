@@ -261,7 +261,10 @@ while True:
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
             cv2.circle(frame,(int(pts_center[i,0]), int(pts_center[i,1])), 5, (0,0,255), -1)
-            cv2.rectangle(frame, (int(pts_top_left[i,0]), int(pts_top_left[i,1])), (int(pts_botton_right[i,0]), int(pts_botton_right[i,1])), (255,0,0), 3)
+            try:
+                cv2.rectangle(frame, (int(pts_top_left[i,0]), int(pts_top_left[i,1])), (int(pts_botton_right[i,0]), int(pts_botton_right[i,1])), (255,0,0), 3)
+            except:
+                print("Circle detection failed!")
 
     cv2.imshow(windowname, frame)
 
