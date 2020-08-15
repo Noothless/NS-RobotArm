@@ -228,7 +228,7 @@ def robot_pub():
 
     msg = bd_robot_coords()
     msg.x = robot_x
-    msg.y = robot_y - 100.0
+    msg.y = robot_y
     msg.z = robot_z
     pub.publish(msg)
 
