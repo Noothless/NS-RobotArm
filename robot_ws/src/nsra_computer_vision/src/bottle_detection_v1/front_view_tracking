@@ -184,7 +184,10 @@ while True:
     if len(x_coords) != 0:
         for i in range(len(x_coords)):
             cv2.circle(frame,(int(x_coords[i]*scaling_factor + origin[0]), 270), 5, (0,255,0), -1)
-            print(str(1-100/(camera_distance/y_coords[0]*scaling_factor)))
+            try:
+                print(str(1- 100/(camera_distance/y_coords[0]*scaling_factor)))
+            except:
+                print(0)
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
             cv2.circle(frame,(int(pts_center[i,0]), 270), 5, (0,0,255), -1)
