@@ -182,7 +182,7 @@ def JI_Callback(data):
 
 def mouseCallback(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDBLCLK:
-        if x >= 
+        #if x >= 
         print(x,y)
 
 rospy.init_node('bd_front_view')
