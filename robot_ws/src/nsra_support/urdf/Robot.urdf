@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro">
-<xacro:macro name="robot">
+<robot name="Robot">
 <link name="base_link">
   <inertial>
     <origin rpy="0 0 0" xyz="0.220772 -0.475604 0.001301"/>
@@ -10,7 +9,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/base_link_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -19,7 +18,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/base_link_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -32,7 +31,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.2 0.366257 -0.0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component1_1_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -41,7 +40,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="-0.2 0.366257 -0.0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component1_1_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -54,7 +53,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.2 0.215257 0.1276"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component2_1_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -63,7 +62,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="-0.2 0.215257 0.1276"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component2_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component2_1_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -76,7 +75,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.2 -0.244742 -0.0465"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component3_1_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -85,7 +84,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="-0.2 -0.244742 -0.0465"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component3_1_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -98,7 +97,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.215 -0.350742 -0.0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component4_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component4_1_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -107,7 +106,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="-0.215 -0.350742 -0.0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component4_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component4_1_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -120,7 +119,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.641 -0.350742 -0.04"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component5_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component5_1_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -129,7 +128,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="-0.641 -0.350742 -0.04"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component5_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component5_1_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -142,7 +141,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.693 -0.350742 0.0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component6_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component6_1_m-binary.stl"/>
     </geometry>
     <material name="silver">
       <color rgba="1 0 0 1"/>
@@ -151,7 +150,7 @@
   <collision>
     <origin rpy="0 0 0" xyz="-0.693 -0.350742 0.0"/>
     <geometry>
-      <mesh filename="package://nsra_support/urdf/mm_stl/Component6_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://fusion2urdf/Robot/bin_stl/Component6_1_m-binary.stl"/>
     </geometry>
   </collision>
 </link>
@@ -259,5 +258,4 @@
 <gazebo>
   <plugin filename="libgazebo_ros_control.so" name="control"/>
 </gazebo>
-</xacro:macro>
 </robot>
