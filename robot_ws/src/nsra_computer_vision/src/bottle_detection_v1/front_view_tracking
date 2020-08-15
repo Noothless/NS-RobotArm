@@ -180,12 +180,20 @@ def JI_Callback(data):
             pts_botton_right = np.concatenate((pts_botton_right, d), axis=0)
         pts_center = center
 
+def mouseCallback(event, x, y, flags, params):
+    if event == cv2.EVENT_LBUTTONDBLCLK:
+        print(x,y)
+
 rospy.init_node('bd_front_view')
 rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
 
 rospy.wait_for_service('bd_y_coords')
 
 bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
+
+windowname = "Front view"
+cv2.namedWindow(windowname)
+cv2.setMouseCallback(windowname, mouseCallback)
 
 while True:
     frame = cam.get_frame(1)
@@ -213,7 +221,7 @@ while True:
             cv2.circle(frame,(int(pts_center[i,0]), 270), 5, (0,0,255), -1)
             cv2.rectangle(frame, (int(pts_top_left[i,0]), int(pts_top_left[i,1])), (int(pts_botton_right[i,0]), int(pts_botton_right[i,1])), (255,0,0), 3)
 
-    cv2.imshow("Front view", frame)
+    cv2.imshow(windowname, frame)
 
     key = cv2.waitKey(1)
     if key == 27:
