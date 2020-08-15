@@ -218,7 +218,7 @@ rospy.wait_for_service('bd_y_coords')
 
 bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
 
-pub = rospy.Publisher('bottle_detection', bd_robot_coords, queue_size=10)
+pub = rospy.Publisher('robot_grasp', bd_robot_coords, queue_size=10)
 
 def robot_pub():
     global robot_x
