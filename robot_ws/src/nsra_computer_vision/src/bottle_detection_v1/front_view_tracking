@@ -169,12 +169,12 @@ def JI_Callback(data):
     global pts_botton_right
     if len(data.Center_x) != 0:
         center = np.array([[data.Center_x[0], data.Center_y[0]]])
-        pts_top_left = np.array([[data.Top[0], data.Left[0]]])
-        pts_botton_right = np.array([[data.Bottom[0], data.Right[0]]])
+        pts_top_left = np.array([[data.Left[0], data.Top[0]]])
+        pts_botton_right = np.array([[data.Right[0], data.Bottom[0]]])
         for i in range(len(data.Center_x)-1):
             b = np.array([[data.Center_x[i+1], data.Center_y[i+1]]])
-            c = np.array([[data.Top[i+1], data.Left[i+1]]])
-            d = np.array([[data.Bottom[i+1], data.Right[i+1]]])
+            c = np.array([[data.Left[i+1], data.Top[i+1]]])
+            d = np.array([[data.Right[i+1], data.Bottom[i+1]]])
             center = np.concatenate((center, b), axis=0)
             pts_top_left = np.concatenate((pts_top_left, c), axis=0)
             pts_botton_right = np.concatenate((pts_botton_right, d), axis=0)
