@@ -208,8 +208,8 @@ def mouseCallback(event, x, y, flags, params):
                 idx = find_nearest(x_coords_corr, pts_center[i,0])
                 #print(x,y)
                 print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
-                robot_y = x_coords[idx] + robot_origin[1]
-                robot_x = y_coords[idx] + robot_origin[0]
+                robot_x = x_coords[idx] + robot_origin[0]
+                robot_y = y_coords[idx] + robot_origin[1]
                 robot_pub()
 
 rospy.init_node('bd_front_view')
