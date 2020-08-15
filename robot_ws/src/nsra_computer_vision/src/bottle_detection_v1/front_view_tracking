@@ -24,8 +24,7 @@ camera_hight = 1360
 
 camera_distance = 0
 
-pts_ji = np.array([])
-pts_tv = np.array([])
+pts_center = np.array([])
 
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
@@ -185,10 +184,11 @@ while True:
     if len(x_coords) != 0:
         for i in range(len(x_coords)):
             cv2.circle(frame,(int(x_coords[i]*scaling_factor + origin[0]), 270), 5, (0,255,0), -1)
+            print(str(x_coords[0]*(camera_distance/y_coords[0])) + " -- " + pts_center[0,0])
 
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
-            cv2.circle(frame,(int(pts_center[i,0]), int(pts_center[i,1])), 5, (0,0,255), -1)
+            cv2.circle(frame,(int(pts_center[i,0]), 270), 5, (0,0,255), -1)
 
     cv2.imshow("Front view", frame)
 
