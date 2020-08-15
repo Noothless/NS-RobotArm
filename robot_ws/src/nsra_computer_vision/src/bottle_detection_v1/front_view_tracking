@@ -130,12 +130,16 @@ def find_cb_corners():
         rotation = A
         scaling_factor = 172/np.linalg.norm(x_vec)
 
-        dist_vec = np.array([corners[48,0,0] - corners[0,0,0], corners[48,0,1] - corners[0,0,1]])
+        cb_dist_vec = np.array([corners[48,0,0] - corners[0,0,0], corners[48,0,1] - corners[0,0,1]])
+        cb_dist = int(np.linalg.norm(cb_dist_vec))
+
         tnew=np.arange(start=702,stop=140,step=-1)
         fvcubic=sp.interpolate.interp1d(t,v,kind='cubic')
         vcubic=fvcubic(tnew)
-        dist = int(np.linalg.norm(dist_vec))
-        camera_distance = int(dist)**2# - (camera_hight-table_hight)**2
+        dist = int(np.round(vcubic[702-cb_dist],0)*dist_factor)
+
+        camera_distance = int(math.sqrt(dist**2 - (camera_hight-table_hight)**2))
+
         print(dist_factor)
         print("")
         print("Calibration successful!")
@@ -143,7 +147,7 @@ def find_cb_corners():
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
-        print("Distance: " + str(np.round(vcubic[702-dist],0)*dist_factor))
+        print("Distance: " + str(dist))
         print("Y-Distance: " + str(camera_distance))
         print("")   
     else:
