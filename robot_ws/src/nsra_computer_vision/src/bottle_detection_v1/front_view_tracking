@@ -32,6 +32,8 @@ pts_botton_right = np.array([])
 x_coords = np.array([])
 y_coords = np.array([])
 
+x_coords_corr = np.array([])
+
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
@@ -192,7 +194,7 @@ def mouseCallback(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDBLCLK:
         for i in range(len(pts_center)):
             if x >= pts_top_left[i,0] and x <= pts_botton_right[i,0] and y >= pts_top_left[i,1] and y <= pts_botton_right[i,1]:
-                idx = find_nearest(x_coords, pts_center[i,0])
+                idx = find_nearest(x_coords_corr, pts_center[i,0])
                 print(x,y)
                 print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
 
@@ -216,6 +218,7 @@ while True:
     y_coords = resp.y_coords
 
     if len(x_coords) != 0:
+        x_coords_corr_l = np.array([])
         for i in range(len(x_coords)):
             of_f = 1.0
             try:
@@ -223,6 +226,8 @@ while True:
             except:
                 of_f = 1.0
             cv2.circle(frame,(int(x_coords[i]*scaling_factor*of_f + origin[0]), 270), 5, (0,255,0), -1)
+            x_coords_corr_l[i] = x_coords[i]*scaling_factor*of_f + origin[0]
+        x_coords_corr = x_coords_corr_l
 
     if len(pts_center) != 0:
         for i in range(len(pts_center)):
