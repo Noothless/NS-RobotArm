@@ -134,7 +134,7 @@ def find_cb_corners():
         print("x_vec: " + str(x_vec))
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
-        print("Distance : " + str(np.round(vcubic[702-dist],0)*dist_factor))
+        print("Distance : " + str((np.round(vcubic[702-dist],0))*dist_factor))
         print("")   
     else:
         print("No corners detected!")
