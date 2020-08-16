@@ -446,7 +446,7 @@ def main():
 
     tutorial.print_robot_info()
 
-    tutorial.go_to_joint_state()
+    #tutorial.go_to_joint_state()
 
     #print("============ Press `Enter` to execute a movement using a joint state goal ...")
     #raw_input()

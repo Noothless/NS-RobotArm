@@ -44,7 +44,7 @@ gripper_offset = 168
 
 robot_x = 0.0
 robot_y = 0.0
-robot_z = robot_origin[2] + 200.0
+robot_z = robot_origin[2] + 150.0
 
 class camera():
 
@@ -230,7 +230,7 @@ def robot_pub():
     global robot_z
 
     msg = bd_robot_coords()
-    msg.x = robot_x
+    msg.x = robot_x - 50
     msg.y = robot_y
     msg.z = robot_z
     pub.publish(msg)
