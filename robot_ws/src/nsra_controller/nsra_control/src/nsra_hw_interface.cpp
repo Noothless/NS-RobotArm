@@ -93,7 +93,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       drive_pub1.publish(msg);
     } else if(i == 1)
     {
-      msg.data = round(joint_position_command_[i]*1024000/pi);
+      msg.data = round(joint_position_command_[i]*(1024000*0.95)/pi);
       drive_pub2.publish(msg);
     } else if(i == 2)
     {
