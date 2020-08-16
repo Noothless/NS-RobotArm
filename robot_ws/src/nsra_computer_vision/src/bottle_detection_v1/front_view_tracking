@@ -194,6 +194,17 @@ def JI_Callback(data):
             pts_botton_right = np.concatenate((pts_botton_right, d), axis=0)
         pts_center = center
 
+rospy.init_node('bd_front_view')
+rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
+
+rospy.wait_for_service('bd_y_coords')
+
+bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
+
+pub = rospy.Publisher('robot_grasp', bd_robot_coords, queue_size=10)
+
+pub1 = rospy.Publisher('robot_coords_pub', String, queue_size=10)
+
 def mouseCallback(event, x, y, flags, params):
     global x_coords
     global y_coords
@@ -208,18 +219,10 @@ def mouseCallback(event, x, y, flags, params):
                 idx = find_nearest(x_coords_corr, pts_center[i,0])
                 #print(x,y)
                 print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
+                pub1.publish(str(x_coords[idx]) + " -- " + str(y_coords[idx]))
                 robot_x = x_coords[idx] + robot_origin[0]
                 robot_y = y_coords[idx] + robot_origin[1]
                 robot_pub()
-
-rospy.init_node('bd_front_view')
-rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
-
-rospy.wait_for_service('bd_y_coords')
-
-bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
-
-pub = rospy.Publisher('robot_grasp', bd_robot_coords, queue_size=10)
 
 def robot_pub():
     global robot_x
