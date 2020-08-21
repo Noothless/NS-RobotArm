@@ -1,0 +1,62 @@
+#include <SPI.h>
+#include <mcp_can.h>
+
+MCP_CAN CAN(10);
+
+unsigned char len = 0;
+unsigned char buf[8];
+unsigned int canID;
+
+int open = 1000;
+
+void setup()
+{
+    Serial.begin(115200);
+    Serial.println("Start");
+    if(CAN_OK == CAN.begin(CAN_500KBPS))
+    {
+        Serial.println("CAN BUS Shield init ok!");
+    }
+    else
+    {
+        Serial.println("CAN BUS Shield init fail");
+        Serial.println("Init CAN BUS Shield again");
+        delay(100);
+    }
+    pinMode(2, OUTPUT);
+    pinMode(3, OUTPUT);
+}
+
+
+
+void loop()
+{
+    if(CAN_MSGAVAIL == CAN.checkReceive())
+    {
+        CAN.readMsgBuf(&len, buf);
+        canID = CAN.getCanId();
+        Serial.println(buf[0]);
+        Serial.println(canID);
+
+        if(canID == 242) {
+            int i = buf[0];
+            if(i == 0){
+                digitalWrite(2, HIGH);
+                for(int f = 0; f < open; f++){
+                    digitalWrite(3, HIGH);
+                    delayMicroseconds(100);
+                    digitalWrite(3, LOW);
+                    delayMicroseconds(100);
+                }
+            } else if(i == 1){
+                digitalWrite(2, LOW);
+                for(int f = 0; f < open; f++){
+                    digitalWrite(3, HIGH);
+                    delayMicroseconds(100);
+                    digitalWrite(3, LOW);
+                    delayMicroseconds(100);
+                }
+            }
+        }
+    }
+}

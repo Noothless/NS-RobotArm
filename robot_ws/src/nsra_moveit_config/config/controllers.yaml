@@ -11,3 +11,14 @@ controller_list:
       - Rev4
       - Rev5
       - Rev6
+  - name: /nsra/joint_position_controller
+    action_ns: joint_group_position_controller
+    type: JointGroupPositionController
+    default: true
+    joints:
+      - Rev1
+      - Rev2
+      - Rev3
+      - Rev4
+      - Rev5
+      - Rev6
