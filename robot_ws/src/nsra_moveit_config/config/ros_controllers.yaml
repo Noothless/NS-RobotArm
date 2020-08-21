@@ -33,3 +33,15 @@ controller_list:
       - Rev3
       - Rev4
       - Rev5
+  
+  - name: joint_position_controller
+    action_ns: joint_group_position_controller
+    default: True
+    type: JointGroupPositionController
+    joints:
+      - Rev6
+      - Rev1
+      - Rev2
+      - Rev3
+      - Rev4
+      - Rev5
