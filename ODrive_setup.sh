@@ -18,7 +18,8 @@ read -n 1
 rosservice call /axis_requested_state 3 8
 sleep 2
 rosservice call /axis_requested_state 5 3
-sleep 0.1
+echo "Axis 5 callibration: Press any key to continue"
+read -n 1
 rosservice call /axis_requested_state 5 11
 echo "Axis 5 homing: Press any key to continue"
 read -n 1
