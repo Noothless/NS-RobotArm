@@ -11,7 +11,7 @@
 
 //CAN --------------------
 
-MCP_CAN CAN0(10);
+MCP_CAN CAN(10);
 
 unsigned char data[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -23,7 +23,7 @@ ros::NodeHandle  nh;
 
 void gripper_command( const std_msgs::Int32& msg){
   data[0] = msg.data;
-  CAN0.sendMsgBuf(0xF2, 0, 8, data);
+  CAN.sendMsgBuf(0xF2, 0, 8, data);
   
 }
 
@@ -36,7 +36,7 @@ void setup()
   Serial.begin(115200);
   //CAN -------------------
 
-  CAN0.begin(CAN_500KBPS) == CAN_OK;
+  CAN.begin(CAN_500KBPS) == CAN_OK;
 
   //-----------------------
 
@@ -44,7 +44,8 @@ void setup()
   
   nh.initNode();
   nh.subscribe(gc);
-  
+  //data[0] = 100;
+  //CAN0.sendMsgBuf(0xF2, 0, 8, data);
   //-----------------------
 }
 
@@ -52,9 +53,10 @@ void loop()
 {
   nh.spinOnce();
   delay(1);
-  /*
+  
   data[0] = 90;
-  CAN0.sendMsgBuf(0xF2, 0, 8, data);
+  /*
+  CAN.sendMsgBuf(0xF2, 0, 8, data);
   delay(2000);
   */
 }
@@ -67,7 +69,7 @@ void sendCANmsg_int(int ID, int CMD, int EXT, int DLC, uint32_t DATA)
   data[1] = ((DATA >> 8) & 0xFF);
   data[2] = ((DATA >> 16) & 0xFF);
   data[3] = ((DATA >> 24) & 0xFF);
-  CAN0.sendMsgBuf( (ID << 5) + CMD, EXT, DLC, data);
+  CAN.sendMsgBuf( (ID << 5) + CMD, EXT, DLC, data);
 }
 
 void sendCANmsg_float(int ID, int CMD, int EXT, int DLC, float DATA)
@@ -85,7 +87,7 @@ void sendCANmsg_float(int ID, int CMD, int EXT, int DLC, float DATA)
   byteArray[2] = (int)((longInt >> 8) & 0XFF);
   byteArray[3] = (int)((longInt & 0XFF));
   */
-  CAN0.sendMsgBuf( (ID << 5) + CMD, EXT, DLC, data);
+  CAN.sendMsgBuf( (ID << 5) + CMD, EXT, DLC, data);
 }
 
 //-----------------------

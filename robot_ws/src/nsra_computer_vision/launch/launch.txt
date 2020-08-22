@@ -22,3 +22,6 @@ roslaunch nsra_controller nsra_hardware.launch
 roslaunch nsra_moveit_config nsra_moveit.launch
 rosrun nsra_computer_vision top_view_tracking "rtsp://192.168.1.171"
 rosrun nsra_computer_vision front_view_tracking "rtsp://192.168.1.102"
+
+rosrun rosserial_python serial_node.py /dev/ttyUSB0
+rostopic pub -1 /nsra/gripper_command std_msgs/Int32 1
