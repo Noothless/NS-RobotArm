@@ -36,7 +36,7 @@ void setup()
   Serial.begin(115200);
   //CAN -------------------
 
-  CAN.begin(CAN_500KBPS) == CAN_OK;
+  CAN.begin(CAN_100KBPS) == CAN_OK;
 
   //-----------------------
 

@@ -13,7 +13,7 @@ void setup()
 {
     Serial.begin(115200);
     Serial.println("Start");
-    if(CAN_OK == CAN.begin(CAN_500KBPS))
+    if(CAN_OK == CAN.begin(CAN_100KBPS))
     {
         Serial.println("CAN BUS Shield init ok!");
     }
