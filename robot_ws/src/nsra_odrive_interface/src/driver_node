@@ -78,7 +78,7 @@ def drive_pub4(data):
     if (data.data-positions[3])*hz > 20000/8192:
         odrv2.axis0.controller.config.vel_limit = (data.data-positions[3])*hz
     else:
-        odrv2.axis0.controller.config.vel_limit = 20000/8192:
+        odrv2.axis0.controller.config.vel_limit = 20000/8192
     odrv2.axis0.controller.input_pos = data.data
     #drive4.publish(int(data.data*(1024000)/math.pi))
     positions[3] = data.data
