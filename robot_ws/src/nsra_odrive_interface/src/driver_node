@@ -45,8 +45,8 @@ def axis_velocity(req):
 
 def drive_pub1(data):
     print("Axis 1: " + str(data.data))
-    if data.data-positions[0]*hz > 50000/8192:
-        odrv1.axis0.controller.config.vel_limit = data.data-positions[0]*hz
+    if (data.data-positions[0])*hz > 50000/8192:
+        odrv1.axis0.controller.config.vel_limit = (data.data-positions[0])*hz
     else:
         odrv1.axis0.controller.config.vel_limit  = 50000/8192
     odrv1.axis0.controller.input_pos = data.data
@@ -55,8 +55,8 @@ def drive_pub1(data):
 
 def drive_pub2(data):
     print("Axis 2: " + str(data.data))
-    if data.data-positions[1]*hz > 85000/8192:
-        odrv0.axis0.controller.config.vel_limit = data.data-positions[1]*hz
+    if (data.data-positions[1])*hz > 85000/8192:
+        odrv0.axis0.controller.config.vel_limit = (data.data-positions[1])*hz
     else:
         odrv0.axis0.controller.config.vel_limit = 85000/8192
     odrv0.axis0.controller.input_pos = data.data
@@ -65,8 +65,8 @@ def drive_pub2(data):
 
 def drive_pub3(data):
     print("Axis 3: " + str(data.data))
-    if data.data-positions[2]*hz > 30000/8192:
-        odrv0.axis1.controller.config.vel_limit = data.data-positions[2]*hz
+    if (data.data-positions[2])*hz > 30000/8192:
+        odrv0.axis1.controller.config.vel_limit = (data.data-positions[2])*hz
     else:
         odrv0.axis1.controller.config.vel_limit = 30000/8192
     odrv0.axis1.controller.input_pos = data.data
@@ -75,8 +75,8 @@ def drive_pub3(data):
 
 def drive_pub4(data):
     print("Axis 4: " + str(data.data))
-    if data.data-positions[3]*hz > 20000/8192:
-        odrv2.axis0.controller.config.vel_limit = data.data-positions[3]*hz
+    if (data.data-positions[3])*hz > 20000/8192:
+        odrv2.axis0.controller.config.vel_limit = (data.data-positions[3])*hz
     else:
         odrv2.axis0.controller.config.vel_limit = 20000/8192:
     odrv2.axis0.controller.input_pos = data.data
@@ -85,8 +85,8 @@ def drive_pub4(data):
 
 def drive_pub5(data):
     print("Axis 5: " + str(data.data))
-    if data.data-positions[4]*hz > 20000/8192:
-        odrv2.axis1.controller.config.vel_limit = data.data-positions[4]*hz
+    if (data.data-positions[4])*hz > 20000/8192:
+        odrv2.axis1.controller.config.vel_limit = (data.data-positions[4])*hz
     else:
         odrv2.axis1.controller.config.vel_limit = 20000/8192
     odrv2.axis1.controller.input_pos = data.data
@@ -95,8 +95,8 @@ def drive_pub5(data):
 
 def drive_pub6(data):
     print("Axis 6: " + str(data.data))
-    if data.data-positions[5]*hz > 20000/8192:
-        odrv1.axis1.controller.config.vel_limit = data.data-positions[5]*hz
+    if (data.data-positions[5])*hz > 20000/8192:
+        odrv1.axis1.controller.config.vel_limit = (data.data-positions[5])*hz
     else:
         odrv1.axis1.controller.config.vel_limit = 20000/8192
     odrv1.axis1.controller.input_pos = data.data
