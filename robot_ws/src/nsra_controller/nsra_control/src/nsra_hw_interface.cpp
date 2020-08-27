@@ -86,7 +86,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
     saved_pos[i] = joint_position_command_[i];
-    std_msgs::Int32 msg;
+    std_msgs::Float64 msg;
     if(i == 0)
     {
       msg.data = joint_position_command_[i]*1024000/pi/8192;
