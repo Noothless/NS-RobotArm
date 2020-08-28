@@ -44,17 +44,19 @@ def axis_velocity(req):
     return velocityResponse(True)
 
 def drive_pub1(data):
-    print("Axis 1: " + str(data.data))
+    #print("Axis 1: " + str(data.data))
     if (data.data-positions[0])*hz > 50000/8192:
         odrv1.axis0.controller.config.vel_limit = (data.data-positions[0])*hz
+        print((data.data-positions[0])*hz)
     else:
+        print(50000/8192)
         odrv1.axis0.controller.config.vel_limit  = 50000/8192
     odrv1.axis0.controller.input_pos = data.data
     #drive1.publish(int(data.data*(1024000)/math.pi))
     positions[0] = data.data
 
 def drive_pub2(data):
-    print("Axis 2: " + str(data.data))
+    #print("Axis 2: " + str(data.data))
     if (data.data-positions[1])*hz > 85000/8192:
         odrv0.axis0.controller.config.vel_limit = (data.data-positions[1])*hz
     else:
@@ -64,7 +66,7 @@ def drive_pub2(data):
     positions[1] = data.data
 
 def drive_pub3(data):
-    print("Axis 3: " + str(data.data))
+    #print("Axis 3: " + str(data.data))
     if (data.data-positions[2])*hz > 30000/8192:
         odrv0.axis1.controller.config.vel_limit = (data.data-positions[2])*hz
     else:
@@ -74,7 +76,7 @@ def drive_pub3(data):
     positions[2] = data.data
 
 def drive_pub4(data):
-    print("Axis 4: " + str(data.data))
+    #print("Axis 4: " + str(data.data))
     if (data.data-positions[3])*hz > 20000/8192:
         odrv2.axis0.controller.config.vel_limit = (data.data-positions[3])*hz
     else:
@@ -84,7 +86,7 @@ def drive_pub4(data):
     positions[3] = data.data
 
 def drive_pub5(data):
-    print("Axis 5: " + str(data.data))
+    #print("Axis 5: " + str(data.data))
     if (data.data-positions[4])*hz > 20000/8192:
         odrv2.axis1.controller.config.vel_limit = (data.data-positions[4])*hz
     else:
@@ -94,7 +96,7 @@ def drive_pub5(data):
     positions[4] = data.data
 
 def drive_pub6(data):
-    print("Axis 6: " + str(data.data))
+    #print("Axis 6: " + str(data.data))
     if (data.data-positions[5])*hz > 20000/8192:
         odrv1.axis1.controller.config.vel_limit = (data.data-positions[5])*hz
     else:
