@@ -31,9 +31,3 @@ CAD designs: https://github.com/Noothless/NS-RobotArm_CAD
 ## EDA
 
 EDA files: https://github.com/Noothless/NS-RobotArm_EDA
-
-## CV
-
-Computer Vision ws: https://github.com/Noothless/NS-RobotArm_CV
-
-
