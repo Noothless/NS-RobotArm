@@ -16,10 +16,12 @@ rosservice call /axis_requested_state 3 11
 echo "Axis 3 homing: Press any key to continue"
 read -n 1
 rosservice call /axis_requested_state 3 8
-sleep 3
-rosservice call /axis_requested_state 5 3
 sleep 0.1
+rostopic pub -1 /nsra/drive_pub3 std_msgs/Int32 0
+sleep 3
 rosservice call /axis_requested_state 4 3
+sleep 0.1
+rosservice call /axis_requested_state 5 3
 sleep 0.1
 rosservice call /axis_requested_state 6 3
 echo "Axis 5 callibration: Press any key to continue"
