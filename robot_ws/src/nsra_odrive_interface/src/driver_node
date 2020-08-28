@@ -55,11 +55,12 @@ def drive_pub1(data):
 
 def drive_pub2(data):
     #print("Axis 2: " + str(data.data))
+    print(abs(data.data-positions[1])*hz)
     if abs(data.data-positions[1])*hz > (65000/8192):
         odrv0.axis0.controller.config.vel_limit = abs(data.data-positions[1])*hz
-        print((data.data-positions[1])*hz)
+        #print(abs(data.data-positions[1])*hz)
     else:
-        print(65000/8192)
+        #print(65000/8192)
         odrv0.axis0.controller.config.vel_limit = 65000/8192
     odrv0.axis0.controller.input_pos = data.data
     #drive2.publish(int(data.data*(1024000)/math.pi))
