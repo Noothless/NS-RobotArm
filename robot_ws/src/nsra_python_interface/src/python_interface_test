@@ -167,7 +167,7 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     rot_list =[pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z, pose_goal.orientation.w]
     rx, ry, rz = euler_from_quaternion(rot_list)
-    rx += rot
+    ry += rot
     quat = quaternion_from_euler(rx, ry, rz)
     pose_goal.orientation.x = quat[0]
     pose_goal.orientation.y = quat[1]
@@ -447,8 +447,8 @@ def robot_grasp(data):
   tutorial.print_robot_info()
   tutorial.go_to_pose_goal(data.x/1000 + 0.165, data.y/1000, data.z/1000, 0)
   pub.publish(0)
-  tutorial.go_to_pose_goal(555/1000 + 0.165, 355/1000 + 0.11, 400/1000, 0)
-  tutorial.go_to_pose_goal(555/1000 + 0.165, 355/1000 + 0.11, 400/1000, 90)
+  tutorial.go_to_pose_goal(555/1000, 355/1000 + 0.11, 400/1000, 0)
+  tutorial.go_to_pose_goal(555/1000, 355/1000 + 0.11, 400/1000, 90)
 
 rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
 
