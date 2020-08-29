@@ -182,11 +182,11 @@ def bd_y_coords(req):
     y_coord_rot = rotated_pts[:,1]
 
     ofst_corr_pt_x = np.array([((origin[0] - 540) + (540 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor])
-    ofst_corr_pt_y = np.array([((origin[0] - 360) + (360 - (origin[0] - y_coord_rot[0]))*offset_factor)*scaling_factor])
+    ofst_corr_pt_y = np.array([((origin[1] - 360) + (360 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor])
 
     for i in range(len(x_coord_rot)-1):
         b1 = np.array([((origin[0] - 540) + (540 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor])
-        b2 = np.array([((origin[0] - 360) + (360 - (origin[0] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])
+        b2 = np.array([((origin[1] - 360) + (360 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])
         ofst_corr_pt_x = np.concatenate((ofst_corr_pt_x, b1), axis=0)
         ofst_corr_pt_y = np.concatenate((ofst_corr_pt_y, b2), axis=0)
     print(ofst_corr_pt_x)
