@@ -36,6 +36,10 @@ scaling_factor = 1.0
 x_coord = np.array([])
 y_coord = np.array([])
 
+#try:
+config_object.read(pack_path + "/config/top_view_config.yml")
+origin[0] = config_object.getfloat("CONFIG", "origin_x")
+origin[1] = config_object.getfloat("CONFIG", "origin_y")
 
 #fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
 #print(fs.getNode('origin_x'))
@@ -184,7 +188,6 @@ def paramsChangeCallback(data):
     global rh
     global gh
     global bh
-    global pack_path
     
     rl = int(sp_msg[0])
     gl = int(sp_msg[1])
