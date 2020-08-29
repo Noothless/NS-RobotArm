@@ -183,6 +183,7 @@ def paramsChangeCallback(data):
     global rh
     global gh
     global bh
+    global pack_path
     
     rl = int(sp_msg[0])
     gl = int(sp_msg[1])
