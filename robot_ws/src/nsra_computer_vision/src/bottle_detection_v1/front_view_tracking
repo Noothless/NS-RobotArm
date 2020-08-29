@@ -44,7 +44,7 @@ gripper_offset = 168
 
 robot_x = 0.0
 robot_y = 0.0
-robot_z = robot_origin[2] + 150.0
+robot_z = robot_origin[2] + 100.0
 
 
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -233,7 +233,7 @@ def robot_pub():
     global robot_z
 
     msg = bd_robot_coords()
-    msg.x = robot_x - 135
+    msg.x = robot_x - 250
     msg.y = robot_y
     msg.z = robot_z
     pub.publish(msg)
