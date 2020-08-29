@@ -16,6 +16,9 @@ from configparser import ConfigParser
 
 config_object = ConfigParser()
 
+rospack = rospkg.RosPack()
+pack_path = rospack.get_path('nsra_computer_vision')
+
 origin = np.array([0.0,0.0])
 x_vec = np.array([0.0,0.0])
 rotation = 0.0
