@@ -205,10 +205,10 @@ params.minArea = 100
 params.maxArea = 10000
 
 params.filterByCircularity = True
-params.minCircularity = 0.01
+params.minCircularity = 0.1
 
 params.filterByConvexity = True
-params.minConvexity = 0.01
+params.minConvexity = 1
 
 params.filterByInertia = True
 params.minInertiaRatio = 0.1
