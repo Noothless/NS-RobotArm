@@ -165,7 +165,8 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## end-effector:
     pose_goal = move_group.get_current_pose().pose
 
-    rx, ry, rz = euler_from_quaternion(pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z)
+    rot_list =[pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z, pose_goal.orientation.w]
+    rx, ry, rz = euler_from_quaternion(rot_list)
     rx += rot
     quat = quaternion_from_euler(rx, ry, rz)
     pose_goal.orientation.x = quat[0]
