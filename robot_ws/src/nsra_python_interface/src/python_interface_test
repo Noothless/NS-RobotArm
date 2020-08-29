@@ -38,6 +38,7 @@ import sys
 import copy
 import tf
 import rospy
+import time
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
@@ -450,7 +451,8 @@ def robot_grasp(data):
   tutorial.go_to_pose_goal(data.x/1000, data.y/1000, data.z/1000 + 0.25, 0)
   tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000 + 0.11, 450.0/1000, 0)
   tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000 + 0.11, 450.0/1000, 90)
-  tutorial.print_robot_info()
+  time.sleep(5)
+  tutorial.go_to_pose_goal(0.223, 0.267, 0.93, 0)
 
 rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
 
