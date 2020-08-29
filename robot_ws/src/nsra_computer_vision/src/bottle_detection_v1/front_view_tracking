@@ -233,7 +233,7 @@ def robot_pub():
     global robot_z
 
     msg = bd_robot_coords()
-    msg.x = robot_x - 250
+    msg.x = robot_x - 300
     msg.y = robot_y
     msg.z = robot_z
     pub.publish(msg)
