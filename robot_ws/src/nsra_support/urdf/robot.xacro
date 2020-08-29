@@ -245,7 +245,7 @@
   <parent link="Component5_1"/>
   <child link="Component6_1"/>
   <axis xyz="0.01 -0.0 -0.0"/>
-  <limit effort="1" velocity="1.0" lower="-1.5708" upper="1.5708" />
+  <limit effort="1" velocity="1.0" lower="-3.1415" upper="3.1415" />
 </joint>
 <transmission name="Rev6_tran">
   <type>transmission_interface/SimpleTransmission</type>
