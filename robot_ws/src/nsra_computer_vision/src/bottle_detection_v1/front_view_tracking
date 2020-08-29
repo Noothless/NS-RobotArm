@@ -12,6 +12,7 @@ import math
 from nsra_odrive_interface.msg import obj_det
 from nsra_odrive_interface.srv import *
 from nsra_odrive_interface.msg import bd_robot_coords
+import rospkg
 from configparser import ConfigParser
 
 config_object = ConfigParser()
