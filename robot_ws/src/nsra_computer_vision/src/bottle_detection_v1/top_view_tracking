@@ -36,10 +36,22 @@ scaling_factor = 1.0
 x_coord = np.array([])
 y_coord = np.array([])
 
-#try:
-config_object.read(pack_path + "/config/top_view_config.yml")
-origin[0] = config_object.getfloat("CONFIG", "origin_x")
-origin[1] = config_object.getfloat("CONFIG", "origin_y")
+try:
+    config_object.read(pack_path + "/config/top_view_config.yml")
+    origin[0] = config_object.getfloat("CONFIG", "origin_x")
+    origin[1] = config_object.getfloat("CONFIG", "origin_y")
+    x_vec[0] = config_object.getfloat("CONFIG", "x_vec_x")
+    x_vec[1] = config_object.getfloat("CONFIG", "x_vec_y")
+    rotation = config_object.getfloat("CONFIG", "rotation")
+    scaling_factor = config_object.getfloat("CONFIG", "scaling_factor")
+    rl = config_object.getint("PARAMS", "rl")
+    gl = config_object.getint("PARAMS", "gl")
+    bl = config_object.getint("PARAMS", "bl")
+    rh = config_object.getint("PARAMS", "rh")
+    gh = config_object.getint("PARAMS", "gh")
+    bh = config_object.getint("PARAMS", "bh")
+except:
+    print("No config file found!")
 
 #fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
 #print(fs.getNode('origin_x'))
@@ -195,6 +207,18 @@ def paramsChangeCallback(data):
     rh = int(sp_msg[3])
     gh = int(sp_msg[4])
     bh = int(sp_msg[5])
+
+    config_object["PARAMS"] = {
+            "rl": str(rl),
+            "gl": str(gl),
+            "bl": str(bl),
+            "rh": str(rh),
+            "gh": str(gh),
+            "bh": str(bh),
+    }
+
+    with open(pack_path + "/config/top_view_config.yml", 'w') as conf:
+        config_object.write(conf)
 
 def bd_y_coords(req):
     global x_coord
