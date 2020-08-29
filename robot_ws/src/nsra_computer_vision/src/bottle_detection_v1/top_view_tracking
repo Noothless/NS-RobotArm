@@ -147,10 +147,10 @@ def find_cb_corners():
         scaling_factor = 172/np.linalg.norm(x_vec)
         
         fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", flags=1)
-        fs.write(name='origin', origin)
-        fs.write(name='x_vec', x_vec)
-        fs.write(name='rotation', rotation)
-        fs.write(name='scaling_factor', scaling_factor)
+        fs.write('origin', origin)
+        fs.write('x_vec', x_vec)
+        fs.write('rotation', rotation)
+        fs.write('scaling_factor', scaling_factor)
         fs.release()
 
         print("")
