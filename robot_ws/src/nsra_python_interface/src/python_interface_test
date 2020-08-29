@@ -47,6 +47,7 @@ from std_msgs.msg import String
 from std_msgs.msg import Int16
 from moveit_commander.conversions import pose_to_list
 from nsra_odrive_interface.msg import bd_robot_coords
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 def all_close(goal, actual, tolerance):
 
@@ -147,7 +148,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     return all_close(joint_goal, current_joints, 0.01)
 
 
-  def go_to_pose_goal(self, x, y, z):
+  def go_to_pose_goal(self, x, y, z, rot):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -163,9 +164,18 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## We can plan a motion for this group to a desired pose for the
     ## end-effector:
     pose_goal = move_group.get_current_pose().pose
+
+    rx, ry, rz = euler_from_quaternion(pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z)
+    rx += rot
+    quat = quaternion_from_euler(rx, ry, rz)
+    pose_goal.orientation.x = quat[0]
+    pose_goal.orientation.y = quat[1]
+    pose_goal.orientation.z = quat[2]
+    pose_goal.orientation.w = quat[3]
     pose_goal.position.x = x
     pose_goal.position.y = y
     pose_goal.position.z = z
+
 
     move_group.set_pose_target(pose_goal)
 
@@ -432,10 +442,12 @@ pub = rospy.Publisher('/nsra/gripper_command', Int16, queue_size=10)
 
 def robot_grasp(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
-  tutorial.go_to_pose_goal(data.x/1000, data.y/1000, data.z/1000)
+  tutorial.go_to_pose_goal(data.x/1000, data.y/1000, data.z/1000, 0)
   tutorial.print_robot_info()
-  tutorial.go_to_pose_goal(data.x/1000 + 0.165, data.y/1000, data.z/1000)
+  tutorial.go_to_pose_goal(data.x/1000 + 0.165, data.y/1000, data.z/1000, 0)
   pub.publish(0)
+  tutorial.go_to_pose_goal(555/1000 + 0.165, 355/1000 + 0.11, 400/1000, 0)
+  tutorial.go_to_pose_goal(555/1000 + 0.165, 355/1000 + 0.11, 400/1000, 90)
 
 rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
 
