@@ -185,6 +185,15 @@ def paramsChangeCallback(data):
     gh = int(sp_msg[4])
     bh = int(sp_msg[5])
 
+    fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", flags=1)
+    fs.write('rl', rl)
+    fs.write('gl', gl)
+    fs.write('bl', bl)
+    fs.write('rh', rh)
+    fs.write('gh', gh)
+    fs.write('bh', bh)
+    fs.release()
+
 def bd_y_coords(req):
     global x_coord
     global y_coord
