@@ -165,8 +165,8 @@ def bd_y_coords(req):
     global origin
     global scaling_factor
     global offset_factor
-
-    if len(x_coord) == 0:
+    print("len: " + str(len(x_coord)))
+    if (len(x_coord) == 0) or (len(y_coord) == 0):
         return bd_coordsResponse(tuple([0.0]), tuple([0.0]))
     print("y: " + str(y_coord))
     print("x: " + str(x_coord))
