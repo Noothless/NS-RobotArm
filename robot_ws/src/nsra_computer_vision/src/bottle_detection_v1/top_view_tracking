@@ -167,7 +167,7 @@ def bd_y_coords(req):
     global offset_factor
 
     if len(x_coord) == 0:
-        return bd_coordsResponse(tuple(0.0), tuple(0.0))
+        return bd_coordsResponse(tuple([0.0]), tuple([0.0]))
     print("y: " + str(y_coord))
     print("x: " + str(x_coord))
     pts_array = np.array([[origin[0] - x_coord[0], y_coord[0] - origin[1]]])
