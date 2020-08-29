@@ -35,7 +35,7 @@ y_coord = np.array([])
 
 
 fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
-print(fs.getNode('origin_x').mat())
+print(fs.getNode('origin_x').float())
 #origin[0] = float(fs.getNode('origin_x'))
 #origin[1] = float(fs.getNode('origin_y'))
 #x_vec[0] = float(fs.getNode('x_vec_x'))
