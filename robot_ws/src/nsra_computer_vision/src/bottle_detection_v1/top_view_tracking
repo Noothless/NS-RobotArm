@@ -209,6 +209,7 @@ params.minCircularity = 0.1
 
 params.filterByConvexity = True
 params.minConvexity = 0
+params.maxConvexity = 1
 
 params.filterByInertia = True
 params.minInertiaRatio = 0.1
