@@ -19,7 +19,7 @@ bh = 255
 camera_hight = 1230
 bottle_hight = 125
 #offset_factor = 1-1/(camera_hight/bottle_hight)
-offset_factor = 0.775
+offset_factor = 0.6
 
 origin = np.array([0,0])
 x_vec = np.array([0,0])
