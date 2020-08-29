@@ -9,6 +9,9 @@ import multiprocessing as mp
 from nsra_odrive_interface.srv import *
 import math
 import rospkg
+from configparser import ConfigParser
+
+config_object = ConfigParser()
 
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_computer_vision')
@@ -34,15 +37,15 @@ x_coord = np.array([])
 y_coord = np.array([])
 
 
-fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
-print(fs.getNode('origin_x').float())
+#fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
+#print(fs.getNode('origin_x'))
 #origin[0] = float(fs.getNode('origin_x'))
 #origin[1] = float(fs.getNode('origin_y'))
 #x_vec[0] = float(fs.getNode('x_vec_x'))
 #x_vec[1] = float(fs.getNode('x_vec_y'))
 #rotation = float(fs.getNode('rotation'))
 #scaling_factor = float(fs.getNode('scaling_factor'))
-fs.release()
+#fs.release()
 #except:
 #    print("No config file found!")
 
@@ -149,14 +152,17 @@ def find_cb_corners():
         rotation = A
         scaling_factor = 172/np.linalg.norm(x_vec)
         
-        fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", flags=1)
-        fs.write('origin_x', origin[0])
-        fs.write('origin_y', origin[1])
-        fs.write('x_vec_x', x_vec[0])
-        fs.write('x_vec_y', x_vec[1])
-        fs.write('rotation', rotation)
-        fs.write('scaling_factor', scaling_factor)
-        fs.release()
+        config_object["CONFIG"] = {
+            "origin_x": str(origin[0]),
+            "origin_y": str(origin[1]),
+            "x_vec_x": str(x_vec[0]),
+            "x_vec_y": str(x_vec[1]),
+            "rotation": str(rotation),
+            "scaling_factor": str(scaling_factor),
+        }
+
+        with open(pack_path + "/config/top_view_config.yml", 'w') as conf:
+            config_object.write(conf)
 
         print("")
         print("Calibration successful!")
@@ -186,15 +192,6 @@ def paramsChangeCallback(data):
     rh = int(sp_msg[3])
     gh = int(sp_msg[4])
     bh = int(sp_msg[5])
-
-    fs = cv2.FileStorage(pack_path + "/config/top_view_params.yml", flags=1)
-    fs.write('rl', rl)
-    fs.write('gl', gl)
-    fs.write('bl', bl)
-    fs.write('rh', rh)
-    fs.write('gh', gh)
-    fs.write('bh', bh)
-    fs.release()
 
 def bd_y_coords(req):
     global x_coord
