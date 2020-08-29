@@ -35,8 +35,10 @@ y_coord = np.array([])
 
 try:
     fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", flags=1)
-    origin = fs.getNode('origin')
-    x_vec = fs.getNode('x_vec')
+    origin[0] = fs.getNode('origin_x')
+    origin[1] = fs.getNode('origin_y')
+    x_vec[0] = fs.getNode('x_vec_x')
+    x_vec[1] = fs.getNode('x_vec_y')
     rotation = fs.getNode('rotation')
     scaling_factor = fs.getNode('scaling_factor')
     fs.release()
@@ -148,9 +150,11 @@ def find_cb_corners():
         
         fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", flags=1)
         fs.write('origin_x', origin[0])
-        #fs.write('x_vec', x_vec)
-        #fs.write('rotation', rotation)
-        #fs.write('scaling_factor', scaling_factor)
+        fs.write('origin_y', origin[1])
+        fs.write('x_vec_x', x_vec[0])
+        fs.write('x_vec_y', x_vec[1])
+        fs.write('rotation', rotation)
+        fs.write('scaling_factor', scaling_factor)
         fs.release()
 
         print("")
