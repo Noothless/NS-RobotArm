@@ -12,17 +12,28 @@ import math
 from nsra_odrive_interface.msg import obj_det
 from nsra_odrive_interface.srv import *
 from nsra_odrive_interface.msg import bd_robot_coords
+from configparser import ConfigParser
 
-origin = np.array([0,0])
-x_vec = np.array([0,0])
+config_object = ConfigParser()
+
+origin = np.array([0.0,0.0])
+x_vec = np.array([0.0,0.0])
 rotation = 0.0
 scaling_factor = 1.0
 dist_factor = 277.0/166.0
-offset_factor = 1.0
 
 scaling_factor_offset = 0.8
+
 table_hight = 745
 camera_hight = 1474
+
+bottle_hight = 80.0
+gripper_offset = 300
+
+robot_origin_x = 555
+robot_origin_y = 355
+robot_origin_z = 245
+
 
 camera_distance = 0
 
@@ -38,14 +49,31 @@ x_coords_corr = np.array([])
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
-robot_origin = np.array([555,355,245])
-bottle_hight = 115
-gripper_offset = 168
+robot_origin = np.array([robot_origin_x, robot_origin_y, robot_origin_z])
 
 robot_x = 0.0
 robot_y = 0.0
-robot_z = robot_origin[2] + 80.0
+robot_z = robot_origin[2] + bottle_hight
 
+try:
+    config_object.read(pack_path + "/config/top_view_config.yml")
+    origin[0] = config_object.getfloat("CONFIG", "origin_x")
+    origin[1] = config_object.getfloat("CONFIG", "origin_y")
+    x_vec[0] = config_object.getfloat("CONFIG", "x_vec_x")
+    x_vec[1] = config_object.getfloat("CONFIG", "x_vec_y")
+    rotation = config_object.getfloat("CONFIG", "rotation")
+    scaling_factor = config_object.getfloat("CONFIG", "scaling_factor")
+    camera_distance = config_object.getfloat("CONFIG", "camera_distance")
+    print("")
+    print("Calibration file succesfully loaded!")
+    print("origin: " + str(origin))
+    print("x_vec: " + str(x_vec))
+    print("rotation: " + str(rotation) + " radians")
+    print("scaling factor: " + str(scaling_factor))
+    print("Camera distance: " + str(camera_distance))
+    print("")  
+except:
+    print("No config file found!")
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -168,7 +196,20 @@ def find_cb_corners():
 
         camera_distance = int(math.sqrt(dist**2 - (camera_hight-table_hight)**2))
 
-        print(dist_factor)
+        config_object["CONFIG"] = {
+            "origin_x": str(origin[0]),
+            "origin_y": str(origin[1]),
+            "x_vec_x": str(x_vec[0]),
+            "x_vec_y": str(x_vec[1]),
+            "rotation": str(rotation),
+            "scaling_factor": str(scaling_factor),
+            "camera_distance": str(camera_distance),
+        }
+
+        with open(pack_path + "/config/top_view_config.yml", 'w') as conf:
+            config_object.write(conf)
+
+        
         print("")
         print("Calibration successful!")
         print("origin: " + str(origin))
@@ -176,6 +217,7 @@ def find_cb_corners():
         print("rotation: " + str(rotation) + " radians")
         print("scaling factor: " + str(scaling_factor))
         print("Camera distance: " + str(camera_distance))
+        print("Distance factor: " + str(dist_factor))
         print("")   
     else:
         print("No corners detected!")
@@ -233,7 +275,7 @@ def robot_pub():
     global robot_z
 
     msg = bd_robot_coords()
-    msg.x = robot_x - 300
+    msg.x = robot_x - gripper_offset
     msg.y = robot_y
     msg.z = robot_z
     pub.publish(msg)
