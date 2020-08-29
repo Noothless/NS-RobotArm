@@ -46,6 +46,9 @@ robot_x = 0.0
 robot_y = 0.0
 robot_z = robot_origin[2] + 150.0
 
+
+font = cv.FONT_HERSHEY_SIMPLEX
+
 class camera():
 
     def __init__(self,rtsp_url):        
@@ -258,6 +261,7 @@ while True:
             x_coords_corr[i] = x_coords[i]*scaling_factor*of_f + origin[0]
             try:
                 cv2.circle(frame,(int(x_coords[i]*scaling_factor*of_f + origin[0]), int(pts_center[i,1])), 5, (0,255,0), -1)
+                cv2.putText(frame, "y: " + str(x_coords[i] + " -- " + str(y_coords[i]), (int(x_coords[i]*scaling_factor*of_f + origin[0]), int(pts_center[i,1]) + 20), font, 4, (255,255,255), 2, cv2.LINE_AA)
             except:
                 print("Circle detection failed!")
          
