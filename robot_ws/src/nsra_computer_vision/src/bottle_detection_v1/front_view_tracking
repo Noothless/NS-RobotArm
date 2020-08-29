@@ -59,7 +59,7 @@ robot_y = 0.0
 robot_z = robot_origin[2] + bottle_hight
 
 try:
-    config_object.read(pack_path + "/config/top_view_config.yml")
+    config_object.read(pack_path + "/config/front_view_config.yml")
     origin[0] = config_object.getfloat("CONFIG", "origin_x")
     origin[1] = config_object.getfloat("CONFIG", "origin_y")
     x_vec[0] = config_object.getfloat("CONFIG", "x_vec_x")
@@ -209,7 +209,7 @@ def find_cb_corners():
             "camera_distance": str(camera_distance),
         }
 
-        with open(pack_path + "/config/top_view_config.yml", 'w') as conf:
+        with open(pack_path + "/config/front_view_config.yml", 'w') as conf:
             config_object.write(conf)
 
         
