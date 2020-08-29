@@ -44,6 +44,7 @@ import geometry_msgs.msg
 from math import pi
 import math
 from std_msgs.msg import String
+from std_msgs.msg import Int16
 from moveit_commander.conversions import pose_to_list
 from nsra_odrive_interface.msg import bd_robot_coords
 
@@ -427,10 +428,14 @@ class MoveGroupPythonIntefaceTutorial(object):
     # We wait for the planning scene to update.
     return self.wait_for_state_update(box_is_attached=False, box_is_known=False, timeout=timeout)
 
+pub = rospy.Publisher('/nsra/gripper_command', Int16, queue_size=10)
+
 def robot_grasp(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
   tutorial.go_to_pose_goal(data.x/1000, data.y/1000, data.z/1000)
   tutorial.print_robot_info()
+  tutorial.go_to_pose_goal(data.x/1000 + 0.115, data.y/1000, data.z/1000)
+  pub.publish(0)
 
 rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
 
