@@ -33,17 +33,17 @@ scaling_factor = 1.0
 x_coord = np.array([])
 y_coord = np.array([])
 
-try:
-    fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
-    origin[0] = fs.getNode('origin_x')
-    origin[1] = fs.getNode('origin_y')
-    x_vec[0] = fs.getNode('x_vec_x')
-    x_vec[1] = fs.getNode('x_vec_y')
-    rotation = fs.getNode('rotation')
-    scaling_factor = fs.getNode('scaling_factor')
-    fs.release()
-except:
-    print("No config file found!")
+
+fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
+origin[0] = fs.getNode('origin_x')
+origin[1] = fs.getNode('origin_y')
+x_vec[0] = fs.getNode('x_vec_x')
+x_vec[1] = fs.getNode('x_vec_y')
+rotation = fs.getNode('rotation')
+scaling_factor = fs.getNode('scaling_factor')
+fs.release()
+#except:
+#    print("No config file found!")
 
 class camera():
 
