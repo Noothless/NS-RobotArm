@@ -27,3 +27,5 @@ rosrun rosserial_python serial_node.py /dev/ttyUSB0
 rostopic pub -1 /nsra/gripper_command std_msgs/Int32 1
 
 vel_limit_tolerance!
+
+170/170/70/255/200/255
