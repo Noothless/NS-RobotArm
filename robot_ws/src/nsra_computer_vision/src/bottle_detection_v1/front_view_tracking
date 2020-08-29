@@ -44,7 +44,7 @@ gripper_offset = 168
 
 robot_x = 0.0
 robot_y = 0.0
-robot_z = robot_origin[2] + 100.0
+robot_z = robot_origin[2] + 80.0
 
 
 font = cv2.FONT_HERSHEY_SIMPLEX
