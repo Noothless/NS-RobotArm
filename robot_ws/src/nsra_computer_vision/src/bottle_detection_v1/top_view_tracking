@@ -41,6 +41,12 @@ try:
     x_vec[1] = fs.getNode('x_vec_y')
     rotation = fs.getNode('rotation')
     scaling_factor = fs.getNode('scaling_factor')
+    rl = fs.getNode('rl')
+    gl = fs.getNode('gl')
+    bl = fs.getNode('bl')
+    rh = fs.getNode('rh')
+    gh = fs.getNode('gh')
+    bh = fs.getNode('bh')
     fs.release()
 except:
     print("No config file found!")
