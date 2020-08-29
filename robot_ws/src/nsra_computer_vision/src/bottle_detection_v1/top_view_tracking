@@ -19,7 +19,7 @@ bh = 255
 camera_hight = 1230
 bottle_hight = 125
 #offset_factor = 1-1/(camera_hight/bottle_hight)
-offset_factor = 0.68
+offset_factor = 0.775
 
 origin = np.array([0,0])
 x_vec = np.array([0,0])
@@ -121,7 +121,7 @@ def find_cb_corners():
         criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
         cv2.cornerSubPix(r, corners, (11,11), (-1,-1), criteria)
         cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
-        cv2.imwrite("ref_point_top.jpg", blur_frame)
+        #cv2.imwrite("ref_point.jpg", blur_frame)
         #print(corners)
 
         origin = [corners[0,0,0], corners[0,0,1]]
@@ -181,12 +181,12 @@ def bd_y_coords(req):
     x_coord_rot = rotated_pts[:,0]
     y_coord_rot = rotated_pts[:,1]
 
-    ofst_corr_pt_x = np.array([((origin[0] - 540) + (540 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor])
-    ofst_corr_pt_y = np.array([((origin[1] - 360) + (360 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor])
+    ofst_corr_pt_x = np.array([((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor])
+    ofst_corr_pt_y = np.array([((origin[0] - 960) + (960 - (origin[0] - y_coord_rot[0]))*offset_factor)*scaling_factor])
 
     for i in range(len(x_coord_rot)-1):
-        b1 = np.array([((origin[0] - 540) + (540 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor])
-        b2 = np.array([((origin[1] - 360) + (360 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])
+        b1 = np.array([((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor])
+        b2 = np.array([((origin[0] - 960) + (960 - (origin[0] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])
         ofst_corr_pt_x = np.concatenate((ofst_corr_pt_x, b1), axis=0)
         ofst_corr_pt_y = np.concatenate((ofst_corr_pt_y, b2), axis=0)
     print(ofst_corr_pt_x)
