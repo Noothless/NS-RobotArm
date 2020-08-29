@@ -240,11 +240,12 @@
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
-<joint name="Rev6" type="continuous">
+<joint name="Rev6" type="revolute">
   <origin rpy="0 0 0" xyz="0.052 0.0 -0.04"/>
   <parent link="Component5_1"/>
   <child link="Component6_1"/>
   <axis xyz="0.01 -0.0 -0.0"/>
+  <limit effort="1" velocity="1.0" lower="-1.5708" upper="1.5708" />
 </joint>
 <transmission name="Rev6_tran">
   <type>transmission_interface/SimpleTransmission</type>
