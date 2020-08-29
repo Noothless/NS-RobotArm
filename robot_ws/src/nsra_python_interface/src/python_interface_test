@@ -447,8 +447,8 @@ def robot_grasp(data):
   tutorial.print_robot_info()
   tutorial.go_to_pose_goal(data.x/1000 + 0.165, data.y/1000, data.z/1000, 0)
   pub.publish(0)
-  tutorial.go_to_pose_goal(390/1000, 200/1000, 325/1000, 0)
-  tutorial.go_to_pose_goal(390/1000, 355/1000 + 0.11, 400/1000, 90)
+  tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000 + 0.11, 400.0/1000, 0)
+  tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000 + 0.11, 400.0/1000, 90)
 
 rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
 
