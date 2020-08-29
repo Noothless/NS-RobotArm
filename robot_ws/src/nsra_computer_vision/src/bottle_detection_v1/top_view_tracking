@@ -41,12 +41,6 @@ try:
     x_vec[1] = fs.getNode('x_vec_y')
     rotation = fs.getNode('rotation')
     scaling_factor = fs.getNode('scaling_factor')
-    rl = fs.getNode('rl')
-    gl = fs.getNode('gl')
-    bl = fs.getNode('bl')
-    rh = fs.getNode('rh')
-    gh = fs.getNode('gh')
-    bh = fs.getNode('bh')
     fs.release()
 except:
     print("No config file found!")
@@ -192,7 +186,7 @@ def paramsChangeCallback(data):
     gh = int(sp_msg[4])
     bh = int(sp_msg[5])
 
-    fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", flags=1)
+    fs = cv2.FileStorage(pack_path + "/config/top_view_params.yml", flags=1)
     fs.write('rl', rl)
     fs.write('gl', gl)
     fs.write('bl', bl)
