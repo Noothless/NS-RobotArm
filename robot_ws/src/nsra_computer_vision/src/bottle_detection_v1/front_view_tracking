@@ -34,8 +34,8 @@ camera_hight = 1474
 bottle_hight = 80.0
 gripper_offset = 300
 
-robot_origin_x = 555
-robot_origin_y = 355
+robot_origin_x = 275
+robot_origin_y = 255
 robot_origin_z = 245
 
 
