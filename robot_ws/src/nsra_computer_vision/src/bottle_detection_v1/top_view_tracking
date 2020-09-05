@@ -312,7 +312,7 @@ while True:
     imgKeyPoints = cv2.drawKeypoints(red_mask, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     blur_frame_points = cv2.drawKeypoints(blur_frame, keypoints, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-    cv2.putText(blur_frame_points, "-- x --", (900, 20), font, 1, (255,255,255), 2, cv2.LINE_AA)
+    cv2.putText(blur_frame_points, "-- x --", (890, 20), font, 1, (255,255,255), 2, cv2.LINE_AA)
     cv2.putText(blur_frame_points, "y", (10, 540), font, 1, (255,255,255), 2, cv2.LINE_AA)
     cv2.circle(blur_frame_points,(int(origin[0]), int(origin[1])), 5, (0,0,255), -1)
 
@@ -321,7 +321,7 @@ while True:
     for i in range(len(keypoints)):
         x = np.append(x, keypoints[i].pt[0])
         y = np.append(y, keypoints[i].pt[1])
-        cv2.putText(blur_frame_points, "idx: " + str(i + 1), (int(keypoints[i].pt[0]) - 30, int(keypoints[i].pt[1]) - 50), font, 1, (255,255,255), 2, cv2.LINE_AA)
+        cv2.putText(blur_frame_points, "idx: " + str(i + 1), (int(keypoints[i].pt[0]) - 40, int(keypoints[i].pt[1]) - 50), font, 1, (255,255,255), 2, cv2.LINE_AA)
     x_coord = x
     y_coord = y
 
