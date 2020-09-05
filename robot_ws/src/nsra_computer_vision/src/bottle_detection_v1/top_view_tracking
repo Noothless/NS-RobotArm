@@ -319,7 +319,7 @@ while True:
     for i in range(len(keypoints)):
         x = np.append(x, keypoints[i].pt[0])
         y = np.append(y, keypoints[i].pt[1])
-        cv2.putText(hsv_frame_points, "x: " + str(int(x)) + " -- y: " + str(int(y)), (int(x - 150), int(y) - 80), font, 1, (255,255,255), 2, cv2.LINE_AA)
+        cv2.putText(hsv_frame_points, "x: " + str(int(keypoints[i].pt[0])) + " -- y: " + str(int(keypoints[i].pt[1])), (int(keypoints[i].pt[0]]) - 150, int(keypoints[i].pt[1]) - 80), font, 1, (255,255,255), 2, cv2.LINE_AA)
     x_coord = x
     y_coord = y
 
