@@ -279,7 +279,7 @@ def bd_offset_factor(data):
     global offset_factor
     offset_factor = float(data.data)
 
-    config_object["CONFIG"] = {
+    config_object["COORDS"] = {
             "offset_factor": str(offset_factor),
     }
 
