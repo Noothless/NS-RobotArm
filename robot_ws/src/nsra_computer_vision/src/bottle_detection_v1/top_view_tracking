@@ -47,7 +47,7 @@ try:
     x_vec[1] = config_object.getfloat("CONFIG", "x_vec_y")
     rotation = config_object.getfloat("CONFIG", "rotation")
     scaling_factor = config_object.getfloat("CONFIG", "scaling_factor")
-    offset_factor = config_object.getfloat("CONFIG", "offset_factor")
+    offset_factor = config_object.getfloat("COORDS", "offset_factor")
     print("")
     print("Calibration file succesfully loaded!")
     print("origin: " + str(origin))
