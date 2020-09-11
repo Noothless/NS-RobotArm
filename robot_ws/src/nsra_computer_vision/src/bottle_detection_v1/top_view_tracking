@@ -288,7 +288,7 @@ def bd_offset_factor(data):
 
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
-rospy.Subscriber("bd_offset_factor", Float32, )
+rospy.Subscriber("bd_offset_factor", Float32, bd_offset_factor)
 s = rospy.Service('bd_y_coords', bd_coords, bd_y_coords)
 
 params = cv2.SimpleBlobDetector_Params()
