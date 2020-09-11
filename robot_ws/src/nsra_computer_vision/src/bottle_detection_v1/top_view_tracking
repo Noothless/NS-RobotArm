@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import String
+from std_msgs.msg import Float32
 import sys
 import time
 import multiprocessing as mp
@@ -46,12 +47,14 @@ try:
     x_vec[1] = config_object.getfloat("CONFIG", "x_vec_y")
     rotation = config_object.getfloat("CONFIG", "rotation")
     scaling_factor = config_object.getfloat("CONFIG", "scaling_factor")
+    offset_factor = config_object.getfloat("CONFIG", "offset_factor")
     print("")
     print("Calibration file succesfully loaded!")
     print("origin: " + str(origin))
     print("x_vec: " + str(x_vec))
     print("rotation: " + str(rotation) + " radians")
     print("scaling factor: " + str(scaling_factor))
+    print("offset factor: " + str(offset_factor))
     print("")  
     rl = config_object.getint("PARAMS", "rl")
     gl = config_object.getint("PARAMS", "gl")
@@ -272,8 +275,20 @@ def bd_y_coords(req):
         print("No corners detected error!")
         return bd_coordsResponse(tuple([0.0]), tuple([0.0]))
 
+def bd_offset_factor(data):
+    global offset_factor
+    offset_factor = float(data.data)
+
+    config_object["CONFIG"] = {
+            "offset_factor": str(offset_factor),
+    }
+
+    with open(pack_path + "/config/top_view_config.yml", 'w') as conf:
+        config_object.write(conf)
+
 rospy.init_node('bd_top_view')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
+rospy.Subscriber("bd_offset_factor", Float32, )
 s = rospy.Service('bd_y_coords', bd_coords, bd_y_coords)
 
 params = cv2.SimpleBlobDetector_Params()
@@ -333,4 +348,3 @@ while True:
         break
     if key == 10:
         find_cb_corners()
-        
