@@ -37,6 +37,8 @@ scaling_factor = 1.0
 x_coord = np.array([])
 y_coord = np.array([])
 
+last_coords = np.array([[]])
+
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 try:
@@ -238,6 +240,7 @@ def bd_y_coords(req):
     global origin
     global scaling_factor
     global offset_factor
+    global last_coords
     print("len: " + str(len(x_coord)))
     if (len(x_coord) == 0) or (len(y_coord) == 0):
         return bd_coordsResponse(tuple([0.0]), tuple([0.0]))
@@ -260,15 +263,18 @@ def bd_y_coords(req):
         ofst_corr_pt_y = np.array(
             [((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor])
 
+        last_coords = np.array([[((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor, ((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor]])
+
         for i in range(len(x_coord_rot)-1):
-            b1 = np.array([((origin[0] - 960) + (960 - (origin[0] -
-                                                        x_coord_rot[i+1]))*offset_factor)*scaling_factor])
-            b2 = np.array([((origin[1] - 540) + (540 - (origin[1] -
-                                                        y_coord_rot[i+1]))*offset_factor)*scaling_factor])
+            b1 = np.array([((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor])
+            b2 = np.array([((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])
+            b3 = np.array([[((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor, ((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor]])
             ofst_corr_pt_x = np.concatenate((ofst_corr_pt_x, b1), axis=0)
             ofst_corr_pt_y = np.concatenate((ofst_corr_pt_y, b2), axis=0)
+            last_coords = np.concatenate((last_coords, b3), axis=0)
         print(ofst_corr_pt_x)
         print(ofst_corr_pt_y)
+        print(last_coords)
 
         return bd_coordsResponse(tuple(ofst_corr_pt_x), tuple(ofst_corr_pt_y))
     except:
