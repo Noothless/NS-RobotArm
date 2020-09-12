@@ -263,12 +263,12 @@ def bd_y_coords(req):
         ofst_corr_pt_y = np.array(
             [((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor])
 
-        last_coords = np.array([[((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor, ((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor]])
+        last_coords = np.array([[((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[0]))*offset_factor)*scaling_factor, ((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[0]))*offset_factor)*scaling_factor, x_coord[0], y_coord[0]]])
 
         for i in range(len(x_coord_rot)-1):
             b1 = np.array([((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor])
             b2 = np.array([((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor])
-            b3 = np.array([[((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor, ((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor]])
+            b3 = np.array([[((origin[0] - 960) + (960 - (origin[0] - x_coord_rot[i+1]))*offset_factor)*scaling_factor, ((origin[1] - 540) + (540 - (origin[1] - y_coord_rot[i+1]))*offset_factor)*scaling_factor, x_coord[i+1], y_coord[i+1]]])
             ofst_corr_pt_x = np.concatenate((ofst_corr_pt_x, b1), axis=0)
             ofst_corr_pt_y = np.concatenate((ofst_corr_pt_y, b2), axis=0)
             last_coords = np.concatenate((last_coords, b3), axis=0)
