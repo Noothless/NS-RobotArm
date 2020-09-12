@@ -351,9 +351,11 @@ while True:
             #y = np.append(y, keypoints[i].pt[1])
             #cv2.putText(blur_frame_points, "idx: " + str(i + 1), (int(keypoints[i].pt[0]) - 40, int(keypoints[i].pt[1]) - 50), font, 1, (255,255,255), 2, cv2.LINE_AA)
             cv2.putText(blur_frame_points, "x: " + str(round(last_coords[i, 0], 2)) + " -- y: " + str(round(last_coords[i, 1], 2)), (int(last_coords[i, 2]) - 200, int(last_coords[i, 3]) - 50), font, 1, (255,255,255), 2, cv2.LINE_AA)
-
-    cv2.imshow("Top view original", blur_frame_points)
-    cv2.imshow("Top view masked", imgKeyPoints)
+    
+    output_img = np.concatenate((blur_frame_points, imgKeyPoints), axis=1)
+    cv2.imshow("Top view", output_img)
+    #cv2.imshow("Top view original", blur_frame_points)
+    #cv2.imshow("Top view masked", imgKeyPoints)
 
     key = cv2.waitKey(1)
     if key == 27:
