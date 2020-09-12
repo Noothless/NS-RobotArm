@@ -270,7 +270,7 @@ def mouseCallback(event, x, y, flags, params):
                 print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
                 pub1.publish(str(x_coords[idx]) + " -- " + str(y_coords[idx]))
                 robot_x = x_coords[idx] + robot_origin[0]
-                robot_y = y_coords[idx] + robot_origin[1]
+                robot_y = - y_coords[idx] + robot_origin[1]
                 robot_pub()
 
 def robot_pub():
