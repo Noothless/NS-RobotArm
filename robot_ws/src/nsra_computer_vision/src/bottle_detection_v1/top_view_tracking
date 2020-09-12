@@ -345,7 +345,7 @@ while True:
     x_coord = x
     y_coord = y
 
-    if (last_coords[0,0] != 0.0) and (len(keypoints) != 0):
+    if (last_coords[0,0] != 0.0) and (len(x_coord) != 0):
         for i in range(len(last_coords)):
             #x = np.append(x, keypoints[i].pt[0])
             #y = np.append(y, keypoints[i].pt[1])
