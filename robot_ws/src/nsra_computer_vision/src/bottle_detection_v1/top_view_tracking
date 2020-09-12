@@ -37,7 +37,7 @@ scaling_factor = 1.0
 x_coord = np.array([])
 y_coord = np.array([])
 
-last_coords = np.array([[]])
+last_coords = np.array([[0.0, 0.0]])
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -345,7 +345,7 @@ while True:
     x_coord = x
     y_coord = y
     print(len(last_coords))
-    if len(last_coords) != 0:
+    if !(last_coords[0,0] == 0.0):
         for i in range(len(last_coords)):
             #x = np.append(x, keypoints[i].pt[0])
             #y = np.append(y, keypoints[i].pt[1])
