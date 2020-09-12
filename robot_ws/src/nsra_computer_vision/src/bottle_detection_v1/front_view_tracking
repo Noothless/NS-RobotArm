@@ -36,7 +36,7 @@ gripper_offset = 300
 
 robot_origin_x = 0
 robot_origin_y = 0
-robot_origin_z = 290
+robot_origin_z = 270
 
 
 camera_distance = 0
