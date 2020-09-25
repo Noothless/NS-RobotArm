@@ -312,9 +312,9 @@ while True:
                 of_f = 1 - 1/(camera_distance/x_coords[i]*scaling_factor)
             except:
                 of_f = 1.0
-            x_coords_corr[i] = (y_coords[i])*scaling_factor*of_f + origin[0]
+            x_coords_corr[i] = (y_coords[i])*scaling_factor*of_f + origin[1]
             try:
-                cv2.circle(frame,(int((y_coords[i])*scaling_factor*of_f + origin[0]), int(pts_center[i,1])), 5, (0,255,0), -1)
+                cv2.circle(frame,(int((y_coords[i])*scaling_factor*of_f + origin[1]), int(pts_center[i,1])), 5, (0,255,0), -1)
                 cv2.putText(frame, "x: " + str(round(y_coords[i], 2)) + " -- y: " + str(round(x_coords[i], 2)), (int((y_coords[i])*scaling_factor*of_f + origin[0] - 150), int(pts_center[i,1]) - 80), font, 1, (255,255,255), 2, cv2.LINE_AA)
             except:
                 print("Circle detection failed!")
