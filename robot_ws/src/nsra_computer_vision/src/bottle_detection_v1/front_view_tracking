@@ -309,13 +309,13 @@ while True:
         for i in range(len(x_coords)):
             of_f = 1.0
             try:
-                of_f = 1 - 1/(camera_distance/y_coords[i]*scaling_factor)
+                of_f = 1 - 1/(camera_distance/x_coords[i]*scaling_factor)
             except:
                 of_f = 1.0
-            x_coords_corr[i] = x_coords[i]*scaling_factor*of_f + origin[0]
+            y_coords_corr[i] = y_coords[i]*scaling_factor*of_f + origin[0]
             try:
-                cv2.circle(frame,(int(x_coords[i]*scaling_factor*of_f + origin[0]), int(pts_center[i,1])), 5, (0,255,0), -1)
-                cv2.putText(frame, "x: " + str(round(x_coords[i], 2)) + " -- y: " + str(round(y_coords[i], 2)), (int(x_coords[i]*scaling_factor*of_f + origin[0] - 150), int(pts_center[i,1]) - 80), font, 1, (255,255,255), 2, cv2.LINE_AA)
+                cv2.circle(frame,(int(y_coords[i]*scaling_factor*of_f + origin[0]), int(pts_center[i,1])), 5, (0,255,0), -1)
+                cv2.putText(frame, "x: " + str(round(y_coords[i], 2)) + " -- y: " + str(round(x_coords[i], 2)), (int(y_coords[i]*scaling_factor*of_f + origin[0] - 150), int(pts_center[i,1]) - 80), font, 1, (255,255,255), 2, cv2.LINE_AA)
             except:
                 print("Circle detection failed!")
          
@@ -326,7 +326,7 @@ while True:
                 cv2.rectangle(frame, (int(pts_top_left[i,0]), int(pts_top_left[i,1])), (int(pts_botton_right[i,0]), int(pts_botton_right[i,1])), (255,0,0), 3)
             except:
                 print("Circle detection failed!")
-                
+
     cv2.circle(frame,(int(origin[0]), int(origin[1])), 5, (0,0,255), -1)
 
     cv2.imshow(windowname, frame)
