@@ -65,7 +65,7 @@ try:
     gh = config_object.getint("PARAMS", "gh")
     bh = config_object.getint("PARAMS", "bh")
 except:
-    print("No config file found!")
+    print("No valid config file found!")
 
 #fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
 #print(fs.getNode('origin_x'))

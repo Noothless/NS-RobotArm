@@ -77,7 +77,7 @@ try:
     print("Camera distance: " + str(camera_distance))
     print("")  
 except:
-    print("No config file found!")
+    print("No valid config file found!")
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
