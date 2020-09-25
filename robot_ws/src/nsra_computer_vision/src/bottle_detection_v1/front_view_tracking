@@ -34,11 +34,6 @@ camera_hight = 1474
 bottle_hight = 80.0
 gripper_offset = 300
 
-robot_origin_x = 0
-robot_origin_y = 0
-robot_origin_z = 270
-
-
 camera_distance = 0
 
 pts_center = np.array([])
@@ -53,11 +48,7 @@ x_coords_corr = np.array([])
 t=np.array([702,584,505,430,389,344,316,274,241,213,192 ,172, 158, 145, 140])
 v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
-robot_origin = np.array([robot_origin_x, robot_origin_y, robot_origin_z])
-
-robot_x = 0.0
-robot_y = 0.0
-robot_z = robot_origin[2] + bottle_hight
+robot_origin = np.array([0, 0, 0])
 
 try:
     config_object.read(pack_path + "/config/front_view_config.yml")
@@ -68,6 +59,18 @@ try:
     rotation = config_object.getfloat("CONFIG", "rotation")
     scaling_factor = config_object.getfloat("CONFIG", "scaling_factor")
     camera_distance = config_object.getfloat("CONFIG", "camera_distance")
+
+    robot_origin_x = config_object.getint("ROBOT", "robot_origin_x")
+    robot_origin_y = config_object.getint("ROBOT", "robot_origin_y")
+    robot_origin_z = config_object.getint("ROBOT", "robot_origin_z")
+    robot_origin = [robot_origin_x, robot_origin_y, robot_origin_z]
+
+    bottle_hight = config_object.getint("ROBOT", "bottle_hight")
+    gripper_offset = config_object.getint("ROBOT", "gripper_offset")
+
+    table_hight = config_object.getint("CAMERA", "table_hight")
+    camera_hight = config_object.getint("CAMERA", "camera_hight")
+
     print("")
     print("Calibration file succesfully loaded!")
     print("origin: " + str(origin))
@@ -75,6 +78,12 @@ try:
     print("rotation: " + str(rotation) + " radians")
     print("scaling factor: " + str(scaling_factor))
     print("Camera distance: " + str(camera_distance))
+    print("robot origin: " + str(robot_origin))
+    print("bottle hight: " + str(bottle_hight))
+    print("gripper offset: " + str(gripper_offset))
+    print("table hight: " + str(table_hight))
+    print("camera hight: " + str(camera_hight))
+    print("------------------------------------")
     print("")  
 except:
     print("No valid config file found!")
@@ -274,14 +283,13 @@ def mouseCallback(event, x, y, flags, params):
                 robot_pub()
 
 def robot_pub():
-    global robot_x
-    global robot_y
-    global robot_z
+    global robot_origin
+    global bottle_hight
 
     msg = bd_robot_coords()
-    msg.x = robot_x - gripper_offset
-    msg.y = robot_y
-    msg.z = robot_z
+    msg.x = robot_origin[0] - gripper_offset
+    msg.y = robot_origin[1]
+    msg.z = robot_origin[2] + bottle_hight
     pub.publish(msg)
 
 windowname = "Front view"
