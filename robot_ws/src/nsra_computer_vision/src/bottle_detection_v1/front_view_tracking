@@ -26,7 +26,7 @@ rotation = 0.0
 scaling_factor = 1.0
 dist_factor = 277.0/166.0
 
-scaling_factor_offset = 0.5
+scaling_factor_offset = 1.0
 
 table_hight = 745
 camera_hight = 1474
@@ -326,6 +326,8 @@ while True:
                 cv2.rectangle(frame, (int(pts_top_left[i,0]), int(pts_top_left[i,1])), (int(pts_botton_right[i,0]), int(pts_botton_right[i,1])), (255,0,0), 3)
             except:
                 print("Circle detection failed!")
+                
+    cv2.circle(frame,(int(origin[0]), int(origin[1])), 5, (0,0,255), -1)
 
     cv2.imshow(windowname, frame)
 
