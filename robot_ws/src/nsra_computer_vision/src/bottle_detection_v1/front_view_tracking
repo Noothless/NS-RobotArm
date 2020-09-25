@@ -65,7 +65,7 @@ try:
     robot_origin_z = config_object.getint("ROBOT", "robot_origin_z")
     robot_origin = [robot_origin_x, robot_origin_y, robot_origin_z]
 
-    bottle_hight = config_object.getint("ROBOT", "bottle_hight")
+    bottle_hight = config_object.getfloat("ROBOT", "bottle_hight")
     gripper_offset = config_object.getint("ROBOT", "gripper_offset")
 
     table_hight = config_object.getint("CAMERA", "table_hight")
