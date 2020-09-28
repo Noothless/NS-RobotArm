@@ -41,6 +41,7 @@ last_coords = np.array([[0.0, 0.0]])
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
+#load config file
 try:
     config_object.read(pack_path + "/config/top_view_config.yml")
     origin[0] = config_object.getfloat("CONFIG", "origin_x")
@@ -66,18 +67,6 @@ try:
     bh = config_object.getint("PARAMS", "bh")
 except:
     print("No valid config file found!")
-
-#fs = cv2.FileStorage(pack_path + "/config/top_view_config.yml", cv2.FILE_STORAGE_READ)
-#print(fs.getNode('origin_x'))
-#origin[0] = float(fs.getNode('origin_x'))
-#origin[1] = float(fs.getNode('origin_y'))
-#x_vec[0] = float(fs.getNode('x_vec_x'))
-#x_vec[1] = float(fs.getNode('x_vec_y'))
-#rotation = float(fs.getNode('rotation'))
-#scaling_factor = float(fs.getNode('scaling_factor'))
-#fs.release()
-#except:
-#    print("No config file found!")
 
 class camera():
 
@@ -150,7 +139,6 @@ class camera():
 cam = camera(str(sys.argv[1]))
 
 def rot_pts(pts):
-    global rotation
     a = np.array([[math.cos(rotation), math.sin(rotation)],
                   [-math.sin(rotation), math.cos(rotation)]])
     for i in range(len(pts)):
@@ -158,7 +146,6 @@ def rot_pts(pts):
     return pts
 
 def find_cb_corners():
-    global cam
     global origin
     global x_vec
     global rotation
@@ -235,11 +222,6 @@ def paramsChangeCallback(data):
         config_object.write(conf)
 
 def bd_y_coords(req):
-    global x_coord
-    global y_coord
-    global origin
-    global scaling_factor
-    global offset_factor
     global last_coords
     print("len: " + str(len(x_coord)))
     if (len(x_coord) == 0) or (len(y_coord) == 0):
