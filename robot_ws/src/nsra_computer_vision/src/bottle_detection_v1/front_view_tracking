@@ -15,11 +15,14 @@ from nsra_odrive_interface.msg import bd_robot_coords
 import rospkg
 from configparser import ConfigParser
 
+#config
 config_object = ConfigParser()
 
+#config file path
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_computer_vision')
 
+#callibration variables and constants
 origin = np.array([0.0,0.0])
 x_vec = np.array([0.0,0.0])
 rotation = 0.0
@@ -50,6 +53,7 @@ v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
 robot_origin = np.array([0, 0, 0])
 
+#load config file
 try:
     config_object.read(pack_path + "/config/front_view_config.yml")
     origin[0] = config_object.getfloat("CONFIG", "origin_x")
@@ -90,6 +94,7 @@ except:
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
+#camera class
 class camera():
 
     def __init__(self,rtsp_url):        
@@ -158,14 +163,17 @@ class camera():
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
+#define camera ip address
 cam = camera(str(sys.argv[1]))
 
+#find nearest value in array
 def find_nearest(array, value):
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
     return idx
 
-def find_cb_corners():
+#callibrate new camera position and save in config file
+def callibrate_camera():
     global cam
     global origin
     global x_vec
@@ -178,24 +186,29 @@ def find_cb_corners():
     global table_hight
     global camera_hight
     global scaling_factor_offset
+    #get frame from camera
     frame = cam.get_frame(1)
+    #apply filter
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
+    #find chessboard corners
     retval, corners = cv2.findChessboardCorners(blur_frame, (6,9), flags=cv2.CALIB_CB_FAST_CHECK)
     if retval:
+        #correct chessboard positions
         r,g,b=cv2.split(blur_frame)
         criteria = (cv2.TermCriteria_EPS + cv2.TermCriteria_MAX_ITER, 30, 0.1)
         cv2.cornerSubPix(r, corners, (11,11), (-1,-1), criteria)
+        #draw corners to image and save image
         cv2.drawChessboardCorners(blur_frame, (6,9), corners, retval)
         cv2.imwrite("ref_point_front.jpg", blur_frame)
-        #print(corners)
-
+        ##print(corners)
+        #define origin and x_vec from corner positions
         origin = [corners[0,0,0], corners[0,0,1]]
         x_vec = [corners[5,0,0] - corners[0,0,0], corners[5,0,1] - corners[0,0,1]]
-        #print(str(x_vec[0]) + " / " + str(x_vec[1]))
+        ##print(str(x_vec[0]) + " / " + str(x_vec[1]))
+        #calculate rotation
         A = math.atan(x_vec[0]/x_vec[1])
-        #A = math.degrees(A)
+        ##A = math.degrees(A)
         rotation = A
-        
 
         cb_dist_vec = np.array([corners[48,0,0] - corners[0,0,0], corners[48,0,1] - corners[0,0,1]])
         cb_dist = int(np.linalg.norm(cb_dist_vec))
@@ -208,7 +221,7 @@ def find_cb_corners():
         dist = int(np.round(vcubic[702-cb_dist],0)*dist_factor)
 
         camera_distance = int(math.sqrt(dist**2 - (camera_hight-table_hight)**2))
-
+        #save to config file
         config_object["CONFIG"] = {
             "origin_x": str(origin[0]),
             "origin_y": str(origin[1]),
@@ -218,11 +231,11 @@ def find_cb_corners():
             "scaling_factor": str(scaling_factor),
             "camera_distance": str(camera_distance),
         }
-
+        
         with open(pack_path + "/config/front_view_config.yml", 'w') as conf:
             config_object.write(conf)
 
-        
+        #print config
         print("")
         print("Calibration successful!")
         print("origin: " + str(origin))
@@ -235,7 +248,7 @@ def find_cb_corners():
     else:
         print("No corners detected!")
 
-def JI_Callback(data):
+def jetson_inference(data):
     global pts_center
     global pts_top_left
     global pts_botton_right
@@ -253,7 +266,7 @@ def JI_Callback(data):
         pts_center = center
 
 rospy.init_node('bd_front_view')
-rospy.Subscriber('bottle_detection', obj_det, JI_Callback)
+rospy.Subscriber('bottle_detection', obj_det, jetson_inference)
 
 rospy.wait_for_service('bd_y_coords')
 
@@ -335,4 +348,4 @@ while True:
     if key == 27:
         break
     if key == 10:
-        find_cb_corners()
+        callibrate_camera()
