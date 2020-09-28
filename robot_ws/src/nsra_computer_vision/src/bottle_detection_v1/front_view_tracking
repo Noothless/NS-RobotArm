@@ -174,18 +174,11 @@ def find_nearest(array, value):
 
 #callibrate new camera position and save in config file
 def callibrate_camera():
-    global cam
     global origin
     global x_vec
     global rotation
     global scaling_factor
-    global t
-    global v
-    global dist_factor
     global camera_distance
-    global table_hight
-    global camera_hight
-    global scaling_factor_offset
     #get frame from camera
     frame = cam.get_frame(1)
     #apply filter
@@ -231,7 +224,7 @@ def callibrate_camera():
             "scaling_factor": str(scaling_factor),
             "camera_distance": str(camera_distance),
         }
-        
+
         with open(pack_path + "/config/front_view_config.yml", 'w') as conf:
             config_object.write(conf)
 
@@ -277,11 +270,6 @@ pub = rospy.Publisher('robot_grasp', bd_robot_coords, queue_size=10)
 pub1 = rospy.Publisher('robot_coords_pub', String, queue_size=10)
 
 def mouseCallback(event, x, y, flags, params):
-    global x_coords
-    global y_coords
-    global pts_botton_right
-    global pts_top_left
-    global pts_center
     global robot_x
     global robot_y
     if event == cv2.EVENT_LBUTTONDBLCLK:
@@ -296,9 +284,6 @@ def mouseCallback(event, x, y, flags, params):
                 robot_pub()
 
 def robot_pub():
-    global robot_origin
-    global bottle_hight
-
     msg = bd_robot_coords()
     msg.x = robot_origin[0] - gripper_offset
     msg.y = robot_origin[1]
