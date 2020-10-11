@@ -137,7 +137,9 @@ class camera():
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 #define camera ip address
-cam = camera(0)
+#cam = camera(0)
+
+cap = cv2.VideoCapture(0)
 
 #rotation matrix
 def rot_pts(pts):
@@ -154,7 +156,8 @@ def callibrate_camera():
     global rotation
     global scaling_factor
     #get frame from camera
-    frame = cam.get_frame(1)
+    #frame = cam.get_frame(1)
+    frame = cap.read()
     #apply filter
     blur_frame = cv2.GaussianBlur(frame, (5,5), 1)
     #find chessboard corners
