@@ -137,7 +137,7 @@ class camera():
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 #define camera ip address
-cam = camera(str(sys.argv[1]))
+cam = camera(0)
 
 #rotation matrix
 def rot_pts(pts):
