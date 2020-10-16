@@ -1,4 +1,40 @@
 #!/usr/bin/python
+
+############################################################################# 
+#  BSD 3-Clause License
+# 
+#  Copyright (c) 2020, Noa Sendlhofer
+#  All rights reserved.
+# 
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions are met:
+# 
+#  1. Redistributions of source code must retain the above copyright notice, this
+#     list of conditions and the following disclaimer.
+# 
+#  2. Redistributions in binary form must reproduce the above copyright notice,
+#     this list of conditions and the following disclaimer in the documentation
+#     and/or other materials provided with the distribution.
+# 
+#  3. Neither the name of the copyright holder nor the names of its
+#     contributors may be used to endorse or promote products derived from
+#     this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+#  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+#  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+#  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+#  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+############################################################################# 
+
+# Author: Noa Sendlhofer
+# Desc:   Part of the NSRA Computer Vision stack. Handles the front camera.
+
 import cv2
 import numpy as np
 import scipy as sp
@@ -254,16 +290,16 @@ def jetson_inference(data):
             pts_botton_right = np.concatenate((pts_botton_right, d), axis=0)
         pts_center = center
 
-rospy.init_node('bd_front_view')
-rospy.Subscriber('bottle_detection', obj_det, jetson_inference)
+rospy.init_node('nsra_bd_front_view')
+rospy.Subscriber('nsra/object_detection', obj_det, jetson_inference)
 
-rospy.wait_for_service('bd_y_coords')
+rospy.wait_for_service('nsra/bd_coords')
 
-bd_y_coords = rospy.ServiceProxy('bd_y_coords', bd_coords)
+bd_y_coords = rospy.ServiceProxy('nsra/bd_coords', bd_coords)
 
-pub = rospy.Publisher('robot_grasp', bd_robot_coords, queue_size=10)
+pub = rospy.Publisher('nsra/robot_grasp', bd_robot_coords, queue_size=10)
 
-pub1 = rospy.Publisher('robot_coords_pub', String, queue_size=10)
+#pub1 = rospy.Publisher('robot_coords_pub', String, queue_size=10)
 
 def mouseCallback(event, x, y, flags, params):
     global robot_x
@@ -274,7 +310,7 @@ def mouseCallback(event, x, y, flags, params):
                 idx = find_nearest(x_coords_corr, pts_center[i,0])
                 #print(x,y)
                 print("XY Coords: " + str(x_coords[idx]) + " -- " + str(y_coords[idx]))
-                pub1.publish(str(x_coords[idx]) + " -- " + str(y_coords[idx]))
+                #pub1.publish(str(x_coords[idx]) + " -- " + str(y_coords[idx]))
                 robot_x = x_coords[idx] + robot_origin[0]
                 robot_y = - y_coords[idx] + robot_origin[1]
                 robot_pub()
