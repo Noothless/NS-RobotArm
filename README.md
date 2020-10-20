@@ -24,9 +24,6 @@ cd ~/NS-RobotArm
 ./install.sh
 ```
 
-**Overview:**
-![logo](images/NSRA_basic_setup.png)
-
 ## Demo Video
 Computer Vision Demo: https://youtu.be/qLOjDBZUM-s
 
@@ -37,3 +34,10 @@ CAD designs: https://github.com/Noothless/NS-RobotArm_CAD
 ## EDA
 
 EDA files: https://github.com/Noothless/NS-RobotArm_EDA
+
+## Overview
+**Basic inverse kinematics dataflow:**
+![logo](images/NSRA_basic_setup.png)
+
+**Simple bottle detection program dataflow:**
+![logo](images/bottle_detection_dataflow.png)
