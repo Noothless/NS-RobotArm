@@ -65,7 +65,7 @@ rotation = 0.0
 scaling_factor = 1.0
 dist_factor = 277.0/166.0
 
-scaling_factor_offset = 2
+scaling_factor_offset = 1
 
 table_hight = 745
 camera_hight = 1474
