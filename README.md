@@ -24,7 +24,7 @@ cd ~/NS-RobotArm
 ./install.sh
 ```
 ## Demo Video
-Computer Vision Demo: https://www.youtube.com/watch?v=qLOjDBZUM-s&ab_channel=Noothless
+Computer Vision Demo: https://youtu.be/qLOjDBZUM-s
 
 ## CAD
 
