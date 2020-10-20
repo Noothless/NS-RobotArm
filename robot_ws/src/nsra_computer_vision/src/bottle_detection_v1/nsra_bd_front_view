@@ -345,7 +345,7 @@ while True:
             x_coords_corr[i] = (y_coords[i])*scaling_factor*of_f + (720 - origin[0])
             #print("x_coords" + str(i) + ":" + str(x_coords_corr[i]) + " -- " + str(y_coords[i]))
             try:
-                print("x_coords" + str(i) + ":" + str(int((1080 - origin[0]) - (x_coords[i])*scaling_factor*of_f)) + " -- " + str(x_coords[i]))
+                #print("x_coords" + str(i) + ":" + str(int((1080 - origin[0]) - (x_coords[i])*scaling_factor*of_f)) + " -- " + str(x_coords[i]))
                 cv2.circle(frame,(int((1080 - origin[0]) - (x_coords[i])*scaling_factor*of_f), int(pts_center[i,1])), 5, (0,255,0), -1)
                 cv2.putText(frame, "x: " + str(round(x_coords[i], 2)) + " -- y: " + str(round(y_coords[i], 2)), (int((1080 - origin[0]) - (x_coords[i])*scaling_factor*of_f) - 150, int(pts_center[i,1]) - 80), font, 1, (255,255,255), 2, cv2.LINE_AA)
             except:
