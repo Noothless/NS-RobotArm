@@ -395,6 +395,8 @@ while True:
     #cv2.imshow("Top view masked", imgKeyPoints)
 
     key = cv2.waitKey(1)
+    if key == 97:
+        cv2.imwrite("ref_frame_top.jpg", output_img)
     if key == 27:
         break
     if key == 10:
