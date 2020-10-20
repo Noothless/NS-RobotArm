@@ -23,6 +23,10 @@ cd ~/NS-RobotArm
 
 ./install.sh
 ```
+
+**Overview:**
+![logo](images/NSRA_basic_setup.png)
+
 ## Demo Video
 Computer Vision Demo: https://youtu.be/qLOjDBZUM-s
 
