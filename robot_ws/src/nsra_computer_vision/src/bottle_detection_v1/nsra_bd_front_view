@@ -89,6 +89,9 @@ v=np.array([273,327,378,445,490,555,602,700,800,900,1000,1100,1200,1300,1350])
 
 robot_origin = np.array([0, 0, 0])
 
+robot_x = 0.0
+robot_y = 0.0
+
 #load config file
 try:
     config_object.read(pack_path + "/config/front_view_config.yml")
@@ -317,8 +320,8 @@ def mouseCallback(event, x, y, flags, params):
 
 def robot_pub():
     msg = bd_robot_coords()
-    msg.x = robot_origin[0] - gripper_offset
-    msg.y = robot_origin[1]
+    msg.x = robot_x - gripper_offset
+    msg.y = robot_y
     msg.z = robot_origin[2] + bottle_hight
     pub.publish(msg)
 
