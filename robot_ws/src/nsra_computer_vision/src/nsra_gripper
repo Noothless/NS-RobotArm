@@ -39,8 +39,8 @@ import rospy
 import requests
 from std_msgs.msg import Int16
   
-URL_OPEN = "http://192.168.1.202/open"
-URL_CLOSE = "http://192.168.1.202/close"
+URL_OPEN = "http://192.168.1.110/open"
+URL_CLOSE = "http://192.168.1.110/close"
 PARAMS = {} 
   
 # sending get request and saving the response as response object 
