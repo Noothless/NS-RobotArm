@@ -24,7 +24,7 @@ cd ~/NS-RobotArm
 ./install.sh
 ```
 ## Demo Video
-**Computer Vision Demo: **
+**Computer Vision Demo:**
 
 ## CAD
 
