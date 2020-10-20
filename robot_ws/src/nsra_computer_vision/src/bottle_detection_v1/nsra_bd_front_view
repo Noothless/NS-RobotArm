@@ -338,10 +338,10 @@ while True:
         x_coords_corr = list(x_coords)
         for i in range(len(x_coords)):
             of_f = 1.0
-            try:
-                of_f = 1 - 1/(camera_distance/y_coords[i]*scaling_factor)
-            except:
-                of_f = 1.0
+            #try:
+            #    of_f = 1 - 1/(camera_distance/y_coords[i]*scaling_factor)
+            #except:
+            #    of_f = 1.0
             x_coords_corr[i] = (y_coords[i])*scaling_factor*of_f + (720 - origin[0])
             #print("x_coords" + str(i) + ":" + str(x_coords_corr[i]) + " -- " + str(y_coords[i]))
             try:
