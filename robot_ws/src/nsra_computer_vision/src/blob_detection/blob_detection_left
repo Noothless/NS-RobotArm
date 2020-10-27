@@ -4,7 +4,7 @@ import numpy as np
 import rospy
 from std_msgs.msg import String
 
-cap = cv2.VideoCapture("rtsp://192.168.1.171")
+cap = cv2.VideoCapture(0)
 rl = 90
 gl = 40
 bl = 100

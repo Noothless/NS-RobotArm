@@ -64,9 +64,9 @@ install(PROGRAMS
   src/calibration/calib_intrinsics
   src/plot_3d_points
   src/nsra_gripper
-  src/bottle_detection_v1/top_view_tracking
-  src/bottle_detection_v1/object_detection.py
-  src/bottle_detection_v1/front_view_tracking
+  src/bottle_detection_v1/nsra_bd_top_view
+  src/bottle_detection_v1/nsra_bd_object_detection
+  src/bottle_detection_v1/nsra_bd_front_view
   src/bottle_detection_v1/nsra_bottle_detection
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

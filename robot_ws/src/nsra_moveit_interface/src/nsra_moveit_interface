@@ -73,7 +73,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     super(MoveGroupPythonIntefaceTutorial, self).__init__()
 
     moveit_commander.roscpp_initialize(sys.argv)
-    rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
+    rospy.init_node('nsra_moveit_interface')
 
     robot = moveit_commander.RobotCommander()
 
@@ -478,7 +478,7 @@ def robot_grasp_test(data):
   tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000, 350.0/1000, 0)
   tutorial.go_to_joint_state()
 
-rospy.Subscriber('robot_grasp', bd_robot_coords, robot_grasp)
+rospy.Subscriber('nsra/robot_grasp', bd_robot_coords, robot_grasp)
 rospy.Subscriber('robot_grasp_test', String, robot_grasp_test)
 
 def main():

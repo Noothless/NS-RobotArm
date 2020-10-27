@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>nsra_python_interface</name>
+  <name>nsra_moveit_interface</name>
   <version>0.0.0</version>
-  <description>nsra_python_interface</description>
+  <description>nsra_moveit_interface</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
