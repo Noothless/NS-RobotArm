@@ -175,7 +175,7 @@ cam = camera(str(sys.argv[1]))
 
 #rotation matrix
 def rot_pts(pts):
-    a = np.array([[math.cos(rotation), math.sin(rotation)],
+    a = np.array([[math.cos(rotation),  math.sin(rotation)],
                   [-math.sin(rotation), math.cos(rotation)]])
     for i in range(len(pts)):
         pts[i,:] = a.dot(pts[i,:])
