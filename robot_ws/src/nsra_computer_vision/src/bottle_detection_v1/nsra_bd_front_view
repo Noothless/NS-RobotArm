@@ -177,9 +177,7 @@ class camera():
         conn.close()
 
     def get_frame(self,resize=None):
-        ###used to grab frames from the cam connection process
-
-        ##[resize] param : % of size reduction or increase i.e 0.65 for 35% reduction  or 1.5 for a 50% increase
+        #used to grab frames from the cam connection process
 
         #send request
         self.parent_conn.send(1)

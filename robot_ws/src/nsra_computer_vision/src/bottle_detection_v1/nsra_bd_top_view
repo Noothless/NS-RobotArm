@@ -129,13 +129,11 @@ class camera():
         run = True
 
         while run:
-
             #grab frames from the buffer
             cap.grab()
 
             #recieve input data
             rec_dat = conn.recv()
-
 
             if rec_dat == 1:
                 #if frame requested
@@ -151,9 +149,7 @@ class camera():
         conn.close()
 
     def get_frame(self,resize=None):
-        ###used to grab frames from the cam connection process
-
-        ##[resize] param : % of size reduction or increase i.e 0.65 for 35% reduction  or 1.5 for a 50% increase
+        #used to grab frames from the cam connection process
 
         #send request
         self.parent_conn.send(1)
@@ -169,7 +165,6 @@ class camera():
             return self.rescale_frame(frame,resize)
 
     def rescale_frame(self,frame, percent=65):
-
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 #define camera ip address
