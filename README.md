@@ -25,7 +25,7 @@ cd ~/NS-RobotArm
 ```
 
 ## Demo Video
-Computer Vision Demo: https://youtu.be/qLOjDBZUM-s
+Robot Vision Demo: https://youtu.be/qLOjDBZUM-s
 
 ## CAD
 
