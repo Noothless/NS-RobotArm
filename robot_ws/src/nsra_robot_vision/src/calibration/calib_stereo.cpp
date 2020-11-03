@@ -119,7 +119,7 @@ int main(int argc, char const *argv[])
   int c;
   while((c = popt.getNextOpt()) >= 0) {}
   
-  string img_dir = ros::package::getPath("nsra_computer_vision") + "/images/";
+  string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/";
   string calib_dir_left = ros::package::getPath("nsra_computer_vision") + "/config/" + leftcalib_file;
   string calib_dir_right = ros::package::getPath("nsra_computer_vision") + "/config/" + rightcalib_file;
 
@@ -152,7 +152,7 @@ int main(int argc, char const *argv[])
 
   cout << "Re-projection error reported by stereoCalibrate: "<< rms << endl;
 
-  cv::FileStorage fs1(ros::package::getPath("nsra_computer_vision") + "/" + out_file, cv::FileStorage::WRITE);
+  cv::FileStorage fs1(ros::package::getPath("nsra_robot_vision") + "/" + out_file, cv::FileStorage::WRITE);
   fs1 << "KL" << KL;
   fs1 << "KR" << KR;
   fs1 << "DL" << DL;

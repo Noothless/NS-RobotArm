@@ -39,7 +39,7 @@ int main(int argc, char const *argv[])
   Mat img1 = imread(leftimg_filename, CV_LOAD_IMAGE_COLOR);
   Mat img2 = imread(rightimg_filename, CV_LOAD_IMAGE_COLOR);
 
-  cv::FileStorage fs1( ros::package::getPath("nsra_computer_vision") + "/" + calib_file, cv::FileStorage::READ);
+  cv::FileStorage fs1( ros::package::getPath("nsra_robot_vision") + "/" + calib_file, cv::FileStorage::READ);
   fs1["KL"] >> K1;
   fs1["KR"] >> K2;
   fs1["DL"] >> D1;

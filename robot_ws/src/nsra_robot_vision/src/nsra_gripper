@@ -33,7 +33,7 @@
 ############################################################################# 
 
 # Author: Noa Sendlhofer
-# Desc: Connection to a network based gripper.
+# Desc:   Connection to a network based gripper.
 
 import rospy
 import requests

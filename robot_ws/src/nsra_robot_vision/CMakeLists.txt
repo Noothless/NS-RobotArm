@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(nsra_computer_vision)
+project(nsra_robot_vision)
 
 #set(OpenCV_DIR /usr/share/OpenCV/)
 

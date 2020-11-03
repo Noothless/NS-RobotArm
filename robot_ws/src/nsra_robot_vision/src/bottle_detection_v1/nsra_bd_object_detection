@@ -33,7 +33,7 @@
 ############################################################################# 
 
 # Author: Noa Sendlhofer
-# Desc:   Part of the NSRA Computer Vision stack. Handles the Jetson inference object detection.
+# Desc:   Part of the NSRA Robot Vision stack. Handles the Jetson inference object detection.
 
 import jetson.inference
 import jetson.utils

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>nsra_computer_vision</name>
+  <name>nsra_robot_vision</name>
   <version>0.0.0</version>
-  <description>nsra_computer_vision</description>
+  <description>nsra_robot_vision</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

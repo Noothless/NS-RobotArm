@@ -97,7 +97,7 @@ imgpoints_right = []
 
 img_nb = int(sys.argv[3])
 
-pack_path = rospack.get_path('nsra_computer_vision')
+pack_path = rospack.get_path('nsra_robot_vision')
 
 def findCBC_LEFT(img):
     image_name = pack_path + '/images/left' + str(img_nb + 1) + '.jpg'

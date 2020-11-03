@@ -33,7 +33,7 @@
 ############################################################################# 
 
 # Author: Noa Sendlhofer
-# Desc:   Part of the NSRA Computer Vision stack. Handles the top camera.
+# Desc:   Part of the NSRA Robot Vision stack. Handles the top camera.
 
 import cv2
 import numpy as np
@@ -52,7 +52,7 @@ from configparser import ConfigParser
 config_object = ConfigParser()
 #config file path
 rospack = rospkg.RosPack()
-pack_path = rospack.get_path('nsra_computer_vision')
+pack_path = rospack.get_path('nsra_robot_vision')
 #color filter parameter
 rl = 90
 gl = 40

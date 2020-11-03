@@ -8,8 +8,8 @@ rospack = rospkg.RosPack()
 cap1 = cv2.VideoCapture("rtsp://192.168.1.171")
 cap2 = cv2.VideoCapture("rtsp://192.168.1.102")
 
-fs1 = cv2.FileStorage(rospack.get_path('nsra_computer_vision') + "/camera1_conf.xml", cv2.FILE_STORAGE_READ)
-fs2 = cv2.FileStorage(rospack.get_path('nsra_computer_vision') + "/camera2_conf.xml", cv2.FILE_STORAGE_READ)
+fs1 = cv2.FileStorage(rospack.get_path('nsra_robot_vision') + "/camera1_conf.xml", cv2.FILE_STORAGE_READ)
+fs2 = cv2.FileStorage(rospack.get_path('nsra_robot_vision') + "/camera2_conf.xml", cv2.FILE_STORAGE_READ)
 
 i_points = np.float32([[0  ,  0 , 0],
                        [0  , 25 , 0],

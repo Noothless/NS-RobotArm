@@ -12,7 +12,7 @@ rospack = rospkg.RosPack()
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-fs = cv2.FileStorage(rospack.get_path('nsra_computer_vision') + "/storedPoints.yml", cv2.FILE_STORAGE_READ)
+fs = cv2.FileStorage(rospack.get_path('nsra_robot_vision') + "/storedPoints.yml", cv2.FILE_STORAGE_READ)
 
 fn = fs.getNode("Points")
 
