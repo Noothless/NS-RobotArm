@@ -67,7 +67,6 @@ install(PROGRAMS
   src/bottle_detection_v1/nsra_bd_top_view
   src/bottle_detection_v1/nsra_bd_object_detection
   src/bottle_detection_v1/nsra_bd_front_view
-  src/bottle_detection_v1/nsra_bottle_detection
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
