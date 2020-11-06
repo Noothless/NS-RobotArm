@@ -385,6 +385,7 @@ while True:
         print("Coords error!")
     
     output_img = np.concatenate((blur_frame_points, imgKeyPoints), axis=1)
+    output_img = cv2.resize(output_img, (int(output_img.shape[1] * 25 / 100), int(output_img.shape[0] * 25 / 100)))
     cv2.imshow("Top view", output_img)
     #cv2.imshow("Top view original", blur_frame_points)
     #cv2.imshow("Top view masked", imgKeyPoints)
