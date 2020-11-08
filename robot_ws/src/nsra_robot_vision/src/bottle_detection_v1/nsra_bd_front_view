@@ -362,7 +362,7 @@ while True:
 
     cv2.circle(frame,(int(origin[0]), int(origin[1])), 5, (0,0,255), -1)
 
-    output_img = cv2.resize(frame, (int(frame.shape[1] * 50 / 100), int(frame.shape[0] * 50 / 100)))
+    output_img = cv2.resize(frame, (int(frame.shape[1] * 100 / 100), int(frame.shape[0] * 100 / 100)))
     
     cv2.imshow(windowname, output_img)
 
