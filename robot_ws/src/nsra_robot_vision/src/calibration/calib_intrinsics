@@ -9,7 +9,7 @@ import yaml
 import thread
 import sys
 import gxipy as gx
-from PIL import Image
+from PIL import 
 from threading import Thread
 import subprocess as sp
 
