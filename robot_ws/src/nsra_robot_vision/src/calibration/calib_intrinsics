@@ -99,7 +99,7 @@ class camera():
                 if numpy_image_l is None:
                     continue
 
-                ,frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
+                ret,frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
 
                 conn.send(frame)
 
