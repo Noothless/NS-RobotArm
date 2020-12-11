@@ -36,26 +36,30 @@ class camera():
     def update(self,conn,cam_num):
         #load cam into seperate process
 
-        print("Cam Loading...")
-
-        dev_num, dev_info_list = device_manager.update_device_list()
-
-        if dev_num == 0:
-            print("Number of enumerated devices is 0")
-            return
-
         devices = {
             0: "TV0200110013",
             1: "TV0200110012"
         }
 
+        print("Cam %s Loading...", devices.get(cam_num))
+
+        dev_num, dev_info_list = device_manager.update_device_list()
+
+        print(dev_info_list)
+
+        if dev_num == 0:
+            print("Number of enumerated devices is 0")
+            return
+
         if cam_num != 0 or cam_num != 1:
             print("Invalid cam number!")
             return
 
+        print("test1")
+
         cam = device_manager.open_device_by_sn(devices.get(cam_num))
 
-        print("test")
+        print("test2")
 
         if cam.PixelColorFilter.is_implemented() == False:
             print("This sample does not support mono camera.")
