@@ -41,9 +41,11 @@ class camera():
             1: "TV0200110012"
         }
 
-        print("Cam %s Loading...", devices.get(cam_num))
+        print("Cam %s Loading..." % devices.get(cam_num))
 
         dev_num, dev_info_list = device_manager.update_device_list()
+
+        print(dev_num)
 
         print(dev_info_list)
 
@@ -77,7 +79,7 @@ class camera():
         cam.data_stream[0].set_acquisition_buffer_number(1)
         cam.stream_on()
 
-        print("Cam %s Loaded...", devices.get(cam_num))
+        print("Cam %s Loaded..." % devices.get(cam_num))
 
         run = True
 
@@ -126,7 +128,7 @@ class camera():
         #send request
         self.parent_conn.send(1)
         frame = self.parent_conn.recv()
-
+        print(frame)
         #reset request 
         self.parent_conn.send(0)
 
