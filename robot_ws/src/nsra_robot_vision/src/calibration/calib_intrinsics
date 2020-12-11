@@ -99,9 +99,9 @@ class camera():
                 if numpy_image is None:
                     continue
 
-                #ret,frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
+                frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
 
-                conn.send(numpy_image)
+                conn.send(frame)
 
             elif rec_dat == 2:
                 #if close requested
