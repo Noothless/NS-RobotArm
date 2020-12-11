@@ -14,7 +14,7 @@ import subprocess as sp
 
 rospack = rospkg.RosPack()
 
-device_manager = gx.DeviceManager()
+
 
 cam_flag = False
 
@@ -37,6 +37,8 @@ class camera():
 
     def update(self,conn,cam_num):
         #load cam into seperate process
+
+        device_manager = gx.DeviceManager()
 
         devices = {
             0: "TV0200110013",
