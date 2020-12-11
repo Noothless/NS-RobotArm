@@ -49,15 +49,11 @@ class camera():
 
         dev_num, dev_info_list = device_manager.update_device_list()
 
-        print(dev_num)
-
-        print(dev_info_list)
-
         if dev_num == 0:
             print("Number of enumerated devices is 0")
             return
 
-        if cam_num != 0 or cam_num != 1:
+        if cam_num != 0 and cam_num != 1:
             print("Invalid cam number!")
             return
 
