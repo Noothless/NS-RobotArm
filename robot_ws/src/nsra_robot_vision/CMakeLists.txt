@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(nsra_robot_vision)
 
-#set(OpenCV_DIR /usr/share/OpenCV/)
+set(OpenCV_DIR /usr/share/OpenCV/)
 
 
 find_package(catkin REQUIRED COMPONENTS
