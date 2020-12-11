@@ -14,10 +14,6 @@ import subprocess as sp
 
 rospack = rospkg.RosPack()
 
-
-
-cam_flag = False
-
 class camera():
 
     def __init__(self,cam_num):        
@@ -57,11 +53,7 @@ class camera():
             print("Invalid cam number!")
             return
 
-        print("test1")
-
         cam = device_manager.open_device_by_sn(devices.get(cam_num))
-
-        print("test2")
 
         if cam.PixelColorFilter.is_implemented() == False:
             print("This sample does not support mono camera.")
@@ -80,8 +72,6 @@ class camera():
         cam.stream_on()
 
         print("Cam %s Loaded..." % devices.get(cam_num))
-
-        cam_flag = True
 
         run = True
 
@@ -145,9 +135,6 @@ class camera():
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 cam_left = camera(0)
-while cam_flag == False:
-    cv2.waitKey(10)
-cam_flag = False
 cam_right = camera(1)
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
