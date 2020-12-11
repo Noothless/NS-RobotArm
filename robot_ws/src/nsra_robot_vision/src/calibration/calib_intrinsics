@@ -120,7 +120,7 @@ class camera():
         #send request
         self.parent_conn.send(1)
         frame = self.parent_conn.recv()
-        print(frame)
+        #print(frame)
         #reset request 
         self.parent_conn.send(0)
 
