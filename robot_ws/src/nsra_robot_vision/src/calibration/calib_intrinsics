@@ -155,7 +155,7 @@ img_nb = int(sys.argv[1])
 pack_path = rospack.get_path('nsra_robot_vision')
 
 def findCBC_LEFT(img):
-    image_name = pack_path + '/images/left' + str(img_nb + 1) + '.bmp'
+    image_name = pack_path + '/images/left' + str(img_nb + 1) + '.jpg'
     print(image_name)
     cv2.imwrite(image_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -169,7 +169,7 @@ def findCBC_LEFT(img):
         print("No corners detected in the left image!")     
 
 def findCBC_RIGHT(img):
-    image_name = pack_path + '/images/right' + str(img_nb + 1) + '.bmp'
+    image_name = pack_path + '/images/right' + str(img_nb + 1) + '.jpg'
     cv2.imwrite(image_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
@@ -182,8 +182,8 @@ def findCBC_RIGHT(img):
         print("No corners detected in the right image!")
 
 while(1):
-    img_left = cam_left.get_frame(0.5)
-    img_right = cam_right.get_frame(0.5)
+    img_left = cam_left.get_frame(0.65)
+    img_right = cam_right.get_frame(0.65)
 
     cv2.imshow('left camera', img_left)
     cv2.imshow('right camera', img_right)
