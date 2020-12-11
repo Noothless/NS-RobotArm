@@ -1,0 +1,25 @@
+nsra_robot_vision
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/cmake.lock /home/noa/NS-RobotArm/robot_ws/devel/./cmake.lock
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/common-lisp/ros/nsra_robot_vision/srv/_package_coords.lisp /home/noa/NS-RobotArm/robot_ws/devel/share/common-lisp/ros/nsra_robot_vision/srv/_package_coords.lisp
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/common-lisp/ros/nsra_robot_vision/srv/coords.lisp /home/noa/NS-RobotArm/robot_ws/devel/share/common-lisp/ros/nsra_robot_vision/srv/coords.lisp
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/common-lisp/ros/nsra_robot_vision/srv/_package.lisp /home/noa/NS-RobotArm/robot_ws/devel/share/common-lisp/ros/nsra_robot_vision/srv/_package.lisp
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/common-lisp/ros/nsra_robot_vision/srv/nsra_robot_vision-srv.asd /home/noa/NS-RobotArm/robot_ws/devel/share/common-lisp/ros/nsra_robot_vision/srv/nsra_robot_vision-srv.asd
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/roseus/ros/nsra_robot_vision/manifest.l /home/noa/NS-RobotArm/robot_ws/devel/share/roseus/ros/nsra_robot_vision/manifest.l
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/roseus/ros/nsra_robot_vision/srv/coords.l /home/noa/NS-RobotArm/robot_ws/devel/share/roseus/ros/nsra_robot_vision/srv/coords.l
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/gennodejs/ros/nsra_robot_vision/_index.js /home/noa/NS-RobotArm/robot_ws/devel/share/gennodejs/ros/nsra_robot_vision/_index.js
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/gennodejs/ros/nsra_robot_vision/srv/_index.js /home/noa/NS-RobotArm/robot_ws/devel/share/gennodejs/ros/nsra_robot_vision/srv/_index.js
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/gennodejs/ros/nsra_robot_vision/srv/coords.js /home/noa/NS-RobotArm/robot_ws/devel/share/gennodejs/ros/nsra_robot_vision/srv/coords.js
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/nsra_robot_vision/cmake/nsra_robot_vision-msg-paths.cmake /home/noa/NS-RobotArm/robot_ws/devel/share/nsra_robot_vision/cmake/nsra_robot_vision-msg-paths.cmake
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/nsra_robot_vision/cmake/nsra_robot_visionConfig-version.cmake /home/noa/NS-RobotArm/robot_ws/devel/share/nsra_robot_vision/cmake/nsra_robot_visionConfig-version.cmake
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/nsra_robot_vision/cmake/nsra_robot_visionConfig.cmake /home/noa/NS-RobotArm/robot_ws/devel/share/nsra_robot_vision/cmake/nsra_robot_visionConfig.cmake
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/share/nsra_robot_vision/cmake/nsra_robot_vision-msg-extras.cmake /home/noa/NS-RobotArm/robot_ws/devel/share/nsra_robot_vision/cmake/nsra_robot_vision-msg-extras.cmake
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/pkgconfig/nsra_robot_vision.pc /home/noa/NS-RobotArm/robot_ws/devel/lib/pkgconfig/nsra_robot_vision.pc
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/__init__.py /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/__init__.py
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/srv/__init__.py /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/srv/__init__.py
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/srv/_coords.py /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/srv/_coords.py
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/__init__.cpython-38.pyc /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/__init__.cpython-38.pyc
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/_coords.cpython-38.pyc /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/_coords.cpython-38.pyc
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/__pycache__/__init__.cpython-38.pyc /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/__pycache__/__init__.cpython-38.pyc
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/include/nsra_robot_vision/coordsRequest.h /home/noa/NS-RobotArm/robot_ws/devel/include/nsra_robot_vision/coordsRequest.h
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/include/nsra_robot_vision/coords.h /home/noa/NS-RobotArm/robot_ws/devel/include/nsra_robot_vision/coords.h
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/include/nsra_robot_vision/coordsResponse.h /home/noa/NS-RobotArm/robot_ws/devel/include/nsra_robot_vision/coordsResponse.h
