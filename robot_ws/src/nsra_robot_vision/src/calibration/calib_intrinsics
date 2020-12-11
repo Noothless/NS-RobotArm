@@ -16,9 +16,7 @@ rospack = rospkg.RosPack()
 
 device_manager = gx.DeviceManager()
 
-dev_num, dev_info_list = device_manager.update_device_list()
-
-print(dev_num)
+cam_flag = False
 
 class camera():
 
@@ -85,6 +83,8 @@ class camera():
 
         print("Cam %s Loaded..." % devices.get(cam_num))
 
+        cam_flag = True
+
         run = True
 
         while run:
@@ -147,6 +147,9 @@ class camera():
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 cam_left = camera(0)
+while cam_flag == False:
+    cv2.waitKey(10)
+cam_flag = False
 cam_right = camera(1)
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
