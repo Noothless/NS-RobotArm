@@ -142,7 +142,7 @@ criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 objp = np.zeros((6*9,3), np.float32)
 objp[:,:2] = np.mgrid[0:225:25,0:150:25].T.reshape(-1,2)
 
-print(objp)
+#print(objp)
 
 objpoints_left = [] 
 objpoints_right = [] 
@@ -150,7 +150,7 @@ objpoints_right = []
 imgpoints_left = [] 
 imgpoints_right = [] 
 
-img_nb = int(sys.argv[3])
+img_nb = int(sys.argv[1])
 
 pack_path = rospack.get_path('nsra_robot_vision')
 
