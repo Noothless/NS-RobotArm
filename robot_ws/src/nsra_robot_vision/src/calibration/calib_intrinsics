@@ -6,7 +6,6 @@ import multiprocessing as mp
 import numpy as np
 import rospkg
 import yaml
-import thread
 import sys
 import gxipy as gx
 from PIL import Image
@@ -15,58 +14,46 @@ import subprocess as sp
 
 rospack = rospkg.RosPack()
 
-q_r = Queue(maxsize=1)
-q_l = Queue(maxsize=1)
-m_gLiveFlag = 1
-m_gProcessFlag = 1
-killFlag = 1
+device_manager = gx.DeviceManager()
 
-def live_image(threadName, delay, cam_num):
-    
-    device_manager = gx.DeviceManager()
-    dev_num, dev_info_list = device_manager.update_device_list()
-    if dev_num == 0:
-        print("Number of enumerated devices is 0")
-        return
+class camera():
 
-    if cam_num == 1:
+    def __init__(self,cam_num):        
+        #load pipe for data transmittion to the process
+        self.parent_conn, child_conn = mp.Pipe()
+        #load process
+        self.p = mp.Process(target=self.update, args=(child_conn,cam_num))        
+        #start process
+        self.p.daemon = True
+        self.p.start()
 
-        cam1 = device_manager.open_device_by_sn("TV0200110013")
+    def end(self):
+        #send closure request to process
 
-        if cam1.PixelColorFilter.is_implemented() == False:
-            print("This sample does not support mono camera.")
-            cam1.close_device()
+        self.parent_conn.send(2)
+
+
+    def update(self,conn,cam_num):
+        #load cam into seperate process
+
+        print("Cam Loading...")
+
+        dev_num, dev_info_list = device_manager.update_device_list()
+
+        if dev_num == 0:
+            print("Number of enumerated devices is 0")
             return
 
-        cam1.TriggerMode.set(gx.GxSwitchEntry.OFF)
+        devices = {
+            0: "TV0200110013",
+            1: "TV0200110012"
+        }
 
-        cam1.ExposureTime.set(30000.0)
+        if cam_num != 0 or cam_num != 1:
+            print("Invalid cam number!")
+            return
 
-        cam1.Gain.set(20.0)
-
-        cam1.BalanceWhiteAuto.set(1)
-
-        if cam1.GammaParam.is_readable():
-            gamma_value = cam1.GammaParam.get()
-            gamma_lut = gx.Utility.get_gamma_lut(gamma_value)
-        else:
-            gamma_lut = None
-        if cam1.ContrastParam.is_readable():
-            contrast_value = cam1.ContrastParam.get()
-            contrast_lut = gx.Utility.get_contrast_lut(contrast_value)
-        else:
-            contrast_lut = None
-        if cam1.ColorCorrectionParam.is_readable():
-            color_correction_param = cam1.ColorCorrectionParam.get()
-        else:
-            color_correction_param = 0
-
-        cam1.data_stream[0].set_acquisition_buffer_number(1)
-        cam1.stream_on()
-
-    elif cam_num == 2:
-
-        cam = device_manager.open_device_by_sn("TV0200110012")
+        cam = device_manager.open_device_by_sn(devices.get(cam_num))
 
         if cam.PixelColorFilter.is_implemented() == False:
             print("This sample does not support mono camera.")
@@ -81,138 +68,45 @@ def live_image(threadName, delay, cam_num):
 
         cam.BalanceWhiteAuto.set(1)
 
-        if cam.GammaParam.is_readable():
-            gamma_value = cam.GammaParam.get()
-            gamma_lut = gx.Utility.get_gamma_lut(gamma_value)
-        else:
-            gamma_lut = None
-        if cam.ContrastParam.is_readable():
-            contrast_value = cam.ContrastParam.get()
-            contrast_lut = gx.Utility.get_contrast_lut(contrast_value)
-        else:
-            contrast_lut = None
-        if cam.ColorCorrectionParam.is_readable():
-            color_correction_param = cam.ColorCorrectionParam.get()
-        else:
-            color_correction_param = 0
-
         cam.data_stream[0].set_acquisition_buffer_number(1)
         cam.stream_on()
-    
-    else:
-        print("Error device number")
-        return
 
-    while m_gLiveFlag:
+        print("Cam %s Loaded...", devices.get(cam_num))
 
-        if cam_num == 1:
-
-            raw_image_l = cam1.data_stream[0].get_image()
-
-            if raw_image_l is None:
-                print("Getting image failed.")
-                continue
-
-            if raw_image_l.get_status() == gx.GxFrameStatusList.INCOMPLETE:
-                pass
-
-            rgb_image_l = raw_image_l.convert("RGB")
-            if rgb_image_l is None:
-                continue
-
-            numpy_image_l = rgb_image_l.get_numpy_array()
-            if numpy_image_l is None:
-                continue
-
-            pimg_l = cv2.cvtColor(np.asarray(numpy_image_l),cv2.COLOR_BGR2RGB)
-
-            drawing_bgr = cv2.cvtColor(pimg_l, cv2.COLOR_RGB2BGR)
-            if q_l.qsize() == 0:
-                q_l.put(drawing_bgr)
-
-        elif cam_num == 2:
-
-            raw_image_r = cam.data_stream[0].get_image()
-
-            if raw_image_r is None:
-                print("Getting image failed.")
-                continue
-
-            if raw_image_r.get_status() == gx.GxFrameStatusList.INCOMPLETE:
-                pass
-
-            rgb_image_r = raw_image_r.convert("RGB")
-            if rgb_image_r is None:
-                continue
-
-            numpy_image_r = rgb_image_r.get_numpy_array()
-            if numpy_image_r is None:
-                continue
-
-            pimg_r = cv2.cvtColor(np.asarray(numpy_image_r),cv2.COLOR_BGR2RGB)
-
-            drawing_bgr = cv2.cvtColor(pimg_r, cv2.COLOR_RGB2BGR)
-            if q_r.qsize() == 0:
-                q_r.put(drawing_bgr) 
-
-        else:
-            print("Error device number")
-            return 
-        
-        key = cv2.waitKey(1)
-        if key == 27:
-            break
-    
-    if cam_num == 1:
-        cam.stream_off()
-        cam.close_device()
-    elif cam_num == 2:
-        cam1.stream_off()
-        cam1.close_device()
-
-    cv2.destroyAllWindows()  
-
-class camera():
-
-    def __init__(self,rtsp_url):        
-        #load pipe for data transmittion to the process
-        self.parent_conn, child_conn = mp.Pipe()
-        #load process
-        self.p = mp.Process(target=self.update, args=(child_conn,rtsp_url))        
-        #start process
-        self.p.daemon = True
-        self.p.start()
-
-    def end(self):
-        #send closure request to process
-
-        self.parent_conn.send(2)
-
-    def update(self,conn,rtsp_url):
-        #load cam into seperate process
-
-        print("Cam Loading...")
-        cap = cv2.VideoCapture(rtsp_url,cv2.CAP_FFMPEG)   
-        print("Cam Loaded...")
         run = True
 
         while run:
 
-            #grab frames from the buffer
-            cap.grab()
-
             #recieve input data
             rec_dat = conn.recv()
 
-
             if rec_dat == 1:
                 #if frame requested
-                ret,frame = cap.read()
+                raw_image = cam.data_stream[0].get_image()
+
+                if raw_image is None:
+                    print("Getting image failed.")
+                    continue
+
+                if raw_image.get_status() == gx.GxFrameStatusList.INCOMPLETE:
+                    pass
+
+                rgb_image = raw_image.convert("RGB")
+                if rgb_image_l is None:
+                    continue
+
+                numpy_image = rgb_image.get_numpy_array()
+                if numpy_image_l is None:
+                    continue
+
+                ,frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
+
                 conn.send(frame)
 
-            elif rec_dat ==2:
+            elif rec_dat == 2:
                 #if close requested
-                cap.release()
+                cam.stream_off()
+                cam.close_device()
                 run = False
 
         print("Camera Connection Closed")        
@@ -240,16 +134,8 @@ class camera():
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
-def process_image( threadName, delay):
-
-    while m_gProcessFlag == 1:
-      cv2.waitKey(1)
-      if q.qsize() > 0:
-        pimg = q.get()
-        process.stdin.write(pimg.tobytes())
-
-cam_left = camera(str(sys.argv[1]))
-cam_right = camera(str(sys.argv[2]))
+cam_left = camera(0)
+cam_right = camera(1)
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -292,15 +178,9 @@ def findCBC_RIGHT(img):
     else:
         print("No corners detected in the right image!")
 
-t1 = Thread(target=live_image, args=("live_image", 5, 1))
-t1.start()
-
-t2 = Thread(target=live_image, args=("live_image", 5, 2))
-t2.start()
-
 while(1):
-    img_left = q_l.get()
-    img_right = q_r.get()
+    img_left = cam_left.get_frame(0.65)
+    img_right = cam_right.get_frame(0.65)
 
     cv2.imshow('left camera', img_left)
     cv2.imshow('right camera', img_right)
@@ -312,9 +192,12 @@ while(1):
     elif (key == 10) and (img_nb > 0):
         print("Remaining Images: " + str(img_nb))
         img_nb -= 1
-        
-        thread.start_new_thread(findCBC_LEFT,(img_left,))
-        thread.start_new_thread(findCBC_RIGHT,(img_right,))
+
+        t1 = Thread(target=findCBC_LEFT, args=(img_left,))
+        t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
+        t1.start()
+        t2.start()
+
     elif(img_nb == 0):
         ret1, mtx1, dist1, rvecs1, tvecs1 = cv2.calibrateCamera(objpoints_left, imgpoints_left, (1920,1080), None, None)
         print("RMS1: " + str(ret1))
@@ -342,9 +225,9 @@ while(1):
         fsr.write(name='D', val=dist2)
         fsr.release()
 
-        m_gLiveFlag = 0
-        t1.join()
-        t2.join()
+        cam_left.end()
+        cam_right.end()
+
         break
             
 cv2.destroyAllWindows()     
