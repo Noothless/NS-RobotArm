@@ -92,11 +92,11 @@ class camera():
                     pass
 
                 rgb_image = raw_image.convert("RGB")
-                if rgb_image_l is None:
+                if rgb_image is None:
                     continue
 
                 numpy_image = rgb_image.get_numpy_array()
-                if numpy_image_l is None:
+                if numpy_image is None:
                     continue
 
                 ret,frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
