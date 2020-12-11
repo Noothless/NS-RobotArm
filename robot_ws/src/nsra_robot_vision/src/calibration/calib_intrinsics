@@ -186,11 +186,9 @@ while(1):
     cv2.imshow('right camera', img_right)
 
     key = cv2.waitKey(1)
-    if key == 10:
-        print(key)
     if key == 27:
         break
-    elif (key == 10) and (img_nb > 0):
+    elif (key == 13) and (img_nb > 0):
         print("Remaining Images: " + str(img_nb))
         img_nb -= 1
 
