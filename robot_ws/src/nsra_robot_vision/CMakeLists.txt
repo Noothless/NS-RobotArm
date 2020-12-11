@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslib
   std_msgs
-  #OpenCV
+  OpenCV
   message_generation
   nsra_odrive_interface
 )
