@@ -192,8 +192,10 @@ public:
         string s(filename);
         // Look for file extension
         if( s.find(".xml") == string::npos && s.find(".yaml") == string::npos && s.find(".yml") == string::npos )
-            return false;
+        {
             cerr << "Test" << endl;
+            return false;
+        }   
         else
             return true;
     }
