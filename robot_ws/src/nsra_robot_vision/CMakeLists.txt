@@ -71,16 +71,16 @@ install(PROGRAMS
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-#install(TARGETS
-#  single_cam_callibration
+install(TARGETS
+  single_cam_callibration
 #  calibrate
 #  read
 #  calibrate_stereo
 #  undistort_rectify
 #  bottle_detection
-#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-#)
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 #install(FILES
 #  srv/coords.srv
