@@ -343,6 +343,7 @@ int main(int argc, char* argv[])
         }
         if(view.empty())          // If there are no more images stop the loop
         {
+            cout << "test" << endl;
             // if calibration threshold was not reached yet, calibrate now
             if( mode != CALIBRATED && !imagePoints.empty() )
                 runCalibrationAndSave(s, imageSize,  cameraMatrix, distCoeffs, imagePoints, grid_width,
