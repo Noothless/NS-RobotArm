@@ -360,7 +360,9 @@ int main(int argc, char* argv[])
         switch( s.calibrationPattern ) // Find feature points on the input format
         {
         case Settings::CHESSBOARD:
+            cout << "Test" << endl;
             found = findChessboardCorners( view, s.boardSize, pointBuf, chessBoardFlags);
+            cout << "Test" << endl;
             break;
         case Settings::CIRCLES_GRID:
             found = findCirclesGrid( view, s.boardSize, pointBuf );
@@ -374,7 +376,6 @@ int main(int argc, char* argv[])
         }
         //! [find_pattern]
         //! [pattern_found]
-        cout << "Test" << endl;
         if ( found)                // If done with success,
         {
               // improve the found corners' coordinate accuracy for chessboard
