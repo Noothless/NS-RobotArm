@@ -178,7 +178,7 @@ public:
         FileStorage fs(filename, FileStorage::READ);
         if( !fs.isOpened() )
         {
-            cerr << "Test1" << endl;
+            cerr << filename << endl;
             return false;
         }
         FileNode n = fs.getFirstTopLevelNode();
