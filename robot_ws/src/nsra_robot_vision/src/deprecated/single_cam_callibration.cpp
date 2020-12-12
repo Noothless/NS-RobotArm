@@ -106,6 +106,7 @@ public:
             {
                 if (isListOfImages(input) && readStringList(input, imageList))
                 {
+                    cerr << "Test" << endl;
                     inputType = IMAGE_LIST;
                     nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
                 }
