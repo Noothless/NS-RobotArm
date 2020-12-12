@@ -12,6 +12,8 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
 
+#include <ros/package.h>
+
 using namespace cv;
 using namespace std;
 
@@ -64,6 +66,7 @@ public:
         node["Input_FlipAroundHorizontalAxis"] >> flipVertical;
         node["Show_UndistortedImage"] >> showUndistorsed;
         node["Input"] >> input;
+        node["Image_name"] >> img_name;
         node["Input_Delay"] >> delay;
         node["Fix_K1"] >> fixK1;
         node["Fix_K2"] >> fixK2;
@@ -101,6 +104,10 @@ public:
                 stringstream ss(input);
                 ss >> cameraID;
                 inputType = CAMERA;
+            }
+            else if (input == "IMAGES")
+            {
+
             }
             else
             {
@@ -166,8 +173,9 @@ public:
             inputCapture >> view0;
             view0.copyTo(result);
         }
-        else if( atImageList < imageList.size() )
-            result = imread(imageList[atImageList++], IMREAD_COLOR);
+        else if( atImageList < nrFrames )
+            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + string(atImageList++);
+            result = imread(img_dir, IMREAD_COLOR);
 
         return result;
     }
@@ -218,6 +226,7 @@ public:
     string outputFileName;       // The name of the file where to write
     bool showUndistorsed;        // Show undistorted images after calibration
     string input;                // The input ->
+    string img_name;             // Image name + number
     bool useFisheye;             // use fisheye camera model for calibration
     bool fixK1;                  // fix K1 distortion coefficient
     bool fixK2;                  // fix K2 distortion coefficient
@@ -321,9 +330,8 @@ int main(int argc, char* argv[])
 
         Mat view;
         bool blinkOutput = false;
-        cout << "Test" << endl;
         view = s.nextImage();
-        cout << "Test" << endl;
+        
         //-----  If no more image, or got enough, then stop calibration and show result -------------
         if( mode == CAPTURING && imagePoints.size() >= (size_t)s.nrFrames )
         {
@@ -471,9 +479,10 @@ int main(int argc, char* argv[])
                 CV_16SC2, map1, map2);
         }
 
-        for(size_t i = 0; i < s.imageList.size(); i++ )
+        for(size_t i = 0; i < s.nrFrames; i++ )
         {
-            view = imread(s.imageList[i], IMREAD_COLOR);
+            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + s.img_name + string(i+1);
+            view = imread(img_dir, IMREAD_COLOR);
             if(view.empty())
                 continue;
             remap(view, rview, map1, map2, INTER_LINEAR);
@@ -619,7 +628,8 @@ static void saveCameraParams( Settings& s, Size& imageSize, Mat& cameraMatrix, M
                               const vector<float>& reprojErrs, const vector<vector<Point2f> >& imagePoints,
                               double totalAvgErr, const vector<Point3f>& newObjPoints )
 {
-    FileStorage fs( s.outputFileName, FileStorage::WRITE );
+    string calib_dir = ros::package::getPath("nsra_robot_vision") + "/config/" + s.outputFileName;
+    FileStorage fs( calib_dir.c_str(), FileStorage::WRITE );
 
     time_t tm;
     time( &tm );
