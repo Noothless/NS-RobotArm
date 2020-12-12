@@ -96,7 +96,6 @@ public:
                 inputType = INVALID;
         else
         {
-            cerr << "Test" << endl;
             if (input[0] >= '0' && input[0] <= '9')
             {
                 stringstream ss(input);
@@ -105,6 +104,7 @@ public:
             }
             else
             {
+                cerr << "Test" << endl;
                 if (isListOfImages(input) && readStringList(input, imageList))
                 {
                     cerr << "Test" << endl;
@@ -112,6 +112,7 @@ public:
                     nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
                 }
                 else
+                    cerr << "Test" << endl;
                     inputType = VIDEO_FILE;
             }
             if (inputType == CAMERA)
