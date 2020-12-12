@@ -48,8 +48,8 @@ target_link_libraries(single_cam_callibration
 #add_executable(read src/deprecated/read_images.cpp)
 #target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
-#add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
-#target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
+target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 #add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
 #target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
@@ -75,7 +75,7 @@ install(TARGETS
   single_cam_callibration
 #  calibrate
 #  read
-#  calibrate_stereo
+  calibrate_stereo
 #  undistort_rectify
 #  bottle_detection
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
