@@ -18,7 +18,7 @@
 		-->
   <Input>"IMAGES"</Input>
 
-  <Image_name>"left"</Image_name>
+  <Image_name>"right"</Image_name>
 
   <!--  If true (non-zero) we flip the input images around the horizontal axis.-->
   <Input_FlipAroundHorizontalAxis>0</Input_FlipAroundHorizontalAxis>
