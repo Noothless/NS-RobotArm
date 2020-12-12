@@ -120,8 +120,8 @@ int main(int argc, char const *argv[])
   while((c = popt.getNextOpt()) >= 0) {}
   
   string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/";
-  string calib_dir_left = ros::package::getPath("nsra_computer_vision") + "/config/" + leftcalib_file;
-  string calib_dir_right = ros::package::getPath("nsra_computer_vision") + "/config/" + rightcalib_file;
+  string calib_dir_left = ros::package::getPath("nsra_robot_vision") + "/config/" + leftcalib_file;
+  string calib_dir_right = ros::package::getPath("nsra_robot_vision") + "/config/" + rightcalib_file;
 
   cout << calib_dir_right << endl;
   cout << calib_dir_left << endl;
