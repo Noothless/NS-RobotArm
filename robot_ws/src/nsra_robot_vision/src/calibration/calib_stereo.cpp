@@ -100,6 +100,7 @@ int main(int argc, char const *argv[])
   char* extension;
   char* out_file;
   int num_imgs;
+  int square_size;
 
   static struct poptOption options[] = {
     { "num_imgs",'n',POPT_ARG_INT,&num_imgs,0,"Number of checkerboard images","NUM" },
