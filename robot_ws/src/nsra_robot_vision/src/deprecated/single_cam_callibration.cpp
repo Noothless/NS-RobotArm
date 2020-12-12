@@ -75,6 +75,7 @@ public:
     }
     void validate()
     {
+        cerr << "Test" << endl;
         goodInput = true;
         if (boardSize.width <= 0 || boardSize.height <= 0)
         {
