@@ -20,6 +20,8 @@ nsra_robot_vision
 /home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/__init__.cpython-38.pyc /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/__init__.cpython-38.pyc
 /home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/_coords.cpython-38.pyc /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/srv/__pycache__/_coords.cpython-38.pyc
 /home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/python3/dist-packages/nsra_robot_vision/__pycache__/__init__.cpython-38.pyc /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_robot_vision/__pycache__/__init__.cpython-38.pyc
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/nsra_robot_vision/calibrate_stereo /home/noa/NS-RobotArm/robot_ws/devel/lib/nsra_robot_vision/calibrate_stereo
+/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/lib/nsra_robot_vision/single_cam_callibration /home/noa/NS-RobotArm/robot_ws/devel/lib/nsra_robot_vision/single_cam_callibration
 /home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/include/nsra_robot_vision/coordsRequest.h /home/noa/NS-RobotArm/robot_ws/devel/include/nsra_robot_vision/coordsRequest.h
 /home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/include/nsra_robot_vision/coords.h /home/noa/NS-RobotArm/robot_ws/devel/include/nsra_robot_vision/coords.h
 /home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_robot_vision/include/nsra_robot_vision/coordsResponse.h /home/noa/NS-RobotArm/robot_ws/devel/include/nsra_robot_vision/coordsResponse.h
