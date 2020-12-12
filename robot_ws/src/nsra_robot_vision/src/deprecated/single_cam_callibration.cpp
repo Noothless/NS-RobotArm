@@ -340,7 +340,7 @@ int main(int argc, char* argv[])
           if(runCalibrationAndSave(s, imageSize,  cameraMatrix, distCoeffs, imagePoints, grid_width, release_object))
           {
               mode = CALIBRATED;
-              break;
+              return 0;
           }
           else
           {
