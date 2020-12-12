@@ -174,8 +174,8 @@ public:
             view0.copyTo(result);
         }
         else if( atImageList < nrFrames )
-            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + string(atImageList++);
-            result = imread(img_dir, IMREAD_COLOR);
+            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++);
+            result = imread(img_dir.c_str(), IMREAD_COLOR);
 
         return result;
     }
@@ -331,7 +331,7 @@ int main(int argc, char* argv[])
         Mat view;
         bool blinkOutput = false;
         view = s.nextImage();
-        
+
         //-----  If no more image, or got enough, then stop calibration and show result -------------
         if( mode == CAPTURING && imagePoints.size() >= (size_t)s.nrFrames )
         {
@@ -481,8 +481,8 @@ int main(int argc, char* argv[])
 
         for(size_t i = 0; i < s.nrFrames; i++ )
         {
-            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + s.img_name + string(i+1);
-            view = imread(img_dir, IMREAD_COLOR);
+            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + s.img_name + to_string(i+1);
+            view = imread(img_dir.c_str(), IMREAD_COLOR);
             if(view.empty())
                 continue;
             remap(view, rview, map1, map2, INTER_LINEAR);
