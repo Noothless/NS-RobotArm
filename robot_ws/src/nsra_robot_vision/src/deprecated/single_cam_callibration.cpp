@@ -104,15 +104,12 @@ public:
             }
             else
             {
-                cerr << "Test" << endl;
                 if (isListOfImages(input) && readStringList(input, imageList))
                 {
-                    cerr << "Test" << endl;
                     inputType = IMAGE_LIST;
                     nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
                 }
                 else
-                    cerr << "Test" << endl;
                     inputType = VIDEO_FILE;
             }
             if (inputType == CAMERA)
@@ -196,6 +193,7 @@ public:
         // Look for file extension
         if( s.find(".xml") == string::npos && s.find(".yaml") == string::npos && s.find(".yml") == string::npos )
             return false;
+            cerr << "Test" << endl;
         else
             return true;
     }
