@@ -167,6 +167,7 @@ public:
     Mat nextImage()
     {
         Mat result;
+        char img[100];
         if( inputCapture.isOpened() )
         {
             Mat view0;
@@ -174,8 +175,9 @@ public:
             view0.copyTo(result);
         }
         else if( atImageList < nrFrames )
-            result = imread((ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++) + ".jpg").c_str(), IMREAD_COLOR);
-            cout << ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++) + ".jpg" << endl;
+            sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), img_name, atImageList++, "jpg");
+            result = imread(img, IMREAD_COLOR);
+            cout << img << endl;
 
         return result;
     }
