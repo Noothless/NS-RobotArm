@@ -168,7 +168,7 @@ public:
         }
         else if( atImageList < imageList.size() )
             result = imread(imageList[atImageList++], IMREAD_COLOR);
-        cout << "Test" << endl;
+
         return result;
     }
 
@@ -374,6 +374,7 @@ int main(int argc, char* argv[])
         }
         //! [find_pattern]
         //! [pattern_found]
+        cout << "Test" << endl;
         if ( found)                // If done with success,
         {
               // improve the found corners' coordinate accuracy for chessboard
