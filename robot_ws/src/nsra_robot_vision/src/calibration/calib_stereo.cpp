@@ -129,7 +129,7 @@ int main(int argc, char const *argv[])
   FileStorage fsl(calib_dir_left.c_str(), FileStorage::READ);
   FileStorage fsr(calib_dir_right.c_str(), FileStorage::READ);
 
-  load_image_points(9, 6, num_imgs, 25.,
+  load_image_points(9, 6, num_imgs, 50.,
                    img_dir.c_str(), img_dir.c_str(), leftimg_filename, rightimg_filename, extension);
 
   printf("Starting Calibration\n");
