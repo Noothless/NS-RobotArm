@@ -168,7 +168,7 @@ public:
         }
         else if( atImageList < imageList.size() )
             result = imread(imageList[atImageList++], IMREAD_COLOR);
-
+        cout << "Test" << endl;
         return result;
     }
 
@@ -318,7 +318,6 @@ int main(int argc, char* argv[])
     //! [get_input]
     for(;;)
     {
-        cout << "Test" << endl;
         Mat view;
         bool blinkOutput = false;
 
