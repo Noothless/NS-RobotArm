@@ -140,7 +140,7 @@ cam_right = camera(1)
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 objp = np.zeros((6*9,3), np.float32)
-objp[:,:2] = np.mgrid[0:225:25,0:150:25].T.reshape(-1,2)
+objp[:,:2] = np.mgrid[0:2760:345,0:1275:345].T.reshape(-1,2)
 
 #print(objp)
 
@@ -155,27 +155,31 @@ img_nb = int(sys.argv[1])
 pack_path = rospack.get_path('nsra_robot_vision')
 
 def findCBC_LEFT(img):
-    image_name = pack_path + '/images/left' + str(img_nb + 1) + '.jpg'
-    cv2.imwrite(image_name, img)
+    calib_name = pack_path + '/images/left' + str(img_nb + 1) + '.jpg'
+    stereo_name = pack_path + '/stereo/left' + str(img_nb + 1) + '.jpg'
+    cv2.imwrite(stereo_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
     if ret == True:
         objpoints_left.append(objp)
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_left.append(corners2)
+        cv2.imwrite(calib_name, img)
         print("Success on left image!")
     else:
         print("No corners detected in the left image!")     
 
 def findCBC_RIGHT(img):
-    image_name = pack_path + '/images/right' + str(img_nb + 1) + '.jpg'
-    cv2.imwrite(image_name, img)
+    calib_name = pack_path + '/images/right' + str(img_nb + 1) + '.jpg'
+    stereo_name = pack_path + '/stereo/right' + str(img_nb + 1) + '.jpg'
+    cv2.imwrite(stereo_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
     if ret == True:
         objpoints_right.append(objp)
         corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
         imgpoints_right.append(corners2)
+        cv2.imwrite(calib_name, img)
         print("Success on right image!")
     else:
         print("No corners detected in the right image!")
