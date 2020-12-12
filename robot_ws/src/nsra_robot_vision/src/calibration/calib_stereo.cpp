@@ -155,7 +155,7 @@ int main(int argc, char const *argv[])
 
   cout << "Re-projection error reported by stereoCalibrate: "<< rms << endl;
 
-  cv::FileStorage fs1(ros::package::getPath("nsra_robot_vision") + "/" + out_file, cv::FileStorage::WRITE);
+  cv::FileStorage fs1(ros::package::getPath("nsra_robot_vision") + "/config/" + out_file, cv::FileStorage::WRITE);
   fs1 << "KL" << KL;
   fs1 << "KR" << KR;
   fs1 << "DL" << DL;
