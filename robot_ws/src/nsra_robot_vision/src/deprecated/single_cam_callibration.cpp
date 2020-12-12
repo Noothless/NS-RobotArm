@@ -318,6 +318,7 @@ int main(int argc, char* argv[])
     //! [get_input]
     for(;;)
     {
+        cout << "Test" << endl;
         Mat view;
         bool blinkOutput = false;
 
