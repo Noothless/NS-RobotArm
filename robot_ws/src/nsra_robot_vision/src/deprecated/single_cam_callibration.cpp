@@ -178,7 +178,6 @@ public:
             atImageList++;
             sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), img_name.c_str(), (int) atImageList, "jpg");
             result = imread(img, IMREAD_COLOR);
-            cout << img << endl;
 
         return result;
     }
@@ -341,6 +340,7 @@ int main(int argc, char* argv[])
           if(runCalibrationAndSave(s, imageSize,  cameraMatrix, distCoeffs, imagePoints, grid_width,
                                    release_object))
               mode = CALIBRATED;
+              break;
           else
               mode = DETECTION;
         }
@@ -484,9 +484,9 @@ int main(int argc, char* argv[])
 
         for(size_t i = 0; i < s.nrFrames; i++ )
         {
-            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + s.img_name + to_string(i+1) + ".jpg";
-            cout << img_dir << endl;
-            view = imread(img_dir.c_str(), IMREAD_COLOR);
+            char img[100];
+            sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), img_name.c_str(), (int) i, "jpg");
+            view = imread(img, IMREAD_COLOR);
             if(view.empty())
                 continue;
             remap(view, rview, map1, map2, INTER_LINEAR);
