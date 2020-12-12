@@ -318,11 +318,12 @@ int main(int argc, char* argv[])
     //! [get_input]
     for(;;)
     {
+
         Mat view;
         bool blinkOutput = false;
-
+        cout << "Test" << endl;
         view = s.nextImage();
-
+        cout << "Test" << endl;
         //-----  If no more image, or got enough, then stop calibration and show result -------------
         if( mode == CAPTURING && imagePoints.size() >= (size_t)s.nrFrames )
         {
@@ -341,10 +342,10 @@ int main(int argc, char* argv[])
             break;
         }
         //! [get_input]
-        cout << "Test" << endl;
+
         imageSize = view.size();  // Format input image.
         if( s.flipVertical )    flip( view, view, 0 );
-        cout << "Test" << endl;
+
         //! [find_pattern]
         vector<Point2f> pointBuf;
 
