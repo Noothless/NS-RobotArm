@@ -174,8 +174,7 @@ public:
             view0.copyTo(result);
         }
         else if( atImageList < nrFrames )
-            string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++);
-            result = imread(img_dir.c_str(), IMREAD_COLOR);
+            result = imread((ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++)).c_str(), IMREAD_COLOR);
 
         return result;
     }
