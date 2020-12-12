@@ -107,7 +107,7 @@ public:
             }
             else if (input == "IMAGES")
             {
-
+                inputType = IMAGE_LIST;
             }
             else
             {
