@@ -175,6 +175,7 @@ public:
         }
         else if( atImageList < nrFrames )
             result = imread((ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++) + ".jpg").c_str(), IMREAD_COLOR);
+            print(ros::package::getPath("nsra_robot_vision") + "/images/" + img_name + to_string(atImageList++) + ".jpg")
 
         return result;
     }
@@ -481,6 +482,7 @@ int main(int argc, char* argv[])
         for(size_t i = 0; i < s.nrFrames; i++ )
         {
             string img_dir = ros::package::getPath("nsra_robot_vision") + "/images/" + s.img_name + to_string(i+1) + ".jpg";
+            print(img_dir)
             view = imread(img_dir.c_str(), IMREAD_COLOR);
             if(view.empty())
                 continue;
