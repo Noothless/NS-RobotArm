@@ -193,11 +193,14 @@ public:
         // Look for file extension
         if( s.find(".xml") == string::npos && s.find(".yaml") == string::npos && s.find(".yml") == string::npos )
         {
-            cerr << "Test" << endl;
+            cerr << "Test1" << endl;
             return false;
         }   
         else
+        {
+            cerr << "Test2" << endl;
             return true;
+        }      
     }
 public:
     Size boardSize;              // The size of the board -> Number of items by width and height
