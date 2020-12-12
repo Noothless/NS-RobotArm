@@ -285,7 +285,7 @@ int main(int argc, char* argv[])
 
     //! [file_read]
     Settings s;
-    const string inputSettingsFile = parser.get<string>(0);
+    const string inputSettingsFile = ros::package::getPath("nsra_robot_vision") + "/config/" + parser.get<string>(0);
     FileStorage fs(inputSettingsFile, FileStorage::READ); // Read the settings
     if (!fs.isOpened())
     {
