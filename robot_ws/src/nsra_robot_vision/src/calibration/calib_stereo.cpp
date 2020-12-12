@@ -136,10 +136,10 @@ int main(int argc, char const *argv[])
   Mat KL, KR, R, F, E;
   Vec3d T;
   Mat DL, DR;
-  fsl["K"] >> KL;
-  fsr["K"] >> KR;
-  fsl["D"] >> DL;
-  fsr["D"] >> DR;
+  fsl["camera_matrix"] >> KL;
+  fsr["camera_matrix"] >> KR;
+  fsl["distortion_coefficients"] >> DL;
+  fsr["distortion_coefficients"] >> DR;
   int flag = 0;
   flag |= cv::CALIB_FIX_INTRINSIC;
 
