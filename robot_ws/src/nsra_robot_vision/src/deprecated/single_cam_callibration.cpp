@@ -488,7 +488,7 @@ int main(int argc, char* argv[])
         for(size_t i = 0; i < s.nrFrames; i++ )
         {
             char img[100];
-            sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), img_name.c_str(), (int) i, "jpg");
+            sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), s.img_name.c_str(), (int) i, "jpg");
             view = imread(img, IMREAD_COLOR);
             if(view.empty())
                 continue;
