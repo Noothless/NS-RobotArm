@@ -29,8 +29,8 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     sprintf(right_img, "%s%s%d.%s", rightimg_dir, rightimg_filename, i, extension);
     sprintf(left_img_corners, "%s%s%d_corners.%s", leftimg_dir, leftimg_filename, i, extension);
     sprintf(right_img_corners, "%s%s%d_corners.%s", rightimg_dir, rightimg_filename, i, extension);
-    img1 = imread(left_img, cv::LOAD_IMAGE_COLOR);
-    img2 = imread(right_img, LOAD_IMAGE_COLOR);
+    img1 = imread(left_img, cv::IMREAD_COLOR);
+    img2 = imread(right_img, cv::IMREAD_COLOR);
     cvtColor(img1, gray1, cv::COLOR_BGR2GRAY);
     cvtColor(img2, gray2, cv::COLOR_BGR2GRAY);
 
@@ -51,7 +51,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     if (found1)
     {
       cv::cornerSubPix(gray1, corners1, cv::Size(5, 5), cv::Size(-1, -1),
-      cv::TermCriteria(cv::TERMCRIT_EPS | cv::TERMCRIT_ITER, 30, 0.1));
+      cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::MAX_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray1, board_size, corners1, found1);
       cv::drawChessboardCorners(img1, board_size, corners1, found1);
       cv::imwrite(left_img_corners, img1);
@@ -60,7 +60,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     if (found2)
     {
       cv::cornerSubPix(gray2, corners2, cv::Size(5, 5), cv::Size(-1, -1),
-      cv::TermCriteria(cv::TERMCRIT_EPS | cv::TERMCRIT_ITER, 30, 0.1));
+      cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::MAX_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray2, board_size, corners2, found2);
       cv::drawChessboardCorners(img2, board_size, corners2, found2);
       cv::imwrite(right_img_corners, img2);
