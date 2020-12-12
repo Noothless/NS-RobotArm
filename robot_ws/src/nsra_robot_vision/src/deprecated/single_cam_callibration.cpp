@@ -175,7 +175,8 @@ public:
             view0.copyTo(result);
         }
         else if( atImageList < nrFrames )
-            sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), img_name.c_str(), (int)(atImageList++), "jpg");
+            atImageList++;
+            sprintf(img, "%s%s%d.%s", (ros::package::getPath("nsra_robot_vision") + "/images/").c_str(), img_name.c_str(), (int) atImageList, "jpg");
             result = imread(img, IMREAD_COLOR);
             cout << img << endl;
 
