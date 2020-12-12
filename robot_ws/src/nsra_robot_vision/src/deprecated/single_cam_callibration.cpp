@@ -341,10 +341,10 @@ int main(int argc, char* argv[])
             break;
         }
         //! [get_input]
-
+        cout << "Test" << endl;
         imageSize = view.size();  // Format input image.
         if( s.flipVertical )    flip( view, view, 0 );
-
+        cout << "Test" << endl;
         //! [find_pattern]
         vector<Point2f> pointBuf;
 
@@ -360,9 +360,7 @@ int main(int argc, char* argv[])
         switch( s.calibrationPattern ) // Find feature points on the input format
         {
         case Settings::CHESSBOARD:
-            cout << "Test" << endl;
             found = findChessboardCorners( view, s.boardSize, pointBuf, chessBoardFlags);
-            cout << "Test" << endl;
             break;
         case Settings::CIRCLES_GRID:
             found = findCirclesGrid( view, s.boardSize, pointBuf );
