@@ -29,17 +29,17 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     sprintf(right_img, "%s%s%d.%s", rightimg_dir, rightimg_filename, i, extension);
     sprintf(left_img_corners, "%s%s%d_corners.%s", leftimg_dir, leftimg_filename, i, extension);
     sprintf(right_img_corners, "%s%s%d_corners.%s", rightimg_dir, rightimg_filename, i, extension);
-    img1 = imread(left_img, CV_LOAD_IMAGE_COLOR);
-    img2 = imread(right_img, CV_LOAD_IMAGE_COLOR);
-    cvtColor(img1, gray1, CV_BGR2GRAY);
-    cvtColor(img2, gray2, CV_BGR2GRAY);
+    img1 = imread(left_img, LOAD_IMAGE_COLOR);
+    img2 = imread(right_img, LOAD_IMAGE_COLOR);
+    cvtColor(img1, gray1, BGR2GRAY);
+    cvtColor(img2, gray2, BGR2GRAY);
 
     bool found1 = false, found2 = false;
 
     found1 = cv::findChessboardCorners(img1, board_size, corners1,
-    CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+    CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_FILTER_QUADS);
     found2 = cv::findChessboardCorners(img2, board_size, corners2,
-    CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+    CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_FILTER_QUADS);
 
 
     if(!found1 || !found2){
@@ -51,7 +51,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     if (found1)
     {
       cv::cornerSubPix(gray1, corners1, cv::Size(5, 5), cv::Size(-1, -1),
-      cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+      cv::TermCriteria(TERMCRIT_EPS | TERMCRIT_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray1, board_size, corners1, found1);
       cv::drawChessboardCorners(img1, board_size, corners1, found1);
       cv::imwrite(left_img_corners, img1);
@@ -60,7 +60,7 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     if (found2)
     {
       cv::cornerSubPix(gray2, corners2, cv::Size(5, 5), cv::Size(-1, -1),
-      cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+      cv::TermCriteria(TERMCRIT_EPS | TERMCRIT_ITER, 30, 0.1));
       cv::drawChessboardCorners(gray2, board_size, corners2, found2);
       cv::drawChessboardCorners(img2, board_size, corners2, found2);
       cv::imwrite(right_img_corners, img2);
@@ -141,7 +141,7 @@ int main(int argc, char const *argv[])
   fsl["D"] >> DL;
   fsr["D"] >> DR;
   int flag = 0;
-  flag |= CV_CALIB_FIX_INTRINSIC;
+  flag |= CALIB_FIX_INTRINSIC;
 
   cout << KL << endl;
   cout << KR << endl;
