@@ -177,10 +177,16 @@ public:
         l.clear();
         FileStorage fs(filename, FileStorage::READ);
         if( !fs.isOpened() )
+        {
+            cerr << "Test1" << endl;
             return false;
+        }
         FileNode n = fs.getFirstTopLevelNode();
         if( n.type() != FileNode::SEQ )
+        {
+            cerr << "Test2" << endl;
             return false;
+        }
         FileNodeIterator it = n.begin(), it_end = n.end();
         for( ; it != it_end; ++it )
             l.push_back((string)*it);
@@ -192,15 +198,9 @@ public:
         string s(filename);
         // Look for file extension
         if( s.find(".xml") == string::npos && s.find(".yaml") == string::npos && s.find(".yml") == string::npos )
-        {
-            cerr << "Test1" << endl;
-            return false;
-        }   
+            return false;   
         else
-        {
-            cerr << "Test2" << endl;
-            return true;
-        }      
+            return true;     
     }
 public:
     Size boardSize;              // The size of the board -> Number of items by width and height
