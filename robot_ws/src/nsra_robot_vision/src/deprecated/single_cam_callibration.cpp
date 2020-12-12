@@ -75,7 +75,6 @@ public:
     }
     void validate()
     {
-        cerr << "Test" << endl;
         goodInput = true;
         if (boardSize.width <= 0 || boardSize.height <= 0)
         {
@@ -97,6 +96,7 @@ public:
                 inputType = INVALID;
         else
         {
+            cerr << "Test" << endl;
             if (input[0] >= '0' && input[0] <= '9')
             {
                 stringstream ss(input);
