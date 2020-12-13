@@ -96,6 +96,7 @@ void calcCallback(const std_msgs::StringConstPtr& str)
     cout << "Point1 Results: " << results << endl;
     cout << "Point2 Results: " << results1 << endl;
     cout << "Added Results: " << added_results << endl;
+    cout << "Distance: " << sqrt(added_results[0].x*added_results[0].x + added_results[0].y*added_results[0].y + added_results[0].z*added_results[0].z) << endl;
 
 }
 
