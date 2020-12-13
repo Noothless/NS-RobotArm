@@ -14,8 +14,11 @@ using namespace std;
 using namespace cv;
 
 cv::Mat points4d;
+cv::Mat points4d1;
 Mat cam_left_pnts(1,1,CV_64FC2);
 Mat cam_right_pnts(1,1,CV_64FC2);
+Mat cam_left_pnts1(1,1,CV_64FC2);
+Mat cam_right_pnts1(1,1,CV_64FC2);
 Mat PL, PR;
 
 std::vector<Point3d> coordBuffer;
@@ -42,8 +45,13 @@ void calcCallback(const std_msgs::StringConstPtr& str)
     cam_right_pnts.at<double>(0,1) = camera_coords.response.y_right;
     cam_left_pnts.at<double>(0,0) = camera_coords.response.x_left;
     cam_left_pnts.at<double>(0,1) = camera_coords.response.y_left;
+    cam_right_pnts1.at<double>(0,0) = camera_coords.response.x1_right;
+    cam_right_pnts1.at<double>(0,1) = camera_coords.response.y1_right;
+    cam_left_pnts1.at<double>(0,0) = camera_coords.response.x1_left;
+    cam_left_pnts1.at<double>(0,1) = camera_coords.response.y1_left;
 
     triangulatePoints(PL,PR,cam_left_pnts,cam_right_pnts,points4d);
+    triangulatePoints(PL,PR,cam_left_pnts1,cam_right_pnts1,points4d1);
     /*
     cv::Mat1f Thomogeneous(4, 1); 
     Thomogeneous(0) = pnts3D.at<double>(0,0);
@@ -63,13 +71,32 @@ void calcCallback(const std_msgs::StringConstPtr& str)
                             points4d.at<double>(1, 0) / points4d.at<double>(3, 0),
                             points4d.at<double>(2, 0) / points4d.at<double>(3, 0));
     results.emplace_back(point);
+
+    std::vector<Point3d> results1;
+
+    Point3d point1 = Point3d(points4d1.at<double>(0, 0) / points4d1.at<double>(3, 0),
+                            points4d1.at<double>(1, 0) / points4d1.at<double>(3, 0),
+                            points4d1.at<double>(2, 0) / points4d1.at<double>(3, 0));
+    results1.emplace_back(point1);
+
     std_msgs::String msg;
     msg.data = to_string(results[0].x) + "/" + to_string(results[0].y) + "/" + to_string(results[0].z);
     pub.publish(msg);
 
     coordBuffer.push_back(results[0]);
 
-    cout << results << endl;
+    std::vector<Point3d> added_results
+
+    Point3d point3 = Point3d(abs(results[0].x - results1[0].x),
+                             abs(results[0].y - results1[0].y),
+                             abs(results[0].z - results1[0].z));
+    
+    added_results.emplace_back(point3);
+
+    cout << "Point1 Results: " << results << endl;
+    cout << "Point2 Results: " << results1 << endl;
+    cout << "Added Results: " << added_results << endl;
+
 }
 
 int main(int argc, char** argv)
