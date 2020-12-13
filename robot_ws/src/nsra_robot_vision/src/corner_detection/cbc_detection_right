@@ -189,8 +189,8 @@ while True:
     img_left = cam_left.get_frame(0.60)
     img_right = cam_right.get_frame(0.60)
 
-    img_left = cv2.circle(img_left, (int(round(corner_left_x)), int(round(corner_left_y))), radius=0, color=(0, 0, 255), thickness=-1)
-    img_right = cv2.circle(img_right, (int(round(corner_right_x)), int(round(corner_right_y))), radius=0, color=(0, 0, 255), thickness=-1)
+    img_left = cv2.circle(img_left, (int(round(corner_left_x)), int(round(corner_left_y))), radius=5, color=(0, 0, 255), thickness=-1)
+    img_right = cv2.circle(img_right, (int(round(corner_right_x)), int(round(corner_right_y))), radius=5, color=(0, 0, 255), thickness=-1)
 
     output_img = np.concatenate((img_right, img_left), axis=1)
 
