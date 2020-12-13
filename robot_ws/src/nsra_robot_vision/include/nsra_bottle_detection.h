@@ -22,3 +22,5 @@ namespace nsra_bottle_detection
         ros::ServiceClient left_camera;
     }
 }
+
+#endif

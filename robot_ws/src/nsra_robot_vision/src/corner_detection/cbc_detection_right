@@ -9,6 +9,7 @@ import multiprocessing as mp
 import yaml
 import sys
 from threading import Thread
+import nsra_gxipy as gx
 
 rospy.init_node('corner_detect_right')
 
@@ -22,11 +23,11 @@ criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 class camera():
 
-    def __init__(self,rtsp_url):        
+    def __init__(self,cam_num):        
         #load pipe for data transmittion to the process
         self.parent_conn, child_conn = mp.Pipe()
         #load process
-        self.p = mp.Process(target=self.update, args=(child_conn,rtsp_url))        
+        self.p = mp.Process(target=self.update, args=(child_conn,cam_num))        
         #start process
         self.p.daemon = True
         self.p.start()
@@ -36,31 +37,83 @@ class camera():
 
         self.parent_conn.send(2)
 
-    def update(self,conn,rtsp_url):
+
+    def update(self,conn,cam_num):
         #load cam into seperate process
 
-        print("Cam Loading...")
-        cap = cv2.VideoCapture(rtsp_url,cv2.CAP_FFMPEG)   
-        print("Cam Loaded...")
+        device_manager = gx.DeviceManager()
+
+        devices = {
+            0: "TV0200110013",
+            1: "TV0200110012"
+        }
+
+        print("Cam %s Loading..." % devices.get(cam_num))
+
+        dev_num, dev_info_list = device_manager.update_device_list()
+
+        if dev_num == 0:
+            print("Number of enumerated devices is 0")
+            return
+
+        if cam_num != 0 and cam_num != 1:
+            print("Invalid cam number!")
+            return
+
+        cam = device_manager.open_device_by_sn(devices.get(cam_num))
+
+        if cam.PixelColorFilter.is_implemented() == False:
+            print("This sample does not support mono camera.")
+            cam.close_device()
+            return
+
+        cam.TriggerMode.set(gx.GxSwitchEntry.OFF)
+
+        cam.ExposureTime.set(10000.0)
+
+        cam.Gain.set(10.0)
+
+        cam.BalanceWhiteAuto.set(1)
+
+        cam.data_stream[0].set_acquisition_buffer_number(1)
+        cam.stream_on()
+
+        print("Cam %s Loaded..." % devices.get(cam_num))
+
         run = True
 
         while run:
 
-            #grab frames from the buffer
-            cap.grab()
-
             #recieve input data
             rec_dat = conn.recv()
 
-
             if rec_dat == 1:
                 #if frame requested
-                ret,frame = cap.read()
+                raw_image = cam.data_stream[0].get_image()
+
+                if raw_image is None:
+                    print("Getting image failed.")
+                    continue
+
+                if raw_image.get_status() == gx.GxFrameStatusList.INCOMPLETE:
+                    pass
+
+                rgb_image = raw_image.convert("RGB")
+                if rgb_image is None:
+                    continue
+
+                numpy_image = rgb_image.get_numpy_array()
+                if numpy_image is None:
+                    continue
+
+                frame = cv2.cvtColor(np.asarray(numpy_image),cv2.COLOR_BGR2RGB)
+
                 conn.send(frame)
 
-            elif rec_dat ==2:
+            elif rec_dat == 2:
                 #if close requested
-                cap.release()
+                cam.stream_off()
+                cam.close_device()
                 run = False
 
         print("Camera Connection Closed")        
@@ -74,7 +127,7 @@ class camera():
         #send request
         self.parent_conn.send(1)
         frame = self.parent_conn.recv()
-
+        #print(frame)
         #reset request 
         self.parent_conn.send(0)
 
@@ -88,11 +141,11 @@ class camera():
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
-cam_left = camera(str(sys.argv[1]))
-cam_right = camera(str(sys.argv[2]))
+cam_left = camera(0)
+cam_right = camera(1)
 
-img_left = cam_left.get_frame(0.65)
-img_right = cam_right.get_frame(0.65)
+img_left = cam_left.get_frame(0.60)
+img_right = cam_right.get_frame(0.60)
 
 def findCBC_LEFT(img):
     global corner_left_x
@@ -133,11 +186,13 @@ def get2dcoords(req):
 s = rospy.Service('get2dcoords', coords, get2dcoords)
 
 while True:
-    img_left = cam_left.get_frame(0.65)
-    img_right = cam_right.get_frame(0.65)
+    img_left = cam_left.get_frame(0.60)
+    img_right = cam_right.get_frame(0.60)
 
-    cv2.imshow('left camera', img_left)
-    cv2.imshow('right camera', img_right)
+    output_img = np.concatenate((img_right, img_left), axis=1)
+
+    cv2.imshow('cameras', concatenate)
+    #cv2.imshow('right camera', img_right)
 
     key = cv2.waitKey(1)
     if key == 27:

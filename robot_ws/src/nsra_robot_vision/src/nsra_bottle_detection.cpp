@@ -82,7 +82,7 @@ int main(int argc, char** argv)
     cameras = n.serviceClient<nsra_odrive_interface::coords>("get2dcoords");
     pub = n.advertise<std_msgs::String>("PointCoords", 5);
 
-    FileStorage fs(ros::package::getPath("nsra_robot_vision") + "/" + "cam_stereo.yml", FileStorage::READ);
+    FileStorage fs(ros::package::getPath("nsra_robot_vision") + "/config/" + "cam_stereo.yml", FileStorage::READ);
 
     fs["PL"] >> PL;
     fs["PR"] >> PR;
