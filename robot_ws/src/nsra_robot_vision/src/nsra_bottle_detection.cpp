@@ -35,7 +35,7 @@ void saveCallback(const std_msgs::StringConstPtr& str)
 
 void calcCallback(const std_msgs::StringConstPtr& str)
 {
-    nsra_odrive_interface::coords camera_coords;
+    nsra_odrive_interface::lr_coords camera_coords;
     camera_coords.request.test = 1;
     cameras.call(camera_coords);
     cam_right_pnts.at<double>(0,0) = camera_coords.response.x_right;
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
     ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);
     ros::Subscriber sub1 = n.subscribe("saveCoords", 1, saveCallback);
-    cameras = n.serviceClient<nsra_odrive_interface::coords>("get2dcoords");
+    cameras = n.serviceClient<nsra_odrive_interface::lr_coords>("get2dcoords");
     pub = n.advertise<std_msgs::String>("PointCoords", 5);
 
     FileStorage fs(ros::package::getPath("nsra_robot_vision") + "/config/" + "cam_stereo.yml", FileStorage::READ);

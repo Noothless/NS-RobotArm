@@ -181,9 +181,9 @@ def get2dcoords(req):
     t1.join()
     t2.join()
 
-    return coordsResponse(corner_left_x, corner_left_y, corner_right_x, corner_right_y)
+    return lr_coordsResponse(corner_left_x, corner_left_y, corner_right_x, corner_right_y)
     
-s = rospy.Service('get2dcoords', coords, get2dcoords)
+s = rospy.Service('get2dcoords', lr_coords, get2dcoords)
 
 while True:
     img_left = cam_left.get_frame(0.60)
