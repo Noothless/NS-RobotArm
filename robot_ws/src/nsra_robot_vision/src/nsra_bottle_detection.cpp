@@ -85,7 +85,7 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
     coordBuffer.push_back(results[0]);
 
-    std::vector<Point3d> added_results
+    std::vector<Point3d> added_results;
 
     Point3d point3 = Point3d(abs(results[0].x - results1[0].x),
                              abs(results[0].y - results1[0].y),
