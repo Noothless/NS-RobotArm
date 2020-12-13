@@ -7,7 +7,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <sstream>
-#include "nsra_odrive_interface/coords.h"
+#include "nsra_odrive_interface/lr_coords.h"
 #include <ros/package.h>
 
 using namespace std;
