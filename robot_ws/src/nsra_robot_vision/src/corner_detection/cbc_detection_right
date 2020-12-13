@@ -191,7 +191,7 @@ while True:
 
     output_img = np.concatenate((img_right, img_left), axis=1)
 
-    cv2.imshow('cameras', concatenate)
+    cv2.imshow('cameras', output_img)
     #cv2.imshow('right camera', img_right)
 
     key = cv2.waitKey(1)
