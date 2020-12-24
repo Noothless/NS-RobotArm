@@ -247,7 +247,6 @@ public:
 private:
     string patternToUse;
 
-
 };
 
 static inline void read(const FileNode& node, Settings& x, const Settings& default_value = Settings())
