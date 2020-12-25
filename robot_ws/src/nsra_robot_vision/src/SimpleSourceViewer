@@ -51,6 +51,8 @@ reciever = receiver.create_receiver(recieveSource)
 
 while(1):
 	frame = reciever.read()
+
+	frame = imutils.resize(frame, width=1080)
 	
 	cv2.imshow("image", frame)
 	k = cv2.waitKey(30) & 0xff
