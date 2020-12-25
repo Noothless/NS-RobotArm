@@ -121,8 +121,8 @@ while(cams_connected):
     img_left = left_camera.read()
     img_right = right_camera.read()
 
-    frame_l = cv2.resize(img_left, (1080, 720))
-    frame_r = cv2.resize(img_right, (1080, 720))
+    frame_l = cv2.resize(img_left, (1920, 1080))
+    frame_r = cv2.resize(img_right, (1920, 1080))
 
     cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
