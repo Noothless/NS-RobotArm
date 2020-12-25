@@ -18,6 +18,9 @@ recieveSource = None
 # If there is one or more sources then list the names of all source.
 # If only 1 source is detected, then automatically connect to that source.
 # If more than 1 source detected, then list all sources detected and allow user to choose source.
+
+print(NDIsources)
+
 if(len(NDIsources) > 0):
 	print(str(len(NDIsources)) + " NDI Sources Detected")
 	for x in range(len(NDIsources)):
