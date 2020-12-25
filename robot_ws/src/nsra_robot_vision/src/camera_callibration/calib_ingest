@@ -122,9 +122,12 @@ while(cams_connected):
     img_right = right_camera.read()
 
     frame_l = cv2.resize(img_left, (1080, 720))
-    frame_r = cv2.resize(img_right, (1080, 720)) 
+    frame_r = cv2.resize(img_right, (1080, 720))
 
-    output_img = np.concatenate((frame_r, frame_l), axis=1)
+    cv2.putText(frame_l, cam_left_source.name,(0,15),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+    cv2.putText(frame_r, cam_right_source.name,(0,15),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+
+    output_img = np.concatenate((frame_l, frame_r), axis=1)
 
     cv2.imshow('left and right camera', output_img)
 
