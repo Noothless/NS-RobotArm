@@ -52,15 +52,13 @@ pack_path = rospack.get_path('nsra_robot_vision')
 
 try:
     os.makedirs(pack_path + '/images')
-except OSError as e:
-    if e.errno != errno.EEXIST:
-        raise
+except:
+    pass
 
 try:
     os.makedirs(pack_path + '/config')
-except OSError as e:
-    if e.errno != errno.EEXIST:
-        raise
+except:
+    pass
 
 #NDI
 find = finder.create_ndi_finder()
