@@ -51,16 +51,6 @@ reciever = receiver.create_receiver(recieveSource)
 
 while(1):
 	frame = reciever.read()
-	size = [str(frame.shape[0]),str(frame.shape[1]), frame.shape[2]]
-	frame = imutils.resize(frame, width=500)
-	cv2.putText(frame, recieveSource.name,(0,15),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
-	cv2.putText(frame, "Size:"+ size[1] + "x" +size[0],(0,35),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-	mode = ""
-	if(size[2] == 4):
-		mode = "RGB Alpha"
-	if(size[2] == 3):
-		mode = "RGB"	
-	cv2.putText(frame, "Mode:"+ mode,(0,55),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 	
 	cv2.imshow("image", frame)
 	k = cv2.waitKey(30) & 0xff
