@@ -1,7 +1,7 @@
 import typing
 import re
 
-from lib import lib, ffi
+from nsra_pyNDI.lib import lib, ffi
 
 def create_ndi_finder():
     pNDI_find = lib.NDIlib_find_create_v2(ffi.NULL)
