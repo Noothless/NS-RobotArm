@@ -4,7 +4,7 @@ from cffi import FFI
 import rospkg
 
 rospack = rospkg.RosPack()
-pack_path = rospack.get_path('nsra_pyNDI')
+pack_path = rospack.get_path('nsra_pyndi')
 
 ffi = FFI()
 

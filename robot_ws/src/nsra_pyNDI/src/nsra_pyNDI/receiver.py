@@ -2,8 +2,8 @@ import enum
 
 import numpy as np
 
-from nsra_pyNDI.lib import lib, ffi
-from nsra_pyNDI.finder import NDISource
+from nsra_pyndi.lib import lib, ffi
+from nsra_pyndi.finder import NDISource
 
 class FrameType(enum.IntEnum):
     type_none = 0

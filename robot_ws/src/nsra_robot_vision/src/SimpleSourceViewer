@@ -3,9 +3,9 @@
 # Example by Joel Luther-Braun / Github(@Hantoo)
 
 #pyNDI Import
-import nsra_pyNDI.finder as finder
-import nsra_pyNDI.receiver as receiver
-import nsra_pyNDI.lib as lib
+import nsra_pyndi.finder as finder
+import nsra_pyndi.receiver as receiver
+import nsra_pyndi.lib as lib
 #Other Import
 import cv2
 import imutils
