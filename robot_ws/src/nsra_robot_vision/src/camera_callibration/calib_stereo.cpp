@@ -31,6 +31,10 @@ void load_image_points(int board_width, int board_height, int num_imgs, float sq
     sprintf(right_img_corners, "%s%s%d_corners.%s", rightimg_dir, rightimg_filename, i, extension);
     img1 = imread(left_img, cv::IMREAD_COLOR);
     img2 = imread(right_img, cv::IMREAD_COLOR);
+    if(img1.empty() || img2.empty())
+    {
+      continue;
+    }
     cvtColor(img1, gray1, cv::COLOR_BGR2GRAY);
     cvtColor(img2, gray2, cv::COLOR_BGR2GRAY);
 
