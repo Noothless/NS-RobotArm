@@ -127,7 +127,7 @@ while(cams_connected):
     cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-    cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
