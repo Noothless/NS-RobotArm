@@ -2,7 +2,7 @@
 <package format="2">
   <name>nsra_pyndi</name>
   <version>0.0.0</version>
-  <description>The nsra_pyNDI package</description>
+  <description>The nsra_pyndi package</description>
   <maintainer email="noa.sendlhofer@gmail.com">Noa Sendlhofer</maintainer>
 
   <license>TODO</license>
