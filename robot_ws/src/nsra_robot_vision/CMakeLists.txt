@@ -69,6 +69,8 @@ install(PROGRAMS
   src/bottle_detection_v1/nsra_bd_object_detection
   src/bottle_detection_v1/nsra_bd_front_view
   src/SimpleSourceViewer
+
+  src/camera_callibration/calib_ingest
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
