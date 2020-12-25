@@ -1,8 +1,5 @@
 #!/usr/bin/python
-# pyNDI Made by CarlosFdez
-# Example by Joel Luther-Braun / Github(@Hantoo)
 
-#pyNDI Import
 import nsra_pyndi.finder as finder
 import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
@@ -18,8 +15,6 @@ recieveSource = None
 # If there is one or more sources then list the names of all source.
 # If only 1 source is detected, then automatically connect to that source.
 # If more than 1 source detected, then list all sources detected and allow user to choose source.
-
-print(NDIsources)
 
 if(len(NDIsources) > 0):
 	print(str(len(NDIsources)) + " NDI Sources Detected")
@@ -58,7 +53,7 @@ while(1):
 	frame = imutils.resize(frame, width=1920)
 	
 	cv2.imshow("image", frame)
-	k = cv2.waitKey(30) & 0xff
+	k = cv2.waitKey(50) & 0xff
 	if k == 27:
 		break
   
