@@ -44,10 +44,23 @@ import rospkg
 import sys
 from threading import Thread
 import imutils
+import os
 
 #rospack
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_robot_vision')
+
+try:
+    os.makedirs(pack_path + '/images')
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
+
+try:
+    os.makedirs(pack_path + '/config')
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
 
 #NDI
 find = finder.create_ndi_finder()
