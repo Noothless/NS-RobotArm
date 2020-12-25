@@ -73,9 +73,9 @@ class camera():
 
         cam.TriggerMode.set(gx.GxSwitchEntry.OFF)
 
-        cam.ExposureTime.set(10000.0)
+        cam.ExposureTime.set(80000.0)
 
-        cam.Gain.set(0.0)
+        cam.Gain.set(5.0)
 
         cam.BalanceWhiteAuto.set(1)
 
