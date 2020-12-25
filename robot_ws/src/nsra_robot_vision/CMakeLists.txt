@@ -35,9 +35,9 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable(single_cam_callibration src/deprecated/single_cam_callibration.cpp)
+add_executable(calib_intrinsics src/camera_callibration/calib_intrinsics.cpp)
 
-target_link_libraries(single_cam_callibration
+target_link_libraries(calib_intrinsics
   ${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
@@ -62,24 +62,22 @@ install(PROGRAMS
   src/blob_detection/blob_detection_right
   src/corner_detection/cbc_detection_left
   src/corner_detection/cbc_detection_right
-  src/calibration/calib_intrinsics
   src/plot_3d_points
   src/nsra_gripper
   src/bottle_detection_v1/nsra_bd_top_view
   src/bottle_detection_v1/nsra_bd_object_detection
   src/bottle_detection_v1/nsra_bd_front_view
   src/SimpleSourceViewer
-
   src/camera_callibration/calib_ingest
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 install(TARGETS
-  single_cam_callibration
-#  calibrate
-#  read
+  calib_intrinsics
+  #calibrate
+  #read
   calibrate_stereo
-#  undistort_rectify
+  #undistort_rectify
   nsra_bottle_detection
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
