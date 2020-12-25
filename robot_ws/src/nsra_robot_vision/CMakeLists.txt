@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslib
   std_msgs
-  #OpenCV
   message_generation
   nsra_odrive_interface
 )
@@ -48,7 +47,7 @@ target_link_libraries(calib_intrinsics
 #add_executable(read src/deprecated/read_images.cpp)
 #target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
-add_executable(calibrate_stereo src/calibration/calib_stereo.cpp)
+add_executable(calibrate_stereo src/camera_callibration/calib_stereo.cpp)
 target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 #add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
@@ -58,16 +57,12 @@ add_executable(nsra_bottle_detection src/nsra_bottle_detection.cpp)
 target_link_libraries(nsra_bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 install(PROGRAMS
-  src/blob_detection/blob_detection_left
-  src/blob_detection/blob_detection_right
   src/corner_detection/cbc_detection_left
   src/corner_detection/cbc_detection_right
-  src/plot_3d_points
   src/nsra_gripper
   src/bottle_detection_v1/nsra_bd_top_view
   src/bottle_detection_v1/nsra_bd_object_detection
   src/bottle_detection_v1/nsra_bd_front_view
-  src/SimpleSourceViewer
   src/camera_callibration/calib_ingest
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
@@ -82,11 +77,6 @@ install(TARGETS
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-
-#install(FILES
-#  srv/coords.srv
-#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-#)
 
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
