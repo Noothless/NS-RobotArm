@@ -80,17 +80,6 @@ left_camera = receiver.create_receiver(cam_left_source)
 #findChessboardCorners
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
-#Object Points
-objp = np.zeros((6*9,3), np.float32)
-objp[:,:2] = np.mgrid[0:2760:345,0:1275:345].T.reshape(-1,2)
-
-objpoints_left = [] 
-objpoints_right = [] 
-
-#Image Points
-imgpoints_left = [] 
-imgpoints_right = [] 
-
 #Number of images taken
 img_nb = int(sys.argv[1])
 
@@ -99,11 +88,8 @@ def findCBC_LEFT(img):
     stereo_name = pack_path + '/stereo/left' + str(img_nb + 1) + '.jpg'
     cv2.imwrite(stereo_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
+    ret,_ = cv2.findChessboardCorners(gray, (6,9), None)
     if ret == True:
-        objpoints_left.append(objp)
-        corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
-        imgpoints_left.append(corners2)
         cv2.imwrite(calib_name, img)
         print("Success on left image!")
     else:
@@ -114,11 +100,8 @@ def findCBC_RIGHT(img):
     stereo_name = pack_path + '/stereo/right' + str(img_nb + 1) + '.jpg'
     cv2.imwrite(stereo_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
+    ret,_ = cv2.findChessboardCorners(gray, (6,9), None)
     if ret == True:
-        objpoints_right.append(objp)
-        corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
-        imgpoints_right.append(corners2)
         cv2.imwrite(calib_name, img)
         print("Success on right image!")
     else:
