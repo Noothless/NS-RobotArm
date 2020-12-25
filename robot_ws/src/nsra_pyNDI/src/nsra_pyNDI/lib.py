@@ -147,7 +147,9 @@ ffi.cdef(r"""
 basedir = os.path.dirname(__file__)
 arch = 'x64' if sys.maxsize > 2**32 else 'x86'
 print("suck my dick")
-lib = ffi.dlopen(os.path.join("~/", "bin", f"Processing.NDI.Lib.{arch}.dll"))
+#lib = ffi.dlopen(os.path.join("~/", "bin", f"Processing.NDI.Lib.{arch}.dll"))
+lib = ffi.dlopen("/home/noa/bin/Processing.NDI.Lib.x64.dll"))
+
 
 if not lib.NDIlib_initialize():
     print("Failed to initialized NDI")
