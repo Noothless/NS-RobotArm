@@ -99,7 +99,7 @@ def findCBC_LEFT(img):
     stereo_name = pack_path + '/stereo/left' + str(img_nb + 1) + '.jpg'
     cv2.imwrite(stereo_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret,_ = cv2.findChessboardCorners(gray, (6,9), None)
+    ret,_ = cv2.findChessboardCorners(gray, (6,9), cv2.CALIB_CB_FAST_CHECK)
     if ret == True:
         cv2.imwrite(calib_name, img)
         print("Success on left image!")
@@ -111,7 +111,7 @@ def findCBC_RIGHT(img):
     stereo_name = pack_path + '/stereo/right' + str(img_nb + 1) + '.jpg'
     cv2.imwrite(stereo_name, img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret,_ = cv2.findChessboardCorners(gray, (6,9), None)
+    ret,_ = cv2.findChessboardCorners(gray, (6,9), cv2.CALIB_CB_FAST_CHECK)
     if ret == True:
         cv2.imwrite(calib_name, img)
         print("Success on right image!")
