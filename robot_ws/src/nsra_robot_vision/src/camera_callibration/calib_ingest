@@ -142,6 +142,7 @@ while(cams_connected):
         t2.start()
 
     elif(img_nb == 0):
+        print("All images taken! - Quit program")
         break
 
 cv2.destroyAllWindows()     
