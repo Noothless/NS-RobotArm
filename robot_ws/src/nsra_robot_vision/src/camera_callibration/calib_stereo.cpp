@@ -136,6 +136,8 @@ int main(int argc, char const *argv[])
 
   fsl["square_size"] >> square_size;
 
+  num_imgs = 10;
+
   load_image_points(9, 6, num_imgs, square_size,
                    img_dir.c_str(), img_dir.c_str(), leftimg_filename, rightimg_filename, extension);
 
