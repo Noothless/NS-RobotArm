@@ -13,7 +13,7 @@ import imutils
 find = finder.create_ndi_finder()
 NDIsources = find.get_sources()
 
-recieveSource = None; 
+recieveSource = None
 
 # If there is one or more sources then list the names of all source.
 # If only 1 source is detected, then automatically connect to that source.
@@ -27,7 +27,7 @@ if(len(NDIsources) > 0):
 		recieveSource = NDIsources[0]
 		print("Automatically Connecting To Source...")
 	else:
-		awaitUserInput = True;
+		awaitUserInput = True
 		while(awaitUserInput):
 			print("")
 			try:
