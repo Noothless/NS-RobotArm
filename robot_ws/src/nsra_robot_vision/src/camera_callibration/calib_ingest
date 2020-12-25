@@ -103,6 +103,8 @@ def findCBC_LEFT(img):
         cv2.imwrite(calib_name, img)
         print("Success on left image!")
     else:
+        if os.path.exists(calib_name):
+            os.remove(calib_name)
         print("No corners detected in the left image!")     
 
 def findCBC_RIGHT(img):
@@ -115,6 +117,8 @@ def findCBC_RIGHT(img):
         cv2.imwrite(calib_name, img)
         print("Success on right image!")
     else:
+        if os.path.exists(calib_name):
+            os.remove(calib_name)
         print("No corners detected in the right image!")
 
 while(cams_connected):
