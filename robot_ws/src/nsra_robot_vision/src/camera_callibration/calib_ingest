@@ -153,8 +153,8 @@ while(cams_connected):
         print("Remaining Images: " + str(img_nb))
         img_nb -= 1
 
-        t1 = Thread(target=findCBC_LEFT, args=(img_left,))
-        t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
+        t1 = threading.Thread(target=findCBC_LEFT, args=(img_left,))
+        t2 = threading.Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
         capture_loop_previous = capture_loop
@@ -167,8 +167,8 @@ while(cams_connected):
         print("Remaining Images: " + str(img_nb))
         img_nb -= 1
 
-        t1 = Thread(target=findCBC_LEFT, args=(img_left,))
-        t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
+        t1 = threading.Thread(target=findCBC_LEFT, args=(img_left,))
+        t2 = threading.Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
     elif key == 103:  
