@@ -9,6 +9,9 @@
 #include <sstream>
 #include "nsra_odrive_interface/lr_coords.h"
 #include <ros/package.h>
+#include <Processing.NDI.Lib.h>
+
+#pragma comment(lib, "Processing.NDI.Lib.x86.lib")
 
 using namespace std;
 using namespace cv;
@@ -102,7 +105,8 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
 int main(int argc, char** argv)
 {
-
+    if (!NDIlib_initialize()) return 0;
+    
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
     ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);

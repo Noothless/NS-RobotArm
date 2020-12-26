@@ -4,7 +4,7 @@ from cffi import FFI
 import rospkg
 
 rospack = rospkg.RosPack()
-pack_path = rospack.get_path('nsra_pyndi')
+pack_path = rospack.get_path('nsra_robot_vision')
 
 ffi = FFI()
 
@@ -151,7 +151,7 @@ ffi.cdef(r"""
 basedir = os.path.dirname(__file__)
 arch = 'x64' if sys.maxsize > 2**32 else 'x86'
 #lib = ffi.dlopen(os.path.join("~/", "bin", f"Processing.NDI.Lib.{arch}.dll"))
-lib = ffi.dlopen(pack_path + "/bin/libndi.so.4.5.3")
+lib = ffi.dlopen(pack_path + "/lib/libndi.so.4.5.3")
 
 
 if not lib.NDIlib_initialize():

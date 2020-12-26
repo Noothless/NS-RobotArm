@@ -47,14 +47,14 @@ target_link_libraries(calib_intrinsics
 #add_executable(read src/deprecated/read_images.cpp)
 #target_link_libraries(read ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" -lpthread)
 
-add_executable(calibrate_stereo src/camera_callibration/calib_stereo.cpp)
-target_link_libraries(calibrate_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+add_executable(calib_stereo src/camera_callibration/calib_stereo.cpp)
+target_link_libraries(calib_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 #add_executable(undistort_rectify src/calibration/undistort_rectify.cpp)
 #target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 add_executable(nsra_bottle_detection src/nsra_bottle_detection.cpp)
-target_link_libraries(nsra_bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
+target_link_libraries(nsra_bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" ${PROJECT_SOURCE_DIR}/lib/libndi.so.4.5.3)
 
 install(PROGRAMS
   src/corner_detection/cbc_detection_left
@@ -71,7 +71,7 @@ install(TARGETS
   calib_intrinsics
   #calibrate
   #read
-  calibrate_stereo
+  calib_stereo
   #undistort_rectify
   nsra_bottle_detection
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -84,6 +84,10 @@ install(DIRECTORY launch/
 
 install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
+  PATTERN ".svn" EXCLUDE)
+
+install(DIRECTORY lib/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/lib
   PATTERN ".svn" EXCLUDE)
 
 install(DIRECTORY include/   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
