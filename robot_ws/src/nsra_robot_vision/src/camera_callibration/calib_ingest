@@ -160,7 +160,6 @@ while(cams_connected):
         capture_loop_previous = capture_loop
 
     key = cv2.waitKey(50)
-    print(key)
     if key == 27:
         print("User Quit")
         break
@@ -172,11 +171,11 @@ while(cams_connected):
         t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
-    elif(img_nb == 103):  
+    elif key == 103:  
         print("Capture loop started!")
         take_img()
 
-    elif(img_nb == 0):
+    elif img_nb == 0:
         print("All images taken! - Quit program")
         break
 
