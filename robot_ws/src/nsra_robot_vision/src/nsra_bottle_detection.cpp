@@ -106,6 +106,30 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 int main(int argc, char** argv)
 {
     if (!NDIlib_initialize()) return 0;
+
+    // Create a finder
+	NDIlib_find_instance_t pNDI_find = NDIlib_find_create_v2();
+	if (!pNDI_find) return 0;
+
+    // Wait until there is one source
+	uint32_t no_sources = 0;
+	const NDIlib_source_t* p_sources = NULL;
+	while (no_sources != 2)
+	{	// Wait until the sources on the nwtork have changed
+		printf("Looking for sources ...\n");
+		NDIlib_find_wait_for_sources(pNDI_find, 1000/* One second */);
+		p_sources = NDIlib_find_get_current_sources(pNDI_find, &no_sources);
+	}
+
+    NDIlib_recv_instance_t pNDI_recv_right = NDIlib_recv_create_v3();
+	if (!pNDI_recv_right) return 0;
+
+    NDIlib_recv_instance_t pNDI_recv_left = NDIlib_recv_create_v3();
+	if (!pNDI_recv_left) return 0;
+
+    //NDIlib_recv_connect(pNDI_recv_right, p_sources + 0);
+
+    cout << p_sources[0].p_ndi_name.c_str() << endl;
     
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
