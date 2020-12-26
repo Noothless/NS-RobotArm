@@ -80,18 +80,22 @@ if(len(NDIsources) == 2):
         cam_right_source = NDIsources[1]
         cam_left_source = NDIsources[0]
     else:
-        print("Detected cameras don't match with the input names - Please Try Again") 
+        print("Detected cameras don't match with the input names") 
     right_camera = receiver.create_receiver(cam_right_source)
     left_camera = receiver.create_receiver(cam_left_source)
     cams_connected = True
 else:
-    print("Not all cameras were detected - Please Try Again")
+    print("Not all cameras were detected")
 
 #findChessboardCorners
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 #Number of images taken
-img_nb = int(sys.argv[1])
+if int(sys.argv[1]) == None:
+    cams_connected = False
+    print("Please specify the number of images")
+else:
+    img_nb = int(sys.argv[1])
 
 def findCBC_LEFT(img):
     calib_name = pack_path + '/images/left' + str(img_nb + 1) + '.jpg'
