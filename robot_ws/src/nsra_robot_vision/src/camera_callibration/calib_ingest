@@ -91,11 +91,11 @@ else:
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 #Number of images taken
-if sys.argv[1] == None:
+try:
+    img_nb = int(sys.argv[1])
+except:
     cams_connected = False
     print("Please specify the number of images")
-else:
-    img_nb = int(sys.argv[1])
 
 def findCBC_LEFT(img):
     calib_name = pack_path + '/images/left' + str(img_nb + 1) + '.jpg'
