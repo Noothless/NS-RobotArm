@@ -72,6 +72,8 @@ cams_connected = False
 capture_loop = False
 capture_loop_previous = False
 
+timer_started_flag = False
+
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
 
@@ -171,9 +173,10 @@ while(cams_connected):
         t2 = threading.Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
-    elif key == 103:  
+    elif key == 103 and not timer_started_flag:
         print("Capture loop started!")
         take_img()
+        timer_started_flag = True
 
     elif img_nb == 0:
         print("All images taken! - Quit program")
