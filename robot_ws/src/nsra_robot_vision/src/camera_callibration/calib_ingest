@@ -42,7 +42,8 @@ import nsra_pyndi.lib as lib
 import numpy as np
 import rospkg
 import sys
-from threading import Thread
+import threading
+import time
 import imutils
 import os
 
@@ -68,6 +69,8 @@ cam_right_source = None
 cam_left_source = None
 
 cams_connected = False
+capture_loop = False
+capture_loop_previous = False
 
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
@@ -125,6 +128,11 @@ def findCBC_RIGHT(img):
             os.remove(calib_name)
         print("No corners detected in the right image!")
 
+def take_img():
+    global capture_loop
+    capture_loop = not capture_loop
+    threading.Timer(5, take_img).start()
+
 while(cams_connected):
     img_left = left_camera.read()
     img_right = right_camera.read()
@@ -141,6 +149,15 @@ while(cams_connected):
 
     cv2.imshow('left and right camera', output_img)
 
+    if capture_loop is not capture_loop_previous:
+        print("Remaining Images: " + str(img_nb))
+        img_nb -= 1
+
+        t1 = Thread(target=findCBC_LEFT, args=(img_left,))
+        t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
+        t1.start()
+        t2.start()
+
     key = cv2.waitKey(50)
     print(key)
     if key == 27:
@@ -154,6 +171,9 @@ while(cams_connected):
         t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
+    elif(img_nb == 103):  
+        print("Capture loop started!")
+        take_img()
 
     elif(img_nb == 0):
         print("All images taken! - Quit program")
