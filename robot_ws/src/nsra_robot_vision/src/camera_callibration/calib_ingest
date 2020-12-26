@@ -157,6 +157,7 @@ while(cams_connected):
         t2 = Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
+        capture_loop_previous = capture_loop
 
     key = cv2.waitKey(50)
     print(key)
