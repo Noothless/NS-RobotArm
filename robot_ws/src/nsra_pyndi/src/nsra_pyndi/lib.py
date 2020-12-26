@@ -156,5 +156,3 @@ lib = ffi.dlopen(pack_path + "/bin/libndi.so.4.5.3")
 
 if not lib.NDIlib_initialize():
     print("Failed to initialized NDI")
-
-print("NDI Lib initialized")
