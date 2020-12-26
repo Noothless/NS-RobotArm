@@ -2,7 +2,7 @@
 rosrun nsra_robot_vision calib_intrinsics "rtsp://192.168.1.191" "rtsp://192.168.1.171" 50
 #rosrun nsra_robot_vision read -w 1080 -h 720 -d ~/images/ -e "jpg" -c "rtsp://192.168.1.171" -n "right"
 #rostopic pub -1 /save_img std_msgs/String hello
-rosrun nsra_robot_vision calibrate_stereo -n 50 -u left_data.yml -v right_data.yml -l left -r right -o cam_stereo.yml -e jpg
+rosrun nsra_robot_vision calibrate_stereo -n 50 -u left_data.xml -v right_data.xml -l left -r right -o cam_stereo.yml -e jpg
 rosrun nsra_robot_vision undistort_rectify -l ~/images/left1.jpg -r ~/images/right1.jpg -c cam_stereo.yml -L ~/images/left_u.jpg -R ~/images/right_u.jpg
 export ROS_MASTER_URI=http://192.168.1.107:11311
 rosrun nsra_robot_vision cbc_detection_right "rtsp://192.168.1.171" "rtsp://192.168.1.105"
