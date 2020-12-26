@@ -1,6 +1,0 @@
-nsra_pyNDI
-/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_pyNDI/cmake.lock /home/noa/NS-RobotArm/robot_ws/devel/./cmake.lock
-/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_pyNDI/share/nsra_pyNDI/cmake/nsra_pyNDIConfig.cmake /home/noa/NS-RobotArm/robot_ws/devel/share/nsra_pyNDI/cmake/nsra_pyNDIConfig.cmake
-/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_pyNDI/share/nsra_pyNDI/cmake/nsra_pyNDIConfig-version.cmake /home/noa/NS-RobotArm/robot_ws/devel/share/nsra_pyNDI/cmake/nsra_pyNDIConfig-version.cmake
-/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_pyNDI/lib/pkgconfig/nsra_pyNDI.pc /home/noa/NS-RobotArm/robot_ws/devel/lib/pkgconfig/nsra_pyNDI.pc
-/home/noa/NS-RobotArm/robot_ws/devel/.private/nsra_pyNDI/lib/python3/dist-packages/nsra_pyNDI/__init__.py /home/noa/NS-RobotArm/robot_ws/devel/lib/python3/dist-packages/nsra_pyNDI/__init__.py
