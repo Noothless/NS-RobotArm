@@ -91,7 +91,7 @@ else:
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 #Number of images taken
-if int(sys.argv[1]) == None:
+if sys.argv[1] == None:
     cams_connected = False
     print("Please specify the number of images")
 else:
