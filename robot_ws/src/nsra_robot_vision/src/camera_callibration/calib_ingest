@@ -130,11 +130,11 @@ def findCBC_RIGHT(img):
             os.remove(calib_name)
         print("No corners detected in the right image!")
 
-def take_img():
+def img_timer():
     global capture_loop
     capture_loop = not capture_loop
     if timer_started_flag:
-        threading.Timer(7, take_img).start()
+        threading.Timer(7, img_timer).start()
 
 while(cams_connected):
     img_left = left_camera.read()
@@ -178,7 +178,7 @@ while(cams_connected):
     elif key == 103 and not timer_started_flag:
         print("Capture loop started!")
         timer_started_flag = True
-        take_img()
+        img_timer()
 
     elif img_nb == 0:
         print("All images taken! - Quit program")
