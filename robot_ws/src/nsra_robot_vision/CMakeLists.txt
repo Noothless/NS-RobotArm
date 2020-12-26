@@ -30,6 +30,7 @@ catkin_package(
 include_directories(
   include/
   config/
+  lib/
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
