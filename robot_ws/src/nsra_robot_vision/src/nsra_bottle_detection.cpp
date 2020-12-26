@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 
     //NDIlib_recv_connect(pNDI_recv_right, p_sources + 0);
 
-    cout << p_sources[0].p_ndi_name.c_str() << endl;
+    cout << p_sources[0].p_ndi_name << endl;
     
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
