@@ -104,6 +104,7 @@ class Camera
                     
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
 		    }
+            printf("Test6\n");
         }
 
     private:
