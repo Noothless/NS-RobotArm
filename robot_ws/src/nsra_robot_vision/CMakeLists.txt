@@ -30,10 +30,13 @@ catkin_package(
 include_directories(
   include/
   config/
-  lib/
+  /usr/local/include/NDI
+  /usr/local/lib
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
+
+link_directories(/usr/local/lib)
 
 add_executable(calib_intrinsics src/camera_callibration/calib_intrinsics.cpp)
 
@@ -55,7 +58,7 @@ target_link_libraries(calib_stereo ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 #target_link_libraries(undistort_rectify ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt")
 
 add_executable(nsra_bottle_detection src/nsra_bottle_detection.cpp)
-target_link_libraries(nsra_bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" ${PROJECT_SOURCE_DIR}/lib/libndi.so.4)
+target_link_libraries(nsra_bottle_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} "-lpopt" libndi.so.4)
 
 install(PROGRAMS
   src/corner_detection/cbc_detection_left
@@ -87,7 +90,7 @@ install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
   PATTERN ".svn" EXCLUDE)
 
-install(DIRECTORY lib/
+install(DIRECTORY /usr/local/include/NDI
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/lib
   PATTERN ".svn" EXCLUDE)
 
