@@ -184,7 +184,7 @@ int main(int argc, char** argv)
 
     while(true)
     {
-        cam_left.getFrame() >> frame;
+        frame = cam_left.getFrame();
         if(frame.rows != 0)
         {
             imshow("Frame", frame);
