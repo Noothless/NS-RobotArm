@@ -202,9 +202,12 @@ int main(int argc, char** argv)
         printf("Test4\n");
         frame = cam_left.getFrame();
         cout << frame.rows << endl;
-        if(frame.rows != 0)
+        cout << frame.cols << endl;
+        Mat out;
+        cvtColor(frame, out, cv::COLOR_RGBA2RGB);
+        if(out.rows != 0)
         {
-            imshow("Frame", frame);
+            imshow("Frame", out);
         }
 
         int key = waitKey(30);
