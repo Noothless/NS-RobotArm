@@ -192,7 +192,6 @@ int main(int argc, char** argv)
             break;
         }
 
-        return 0;
     }
     
     /*
@@ -215,5 +214,7 @@ int main(int argc, char** argv)
     */
 
     NDIlib_destroy();
+
+    return 0;
 
 }
