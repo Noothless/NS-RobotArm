@@ -75,7 +75,7 @@ class Camera
             NDIlib_recv_destroy(pNDI_recv);
         }
 
-        cv::Mat getFrame()
+        void getFrame()
         {
             NDIlib_video_frame_v2_t video_frame;
 
@@ -85,7 +85,8 @@ class Camera
 		    {	// No data
 			    case NDIlib_frame_type_none:
 				    printf("No data received.\n");
-				    return ret_black;
+                    break;
+				    //return ret_black;
 
 			    // Video data
 			    case NDIlib_frame_type_video:
@@ -101,18 +102,21 @@ class Camera
                         Mat out;
                         cvtColor(ret_frame, out, cv::COLOR_RGBA2RGB);
                         imshow("Frame", out);
-                        return out;
+                        break;
+                        //return out;
                     } catch (const std::exception& e)
                     {
                         printf("Error\n");
                         printf(e.what());
-                        return ret_black;
+                        break;
+                        //return ret_black;
                     }
-                    
+                    break;
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
                 default:
                     printf("bruh\n");
-                    return ret_black;
+                    //return ret_black;
+                    break;
 		    }
         }
 
