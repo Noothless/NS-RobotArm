@@ -91,7 +91,7 @@ class Camera
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
                     uint8_t* data = video_frame.p_data;
 
-                    cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data)
+                    cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data);
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
 
 				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
@@ -180,7 +180,7 @@ int main(int argc, char** argv)
     Camera cam_left(CAM_LEFT);
     Camera cam_right(CAM_RIGHT);
 
-    cv::Mat frame
+    cv::Mat frame;
 
     while(true)
     {
