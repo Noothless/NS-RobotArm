@@ -103,6 +103,7 @@ class Camera
                     {
                         printf("Error\n");
                         printf(e.what());
+                        return ret_black;
                     }
                     
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
@@ -200,7 +201,7 @@ int main(int argc, char** argv)
     {
         printf("Test4\n");
         frame = cam_left.getFrame();
-        printf("Test5\n");
+        cout << frame.rows << endl;
         if(frame.rows != 0)
         {
             imshow("Frame", frame);
