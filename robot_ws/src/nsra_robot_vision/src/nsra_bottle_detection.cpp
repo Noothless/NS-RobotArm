@@ -180,7 +180,10 @@ int main(int argc, char** argv)
     while(true)
     {
         Mat frame = cam_left.getFrame();
-        imshow("Frame", frame);
+        if(frame.rows != 0)
+        {
+            imshow("Frame", frame);
+        }
 
         int key = waitKey(30);
         if(key == 27)
