@@ -1,6 +1,4 @@
 #pragma once
-#include <iostream>
-#include <stdio.h>
 
 // NOTE : The following MIT license applies to this file ONLY and not to the SDK as a whole. Please review the SDK documentation 
 // for the description of the full license terms, which are also provided in the file "NDI License Agreement.pdf" within the SDK or 
@@ -62,7 +60,7 @@
 #			define NDILIB_REDIST_FOLDER "NDI_RUNTIME_DIR_V4"
 #			define NDILIB_REDIST_URL    "http://new.tk/NDIRedistV4Apple"
 #		else // __APPLE__
-#			define NDILIB_LIBRARY_NAME  "libndi.so.4"
+#			define NDILIB_LIBRARY_NAME  "libndi.so.4.5.3"
 #			define NDILIB_REDIST_FOLDER "NDI_RUNTIME_DIR_V4"
 #			define NDILIB_REDIST_URL    ""
 #		endif // __APPLE__
@@ -105,8 +103,6 @@
 // Data structures shared by multiple SDKs
 #include "Processing.NDI.compat.h"
 #include "Processing.NDI.structs.h"
-
-std::cout << "test" << endl;
 
 // This is not actually required, but will start and end the libraries which might get
 // you slightly better performance in some cases. In general it is more "correct" to 
