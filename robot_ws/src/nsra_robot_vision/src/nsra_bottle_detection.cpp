@@ -100,7 +100,7 @@ class Camera
 
                         Mat out;
                         cvtColor(ret_frame, out, cv::COLOR_RGBA2RGB);
-
+                        imshow("Frame", out);
                         return out;
                     } catch (const std::exception& e)
                     {
@@ -200,7 +200,8 @@ int main(int argc, char** argv)
     cv::Mat frame;
     while(true)
     {
-        frame = cam_left.getFrame();
+        cam_left.getFrame();
+        /*
         cout << frame.rows << endl;
         cout << frame.cols << endl;
         Mat out;
@@ -209,7 +210,7 @@ int main(int argc, char** argv)
         {
             imshow("Frame", out);
         }
-
+        */
         int key = waitKey(30);
         if(key == 27)
         {
