@@ -79,8 +79,7 @@ class Camera
         {
             NDIlib_video_frame_v2_t video_frame;
 
-            cv::Mat ret_black(2064, 3088, CV_8UC4);
-            cvZero(ret_black);
+            cv::Mat ret_black = Mat::zeros(2064, 3088, CV_8UC4);
 
             printf("Test1\n");
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
