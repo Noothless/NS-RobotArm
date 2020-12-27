@@ -78,6 +78,7 @@ class Camera
         cv::Mat getFrame()
         {
             NDIlib_video_frame_v2_t video_frame;
+            cv::Mat ret_frame;
 
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
 		    {	// No data
@@ -88,7 +89,8 @@ class Camera
 			    // Video data
 			    case NDIlib_frame_type_video:
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
-                    return (uint8_t*)video_frame.p_data;
+                    ret_frame.data = (uint8_t*)video_frame.p_data;
+                    return ret_frame;
 				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
 				    break;
 		    }
