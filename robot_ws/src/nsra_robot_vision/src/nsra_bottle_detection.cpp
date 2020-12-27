@@ -96,9 +96,8 @@ class Camera
                     {
                         //uint8_t* data = video_frame.p_data;
                         cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, (uint8_t*)video_frame.p_data);
-                        cv::Mat dst = ret_frame.clone();
                         Mat out;
-                        cvtColor(dst, out, cv::COLOR_RGBA2RGB);
+                        cvtColor(ret_frame.clone(), out, cv::COLOR_RGBA2RGB);
                         printf("Works\n");
                         imshow("Frame", out);
                         NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
