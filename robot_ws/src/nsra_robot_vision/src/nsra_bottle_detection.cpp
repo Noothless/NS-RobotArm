@@ -79,7 +79,8 @@ class Camera
         {
             NDIlib_video_frame_v2_t video_frame;
 
-            cv::Mat ret_frame.create(3088, 2064, CV_8UC4);  
+            cv::Mat ret_frame;
+            ret_frame.create(3088, 2064, CV_8UC4);  
 
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
 		    {	// No data
