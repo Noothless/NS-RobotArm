@@ -11,7 +11,7 @@
 #include <ros/package.h>
 #include <Processing.NDI.Lib.h>
 
-#pragma comment(lib, "Processing.NDI.Lib.x86.lib")
+#pragma comment(lib, "libndi.so.4")
 
 using namespace std;
 using namespace cv;
