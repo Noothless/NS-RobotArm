@@ -104,6 +104,8 @@
 #include "Processing.NDI.compat.h"
 #include "Processing.NDI.structs.h"
 
+cout << "test" << endl;
+
 // This is not actually required, but will start and end the libraries which might get
 // you slightly better performance in some cases. In general it is more "correct" to 
 // call these although it is not required. There is no way to call these that would have
