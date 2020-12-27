@@ -97,7 +97,7 @@ class Camera
                         ret_frame = data;
                     } catch (const std::exception& e)
                     {
-                        printf(e.what() + "\n");
+                        printf(e.what());
                     }
                     
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
