@@ -77,6 +77,7 @@ class Camera
 
         cv::Mat getFrame()
         {
+            printf("Test\n");
             NDIlib_video_frame_v2_t video_frame;
             
 
@@ -91,7 +92,7 @@ class Camera
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
                     uint8_t* data = video_frame.p_data;
 
-                    cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC3, data);
+                    cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data);
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
 
 				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
@@ -185,6 +186,7 @@ int main(int argc, char** argv)
     while(true)
     {
         frame = cam_left.getFrame();
+
         if(frame.rows != 0)
         {
             imshow("Frame", frame);
