@@ -79,7 +79,7 @@ class Camera
         {
             NDIlib_video_frame_v2_t video_frame;
 
-            cv::Mat ret_frame;  
+            cv::Mat ret_frame.create(3088, 2064, CV_8UC4);  
 
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
 		    {	// No data
@@ -91,9 +91,15 @@ class Camera
 			    case NDIlib_frame_type_video:
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
                     uint8_t* data = video_frame.p_data;
-
-                    //cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data);
-                    ret_frame.data = (uint8_t*)video_frame.p_data;
+                    try
+                    {
+                        ret_frame = data;
+                    } catch (const std::exception& e)
+                    {
+                        printf(e.what() + "\n");
+                    }
+                    
+                    //ret_frame.data = (uint8_t*)video_frame.p_data;
 
 				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
 				    return ret_frame;
