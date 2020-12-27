@@ -95,7 +95,7 @@ class Camera
                     try
                     {
                         uint8_t* data = video_frame.p_data;
-                        cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC3, data);
+                        cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data);
                         NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
 
                         Mat out;
