@@ -81,7 +81,6 @@ class Camera
 
             cv::Mat ret_black = Mat::zeros(2064, 3088, CV_8UC4);
 
-            printf("Test1\n");
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
 		    {	// No data
 			    case NDIlib_frame_type_none:
@@ -90,11 +89,11 @@ class Camera
 
 			    // Video data
 			    case NDIlib_frame_type_video:
-                    printf("Test2\n");
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
                     
                     try
                     {
+                        printf("Works\n");
                         uint8_t* data = video_frame.p_data;
                         cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC3, data);
                         NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
@@ -111,7 +110,6 @@ class Camera
                     printf("bruh\n");
                     return ret_black;
 		    }
-            printf("Test6\n");
         }
 
     private:
