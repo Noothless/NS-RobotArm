@@ -95,15 +95,14 @@ class Camera
                     try
                     {
                         cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data);
+                        NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
+                        return ret_frame;
                     } catch (const std::exception& e)
                     {
                         printf(e.what());
                     }
                     
                     //ret_frame.data = (uint8_t*)video_frame.p_data;
-
-				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
-				    return ret_frame;
 		    }
         }
 
