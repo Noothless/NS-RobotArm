@@ -78,7 +78,7 @@ class Camera
         cv::Mat getFrame()
         {
             NDIlib_video_frame_v2_t video_frame;
-            cv::Mat ret_frame;
+            
 
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
 		    {	// No data
@@ -89,10 +89,13 @@ class Camera
 			    // Video data
 			    case NDIlib_frame_type_video:
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
-                    ret_frame.data = (uint8_t*)video_frame.p_data;
-                    return ret_frame;
+                    uint8_t* data = video_frame.p_data;
+
+                    cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, data)
+                    //ret_frame.data = (uint8_t*)video_frame.p_data;
+
 				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
-				    break;
+				    return ret_frame;
 		    }
         }
 
@@ -177,9 +180,11 @@ int main(int argc, char** argv)
     Camera cam_left(CAM_LEFT);
     Camera cam_right(CAM_RIGHT);
 
+    cv::Mat frame
+
     while(true)
     {
-        Mat frame = cam_left.getFrame();
+        cam_left.getFrame() >> frame;
         if(frame.rows != 0)
         {
             imshow("Frame", frame);
