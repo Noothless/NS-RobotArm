@@ -41,7 +41,7 @@ class Camera
         {
             // Create a finder
 	        NDIlib_find_instance_t pNDI_find = NDIlib_find_create_v2();
-	        if (!pNDI_find) return 0;
+	        //if (!pNDI_find) return 0;
 
             // Wait until there is one source
 	        uint32_t no_sources = 0;
@@ -54,14 +54,14 @@ class Camera
 	        }
 
             pNDI_recv = NDIlib_recv_create_v3();
-	        if (!pNDI_recv) return 0;
+	        //if (!pNDI_recv) return 0;
 
             if(cam_name == p_sources[0].p_ndi_name)
             {
-                NDIlib_recv_connect(pNDI_recv, p_sources[0]);
+                NDIlib_recv_connect(pNDI_recv, p_sources + 0);
             } else if(cam_name == p_sources[1].p_ndi_name)
             {
-                NDIlib_recv_connect(pNDI_recv, p_sources[1]);
+                NDIlib_recv_connect(pNDI_recv, p_sources + 1);
             } else
             {
                 cout << "Detected cameras don't match with the input names" << endl;
@@ -88,14 +88,14 @@ class Camera
 			    // Video data
 			    case NDIlib_frame_type_video:
 				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
-                    return (uint8_t*)video_frame.data;
+                    return (uint8_t*)video_frame.p_data;
 				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
 				    break;
 		    }
         }
 
     private:
-        NDIlib_recv_instance_t pNDI_recv
+        NDIlib_recv_instance_t pNDI_recv;
 };
 
 void saveCallback(const std_msgs::StringConstPtr& str)
@@ -172,12 +172,12 @@ int main(int argc, char** argv)
 {
     if (!NDIlib_initialize()) return 0;
 
-    cam_left = Camera(CAM_LEFT);
-    cam_right = Camera(CAM_RIGHT);
+    Camera cam_left(CAM_LEFT);
+    Camera cam_right(CAM_RIGHT);
 
     while(true)
     {
-        frame = cam_left.getFrame();
+        Mat frame = cam_left.getFrame();
         imshow("Frame", frame);
 
         int key = waitKey(30);
