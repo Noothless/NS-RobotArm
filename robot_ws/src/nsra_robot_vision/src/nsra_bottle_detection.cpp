@@ -103,6 +103,7 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
 int main(int argc, char** argv)
 {
+    cout << "test" <<  endl;
     if (!NDIlib_initialize()) return 0;
 
     // Create a finder
