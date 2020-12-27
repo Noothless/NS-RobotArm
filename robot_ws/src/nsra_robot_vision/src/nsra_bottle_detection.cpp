@@ -100,7 +100,7 @@ class Camera
                         return ret_frame;
                     } catch (const std::exception& e)
                     {
-                        printf("Error\n")
+                        printf("Error\n");
                         printf(e.what());
                     }
                     
