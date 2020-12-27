@@ -30,7 +30,6 @@ catkin_package(
 include_directories(
   include/
   config/
-  /usr/local/include/NDI
   /usr/local/lib
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
@@ -90,8 +89,5 @@ install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
   PATTERN ".svn" EXCLUDE)
 
-install(DIRECTORY /usr/local/include/NDI/
+install(DIRECTORY include/   
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
-
-#install(DIRECTORY include/   
-#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})

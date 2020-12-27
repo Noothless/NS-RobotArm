@@ -14,6 +14,9 @@
 using namespace std;
 using namespace cv;
 
+#define CAM_RIGHT "PC-NOA (TV0200110012)"
+#define CAM_LEFT "PC-NOA (TV0200110013)"
+
 cv::Mat points4d;
 cv::Mat points4d1;
 Mat cam_left_pnts(1,1,CV_64FC2);
@@ -30,6 +33,70 @@ ros::Publisher pub;
 ros::Publisher pub1;
 
 cv::FileStorage fs1(ros::package::getPath("nsra_robot_vision") + "/" + "storedPoints.yml", cv::FileStorage::WRITE);
+
+class Camera
+{
+    public:
+        Camera(string cam_name)
+        {
+            // Create a finder
+	        NDIlib_find_instance_t pNDI_find = NDIlib_find_create_v2();
+	        if (!pNDI_find) return 0;
+
+            // Wait until there is one source
+	        uint32_t no_sources = 0;
+	        const NDIlib_source_t* p_sources = NULL;
+	        while (no_sources != 2)
+	        {	// Wait until the sources on the nwtork have changed
+		        printf("Looking for sources ...\n");
+		        NDIlib_find_wait_for_sources(pNDI_find, 1000/* One second */);
+		        p_sources = NDIlib_find_get_current_sources(pNDI_find, &no_sources);
+	        }
+
+            pNDI_recv = NDIlib_recv_create_v3();
+	        if (!pNDI_recv) return 0;
+
+            if(cam_name == p_sources[0].p_ndi_name)
+            {
+                NDIlib_recv_connect(pNDI_recv, p_sources[0]);
+            } else if(cam_name == p_sources[1].p_ndi_name)
+            {
+                NDIlib_recv_connect(pNDI_recv, p_sources[1]);
+            } else
+            {
+                cout << "Detected cameras don't match with the input names" << endl;
+            }
+            
+            NDIlib_find_destroy(pNDI_find);	
+        }
+
+        ~Camera()
+        {
+            NDIlib_recv_destroy(pNDI_recv);
+        }
+
+        cv::Mat getFrame()
+        {
+            NDIlib_video_frame_v2_t video_frame;
+
+            switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
+		    {	// No data
+			    case NDIlib_frame_type_none:
+				    printf("No data received.\n");
+				    break;
+
+			    // Video data
+			    case NDIlib_frame_type_video:
+				    printf("Video data received (%dx%d).\n", video_frame.xres, video_frame.yres);
+                    return (uint8_t*)video_frame.data;
+				    NDIlib_recv_free_video_v2(pNDI_recv, &video_frame);
+				    break;
+		    }
+        }
+
+    private:
+        NDIlib_recv_instance_t pNDI_recv
+};
 
 void saveCallback(const std_msgs::StringConstPtr& str)
 {
@@ -103,33 +170,27 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
 int main(int argc, char** argv)
 {
-    cout << "test" <<  endl;
     if (!NDIlib_initialize()) return 0;
 
-    // Create a finder
-	NDIlib_find_instance_t pNDI_find = NDIlib_find_create_v2();
-	if (!pNDI_find) return 0;
+    cam_left = Camera(CAM_LEFT);
+    cam_right = Camera(CAM_RIGHT);
 
-    // Wait until there is one source
-	uint32_t no_sources = 0;
-	const NDIlib_source_t* p_sources = NULL;
-	while (no_sources != 2)
-	{	// Wait until the sources on the nwtork have changed
-		printf("Looking for sources ...\n");
-		NDIlib_find_wait_for_sources(pNDI_find, 1000/* One second */);
-		p_sources = NDIlib_find_get_current_sources(pNDI_find, &no_sources);
-	}
+    while(true)
+    {
+        frame = cam_left.getFrame();
+        imshow("Frame", frame);
 
-    NDIlib_recv_instance_t pNDI_recv_right = NDIlib_recv_create_v3();
-	if (!pNDI_recv_right) return 0;
+        int key = waitKey(30);
+        if(key == 27)
+        {
+            cout << "end" << endl;
+            break;
+        }
 
-    NDIlib_recv_instance_t pNDI_recv_left = NDIlib_recv_create_v3();
-	if (!pNDI_recv_left) return 0;
-
-    //NDIlib_recv_connect(pNDI_recv_right, p_sources + 0);
-
-    cout << p_sources[0].p_ndi_name << endl;
+        return 0;
+    }
     
+    /*
     ros::init(argc, argv, "bottle_detection");
     ros::NodeHandle n;
     ros::Subscriber sub = n.subscribe("calc3Dcoords", 1, calcCallback);
@@ -146,5 +207,8 @@ int main(int argc, char** argv)
     cout << PR << endl;
 
     ros::spin();
+    */
+
+    NDIlib_destroy();
 
 }
