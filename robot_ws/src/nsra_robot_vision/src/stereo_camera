@@ -117,13 +117,14 @@ def callibrate(img):
             corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
             origin_img[i,0] = corners2[0,0,0] 
             origin_img[i,1] = corners2[0,0,1]
-            print(origin_img)
     
     p_4d = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
 
     origin_vec = np.array([p_4d[0] / p_4d[3],
                            p_4d[1] / p_4d[3],
                            p_4d[2] / p_4d[3]])
+    
+    print(origin_vec)
 
 while(True):
     img_left = left_cam.get_frame()
@@ -137,8 +138,8 @@ while(True):
     cv2.putText(frame_l, lcam_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
     cv2.putText(frame_r, rcam_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
-    frame_r = cv2.circle(frame_r, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
-    frame_l = cv2.circle(frame_l, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    frame_r = cv2.circle(frame_r, (int(round(origin_img[0,0]*1080/3088)), int(round(origin_img[0,1]*720/2064))), radius=5, color=(0, 0, 255), thickness=-1)
+    frame_l = cv2.circle(frame_l, (int(round(origin_img[1,0]*1080/3088)), int(round(origin_img[1,1]*720/2064))), radius=5, color=(0, 0, 255), thickness=-1)
 
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
