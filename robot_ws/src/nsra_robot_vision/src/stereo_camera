@@ -69,7 +69,7 @@ class Camera():
             quit()
         else:
             self.camera = receiver.create_receiver(self.cam_source)
-            print("Camera " + self.cam_source.name + "initialized")
+            print("Camera " + self.cam_source.name + " initialized")
     
     def get_frame(self):
             
