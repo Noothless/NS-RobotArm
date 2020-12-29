@@ -87,7 +87,8 @@ class Camera
             if (video_frame.p_data)
 		    {
                 cout << "test4" << endl;
-                cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC3, (uint8_t *)video_frame.p_data);
+                cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4);
+                ret_frame.data = (uint8_t *)video_frame.p_data
                 cout << "test5" << endl;
                 //cv::Mat out;
                 //cvtColor(ret_frame, out, cv::COLOR_RGBA2BGR);
