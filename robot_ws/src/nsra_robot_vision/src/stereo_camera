@@ -41,18 +41,36 @@ import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
 import numpy as np
 import rospkg
-import sys
 import threading
-import time
-import imutils
-import os
 
 #rospack
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_robot_vision')
 
+#config
+PR = None
+PL = None
+
+try:
+    fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
+    PR = fs.getNode("PR").mat()
+    PL = fs.getNode("PL").mat()
+except:
+    print("Error no config file found!")
+    quit()
+
+if PR == None or PL == None:
+    print("Error config file not valid!")
+    quit()
+
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
+
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+
+origin_img = np.array([[0.0,0.0],
+                       [0.0,0.0]])
+origin_vec = np.array([0.0,0.0,0.0])
 
 
 class Camera():
@@ -61,14 +79,13 @@ class Camera():
         NDIsources = find.get_sources()
         self.cam_source = None
         elapsed_time = 0.0
-        print(len(NDIsources))
+        print("Looking for cameras")
         while len(NDIsources) < 2:
             if elapsed_time >= 5.0:
                 print("Timeout - Not all cameras detected!")
                 quit()
-            elapsed_time += 1
-            print(NDIsources)
             NDIsources = find.get_sources()
+            elapsed_time += 1
         for i in NDIsources:
             if i.name == camera:
                 self.cam_source = i
@@ -81,12 +98,31 @@ class Camera():
             print("Camera " + self.cam_source.name + " initialized")
     
     def get_frame(self):
-            
         return self.camera.read()
+
+    def get_name(self):
+        return self.cam_source.name
 
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
+def callibrate(img):
+    global origin_img
+    global origin_vec
+
+    for i in range(2):
+        gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
+        ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
+        if ret == True:
+            corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
+            origin_img[i,0] = corners2[0,0,0] 
+            origin_img[i,1] = corners2[0,0,1]
+    
+    p_4d = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
+
+    origin_vec = np.array([p_4d[0] / p_4d[3],
+                           p_4d[1] / p_4d[3],
+                           p_4d[2] / p_4d[3]])
 
 while(True):
     img_left = left_cam.get_frame()
@@ -97,10 +133,11 @@ while(True):
     frame_l = cv2.flip(frame_l, 1)
     frame_r = cv2.flip(frame_r, 1)
 
-    #cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-    #cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    cv2.putText(frame_l, left_cam.get_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1.2)
+    cv2.putText(frame_r, right_cam.get_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1.2)
 
-    #cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    frame_r = cv2.circle(frame_r, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    frame_l = cv2.circle(frame_l, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
@@ -110,5 +147,7 @@ while(True):
     if key == 27:
         print("User Quit")
         break
+    if key == 10:
+        callibrate([img_right, img_left])
 
 cv2.destroyAllWindows()     
