@@ -61,7 +61,6 @@ class Camera():
         NDIsources = find.get_sources()
         self.cam_source = None
         for i in NDIsources:
-            print(i.name)
             if i.name == camera:
                 self.cam_source = i
                 break
@@ -70,6 +69,7 @@ class Camera():
             quit()
         else:
             self.camera = receiver.create_receiver(self.cam_source)
+            print("Camera " + self.cam_source.name + "initialized")
     
     def get_frame(self):
             
@@ -88,10 +88,10 @@ while(True):
     frame_l = cv2.flip(frame_l, 1)
     frame_r = cv2.flip(frame_r, 1)
 
-    cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-    cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    #cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    #cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-    cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    #cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
