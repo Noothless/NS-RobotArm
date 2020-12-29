@@ -59,7 +59,7 @@ except:
     print("Error no config file found!")
     quit()
 
-if PR == None or PL == None:
+if PR.any() == None or PL.any() == None:
     print("Error config file not valid!")
     quit()
 
