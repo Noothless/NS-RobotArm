@@ -76,7 +76,6 @@ install(TARGETS
   #calibrate
   #read
   calib_stereo
-  stereo_camera
   nsra_bottle_detection
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
