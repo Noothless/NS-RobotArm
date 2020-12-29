@@ -68,6 +68,7 @@ class Camera():
                 quit()
             time.sleep(.200)
             elapsed_time += 0.2
+            print(NDIsources)
             NDIsources = find.get_sources()
         for i in NDIsources:
             if i.name == camera:
