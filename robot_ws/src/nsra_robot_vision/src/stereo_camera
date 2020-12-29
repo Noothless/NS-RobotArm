@@ -128,22 +128,20 @@ while(True):
     img_left = left_cam.get_frame()
     img_right = right_cam.get_frame()
 
-    if img_left is not None and img_right is not None:
+    frame_l = cv2.resize(img_left, (1080, 720))
+    frame_r = cv2.resize(img_right, (1080, 720))
+    frame_l = cv2.flip(frame_l, 1)
+    frame_r = cv2.flip(frame_r, 1)
 
-        frame_l = cv2.resize(img_left, (1080, 720))
-        frame_r = cv2.resize(img_right, (1080, 720))
-        frame_l = cv2.flip(frame_l, 1)
-        frame_r = cv2.flip(frame_r, 1)
+    cv2.putText(frame_l, lcam_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+    cv2.putText(frame_r, rcam_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
-        cv2.putText(frame_l, left_cam.get_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
-        cv2.putText(frame_r, right_cam.get_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+    frame_r = cv2.circle(frame_r, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    frame_l = cv2.circle(frame_l, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
-        frame_r = cv2.circle(frame_r, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
-        frame_l = cv2.circle(frame_l, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    output_img = np.concatenate((frame_l, frame_r), axis=1)
 
-        output_img = np.concatenate((frame_l, frame_r), axis=1)
-
-        cv2.imshow('left and right camera', output_img)
+    cv2.imshow('left and right camera', output_img)
 
     key = cv2.waitKey(50)
     if key == 27:
