@@ -96,7 +96,7 @@ class Camera
                     try
                     {
                         cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, ret_black);
-                        memcpy(ret_frame, video_frame, video_frame.yres*video_frame.xres*4);
+                        memcpy(video_frame, ret_frame, video_frame.yres*video_frame.xres*4);
                         //uint8_t* data = video_frame.p_data;
                         Mat out;
                         cvtColor(ret_frame, out, cv::COLOR_RGBA2BGR);
