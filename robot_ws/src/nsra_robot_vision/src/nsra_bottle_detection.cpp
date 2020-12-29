@@ -89,10 +89,10 @@ class Camera
                 cout << "test4" << endl;
                 cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, (uint8_t *)video_frame.p_data);
                 cout << "test5" << endl;
-                cv::Mat out;
-                cvtColor(ret_frame, out, cv::COLOR_RGBA2BGR);
+                //cv::Mat out;
+                //cvtColor(ret_frame, out, cv::COLOR_RGBA2BGR);
                 printf("Works\n");
-                imshow("Frame", out);
+                imshow("Frame", ret_frame);
 		    }
             NDIlib_framesync_free_video(pNDI_framesync, &video_frame);
             /*
