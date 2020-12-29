@@ -67,6 +67,7 @@ install(PROGRAMS
   src/bottle_detection_v1/nsra_bd_object_detection
   src/bottle_detection_v1/nsra_bd_front_view
   src/camera_callibration/calib_ingest
+  src/stereo_camera
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -75,7 +76,7 @@ install(TARGETS
   #calibrate
   #read
   calib_stereo
-  #undistort_rectify
+  stero_camera
   nsra_bottle_detection
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

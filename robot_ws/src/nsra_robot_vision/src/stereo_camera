@@ -1,0 +1,104 @@
+#!/usr/bin/python
+
+############################################################################# 
+#  BSD 3-Clause License
+# 
+#  Copyright (c) 2020, Noa Sendlhofer
+#  All rights reserved.
+# 
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions are met:
+# 
+#  1. Redistributions of source code must retain the above copyright notice, this
+#     list of conditions and the following disclaimer.
+# 
+#  2. Redistributions in binary form must reproduce the above copyright notice,
+#     this list of conditions and the following disclaimer in the documentation
+#     and/or other materials provided with the distribution.
+# 
+#  3. Neither the name of the copyright holder nor the names of its
+#     contributors may be used to endorse or promote products derived from
+#     this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+#  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+#  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+#  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+#  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+############################################################################# 
+
+# Author: Noa Sendlhofer
+# Desc:   Part of the NSRA Robot Vision stack. Handles the image ingest for callibration.
+
+import cv2
+import nsra_pyndi.finder as finder
+import nsra_pyndi.receiver as receiver
+import nsra_pyndi.lib as lib
+import numpy as np
+import rospkg
+import sys
+import threading
+import time
+import imutils
+import os
+
+#rospack
+rospack = rospkg.RosPack()
+pack_path = rospack.get_path('nsra_robot_vision')
+
+rcam_name = "PC-NOA (TV0200110012)"
+lcam_name = "PC-NOA (TV0200110013)"
+
+
+class Camera():
+    def __init__(self, camera):
+        find = finder.create_ndi_finder()
+        NDIsources = find.get_sources()
+        self.cam_source = None
+        for i in NDIsources:
+            if i == camera:
+                self.cam_source = i
+                break
+        if self.cam_source == None:
+            print("Detected cameras don't match with the input names")
+            quit()
+        else:
+            self.camera = receiver.create_receiver(self.cam_source)
+    
+    def get_frame(self):
+            
+        return self.camera.read()
+
+right_cam = Camera(rcam_name)
+left_cam = Camera(lcam_name)
+
+
+while(True):
+    img_left = left_cam.get_frame()
+    img_right = right_cam.get_frame()
+
+    frame_l = cv2.resize(img_left, (1080, 720))
+    frame_r = cv2.resize(img_right, (1080, 720))
+    frame_l = cv2.flip(frame_l, 1)
+    frame_r = cv2.flip(frame_r, 1)
+
+    cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+    output_img = np.concatenate((frame_l, frame_r), axis=1)
+
+    cv2.imshow('left and right camera', output_img)
+
+    key = cv2.waitKey(50)
+    if key == 27:
+        print("User Quit")
+        break
+
+cv2.destroyAllWindows()     
