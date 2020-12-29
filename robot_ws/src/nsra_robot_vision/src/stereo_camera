@@ -60,6 +60,14 @@ class Camera():
         find = finder.create_ndi_finder()
         NDIsources = find.get_sources()
         self.cam_source = None
+        elapsed_time = 0.0
+        while len(NDIsources) < 2:
+            if elapsed_time >= 5:
+                print("Timeout - Not all cameras detected!")
+                quit()
+            time.sleep(.200)
+            elapsed_time += 0.2
+            NDIsources = find.get_sources()
         for i in NDIsources:
             if i.name == camera:
                 self.cam_source = i
