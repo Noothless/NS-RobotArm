@@ -66,6 +66,8 @@ class Camera
             {
                 cout << "Detected cameras don't match with the input names" << endl;
             }
+
+            pNDI_framesync = NDIlib_framesync_create(pNDI_recv);
             
             NDIlib_find_destroy(pNDI_find);	
         }
@@ -77,9 +79,21 @@ class Camera
 
         void getFrame()
         {
+
+            NDIlib_video_frame_v2_t video_frame;
+		    NDIlib_framesync_capture_video(pNDI_framesync, &video_frame);
+            if (video_frame.p_data)
+		    {
+                cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, (uint8_t *)video_frame.p_data);
+                cv::Mat out;
+                cvtColor(ret_frame, out, cv::COLOR_RGBA2BGR);
+                printf("Works\n");
+                imshow("Frame", out);
+		    }
+            NDIlib_framesync_free_video(pNDI_framesync, &video_frame);
+            /*
             NDIlib_video_frame_v2_t video_frame;
             
-
             cv::Mat ret_black = Mat::zeros(2064, 3088, CV_8UC4);
 
             switch (NDIlib_recv_capture_v2(pNDI_recv, &video_frame, nullptr, nullptr, 5000))
@@ -119,10 +133,12 @@ class Camera
                     //return ret_black;
                     break;
 		    }
+            */
         }
 
     private:
         NDIlib_recv_instance_t pNDI_recv;
+        NDIlib_framesync_instance_t pNDI_framesync;
 };
 
 void saveCallback(const std_msgs::StringConstPtr& str)
