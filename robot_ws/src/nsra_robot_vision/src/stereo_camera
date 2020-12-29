@@ -33,7 +33,7 @@
 ############################################################################# 
 
 # Author: Noa Sendlhofer
-# Desc:   Part of the NSRA Robot Vision stack. Handles the image ingest for callibration.
+# Desc:   Part of the NSRA Robot Vision stack. Stereo camera test program using an NDI ingest.
 
 import cv2
 import nsra_pyndi.finder as finder
@@ -79,8 +79,8 @@ class Camera():
         NDIsources = find.get_sources()
         self.cam_source = None
         elapsed_time = 0.0
-        print("Looking for cameras")
         while len(NDIsources) < 2:
+            print("Looking for cameras")
             if elapsed_time >= 5.0:
                 print("Timeout - Not all cameras detected!")
                 quit()
@@ -123,7 +123,8 @@ def callibrate(img):
     origin_vec = np.array([p_4d[0] / p_4d[3],
                            p_4d[1] / p_4d[3],
                            p_4d[2] / p_4d[3]])
-    print("origin_vec: " + str(origin_vec))
+    print("origin_vec: ")
+    print(origin_vec)
 
 while(True):
     img_left = left_cam.get_frame()
@@ -149,6 +150,7 @@ while(True):
         print("User Quit")
         break
     if key == 13:
+        print("Callibrate camera origin")
         callibrate([img_right, img_left])
 
-cv2.destroyAllWindows()     
+cv2.destroyAllWindows()
