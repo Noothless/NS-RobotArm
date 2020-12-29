@@ -128,7 +128,7 @@ while(True):
     img_left = left_cam.get_frame()
     img_right = right_cam.get_frame()
 
-    if img_left is not Null and img_right is not Null:
+    if img_left is not None and img_right is not None:
 
         frame_l = cv2.resize(img_left, (1080, 720))
         frame_r = cv2.resize(img_right, (1080, 720))
