@@ -66,8 +66,7 @@ class Camera():
             if elapsed_time >= 5.0:
                 print("Timeout - Not all cameras detected!")
                 quit()
-            time.sleep(.200)
-            elapsed_time += 0.2
+            elapsed_time += 1
             print(NDIsources)
             NDIsources = find.get_sources()
         for i in NDIsources:
