@@ -62,7 +62,7 @@ class Camera():
         self.cam_source = None
         elapsed_time = 0.0
         while len(NDIsources) < 2:
-            if elapsed_time >= 5:
+            if elapsed_time >= 5.0:
                 print("Timeout - Not all cameras detected!")
                 quit()
             time.sleep(.200)
