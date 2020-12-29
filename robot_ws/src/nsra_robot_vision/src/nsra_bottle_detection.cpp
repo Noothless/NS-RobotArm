@@ -79,12 +79,16 @@ class Camera
 
         void getFrame()
         {
-
+            cout << "test1" << endl;
             NDIlib_video_frame_v2_t video_frame;
+            cout << "test2" << endl;
 		    NDIlib_framesync_capture_video(pNDI_framesync, &video_frame);
+            cout << "test3" << endl;
             if (video_frame.p_data)
 		    {
+                cout << "test4" << endl;
                 cv::Mat ret_frame(video_frame.yres, video_frame.xres, CV_8UC4, (uint8_t *)video_frame.p_data);
+                cout << "test5" << endl;
                 cv::Mat out;
                 cvtColor(ret_frame, out, cv::COLOR_RGBA2BGR);
                 printf("Works\n");
@@ -232,7 +236,7 @@ int main(int argc, char** argv)
             imshow("Frame", out);
         }
         */
-        int key = waitKey(30);
+        int key = waitKey(33);
         if(key == 27)
         {
             cout << "end" << endl;
