@@ -123,8 +123,7 @@ def callibrate(img):
     origin_vec = np.array([p_4d[0] / p_4d[3],
                            p_4d[1] / p_4d[3],
                            p_4d[2] / p_4d[3]])
-    
-    print(origin_vec)
+    print("origin_vec: " + str(origin_vec))
 
 while(True):
     img_left = left_cam.get_frame()
