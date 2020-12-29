@@ -218,15 +218,21 @@ void calcCallback(const std_msgs::StringConstPtr& str)
 
 int main(int argc, char** argv)
 {
-    if (!NDIlib_initialize()) return 0;
+    //if (!NDIlib_initialize()) return 0;
 
-    Camera cam_left(CAM_LEFT);
-    Camera cam_right(CAM_RIGHT);
+    //Camera cam_left(CAM_LEFT);
+    //Camera cam_right(CAM_RIGHT);
+
+    VideoCapture cap;
+
+    cap.open(0, 0);
 
     cv::Mat frame;
     while(true)
     {
-        cam_left.getFrame();
+        //cam_left.getFrame();
+        cap.read(frame);
+        imshow("Live", frame);
         /*
         cout << frame.rows << endl;
         cout << frame.cols << endl;
