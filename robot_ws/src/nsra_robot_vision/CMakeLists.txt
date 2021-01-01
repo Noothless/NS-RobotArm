@@ -68,6 +68,7 @@ install(PROGRAMS
   src/bottle_detection_v1/nsra_bd_front_view
   src/camera_callibration/calib_ingest
   src/tests/stereo_camera
+  src/tests/stereo_depth_map
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
