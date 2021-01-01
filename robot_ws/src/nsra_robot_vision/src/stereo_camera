@@ -53,10 +53,25 @@ pack_path = rospack.get_path('nsra_robot_vision')
 PR = None
 PL = None
 
+KR = None
+KL = None
+
+DR = None
+DL = None
+
+RR = None
+RL = None
+
 try:
     fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
     PR = fs.getNode("PR").mat()
     PL = fs.getNode("PL").mat()
+    KR = fs.getNode("KR").mat()
+    KL = fs.getNode("KL").mat()
+    DR = fs.getNode("DR").mat()
+    DL = fs.getNode("DL").mat()
+    RR = fs.getNode("RR").mat()
+    RL = fs.getNode("RL").mat()
 except:
     print("Error no config file found!")
     quit()
@@ -64,6 +79,14 @@ except:
 if PR.any() == None or PL.any() == None:
     print("Error config file not valid!")
     quit()
+
+chessImg = cv2.imread(pack_path + "/images/left1.jpg")
+
+# initUndistortRectifyMap 
+Left_Stereo_Map= cv2.initUndistortRectifyMap(KL, DL, RL, PL,
+                                             chessImg.shape[::-1], cv2.CV_16SC2)
+Right_Stereo_Map= cv2.initUndistortRectifyMap(KR, DR, RR, PR,
+                                              chessImg.shape[::-1], cv2.CV_16SC2)
 
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
