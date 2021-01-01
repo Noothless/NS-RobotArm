@@ -142,7 +142,8 @@ def detect(img):
                          abs(p_4d[1] / p_4d[3] - origin_vec[1]),
                          abs(p_4d[2] / p_4d[3] - origin_vec[2])])
 
-    print("Distance vector: " + str(dist_vec))
+    print("Distance vector: ")
+    print(dist_vec)
     print("Distance: " + str(math.sqrt(dist_vec[0]*dist_vec[0] + dist_vec[1]*dist_vec[1] + dist_vec[2]*dist_vec[2])))
 
 while(True):
