@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 ############################################################################# 
 #  BSD 3-Clause License
@@ -106,6 +106,35 @@ origin_img = np.array([[0.0,0.0],
                        [0.0,0.0]])
 origin_vec = np.array([0.0,0.0,0.0])
 
+# Create StereoSGBM and prepare all parameters
+window_size = 3
+min_disp = 2
+num_disp = 130-min_disp
+stereo = cv2.StereoSGBM_create(minDisparity = min_disp,
+    numDisparities = num_disp,
+    blockSize = window_size,
+    uniquenessRatio = 10,
+    speckleWindowSize = 100,
+    speckleRange = 32,
+    disp12MaxDiff = 5,
+    P1 = 8*3*window_size**2,
+    P2 = 32*3*window_size**2)
+
+# Used for the filtered image
+stereoR=cv2.ximgproc.createRightMatcher(stereo) # Create another stereo for right this time
+
+# WLS FILTER Parameters
+lmbda = 80000
+sigma = 1.8
+visual_multiplier = 1.0
+ 
+wls_filter = cv2.ximgproc.createDisparityWLSFilter(matcher_left=stereo)
+wls_filter.setLambda(lmbda)
+wls_filter.setSigmaColor(sigma)
+
+# Filtering
+kernel= np.ones((3,3),np.uint8)
+
 #NDI camera class
 class Camera():
     def __init__(self, camera):
@@ -141,63 +170,6 @@ class Camera():
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
-#Calculate translation vector from cameras to world origin
-def callibrate(img):
-    global origin_img
-    global origin_vec
-
-    for i in range(2):
-        gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
-        if ret == True:
-            corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
-            origin_img[i,0] = corners2[0,0,0]
-            origin_img[i,1] = corners2[0,0,1]
-    
-    p_4d = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
-
-    origin_vec = np.array([p_4d[0] / p_4d[3],
-                           p_4d[1] / p_4d[3],
-                           p_4d[2] / p_4d[3]])
-    print("origin_vec: ")
-    print(origin_vec)
-
-#Calculate distance of point relative to the world origin
-def detect(img):
-    pnts_img = np.array([[0.0,0.0],
-                         [0.0,0.0],
-                         [0.0,0.0],
-                         [0.0,0.0]])
-    for i in range(2):
-        gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
-        if ret == True:
-            corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
-            pnts_img[i,0] = corners2[0,0,0]
-            pnts_img[i,1] = corners2[0,0,1]
-            pnts_img[i+2,0] = corners2[48,0,0]
-            pnts_img[i+2,1] = corners2[48,0,1]
-    
-    p_4d_1 = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
-    p_4d_2 = cv2.triangulatePoints(PR, PL, pnts_img[2,:], pnts_img[3,:])
-
-    dist_vec_pnt1 = np.array([p_4d_1[0] / p_4d_1[3] - origin_vec[0],
-                              p_4d_1[1] / p_4d_1[3] - origin_vec[1],
-                              p_4d_1[2] / p_4d_1[3] - origin_vec[2]])
-    
-    dist_vec_pnt2 = np.array([p_4d_2[0] / p_4d_2[3] - origin_vec[0],
-                              p_4d_2[1] / p_4d_2[3] - origin_vec[1],
-                              p_4d_2[2] / p_4d_2[3] - origin_vec[2]])
-    
-    pnt_dist_vec = np.subtract(dist_vec_pnt1, dist_vec_pnt2)
-
-    print("---------------")
-    print("Distance points: " + str(math.sqrt(pnt_dist_vec[0]**2 + pnt_dist_vec[1]**2 + pnt_dist_vec[2]**2)))
-    print("Distance vector origin: ")
-    print(dist_vec_pnt1)
-    print("Distance origin: " + str(math.sqrt(dist_vec_pnt1[0]**2 + dist_vec_pnt1[1]**2 + dist_vec_pnt1[2]**2)))
-    print("---------------")
-
 while(True):
     #Get next image from cameras
     img_left = left_cam.get_frame()
@@ -207,34 +179,52 @@ while(True):
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
-    #Draw world origin
-    frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
-    frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+        # Convert from color(BGR) to gray
+    grayR = cv2.cvtColor(img_right,cv2.COLOR_BGR2GRAY)
+    grayL = cv2.cvtColor(img_left,cv2.COLOR_BGR2GRAY)
 
-    #Resize for imshow
-    frame_l = cv2.resize(frame_l, (1080, 720))
-    frame_r = cv2.resize(frame_r, (1080, 720))
+    # Compute the 2 images for the Depth_image
+    disp  = stereo.compute(grayL,grayR)#.astype(np.float32)/ 16
+    dispL = disp
+    dispR = stereoR.compute(grayR,grayL)
+    dispL = np.int16(dispL)
+    dispR = np.int16(dispR)
 
-    #Draw horizontal lines
-    for line in range(0, int(frame_r.shape[0]/20)):
-        frame_l[line*20,:] = (0,255,0,0)
-        frame_r[line*20,:] = (0,255,0,0)
+    # Using the WLS filter
+    filteredImg = wls_filter.filter(dispL,grayL,None,dispR)
+    filteredImg = cv2.normalize(src=filteredImg, dst=filteredImg, beta=0, alpha=255, norm_type=cv2.NORM_MINMAX)
+    filteredImg = np.uint8(filteredImg)
+    #cv2.imshow('Disparity Map', filteredImg)
+    disp= ((disp.astype(np.float32)/ 16)-min_disp)/num_disp # Calculation allowing us to have 0 for the most distant object able to detect
+
+    # Resize the image for faster executions
+    # dispR= cv2.resize(disp,None,fx=0.7, fy=0.7, interpolation = cv2.INTER_AREA)
+
+    # Filtering the Results with a closing filter
+    closing= cv2.morphologyEx(disp,cv2.MORPH_CLOSE, kernel) # Apply an morphological filter for closing little "black" holes in the picture(Remove noise) 
+
+    # Colors map
+    dispc= (closing-closing.min())*255
+    dispC= dispc.astype(np.uint8)                                   # Convert the type of the matrix from float32 to uint8, this way you can show the results with the function cv2.imshow()
+    disp_Color= cv2.applyColorMap(dispC,cv2.COLORMAP_OCEAN)         # Change the Color of the Picture into an Ocean Color_Map
+    filt_Color= cv2.applyColorMap(filteredImg,cv2.COLORMAP_OCEAN) 
+
+    # Show the result for the Depth_image
+    #cv2.imshow('Disparity', disp)
+    #cv2.imshow('Closing',closing)
+    #cv2.imshow('Color Depth',disp_Color)
+    cv2.imshow('Filtered Color Depth',filt_Color)
 
     #Concatenate left and right image
-    output_img = np.concatenate((frame_l, frame_r), axis=1)
+    #output_img = np.concatenate((frame_l, frame_r), axis=1)
 
     #Show concentated frame
-    cv2.imshow('left and right camera', output_img)
+    #cv2.imshow('left and right camera', output_img)
 
     #Wait for user input
     key = cv2.waitKey(50)
     if key == 27:
         print("User Quit")
         break
-    elif key == 13:
-        print("Callibrate camera origin")
-        callibrate([img_right, img_left])
-    elif key == 32:
-        detect([img_right, img_left])
 
 cv2.destroyAllWindows()
