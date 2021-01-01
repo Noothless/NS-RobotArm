@@ -165,7 +165,6 @@ while(True):
     cv2.imshow('left and right camera', output_img)
 
     key = cv2.waitKey(50)
-    print(key)
     if key == 27:
         print("User Quit")
         break
