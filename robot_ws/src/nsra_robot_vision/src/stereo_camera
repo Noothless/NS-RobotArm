@@ -143,7 +143,7 @@ def detect(img):
                          abs(p_4d[2] / p_4d[3] - origin_vec[2])])
 
     print("Distance vector: " + str(dist_vec))
-    print("Distance: " + math.sqrt(dist_vec[0]*dist_vec[0] + dist_vec[1]*dist_vec[1] + dist_vec[2]*dist_vec[2]))
+    print("Distance: " + str(math.sqrt(dist_vec[0]*dist_vec[0] + dist_vec[1]*dist_vec[1] + dist_vec[2]*dist_vec[2])))
 
 while(True):
     img_left = left_cam.get_frame()
