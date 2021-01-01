@@ -40,6 +40,7 @@ import nsra_pyndi.finder as finder
 import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
 import numpy as np
+import math
 import rospkg
 import threading
 
@@ -126,6 +127,24 @@ def callibrate(img):
     print("origin_vec: ")
     print(origin_vec)
 
+def detect(img):
+    for i in range(2):
+        gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
+        ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
+        if ret == True:
+            corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
+            origin_img[i,0] = corners2[0,0,0]
+            origin_img[i,1] = corners2[0,0,1]
+    
+    p_4d = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
+
+    dist_vec = np.array([abs(p_4d[0] / p_4d[3] - origin_vec[0]),
+                         abs(p_4d[1] / p_4d[3] - origin_vec[1]),
+                         abs(p_4d[2] / p_4d[3] - origin_vec[2])])
+
+    print("Distance vector: " + str(dist_vec))
+    print("Distance: " + math.sqrt(dist_vec[0]*dist_vec[0] + dist_vec[1]*dist_vec[1] + dist_vec[2]*dist_vec[2]))
+
 while(True):
     img_left = left_cam.get_frame()
     img_right = right_cam.get_frame()
@@ -150,8 +169,10 @@ while(True):
     if key == 27:
         print("User Quit")
         break
-    if key == 13:
+    elif key == 13:
         print("Callibrate camera origin")
         callibrate([img_right, img_left])
+    elif key == 32:
+        detect([img_right, img_left])
 
 cv2.destroyAllWindows()
