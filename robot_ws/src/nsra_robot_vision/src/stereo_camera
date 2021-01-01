@@ -180,11 +180,12 @@ def detect(img):
     
     pnt_dist_vec = np.subtract(dist_vec_pnt1, dist_vec_pnt2)
 
-    print("Distance: " + str(math.sqrt(pnt_dist_vec[0]*pnt_dist_vec[0] + pnt_dist_vec[1]*pnt_dist_vec[1] + pnt_dist_vec[2]*pnt_dist_vec[2])))
-
-    print("Distance vector: ")
+    print("---------------")
+    print("Distance points: " + str(math.sqrt(pnt_dist_vec[0]*pnt_dist_vec[0] + pnt_dist_vec[1]*pnt_dist_vec[1] + pnt_dist_vec[2]*pnt_dist_vec[2])))
+    print("Distance vector origin: ")
     print(dist_vec_pnt1)
-    print("Distance: " + str(math.sqrt(dist_vec_pnt1[0]*dist_vec_pnt1[0] + dist_vec_pnt1[1]*dist_vec_pnt1[1] + dist_vec_pnt1[2]*dist_vec_pnt1[2])))
+    print("Distance origin: " + str(math.sqrt(dist_vec_pnt1[0]*dist_vec_pnt1[0] + dist_vec_pnt1[1]*dist_vec_pnt1[1] + dist_vec_pnt1[2]*dist_vec_pnt1[2])))
+    print("---------------")
 
 while(True):
     img_left = left_cam.get_frame()
