@@ -34,6 +34,7 @@
 
 # Author: Noa Sendlhofer
 # Desc:   Part of the NSRA Robot Vision stack. Stereo camera test program using an NDI ingest.
+# 01.01.2021 - Stereo camera works! :)
 
 import cv2
 import nsra_pyndi.finder as finder
