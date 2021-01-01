@@ -33,7 +33,7 @@
 ############################################################################# 
 
 # Author: Noa Sendlhofer
-# Desc:   Part of the NSRA Robot Vision stack. Stereo camera test program using an NDI ingest.
+# Desc:   Part of the NSRA Robot Vision stack. Stereo camera test program using an NDI source.
 # 01.01.2021 - Stereo camera works! :)
 
 import cv2
@@ -56,7 +56,7 @@ PL = None
 #Intrinsics
 KR = None
 KL = None
-#Distortion_Coefficients
+#Distortion
 DR = None
 DL = None
 #Rotation
@@ -81,8 +81,12 @@ if PR.any() == None or PL.any() == None:
     print("Error config file not valid!")
     quit()
 
-chessImg = cv2.imread(pack_path + "/images/left1.jpg")
-imsize = (chessImg.shape[1], chessImg.shape[0])
+try:
+    chessImg = cv2.imread(pack_path + "/images/left1.jpg")
+    imsize = (chessImg.shape[1], chessImg.shape[0])
+except:
+    print("Error no valid image found in the /image folder!")
+    quit()
 
 # initUndistortRectifyMap 
 Left_Stereo_Map= cv2.initUndistortRectifyMap(KL, DL, RL, PL,
@@ -90,16 +94,19 @@ Left_Stereo_Map= cv2.initUndistortRectifyMap(KL, DL, RL, PL,
 Right_Stereo_Map= cv2.initUndistortRectifyMap(KR, DR, RR, PR,
                                               imsize, cv2.CV_16SC2)
 
+#temporary! - NDI stream names
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
 
+#CBC detection
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
+#World origin of cameras relative to the robot
 origin_img = np.array([[0.0,0.0],
                        [0.0,0.0]])
 origin_vec = np.array([0.0,0.0,0.0])
 
-
+#NDI camera class
 class Camera():
     def __init__(self, camera):
         find = finder.create_ndi_finder()
@@ -130,9 +137,11 @@ class Camera():
     def get_name(self):
         return self.cam_source.name
 
+#Create camera instances
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
+#Calculate translation vector from cameras to world origin
 def callibrate(img):
     global origin_img
     global origin_vec
@@ -153,6 +162,7 @@ def callibrate(img):
     print("origin_vec: ")
     print(origin_vec)
 
+#Calculate distance of point relative to the world origin
 def detect(img):
     pnts_img = np.array([[0.0,0.0],
                          [0.0,0.0],
@@ -185,36 +195,38 @@ def detect(img):
     print("Distance points: " + str(math.sqrt(pnt_dist_vec[0]**2 + pnt_dist_vec[1]**2 + pnt_dist_vec[2]**2)))
     print("Distance vector origin: ")
     print(dist_vec_pnt1)
-    print("Distance origin: " + str(math.sqrt(dist_vec_pnt1[0]*dist_vec_pnt1[0] + dist_vec_pnt1[1]*dist_vec_pnt1[1] + dist_vec_pnt1[2]*dist_vec_pnt1[2])))
+    print("Distance origin: " + str(math.sqrt(dist_vec_pnt1[0]**2 + dist_vec_pnt1[1]**2 + dist_vec_pnt1[2]**2)))
     print("---------------")
 
 while(True):
+    #Get next image from cameras
     img_left = left_cam.get_frame()
     img_right = right_cam.get_frame()
 
+    #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
+    #Draw world origin
     frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
     frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
+    #Resize for imshow
     frame_l = cv2.resize(frame_l, (1080, 720))
     frame_r = cv2.resize(frame_r, (1080, 720))
 
+    #Draw horizontal lines
     for line in range(0, int(frame_r.shape[0]/20)):
         frame_l[line*20,:] = (0,255,0,0)
         frame_r[line*20,:] = (0,255,0,0)
 
-    frame_l = cv2.flip(frame_l, 1)
-    frame_r = cv2.flip(frame_r, 1)
-
-    cv2.putText(frame_l, lcam_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
-    cv2.putText(frame_r, rcam_name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
-
+    #Concatenate left and right image
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
+    #Show concentated frame
     cv2.imshow('left and right camera', output_img)
 
+    #Wait for user input
     key = cv2.waitKey(50)
     if key == 27:
         print("User Quit")
