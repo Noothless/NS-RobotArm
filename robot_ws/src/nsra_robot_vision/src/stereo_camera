@@ -187,8 +187,8 @@ while(True):
     frame_r = cv2.resize(frame_r, (1080, 720))
 
     for line in range(0, int(frame_r.shape[0]/20)):
-        frame_l[line*20,:,:] = (0,0,255)
-        frame_r[line*20,:,:] = (0,0,255)
+        frame_l[line*20,:] = (0,0,255,0)
+        frame_r[line*20,:] = (0,0,255,0)
 
     frame_l = cv2.flip(frame_l, 1)
     frame_r = cv2.flip(frame_r, 1)
