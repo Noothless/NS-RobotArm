@@ -149,6 +149,7 @@ class Camera():
                 print("Timeout - Not all cameras detected!")
                 quit()
             NDIsources = find.get_sources()
+            print(NDIsources)
             elapsed_time += 1
         for i in NDIsources:
             if i.name == camera:
@@ -178,7 +179,7 @@ rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
 
 sizeStr = str(1080) + \
     'x' + str(720)
-    
+
 print("------------------- STR: " + sizeStr)
 command = ['ffmpeg',
            '-y',
