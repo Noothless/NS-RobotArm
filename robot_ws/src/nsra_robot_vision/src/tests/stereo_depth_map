@@ -40,6 +40,7 @@ import cv2
 import nsra_pyndi.finder as finder
 import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
+import subprocess as sp
 import numpy as np
 import math
 import rospkg
@@ -170,6 +171,31 @@ class Camera():
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
+#pull rtsp data, or your cv cap.  (input server)
+cap = cv2.VideoCapture(0)
+
+rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
+
+sizeStr = str(1080) + \
+    'x' + str(720)
+    
+print("------------------- STR: " + sizeStr)
+command = ['ffmpeg',
+           '-y',
+           '-f', 'rawvideo',
+           '-vcodec', 'rawvideo',
+           '-pix_fmt', 'bgr24',
+           '-s', sizeStr,
+           '-r', str(30),
+           '-i', '-',
+           '-c:v', 'libx264',
+           '-pix_fmt', 'yuv420p',
+           '-preset', 'ultrafast',
+           '-f', 'flv',
+           rtmp_url]
+
+process = sp.Popen(command, stdin=sp.PIPE)
+
 while(True):
     #Get next image from cameras
     img_left = left_cam.get_frame()
@@ -213,7 +239,8 @@ while(True):
     #cv2.imshow('Disparity', disp)
     #cv2.imshow('Closing',closing)
     #cv2.imshow('Color Depth',disp_Color)
-    cv2.imshow('Filtered Color Depth',filt_Color)
+    process.stdin.write(filt_Color.tobytes())
+    #cv2.imshow('Filtered Color Depth',filt_Color)
 
     #Concatenate left and right image
     #output_img = np.concatenate((frame_l, frame_r), axis=1)
