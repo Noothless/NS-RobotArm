@@ -172,9 +172,6 @@ class Camera():
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
-#pull rtsp data, or your cv cap.  (input server)
-cap = cv2.VideoCapture(0)
-
 rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
 
 sizeStr = str(1080) + \
