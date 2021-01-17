@@ -50,6 +50,7 @@ add_message_files(
    FILES
    obj_det.msg
    bd_robot_coords.msg
+   nsra_control_step.msg
  )
 
 ## Generate services in the 'srv' folder
