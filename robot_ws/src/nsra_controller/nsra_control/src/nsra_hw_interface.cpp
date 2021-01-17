@@ -92,7 +92,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     {
       msg.data = joint_position_command_[i]*1024000/pi/8192;
       drive_pub1.publish(msg);
-      msg_step.data = joint_position_command_[i]*512/pi;
+      msg_step.data = joint_position_command_[i]*51200/pi;
       axis1_step.publish(msg_step);
     } else if(i == 1)
     {
