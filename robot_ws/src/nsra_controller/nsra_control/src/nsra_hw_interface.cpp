@@ -38,9 +38,8 @@
 */
 
 #include <nsra_control/nsra_hw_interface.h>
-//#include "ODrive_Interface_test/driver.h"
-//#include "ODrive_Interface_test/feedback.h"
 #include "std_msgs/Float64.h"
+#include "std_msgs/Int32.h"
 #include <vector>
 
 namespace nsra_control
@@ -51,14 +50,15 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
 {
   ROS_INFO_NAMED("nsra_hardware_interface", "NSRAHWInterface Ready.");
 
-  //drive_axis = nh_.serviceClient<ODrive_Interface_test::driver>("/drive_axis");
-  //axis_position = nh_.serviceClient<ODrive_Interface_test::feedback>("/axis_position");
   drive_pub1 = nh_.advertise<std_msgs::Float64>("drive_pub1", 5);
   drive_pub2 = nh_.advertise<std_msgs::Float64>("drive_pub2", 5);
   drive_pub3 = nh_.advertise<std_msgs::Float64>("drive_pub3", 5);
   drive_pub4 = nh_.advertise<std_msgs::Float64>("drive_pub4", 5);
   drive_pub5 = nh_.advertise<std_msgs::Float64>("drive_pub5", 5);
   drive_pub6 = nh_.advertise<std_msgs::Float64>("drive_pub6", 5);
+
+  axis1_step = nh_.advertise<std_msgs::Int32>("axis1_step", 5);
+
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
   }
@@ -87,10 +87,13 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     double pi = 2*acos(0.0);
     saved_pos[i] = joint_position_command_[i];
     std_msgs::Float64 msg;
+    std_msgs::Int32 msg_step;
     if(i == 0)
     {
       msg.data = joint_position_command_[i]*1024000/pi/8192;
       drive_pub1.publish(msg);
+      msg_step.data = joint_position_command_[i]*512/pi;
+      axis1_step.publish(msg_step);
     } else if(i == 1)
     {
       msg.data = joint_position_command_[i]*(1024000*0.885)/pi/8192;
@@ -112,7 +115,6 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       msg.data = joint_position_command_[i]*327680/pi/8192;
       drive_pub6.publish(msg);
     }
-    
   }
 }
 

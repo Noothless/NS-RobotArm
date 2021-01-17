@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <AccelStepper.h>
 #include <ArduinoQueue.h>
+#include <ros.h>
+#include <std_msgs/Int32.h>
 
 #define frq 20
 
-long dummy_pos = 50;
-IntervalTimer dummy_timer;
-bool dummy_flag = true;
+ros::NodeHandle nh;
 
 AccelStepper axis1(2, 0, 1);
 AccelStepper axis2(2, 2, 3); 
@@ -43,36 +43,25 @@ void update() {
   }
 }
 
-void change_pos() {
-  if(dummy_pos > 6000)
-  {
-    dummy_flag = false;
-  } else if(dummy_pos < 100)
-  {
-    dummy_flag = true;
-  }
-
-  if(dummy_flag)
-  {
-    dummy_pos = round(dummy_pos*1.02);      
-  }
-  else {
-    dummy_pos = round(dummy_pos*0.98);
-  }
-  
+void change_pos(const std_msgs::Int32& msg) {
   pos n;
-  n.axis1 = dummy_pos;
+  n.axis1 = msg.data;
   queue.enqueue(n);
 }
 
+ros::Subscriber<std_msgs::Int32> gc("/nsra/axis1_step", &change_pos);
+
 void setup() {
+  Serial.begin(115200);
+  nh.initNode();
+  nh.subscribe(gc);
   myTimer.begin(update, 50000);
-  dummy_timer.begin(change_pos, 50000);
   axis1.setAcceleration(5000);
 }
 
 void loop() {
 
+  nh.spinOnce();
   axis1.run();
 
 }  

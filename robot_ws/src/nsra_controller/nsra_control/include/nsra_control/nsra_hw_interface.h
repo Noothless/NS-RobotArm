@@ -41,8 +41,6 @@
 #define NSRA_CONTROL__NSRA_HW_INTERFACE_H
 
 #include <nsra_controller/generic_hw_interface.h>
-//#include "ODrive_Interface_test/driver.h"
-//#include "ODrive_Interface_test/feedback.h"
 #include <vector>
 
 namespace nsra_control
@@ -67,14 +65,14 @@ public:
   /** \breif Enforce limits for all values before writing */
   virtual void enforceLimits(ros::Duration &period);
 
-  //ros::ServiceClient drive_axis;
-  //ros::ServiceClient axis_position;
   ros::Publisher drive_pub1;
   ros::Publisher drive_pub2;
   ros::Publisher drive_pub3;
   ros::Publisher drive_pub4;
   ros::Publisher drive_pub5;
   ros::Publisher drive_pub6;
+
+  ros::Publisher axis1_step;
 
   std::vector<double> saved_pos;
 
