@@ -72,7 +72,7 @@ public:
   ros::Publisher drive_pub5;
   ros::Publisher drive_pub6;
 
-  ros::Publisher axis1_step;
+  ros::Publisher axis_step;
 
   std::vector<double> saved_pos;
 
