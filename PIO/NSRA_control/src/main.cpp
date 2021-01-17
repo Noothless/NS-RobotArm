@@ -2,7 +2,7 @@
 #include <AccelStepper.h>
 #include <ArduinoQueue.h>
 #include <ros.h>
-#include <std_msgs/Int32.h>
+#include <nsra_odrive_interface/nsra_control_step.h>
 
 #define frq 20
 
@@ -48,13 +48,18 @@ void update() {
   }
 }
 
-void change_pos(const std_msgs::Int32& msg) {
+void change_pos(const nsra_odrive_interface::nsra_control_step& msg) {
   pos n;
-  n.axis1 = msg.data;
+  n.axis1 = msg.axis1;
+  n.axis2 = msg.axis2;
+  n.axis3 = msg.axis3;
+  n.axis4 = msg.axis4;
+  n.axis5 = msg.axis5;
+  n.axis6 = msg.axis6;
   queue.enqueue(n);
 }
 
-ros::Subscriber<std_msgs::Int32> gc("/nsra/axis_step", &change_pos);
+ros::Subscriber<nsra_odrive_interface::nsra_control_step> gc("/nsra/axis_step", &change_pos);
 
 void setup() {
   Serial.begin(115200);

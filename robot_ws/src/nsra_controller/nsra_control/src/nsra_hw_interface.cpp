@@ -41,7 +41,7 @@
 #include "std_msgs/Float64.h"
 #include "std_msgs/Int32.h"
 #include <vector>
-#include "nsra_odrive_interface/nsra_control_step.h"
+#include <nsra_odrive_interface/nsra_control_step.h>
 
 namespace nsra_control
 {
@@ -58,7 +58,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   drive_pub5 = nh_.advertise<std_msgs::Float64>("drive_pub5", 5);
   drive_pub6 = nh_.advertise<std_msgs::Float64>("drive_pub6", 5);
 
-  axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
+  axis1_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
 
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
