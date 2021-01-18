@@ -203,7 +203,7 @@ while(True):
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
-        # Convert from color(BGR) to gray
+    # Convert from color(BGR) to gray
     grayR = cv2.cvtColor(img_right,cv2.COLOR_BGR2GRAY)
     grayL = cv2.cvtColor(img_left,cv2.COLOR_BGR2GRAY)
 
