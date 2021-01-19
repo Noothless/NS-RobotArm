@@ -1,4 +1,4 @@
-/****************************************************************************
+/*****************************************************************************
 *  BSD 3-Clause License
 * 
 *  Copyright (c) 2020, Noa Sendlhofer
@@ -51,7 +51,7 @@ AccelStepper axis4(2, 6, 7);
 AccelStepper axis5(2, 8, 9); 
 AccelStepper axis6(2, 10, 11);
 
-IntervalTimer myTimer;
+IntervalTimer ctrl_loop_timer;
 
 bool queueFlag = false;
 
@@ -106,7 +106,7 @@ void setup() {
   Serial.begin(115200);
   nh.initNode();
   nh.subscribe(gc);
-  myTimer.begin(update, 50000);
+  ctrl_loop_timer.begin(update, 50000);
 
   axis1.setAcceleration(5000);
   axis2.setAcceleration(5000);
