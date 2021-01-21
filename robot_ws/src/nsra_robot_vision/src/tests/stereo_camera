@@ -40,6 +40,7 @@ import cv2
 import nsra_pyndi.finder as finder
 import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
+import subprocess as sp
 import numpy as np
 import math
 import rospkg
@@ -141,6 +142,28 @@ class Camera():
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
+rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
+
+sizeStr = str(1080) + \
+    'x' + str(720)
+
+print("------------------- STR: " + sizeStr)
+command = ['ffmpeg',
+           '-y',
+           '-f', 'rawvideo',
+           '-vcodec', 'rawvideo',
+           '-pix_fmt', 'bgr24',
+           '-s', sizeStr,
+           '-r', str(30),
+           '-i', '-',
+           '-c:v', 'libx264',
+           '-pix_fmt', 'yuv420p',
+           '-preset', 'ultrafast',
+           '-f', 'flv',
+           rtmp_url]
+
+process = sp.Popen(command, stdin=sp.PIPE)
+
 #Calculate translation vector from cameras to world origin
 def callibrate(img):
     global origin_img
@@ -224,7 +247,8 @@ while(True):
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
     #Show concentated frame
-    cv2.imshow('left and right camera', output_img)
+    #cv2.imshow('left and right camera', output_img)
+    process.stdin.write(output_img.tobytes())
 
     #Wait for user input
     key = cv2.waitKey(50)
