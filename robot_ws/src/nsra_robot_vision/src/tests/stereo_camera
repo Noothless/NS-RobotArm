@@ -144,7 +144,7 @@ left_cam = Camera(lcam_name)
 
 rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
 
-sizeStr = str(2160) + \
+sizeStr = str(1080) + \
     'x' + str(720)
 
 print("------------------- STR: " + sizeStr)
@@ -248,7 +248,7 @@ while(True):
 
     #Show concentated frame
     #cv2.imshow('left and right camera', output_img)
-    process.stdin.write(output_img.tobytes())
+    process.stdin.write(frame_l.tobytes())
 
     #Wait for user input
     key = cv2.waitKey(50)
