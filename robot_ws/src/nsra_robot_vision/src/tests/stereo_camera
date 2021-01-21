@@ -142,7 +142,7 @@ class Camera():
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
-rtmp_url = 'rtmp://192.168.1.125/app/live'
+rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
 
 sizeStr = str(2160) + \
     'x' + str(720)
