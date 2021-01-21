@@ -45,6 +45,7 @@ import numpy as np
 import math
 import rospkg
 import threading
+import NDIlib as ndi
 
 #rospack
 rospack = rospkg.RosPack()
@@ -162,7 +163,7 @@ command = ['ffmpeg',
            '-f', 'flv',
            rtmp_url]
 
-process = sp.Popen(command, stdin=sp.PIPE)
+#process = sp.Popen(command, stdin=sp.PIPE)
 
 #Calculate translation vector from cameras to world origin
 def callibrate(img):
@@ -251,7 +252,7 @@ while(True):
     #Show concentated frame
     #cv2.imshow('left and right camera', out)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
-    process.stdin.write(out.tobytes())
+    #process.stdin.write(out.tobytes())
 
     #Wait for user input
     key = cv2.waitKey(50)
