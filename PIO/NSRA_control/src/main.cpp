@@ -49,7 +49,7 @@ AccelStepper axis2(2, 2, 3);
 AccelStepper axis3(2, 4, 5); 
 AccelStepper axis4(2, 6, 7);
 AccelStepper axis5(2, 8, 9); 
-AccelStepper axis6(2, 10, 11);
+AccelStepper axis6(2,10,11);
 
 IntervalTimer ctrl_loop_timer;
 

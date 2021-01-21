@@ -238,7 +238,7 @@ while(True):
     #cv2.imshow('Closing',closing)
     #cv2.imshow('Color Depth',disp_Color)
     process.stdin.write(filt_Color.tobytes())
-    cv2.imshow('Filtered Color Depth',filt_Color)
+    #cv2.imshow('Filtered Color Depth',filt_Color)
 
     #Concatenate left and right image
     #output_img = np.concatenate((frame_l, frame_r), axis=1)
