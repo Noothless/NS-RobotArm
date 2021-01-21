@@ -45,7 +45,6 @@ import numpy as np
 import math
 import rospkg
 import threading
-import NDIlib as ndi
 
 #rospack
 rospack = rospkg.RosPack()
@@ -250,7 +249,7 @@ while(True):
     out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
     #Show concentated frame
-    #cv2.imshow('left and right camera', out)
+    cv2.imshow('left and right camera', out)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
     #process.stdin.write(out.tobytes())
 
