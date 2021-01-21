@@ -248,7 +248,7 @@ while(True):
 
     #Show concentated frame
     #cv2.imshow('left and right camera', output_img)
-    out = cv2.cvtColor(frame_l, cv2.COLOR_BGR2GRAY)
+    out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
     process.stdin.write(out.tobytes())
 
     #Wait for user input
