@@ -69,6 +69,7 @@ install(PROGRAMS
   src/camera_callibration/calib_ingest
   src/tests/stereo_camera
   src/tests/stereo_depth_map
+  src/deprecated/NDI_source_viewer
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
