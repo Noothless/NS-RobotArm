@@ -162,7 +162,7 @@ command = ['ffmpeg',
            '-f', 'flv',
            rtmp_url]
 
-#process = sp.Popen(command, stdin=sp.PIPE)
+process = sp.Popen(command, stdin=sp.PIPE)
 
 #Calculate translation vector from cameras to world origin
 def callibrate(img):
@@ -248,10 +248,12 @@ while(True):
 
     #out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
+    out = cv2.resize(img_left, (1080, 720))
+
     #Show concentated frame
     cv2.imshow('left and right camera', output_img)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
-    #process.stdin.write(out.tobytes())
+    process.stdin.write(out.tobytes())
 
     #Wait for user input
     key = cv2.waitKey(50)
