@@ -144,8 +144,8 @@ left_cam = Camera(lcam_name)
 
 rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
 
-sizeStr = str(720) + \
-    'x' + str(1080)
+sizeStr = str(1080) + \
+    'x' + str(720)
 
 print("------------------- STR: " + sizeStr)
 command = ['ffmpeg',
@@ -154,7 +154,7 @@ command = ['ffmpeg',
            '-vcodec', 'rawvideo',
            '-pix_fmt', 'bgr24',
            '-s', sizeStr,
-           '-r', str(5),
+           '-r', str(30),
            '-i', '-',
            '-c:v', 'libx264',
            '-pix_fmt', 'yuv420p',
