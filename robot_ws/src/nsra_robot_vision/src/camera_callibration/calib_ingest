@@ -150,7 +150,7 @@ while(cams_connected):
     cv2.putText(frame_l, cam_left_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv2.putText(frame_r, cam_right_source.name,(0,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-    cv2.putText(frame_r, str(img_nb),(1080-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.putText(frame_r, str(img_nb),(960-50,30),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     output_img = np.concatenate((frame_l, frame_r), axis=1)
 
@@ -179,7 +179,7 @@ while(cams_connected):
         t2 = threading.Thread(target=findCBC_RIGHT, args=(img_right,))
         t1.start()
         t2.start()
-    elif key == 103 and not timer_started_flag:
+    elif key == 103 and not timer_started_flag: #key: g
         print("Capture loop started!")
         timer_started_flag = True
         img_timer()
