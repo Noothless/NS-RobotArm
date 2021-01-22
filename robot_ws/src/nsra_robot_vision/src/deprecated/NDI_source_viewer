@@ -6,12 +6,35 @@
 import nsra_pyndi.finder as finder
 import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
+import subprocess as sp
 #Other Import
 import cv2
 import imutils
 
 find = finder.create_ndi_finder()
 NDIsources = find.get_sources()
+
+rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
+
+sizeStr = str(1080) + \
+    'x' + str(720)
+
+print("------------------- STR: " + sizeStr)
+command = ['ffmpeg',
+           '-y',
+           '-f', 'rawvideo',
+           '-vcodec', 'rawvideo',
+           '-pix_fmt', 'bgr24',
+           '-s', sizeStr,
+           '-r', str(30),
+           '-i', '-',
+           '-c:v', 'libx264',
+           '-pix_fmt', 'yuv420p',
+           '-preset', 'ultrafast',
+           '-f', 'flv',
+           rtmp_url]
+
+process = sp.Popen(command, stdin=sp.PIPE)
 
 recieveSource = None
 
@@ -61,11 +84,15 @@ while(1):
 	if(size[2] == 3):
 		mode = "RGB"	
 	cv2.putText(frame, "Mode:"+ mode,(0,55),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+	out = cv2.resize(frame, (1080, 720))
 	
-	cv2.imshow("image", frame)
+	#cv2.imshow("image", frame)
+	process.stdin.write(out.tobytes())
+
 	k = cv2.waitKey(30) & 0xff
 	if k == 27:
 		break
   
 print("User Quit")
-cv2.destroyAllWindows()
+cv2.destroyAllWindows()s
