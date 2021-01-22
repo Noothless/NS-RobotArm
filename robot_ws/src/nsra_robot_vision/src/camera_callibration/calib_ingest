@@ -76,6 +76,9 @@ timer_started_flag = False
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
 
+cv2.namedWindow("left and right camera", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("left and right camera",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+
 if(len(NDIsources) == 2):
     if(NDIsources[0].name == rcam_name):
         cam_right_source = NDIsources[0]
@@ -139,8 +142,8 @@ while(cams_connected):
     img_left = left_camera.read()
     img_right = right_camera.read()
 
-    frame_l = cv2.resize(img_left, (1080, 720))
-    frame_r = cv2.resize(img_right, (1080, 720))
+    frame_l = cv2.resize(img_left, (960, 640))
+    frame_r = cv2.resize(img_right, (960, 640))
     frame_l = cv2.flip(frame_l, 1)
     frame_r = cv2.flip(frame_r, 1)
 
