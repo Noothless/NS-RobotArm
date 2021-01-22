@@ -162,7 +162,7 @@ command = ['ffmpeg',
            '-f', 'flv',
            rtmp_url]
 
-process = sp.Popen(command, stdin=sp.PIPE)
+#rocess = sp.Popen(command, stdin=sp.PIPE)
 
 #Calculate translation vector from cameras to world origin
 def callibrate(img):
