@@ -106,7 +106,7 @@ void setup() {
   Serial.begin(115200);
   nh.initNode();
   nh.subscribe(gc);
-  //ctrl_loop_timer.begin(update, 50000);
+  ctrl_loop_timer.begin(update, 50000);
 
   axis1.setAcceleration(5000);
   axis2.setAcceleration(5000);
