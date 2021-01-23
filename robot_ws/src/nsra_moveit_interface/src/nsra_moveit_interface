@@ -485,7 +485,7 @@ def joint_test(data):
   time.sleep(2)
   tutorial.go_to_pose_goal(555.0/1000, 355.0/1000, 350.0/1000, 90)
   time.sleep(5)
-  tutorial.go_to_pose_goal(555.0/1000, 355.0/1000, 350.0/1000, 0)
+  tutorial.go_to_pose_goal(555.0/1000, 355.0/1000, 350.0/1000, -90)
 
 rospy.Subscriber('nsra/robot_grasp', bd_robot_coords, robot_grasp)
 rospy.Subscriber('robot_grasp_test', String, robot_grasp_test)
