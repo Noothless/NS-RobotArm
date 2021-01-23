@@ -91,12 +91,12 @@ void update() {
 
 void change_pos(const nsra_odrive_interface::nsra_control_step& msg) {
   pos n;
-  n.axis1 = msg.axis1;
-  n.axis2 = msg.axis2;
-  n.axis3 = msg.axis3;
-  n.axis4 = msg.axis4;
-  n.axis5 = msg.axis5;
-  n.axis6 = msg.axis6;
+  n.axis1 = msg.axis1*4;
+  n.axis2 = msg.axis2*4;
+  n.axis3 = msg.axis3*4;
+  n.axis4 = msg.axis4*4;
+  n.axis5 = msg.axis5*4;
+  n.axis6 = msg.axis6*4;
   queue.enqueue(n);
 }
 
@@ -106,7 +106,7 @@ void setup() {
   Serial.begin(115200);
   nh.initNode();
   nh.subscribe(gc);
-  ctrl_loop_timer.begin(update, 50000);
+  //ctrl_loop_timer.begin(update, 50000);
 
   axis1.setAcceleration(5000);
   axis2.setAcceleration(5000);
