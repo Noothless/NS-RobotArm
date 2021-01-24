@@ -10,6 +10,7 @@ add_library(nsra_hw_interface
 )
 target_link_libraries(nsra_hw_interface
   generic_hw_interface
+  libserial_static
   ${catkin_LIBRARIES}
   ${SERIAL_LDFLAGS}
 )
