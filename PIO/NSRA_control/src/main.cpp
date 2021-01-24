@@ -42,7 +42,7 @@
 #include <ros.h>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
-#define frq 1
+#define frq 5
 
 ros::NodeHandle nh;
 
@@ -109,7 +109,7 @@ void setup() {
   Serial.begin(115200);
   nh.initNode();
   nh.subscribe(gc);
-  ctrl_loop_timer.begin(update, 1000000);
+  ctrl_loop_timer.begin(update, 200000);
 
   axis1.setAcceleration(5000);
   axis2.setAcceleration(5000);
