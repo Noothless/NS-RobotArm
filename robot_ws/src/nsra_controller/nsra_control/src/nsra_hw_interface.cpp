@@ -43,7 +43,7 @@
 #include <vector>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
-#include <libserial/SerialStream.h>
+#include <SerialStream.h>
 
 namespace nsra_control
 {
