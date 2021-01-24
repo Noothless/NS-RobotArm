@@ -40,7 +40,7 @@
 #include <ros.h>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
-#define frq 20
+#define frq 5
 
 ros::NodeHandle nh;
 
@@ -84,7 +84,7 @@ void update() {
     axis4.moveTo(n.axis4);
     axis5.moveTo(n.axis5);
     axis6.moveTo(n.axis6);
-  } else if(queue.itemCount() >= 10 && !queueFlag){
+  } else if(queue.itemCount() >= 50 && !queueFlag){
     queueFlag = true;
   }
 }
@@ -97,6 +97,7 @@ void change_pos(const nsra_odrive_interface::nsra_control_step& msg) {
   n.axis4 = msg.axis4*4;
   n.axis5 = msg.axis5*4;
   n.axis6 = msg.axis6*4;
+  axis6.moveTo(n.axis6);
   queue.enqueue(n);
 }
 
@@ -106,7 +107,7 @@ void setup() {
   Serial.begin(115200);
   nh.initNode();
   nh.subscribe(gc);
-  ctrl_loop_timer.begin(update, 50000);
+  ctrl_loop_timer.begin(update, 200000);
 
   axis1.setAcceleration(5000);
   axis2.setAcceleration(5000);
@@ -114,6 +115,8 @@ void setup() {
   axis4.setAcceleration(5000);
   axis5.setAcceleration(5000);
   axis6.setAcceleration(5000);
+
+  axis6.setMaxSpeed(50);
 }
 
 void loop() {

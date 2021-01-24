@@ -4,7 +4,7 @@ moveit_sim_hw_interface:
   joint_model_group_pose: home
 # Settings for ros_control control loop
 generic_hw_control_loop:
-  loop_hz: 20
+  loop_hz: 5
   cycle_time_error_threshold: 0.1
 # Settings for ros_control hardware interface
 hardware_interface:
@@ -20,7 +20,7 @@ hardware_interface:
 # Creates the /joint_states topic necessary in ROS
 joint_state_controller:
   type: joint_state_controller/JointStateController
-  publish_rate: 20
+  publish_rate: 5
 controller_list:
   - name: manipulator_controller
     action_ns: follow_joint_trajectory
