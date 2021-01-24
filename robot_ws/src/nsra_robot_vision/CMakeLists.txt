@@ -3,7 +3,7 @@ project(nsra_robot_vision)
 
 set(OpenCV_DIR /usr/share/opencv4/)
 
-find_package(OpenCV 4.2.0 EXACT REQUIRED)
+find_package(OpenCV 4.1.1 EXACT REQUIRED)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
