@@ -93,32 +93,32 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     {
       msg.data = joint_position_command_[i]*1024000/pi/8192;
       drive_pub1.publish(msg);
-      msg_step.axis1 = round(joint_position_command_[i]*125000/pi);
+      msg_step.axis1 = round(joint_position_command_[i]*12500/pi);
     } else if(i == 1)
     {
       msg.data = joint_position_command_[i]*(1024000*0.885)/pi/8192;
       drive_pub2.publish(msg);
-      msg_step.axis2 = round(joint_position_command_[i]*125000*0.885/pi);
+      msg_step.axis2 = round(joint_position_command_[i]*12500*0.885/pi);
     } else if(i == 2)
     {
       msg.data = joint_position_command_[i]*(-204800)/pi/8192;
       drive_pub3.publish(msg);
-      msg_step.axis3 = round(joint_position_command_[i]*(-25000)/pi);
+      msg_step.axis3 = round(joint_position_command_[i]*(-2500)/pi);
     } else if(i == 3)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub4.publish(msg);
-      msg_step.axis4 = round(joint_position_command_[i]*25000/pi);
+      msg_step.axis4 = round(joint_position_command_[i]*2500/pi);
     } else if(i == 4)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub5.publish(msg);
-      msg_step.axis5 = round(joint_position_command_[i]*25000/pi);
+      msg_step.axis5 = round(joint_position_command_[i]*2500/pi);
     } else if(i == 5)
     {
       msg.data = joint_position_command_[i]*327680/pi/8192;
       drive_pub6.publish(msg);
-      msg_step.axis6 = round(joint_position_command_[i]*40000/pi);
+      msg_step.axis6 = round(joint_position_command_[i]*4000/pi);
     }
   }
   axis_step.publish(msg_step);
