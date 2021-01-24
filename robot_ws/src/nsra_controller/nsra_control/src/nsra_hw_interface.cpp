@@ -43,8 +43,6 @@
 #include <vector>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
-#include <SerialStream.h>
-
 namespace nsra_control
 {
 
@@ -61,6 +59,23 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   drive_pub6 = nh_.advertise<std_msgs::Float64>("drive_pub6", 5);
 
   axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
+
+  try
+    {
+      serial_stream.Open(SERIAL_PORT);
+    }
+    catch (const OpenFailed&)
+    {
+        std::cerr << "HW_Controller not found." << std::endl;
+        return EXIT_FAILURE;
+    }
+
+
+  serial_stream.SetBaudRate(BaudRate::BAUD_115200);
+  serial_stream.SetCharacterSize(CharacterSize::CHAR_SIZE_8);
+  serial_stream.SetFlowControl(FlowControl::FLOW_CONTROL_NONE);
+  serial_stream.SetParity(Parity::PARITY_NONE);
+  serial_stream.SetStopBits(StopBits::STOP_BITS_1);
 
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);

@@ -42,9 +42,12 @@
 
 #include <nsra_controller/generic_hw_interface.h>
 #include <vector>
+#include <SerialStream.h>
 
 namespace nsra_control
 {
+
+constexpr const char* const SERIAL_PORT = "/dev/controller";
 
 /// \brief Hardware interface for a robot
 class NSRAHWInterface : public nsra_controller::GenericHWInterface
@@ -75,6 +78,8 @@ public:
   ros::Publisher axis_step;
 
   std::vector<double> saved_pos;
+
+  SerialStream serial_stream;
 
 };  // class
 
