@@ -74,7 +74,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   serial_stream.SetCharSize(LibSerial::SerialStreamBuf::CHAR_SIZE_8);
   serial_stream.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);
   serial_stream.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);
-  serial_stream.SetNumOfStopBits(LibSerial::SerialStreamBuf::STOP_BITS_1);
+  serial_stream.SetNumOfStopBits(1);
 
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
@@ -106,7 +106,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
 
-  char data[12];
+  const int BUFFER_SIZE = 12;
+  char data[BUFFER_SIZE];
 
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
@@ -154,8 +155,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
-  serial_stream.write(&data, 12);
-  serial_stream.DrainWriteBuffer();
+  serial_stream.write(&data, BUFFER_SIZE);
+  //serial_stream.DrainWriteBuffer();
 }
 
 void NSRAHWInterface::enforceLimits(ros::Duration &period)
