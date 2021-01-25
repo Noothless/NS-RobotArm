@@ -43,6 +43,8 @@
 #include <vector>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
+using namespace LibSerial;
+
 namespace nsra_control
 {
 
@@ -102,43 +104,57 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
+
+  unsigned char data[12];
+
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
     saved_pos[i] = joint_position_command_[i];
     std_msgs::Float64 msg;
+    int steps;
     if(i == 0)
     {
       msg.data = joint_position_command_[i]*1024000/pi/8192;
       drive_pub1.publish(msg);
-      msg_step.axis1 = round(joint_position_command_[i]*12500/pi);
+      steps = round(joint_position_command_[i]*12500/pi);
+      msg_step.axis1 = steps;
     } else if(i == 1)
     {
       msg.data = joint_position_command_[i]*(1024000*0.885)/pi/8192;
       drive_pub2.publish(msg);
-      msg_step.axis2 = round(joint_position_command_[i]*12500*0.885/pi);
+      steps = round(joint_position_command_[i]*12500*0.885/pi);
+      msg_step.axis2 = steps;
     } else if(i == 2)
     {
       msg.data = joint_position_command_[i]*(-204800)/pi/8192;
       drive_pub3.publish(msg);
-      msg_step.axis3 = round(joint_position_command_[i]*(-2500)/pi);
+      steps = round(joint_position_command_[i]*(-2500)/pi);
+      msg_step.axis3 = steps;
     } else if(i == 3)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub4.publish(msg);
-      msg_step.axis4 = round(joint_position_command_[i]*2500/pi);
+      steps = round(joint_position_command_[i]*2500/pi);
+      msg_step.axis4 = steps;
     } else if(i == 4)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub5.publish(msg);
-      msg_step.axis5 = round(joint_position_command_[i]*2500/pi);
+      steps = round(joint_position_command_[i]*2500/pi);
+      msg_step.axis5 = steps;
     } else if(i == 5)
     {
       msg.data = joint_position_command_[i]*327680/pi/8192;
       drive_pub6.publish(msg);
-      msg_step.axis6 = round(joint_position_command_[i]*4000/pi);
+      steps = round(joint_position_command_[i]*4000/pi);
+      msg_step.axis6 = steps;
     }
+    data[i*2] = ((uint16_t)steps >> 0) & 0xFF;
+    data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
+  serial_stream.write(&data, 12);
+  serial_stream.DrainWriteBuffer();
 }
 
 void NSRAHWInterface::enforceLimits(ros::Duration &period)

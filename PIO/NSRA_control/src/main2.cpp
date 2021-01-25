@@ -40,9 +40,9 @@
 #include <ros.h>
 #include <TeensyThreads.h>
 
-#define MAX_MILLIS_TO_WAIT 150
+#define MAX_SERIAL_WAIT 150
 #define QUEUE_SIZE 10
-
+#define ACCELERATION 5000
 #define FRQ 5
 
 Threads::Mutex pos_lock;
@@ -97,28 +97,25 @@ void update() {
 void serial_interrupt_thread() {
   unsigned int starttime;
   starttime = millis();
-  byte RFin_bytes[12];
-  while ( (Serial.available()<12) && ((millis() - starttime) < MAX_MILLIS_TO_WAIT) )
-  {      
-      delay(5);
-  }
-  if(Serial.available() < 12)
-  {
-     Serial.flush();
+  byte in_bytes[12];
+  while ( (Serial.available() < 12) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(5); }
+  if(Serial.available() < 12) 
+  { 
+    Serial.flush(); 
   }
   else
   {
-     for(int n=0; n<12; n++)
-        RFin_bytes[n] = Serial.read();
+    for(int n=0; n<12; n++) {
+      in_bytes[n] = Serial.read();
+    }
   }
-
   pos n;
-  n.axis1 = ((RFin_bytes[0] << 8) | RFin_bytes[1])*4;
-  n.axis2 = ((RFin_bytes[2] << 8) | RFin_bytes[3])*4;
-  n.axis3 = ((RFin_bytes[4] << 8) | RFin_bytes[5])*4;
-  n.axis4 = ((RFin_bytes[6] << 8) | RFin_bytes[7])*4;
-  n.axis5 = ((RFin_bytes[8] << 8) | RFin_bytes[9])*4;
-  n.axis6 = ((RFin_bytes[10] << 8) | RFin_bytes[11])*4;
+  n.axis1 = ((in_bytes[0] << 8) | in_bytes[1])*4;
+  n.axis2 = ((in_bytes[2] << 8) | in_bytes[3])*4;
+  n.axis3 = ((in_bytes[4] << 8) | in_bytes[5])*4;
+  n.axis4 = ((in_bytes[6] << 8) | in_bytes[7])*4;
+  n.axis5 = ((in_bytes[8] << 8) | in_bytes[9])*4;
+  n.axis6 = ((in_bytes[10] << 8) | in_bytes[11])*4;
   pos_lock.lock(5);
   queue.enqueue(n); //TODO: MUTEX?
   pos_lock.unlock();
@@ -128,12 +125,12 @@ void setup() {
   Serial.begin(115200);
   ctrl_loop_timer.begin(update, 200000);
 
-  axis1.setAcceleration(5000);
-  axis2.setAcceleration(5000);
-  axis3.setAcceleration(5000);
-  axis4.setAcceleration(5000);
-  axis5.setAcceleration(5000);
-  axis6.setAcceleration(5000);
+  axis1.setAcceleration(ACCELERATION);
+  axis2.setAcceleration(ACCELERATION);
+  axis3.setAcceleration(ACCELERATION);
+  axis4.setAcceleration(ACCELERATION);
+  axis5.setAcceleration(ACCELERATION);
+  axis6.setAcceleration(ACCELERATION);
 }
 
 void loop() {
