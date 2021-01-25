@@ -70,11 +70,11 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   }
 
 
-  serial_stream.SetBaudRate(LibSerial::BAUD_115200);
-  serial_stream.SetCharSize(LibSerial::CHAR_SIZE_8);
-  serial_stream.SetFlowControl(LibSerial::FLOW_CONTROL_NONE);
-  serial_stream.SetParity(LibSerial::PARITY_NONE);
-  serial_stream.SetNumOfStopBits(LibSerial::STOP_BITS_1);
+  serial_stream.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_115200);
+  serial_stream.SetCharSize(LibSerial::SerialStreamBuf::CHAR_SIZE_8);
+  serial_stream.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);
+  serial_stream.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);
+  serial_stream.SetNumOfStopBits(LibSerial::SerialStreamBuf::STOP_BITS_1);
 
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
