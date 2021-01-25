@@ -124,7 +124,8 @@ void serial_interrupt_thread() {
 void setup() {
   Serial.begin(115200);
   ctrl_loop_timer.begin(update, 200000);
-
+  pinMode(12, OUTPUT);
+  digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
@@ -134,7 +135,12 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available()) { threads.addThread(serial_interrupt_thread); }
+  if(Serial.available()) { 
+    threads.addThread(serial_interrupt_thread);
+    digitalWrite(12, HIGH);
+    delay(50);
+    digitalWrite(12, LOW);
+  }
   axis1.run();
   axis2.run();
   axis3.run();
