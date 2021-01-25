@@ -70,6 +70,10 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
     ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
   }
 
+  if ( ! serial_port.good() )
+  {
+    ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
+  }
 
   serial_stream.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_115200);
   serial_stream.SetCharSize(LibSerial::SerialStreamBuf::CHAR_SIZE_8);
