@@ -62,7 +62,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
 
   try
   {
-    serial_stream.Open("fuck you");
+    serial_stream.Open(SERIAL_PORT);
     ROS_INFO_NAMED("nsra_hardware_interface", "Connected!");
   }
   catch (char *excp)
