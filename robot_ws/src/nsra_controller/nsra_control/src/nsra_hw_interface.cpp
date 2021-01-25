@@ -156,7 +156,13 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
-  serial_stream.write(data, BUFFER_SIZE);
+  try {
+    serial_stream.write(data, BUFFER_SIZE);
+    ROS_INFO_NAMED("nsra_hardware_interface", "Sent!");
+  } catch (char *excp)
+  {
+    ROS_INFO_NAMED("nsra_hardware_interface", "Error!");
+  }
   //serial_stream.DrainWriteBuffer();
 }
 
