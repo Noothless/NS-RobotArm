@@ -34,19 +34,18 @@
    Desc:   Part of the NSRA Control stack. Teensy step/direction signal generator.
 */
 
-//rosrun rosserial_python serial_node.py /dev/ttyUSB0
-
 #include <Arduino.h>
 #include <AccelStepper.h>
 #include <ArduinoQueue.h>
 #include <ros.h>
-#include <nsra_odrive_interface/nsra_control_step.h>
 #include <TeensyThreads.h>
 
+#define MAX_MILLIS_TO_WAIT 150
+#define QUEUE_SIZE 10
 
-#define frq 5
+#define FRQ 5
 
-ros::NodeHandle nh;
+Threads::Mutex pos_lock;
 
 AccelStepper axis1(2, 0, 1);
 AccelStepper axis2(2, 2, 3); 
@@ -72,15 +71,17 @@ ArduinoQueue<pos> queue(50);
 void update() {
   if(queueFlag)
   {
+    pos_lock.lock(5);
     pos o = queue.dequeue();
     pos n = queue.getHead();
+    pos_lock.unlock();
 
-    axis1.setMaxSpeed(abs(n.axis1 - o.axis1) * frq);
-    axis2.setMaxSpeed(abs(n.axis2 - o.axis2) * frq);
-    axis3.setMaxSpeed(abs(n.axis3 - o.axis3) * frq);
-    axis4.setMaxSpeed(abs(n.axis4 - o.axis4) * frq);
-    axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * frq);
-    axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * frq);
+    axis1.setMaxSpeed(abs(n.axis1 - o.axis1) * FRQ);
+    axis2.setMaxSpeed(abs(n.axis2 - o.axis2) * FRQ);
+    axis3.setMaxSpeed(abs(n.axis3 - o.axis3) * FRQ);
+    axis4.setMaxSpeed(abs(n.axis4 - o.axis4) * FRQ);
+    axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * FRQ);
+    axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * FRQ);
 
     axis1.moveTo(n.axis1);
     axis2.moveTo(n.axis2);
@@ -88,29 +89,43 @@ void update() {
     axis4.moveTo(n.axis4);
     axis5.moveTo(n.axis5);
     axis6.moveTo(n.axis6);
-  } else if(queue.itemCount() >= 10 && !queueFlag){
+  } else if(queue.itemCount() >= QUEUE_SIZE && !queueFlag){
     queueFlag = true;
   }
 }
 
-void change_pos(const nsra_odrive_interface::nsra_control_step& msg) {
-  pos n;
-  n.axis1 = msg.axis1*4;
-  n.axis2 = msg.axis2*4;
-  n.axis3 = msg.axis3*4;
-  n.axis4 = msg.axis4*4;
-  n.axis5 = msg.axis5*4;
-  n.axis6 = msg.axis6*4;
-  //axis6.moveTo(n.axis6);
-  queue.enqueue(n);
-}
+void serial_interrupt_thread() {
+  unsigned int starttime;
+  starttime = millis();
+  byte RFin_bytes[12];
+  while ( (Serial.available()<12) && ((millis() - starttime) < MAX_MILLIS_TO_WAIT) )
+  {      
+      delay(5);
+  }
+  if(Serial.available() < 12)
+  {
+     Serial.flush();
+  }
+  else
+  {
+     for(int n=0; n<12; n++)
+        RFin_bytes[n] = Serial.read();
+  }
 
-ros::Subscriber<nsra_odrive_interface::nsra_control_step> gc("/nsra/axis_step", &change_pos);
+  pos n;
+  n.axis1 = ((RFin_bytes[0] << 8) | RFin_bytes[1])*4;
+  n.axis2 = ((RFin_bytes[2] << 8) | RFin_bytes[3])*4;
+  n.axis3 = ((RFin_bytes[4] << 8) | RFin_bytes[5])*4;
+  n.axis4 = ((RFin_bytes[6] << 8) | RFin_bytes[7])*4;
+  n.axis5 = ((RFin_bytes[8] << 8) | RFin_bytes[9])*4;
+  n.axis6 = ((RFin_bytes[10] << 8) | RFin_bytes[11])*4;
+  pos_lock.lock(5);
+  queue.enqueue(n); //TODO: MUTEX?
+  pos_lock.unlock();
+}
 
 void setup() {
   Serial.begin(115200);
-  nh.initNode();
-  nh.subscribe(gc);
   ctrl_loop_timer.begin(update, 200000);
 
   axis1.setAcceleration(5000);
@@ -119,18 +134,14 @@ void setup() {
   axis4.setAcceleration(5000);
   axis5.setAcceleration(5000);
   axis6.setAcceleration(5000);
-
-  //axis6.setMaxSpeed(50);
 }
 
 void loop() {
-
-  nh.spinOnce();
+  if(Serial.available()) { threads.addThread(serial_interrupt_thread); }
   axis1.run();
   axis2.run();
   axis3.run();
   axis4.run();
   axis5.run();
   axis6.run();
-
 }  
