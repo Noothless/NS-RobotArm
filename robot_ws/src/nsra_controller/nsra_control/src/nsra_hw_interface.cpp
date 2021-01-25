@@ -43,8 +43,6 @@
 #include <vector>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
-using namespace LibSerial;
-
 namespace nsra_control
 {
 
@@ -66,28 +64,28 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
     {
       serial_stream.Open(SERIAL_PORT);
     }
-    catch (const OpenFailed&)
+    catch (char *excp)
     {
         std::cerr << "HW_Controller not found." << std::endl;
         return EXIT_FAILURE;
     }
 
 
-  serial_stream.SetBaudRate(BaudRate::BAUD_115200);
-  serial_stream.SetCharacterSize(CharacterSize::CHAR_SIZE_8);
-  serial_stream.SetFlowControl(FlowControl::FLOW_CONTROL_NONE);
-  serial_stream.SetParity(Parity::PARITY_NONE);
-  serial_stream.SetStopBits(StopBits::STOP_BITS_1);
+  serial_stream.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
+  serial_stream.SetCharacterSize(LibSerial::CharacterSize::CHAR_SIZE_8);
+  serial_stream.SetFlowControl(LibSerial::FlowControl::FLOW_CONTROL_NONE);
+  serial_stream.SetParity(LibSerial::Parity::PARITY_NONE);
+  serial_stream.SetNumOfStopBits(LibSerial::StopBits::STOP_BITS_1);
 
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
   }
 }
-
+/*
 NSRAHWInterface::~NSRAHWInterface(){
   serial_stream.Close();
 }
-
+*/
 void NSRAHWInterface::read(ros::Duration &elapsed_time)
 {
   for (size_t i = 0; i < num_joints_; i++) {
@@ -109,7 +107,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
 
-  unsigned char data[12];
+  char data[12];
 
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
@@ -158,7 +156,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   }
   axis_step.publish(msg_step);
   serial_stream.write(&data, 12);
-  serial_stream.DrainWriteBuffer();
+  //serial_stream.DrainWriteBuffer();
 }
 
 void NSRAHWInterface::enforceLimits(ros::Duration &period)
