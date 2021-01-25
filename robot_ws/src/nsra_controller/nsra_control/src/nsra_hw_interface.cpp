@@ -70,7 +70,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
     ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
   }
 
-  if ( ! serial_port.good() )
+  if ( ! serial_stream.good() )
   {
     ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
   }
