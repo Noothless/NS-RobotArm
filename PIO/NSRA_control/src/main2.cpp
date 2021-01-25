@@ -122,7 +122,7 @@ void serial_interrupt_thread() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   ctrl_loop_timer.begin(update, 200000);
   pinMode(12, OUTPUT);
   digitalWrite(12, LOW);

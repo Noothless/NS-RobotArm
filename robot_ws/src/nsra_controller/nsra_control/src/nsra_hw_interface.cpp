@@ -70,7 +70,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
     ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
   }
 
-  serial_stream.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_57600);
+  serial_stream.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_9600);
   serial_stream.SetCharSize(LibSerial::SerialStreamBuf::CHAR_SIZE_8);
   serial_stream.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);
   serial_stream.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);
