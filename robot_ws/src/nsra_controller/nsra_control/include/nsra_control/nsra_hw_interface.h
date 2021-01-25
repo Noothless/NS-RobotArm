@@ -43,6 +43,7 @@
 #include <nsra_controller/generic_hw_interface.h>
 #include <vector>
 #include <SerialStream.h>
+#include <SerialPort.h>
 
 namespace nsra_control
 {

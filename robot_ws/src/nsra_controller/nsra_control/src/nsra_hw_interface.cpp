@@ -61,21 +61,20 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
 
   try
-    {
-      serial_stream.Open(SERIAL_PORT);
-    }
-    catch (char *excp)
-    {
-        std::cerr << "HW_Controller not found." << std::endl;
-        return EXIT_FAILURE;
-    }
+  {
+    serial_stream.Open(SERIAL_PORT);
+  }
+  catch (char *excp)
+  {
+    std::cerr << "HW_Controller not found." << std::endl;
+  }
 
 
-  serial_stream.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
-  serial_stream.SetCharacterSize(LibSerial::CharacterSize::CHAR_SIZE_8);
-  serial_stream.SetFlowControl(LibSerial::FlowControl::FLOW_CONTROL_NONE);
-  serial_stream.SetParity(LibSerial::Parity::PARITY_NONE);
-  serial_stream.SetNumOfStopBits(LibSerial::StopBits::STOP_BITS_1);
+  serial_stream.SetBaudRate(SerialPort::BaudRate::BAUD_115200);
+  serial_stream.SetCharSize(SerialPort::CharacterSize::CHAR_SIZE_8);
+  serial_stream.SetFlowControl(SerialPort::FlowControl::FLOW_CONTROL_NONE);
+  serial_stream.SetParity(SerialPort::Parity::PARITY_NONE);
+  serial_stream.SetNumOfStopBits(SerialPort::StopBits::STOP_BITS_1);
 
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
@@ -156,7 +155,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   }
   axis_step.publish(msg_step);
   serial_stream.write(&data, 12);
-  //serial_stream.DrainWriteBuffer();
+  serial_stream.DrainWriteBuffer();
 }
 
 void NSRAHWInterface::enforceLimits(ros::Duration &period)
