@@ -70,11 +70,6 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
     ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
   }
 
-  if ( ! serial_stream.good() )
-  {
-    ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error!");
-  }
-
   serial_stream.SetBaudRate(LibSerial::SerialStreamBuf::BAUD_115200);
   serial_stream.SetCharSize(LibSerial::SerialStreamBuf::CHAR_SIZE_8);
   serial_stream.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);
@@ -107,6 +102,12 @@ void NSRAHWInterface::read(ros::Duration &elapsed_time)
 
 void NSRAHWInterface::write(ros::Duration &elapsed_time)
 {
+
+  if ( ! serial_stream.good() )
+  {
+    ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error - test!");
+  }
+
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
