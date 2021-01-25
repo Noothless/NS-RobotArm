@@ -48,7 +48,7 @@
 namespace nsra_control
 {
 
-constexpr const char* const SERIAL_PORT = "/dev/ttyUSB*";
+constexpr const char* const SERIAL_PORT = "/dev/ttyACM0";
 
 /// \brief Hardware interface for a robot
 class NSRAHWInterface : public nsra_controller::GenericHWInterface
