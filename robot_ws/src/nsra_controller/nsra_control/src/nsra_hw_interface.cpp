@@ -62,7 +62,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
 
   try
   {
-    serial_stream.Open("/dev/controller_lol");
+    serial_stream.Open("/dev/ttyUSB0");
     ROS_INFO_NAMED("nsra_hardware_interface", "Connected!");
   }
   catch (char *excp)
