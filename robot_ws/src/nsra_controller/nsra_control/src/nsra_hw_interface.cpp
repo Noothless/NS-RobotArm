@@ -84,6 +84,10 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   }
 }
 
+NSRAHWInterface::~NSRAHWInterface(){
+  serial_stream.Close();
+}
+
 void NSRAHWInterface::read(ros::Duration &elapsed_time)
 {
   for (size_t i = 0; i < num_joints_; i++) {
