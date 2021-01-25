@@ -79,7 +79,7 @@ public:
 
   std::vector<double> saved_pos;
 
-  SerialStream serial_stream;
+  LibSerial::SerialStream serial_stream;
 
 };  // class
 
