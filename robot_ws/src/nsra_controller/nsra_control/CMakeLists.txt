@@ -11,9 +11,7 @@ add_library(nsra_hw_interface
 target_link_libraries(nsra_hw_interface
   generic_hw_interface
   ${libserial_LIBRARIES}
-  ${catkin_LIBRARIES} -lserial
-  libserial1
-  serial
+  ${catkin_LIBRARIES}
 )
 
 # Main control executable
