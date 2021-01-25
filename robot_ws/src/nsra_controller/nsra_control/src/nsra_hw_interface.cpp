@@ -155,7 +155,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
-  serial_stream.write(&data, BUFFER_SIZE);
+  serial_stream.write(data, BUFFER_SIZE);
   //serial_stream.DrainWriteBuffer();
 }
 
