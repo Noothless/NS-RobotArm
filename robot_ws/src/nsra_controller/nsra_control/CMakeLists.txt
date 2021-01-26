@@ -6,7 +6,7 @@ include_directories(
 
 link_directories(/tmp/usr/local/lib/)
 
-add_library(serial DYNAMIC IMPORTED)
+add_library(serial STATIC IMPORTED)
 set_target_properties(serial PROPERTIES IMPORTED_LOCATION /tmp/usr/local/lib/libserial.so)
 
 # NSRA Hardware Interface
