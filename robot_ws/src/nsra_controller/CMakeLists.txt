@@ -70,6 +70,7 @@ catkin_package(
 
 include_directories(
   include/
+  /tmp/usr/local/lib/
   ${catkin_INCLUDE_DIRS}
   ${Gflags_INCLUDE_DIRS}
 )
