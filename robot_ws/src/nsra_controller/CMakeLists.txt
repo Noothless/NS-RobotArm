@@ -4,8 +4,6 @@ project(nsra_controller)
 # C++ 11
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 
-link_directories(/tmp/usr/local/lib/)
-
 find_package(catkin REQUIRED COMPONENTS
   nsra_odrive_interface
   cmake_modules
@@ -74,6 +72,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${Gflags_INCLUDE_DIRS}
 )
+
+link_directories(/tmp/usr/local/lib/)
 
 # Control loop
 add_library(generic_hw_control_loop src/generic_hw_control_loop.cpp)

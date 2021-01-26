@@ -1,7 +1,12 @@
 include_directories(
   include/
   config/
+  /tmp/usr/local/lib/
 )
+
+link_directories(/tmp/usr/local/lib/)
+
+FIND_LIBRARY(SERIAL_LIBRARY serial /tmp/usr/local/lib/)
 
 # NSRA Hardware Interface
 add_library(nsra_hw_interface
@@ -10,7 +15,7 @@ add_library(nsra_hw_interface
 target_link_libraries(nsra_hw_interface
   generic_hw_interface
   ${catkin_LIBRARIES}
-  serial
+  ${SERIAL_LIBRARY}
 )
 
 # Main control executable
