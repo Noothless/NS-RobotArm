@@ -21,7 +21,6 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   rosparam_shortcuts
   message_generation
-  serial
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
@@ -59,7 +58,6 @@ catkin_package(
     generic_hw_control_loop
     generic_hw_interface
     sim_hw_interface
-    serial
 )
 
 ###########
