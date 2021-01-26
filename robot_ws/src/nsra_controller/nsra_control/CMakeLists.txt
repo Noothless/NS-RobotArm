@@ -1,7 +1,6 @@
 include_directories(
   include/
   config/
-  ${SERIAL_INCLUDE_DIRS}
 )
 
 # NSRA Hardware Interface
@@ -10,8 +9,8 @@ add_library(nsra_hw_interface
 )
 target_link_libraries(nsra_hw_interface
   generic_hw_interface
-  ${libserial_LIBRARIES}
-  ${catkin_LIBRARIES} -lserial
+  ${catkin_LIBRARIES}
+  serial
 )
 
 # Main control executable

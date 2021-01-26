@@ -42,8 +42,8 @@
 
 #include <nsra_controller/generic_hw_interface.h>
 #include <vector>
-#include <SerialStream.h>
-#include <SerialPort.h>
+//#include <SerialStream.h>
+//#include <SerialPort.h>
 
 namespace nsra_control
 {
@@ -80,7 +80,7 @@ public:
 
   std::vector<double> saved_pos;
 
-  LibSerial::SerialStream serial_stream;
+  //LibSerial::SerialStream serial_stream;
 
 };  // class
 

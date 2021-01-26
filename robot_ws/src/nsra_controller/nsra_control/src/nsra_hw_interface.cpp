@@ -43,6 +43,8 @@
 #include <vector>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
+#include "serial/serial.h"
+
 namespace nsra_control
 {
 
@@ -59,7 +61,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   drive_pub6 = nh_.advertise<std_msgs::Float64>("drive_pub6", 5);
 
   axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
-
+  /*
   try
   {
     serial_stream.Open(SERIAL_PORT);
@@ -75,7 +77,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   serial_stream.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);
   serial_stream.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);
   serial_stream.SetNumOfStopBits(1);
-
+  */
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
   }
@@ -161,6 +163,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
+  /*
   try {
     serial_stream.write(data, BUFFER_SIZE);
     ROS_INFO_NAMED("nsra_hardware_interface", "Sent!");
@@ -168,6 +171,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   {
     ROS_INFO_NAMED("nsra_hardware_interface", "Error!");
   }
+  */
   //serial_stream.DrainWriteBuffer();
 }
 
