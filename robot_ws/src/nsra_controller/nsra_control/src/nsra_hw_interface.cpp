@@ -77,7 +77,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
         ROS_INFO_STREAM("Serial Port initialized");
   }
   else {
-        return -1;
+        ROS_ERROR_STREAM("Unable to check port ");
   }
   
   /*
