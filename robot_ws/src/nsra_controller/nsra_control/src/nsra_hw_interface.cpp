@@ -188,7 +188,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     ROS_INFO_NAMED("nsra_hardware_interface", "Sent!");
   } catch (char *excp)
   {
-    ROS_ERROR_STREAM("nsra_hardware_interface", "Error!");
+    ROS_ERROR_STREAM("Error!");
   }
   
   //serial_stream.DrainWriteBuffer();
