@@ -77,7 +77,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
         ROS_INFO_STREAM("Serial Port initialized");
   }
   else {
-        ROS_ERROR_STREAM("Unable to check port ");
+        ROS_ERROR_STREAM("Port failed! ");
   }
   
   /*
@@ -182,15 +182,15 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
-  /*
+  
   try {
-    serial_stream.write(data, BUFFER_SIZE);
+    ser.write(data, BUFFER_SIZE);
     ROS_INFO_NAMED("nsra_hardware_interface", "Sent!");
   } catch (char *excp)
   {
-    ROS_INFO_NAMED("nsra_hardware_interface", "Error!");
+    ROS_ERROR_STREAM("nsra_hardware_interface", "Error!");
   }
-  */
+  
   //serial_stream.DrainWriteBuffer();
 }
 
