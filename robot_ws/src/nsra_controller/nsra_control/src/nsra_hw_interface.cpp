@@ -134,7 +134,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   nsra_odrive_interface::nsra_control_step msg_step;
 
   const int BUFFER_SIZE = 12;
-  char data[BUFFER_SIZE];
+  unsigned char data[BUFFER_SIZE];
 
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
