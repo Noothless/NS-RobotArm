@@ -42,8 +42,8 @@
 
 #include <nsra_controller/generic_hw_interface.h>
 #include <vector>
-//#include <SerialStream.h>
-//#include <SerialPort.h>
+#include <SerialStream.h>
+#include <SerialPort.h>
 #include "serial/serial.h"
 
 namespace nsra_control
@@ -83,7 +83,7 @@ public:
 
   serial::Serial ser;
 
-  //LibSerial::SerialStream serial_stream;
+  LibSerial::SerialStream serial_stream;
 
 };  // class
 
