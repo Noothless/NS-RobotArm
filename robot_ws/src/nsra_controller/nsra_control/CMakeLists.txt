@@ -6,8 +6,12 @@ include_directories(
 
 link_directories(/tmp/usr/local/lib/)
 
-add_library(serial STATIC IMPORTED)
-set_target_properties(serial PROPERTIES IMPORTED_LOCATION /tmp/usr/local/lib/libserial.so)
+find_package(catkin REQUIRED COMPONENTS
+  serial
+)
+
+#add_library(serial STATIC IMPORTED)
+#set_target_properties(serial PROPERTIES IMPORTED_LOCATION /tmp/usr/local/lib/libserial.so)
 
 # NSRA Hardware Interface
 add_library(nsra_hw_interface
