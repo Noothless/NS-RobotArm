@@ -43,8 +43,6 @@
 #include <vector>
 #include <nsra_odrive_interface/nsra_control_step.h>
 
-#include "serial/serial.h"
-
 namespace nsra_control
 {
 
@@ -62,7 +60,18 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
 
   axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
 
-  ROS_INFO_NAMED("nsra_hardware_interface", serial::list_ports());
+   try
+  {
+    ser.setPort(SERIAL_PORT);
+    ser.setBaudrate(9600);
+    serial::Timeout to = serial::Timeout::simpleTimeout(1000);
+    ser.setTimeout(to);
+    ser.open();
+  }
+  catch (serial::IOException& e)
+  {
+    ROS_ERROR_STREAM("Unable to open port ");
+  }
 
   /*
   try

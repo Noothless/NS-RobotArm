@@ -44,6 +44,7 @@
 #include <vector>
 //#include <SerialStream.h>
 //#include <SerialPort.h>
+#include "serial/serial.h"
 
 namespace nsra_control
 {
@@ -79,6 +80,8 @@ public:
   ros::Publisher axis_step;
 
   std::vector<double> saved_pos;
+
+  serial::Serial ser;
 
   //LibSerial::SerialStream serial_stream;
 
