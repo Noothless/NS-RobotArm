@@ -62,17 +62,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
 
   axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
 
-  vector<serial::PortInfo> devices_found = serial::list_ports();
-
-	vector<serial::PortInfo>::iterator iter = devices_found.begin();
-
-	while( iter != devices_found.end() )
-	{
-		serial::PortInfo device = *iter++;
-
-		printf( "(%s, %s, %s)\n", device.port.c_str(), device.description.c_str(),
-     device.hardware_id.c_str() );
-	}
+  ROS_INFO_NAMED("nsra_hardware_interface", serial::list_ports());
 
   /*
   try
