@@ -59,7 +59,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   drive_pub6 = nh_.advertise<std_msgs::Float64>("drive_pub6", 5);
 
   axis_step = nh_.advertise<nsra_odrive_interface::nsra_control_step>("axis_step", 5);
-  /*
+  
    try
   {
     ser.setPort("/dev/controller");
@@ -72,8 +72,15 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   {
     ROS_ERROR_STREAM("Unable to open port ");
   }
-  */
+
+  if(ser.isOpen()) {
+        ROS_INFO_STREAM("Serial Port initialized");
+  }
+  else {
+        return -1;
+  }
   
+  /*
   try
   {
     serial_stream.Open(SERIAL_PORT);
@@ -89,7 +96,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
   serial_stream.SetFlowControl(LibSerial::SerialStreamBuf::FLOW_CONTROL_NONE);
   serial_stream.SetParity(LibSerial::SerialStreamBuf::PARITY_NONE);
   serial_stream.SetNumOfStopBits(1);
-  
+  */
   for(int i = 0; i <= 5; i++) {
     saved_pos.push_back(0);
   }
@@ -116,12 +123,12 @@ void NSRAHWInterface::read(ros::Duration &elapsed_time)
 
 void NSRAHWInterface::write(ros::Duration &elapsed_time)
 {
-  
+  /*
   if ( ! serial_stream.good() )
   {
     ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error - test!");
   }
-  
+  */
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
