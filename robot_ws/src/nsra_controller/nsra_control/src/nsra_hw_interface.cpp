@@ -63,7 +63,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
    try
   {
     ser.setPort("/dev/controller");
-    ser.setBaudrate(9600);
+    ser.setBaudrate(115200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     ser.setTimeout(to);
     ser.open();
@@ -185,7 +185,6 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   
   try {
     ser.write(data, BUFFER_SIZE);
-    ROS_INFO_NAMED("nsra_hardware_interface", "Sent!");
   } catch (char *excp)
   {
     ROS_ERROR_STREAM("Error!");

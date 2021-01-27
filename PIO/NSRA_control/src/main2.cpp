@@ -122,7 +122,7 @@ void serial_interrupt_thread() {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   ctrl_loop_timer.begin(update, 200000);
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
