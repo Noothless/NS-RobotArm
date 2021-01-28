@@ -39,6 +39,7 @@
 #include <ArduinoQueue.h>
 #include <ros.h>
 #include <TeensyThreads.h>
+#include <Wire.h>
 
 #define MAX_SERIAL_WAIT 150
 #define QUEUE_SIZE 5
@@ -111,6 +112,9 @@ void serial_interrupt_thread() {
       in_bytes[n] = Serial.read();
     }
   }
+  Wire.beginTransmission(8);
+  Wire.write(in_bytes, 12);       
+  Wire.endTransmission();    
   pos n;
   /*
   n.axis1 = ((in_bytes[0] << 8) | in_bytes[1])*4;
