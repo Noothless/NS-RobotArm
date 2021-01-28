@@ -2,3 +2,4 @@ robot_ws/devel/
 robot_ws/build/
 robot_ws/logs/
 robot_ws/install/
+robot_ws/.catkin_tools/
