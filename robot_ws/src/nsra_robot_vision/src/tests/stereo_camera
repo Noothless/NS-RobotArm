@@ -238,13 +238,13 @@ while(True):
     frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
-    frame_l = cv2.resize(frame_l, (960, 640))
-    frame_r = cv2.resize(frame_r, (960, 640))
+    frame_l = cv2.resize(frame_l, (1080, 720))
+    frame_r = cv2.resize(frame_r, (1080, 720))
 
     #Draw horizontal lines
-    for line in range(0, int(frame_r.shape[0]/20)):
-        frame_l[line*20,:] = (0,255,0,0)
-        frame_r[line*20,:] = (0,255,0,0)
+    #for line in range(0, int(frame_r.shape[0]/20)):
+    #    frame_l[line*20,:] = (0,255,0,0)
+    #    frame_r[line*20,:] = (0,255,0,0)
 
     #Concatenate left and right image
     output_img = np.concatenate((frame_l, frame_r), axis=1)
