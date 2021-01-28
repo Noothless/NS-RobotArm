@@ -76,8 +76,8 @@ timer_started_flag = False
 rcam_name = "PC-NOA (TV0200110012)"
 lcam_name = "PC-NOA (TV0200110013)"
 
-cv2.namedWindow("left and right camera", cv2.WND_PROP_FULLSCREEN)
-cv2.setWindowProperty("left and right camera",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+#cv2.namedWindow("left and right camera", cv2.WND_PROP_FULLSCREEN)
+#cv2.setWindowProperty("left and right camera",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
 if(len(NDIsources) == 2):
     if(NDIsources[0].name == rcam_name):
