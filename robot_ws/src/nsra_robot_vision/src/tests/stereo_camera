@@ -230,8 +230,8 @@ while(True):
     img_right = right_cam.get_frame()
 
     #Undistort rectify images
-    #img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
-    #img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+    img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+    img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
     #Draw world origin
     frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
