@@ -41,7 +41,7 @@
 #include <TeensyThreads.h>
 
 #define MAX_SERIAL_WAIT 150
-#define QUEUE_SIZE 10
+#define QUEUE_SIZE 5
 #define ACCELERATION 5000
 #define FRQ 5
 
@@ -55,6 +55,8 @@ AccelStepper axis5(2, 8, 9);
 AccelStepper axis6(2,10,11);
 
 IntervalTimer ctrl_loop_timer;
+
+int prev_ax = 0;
 
 bool queueFlag = false;
 
@@ -110,12 +112,20 @@ void serial_interrupt_thread() {
     }
   }
   pos n;
+  /*
   n.axis1 = ((in_bytes[0] << 8) | in_bytes[1])*4;
   n.axis2 = ((in_bytes[2] << 8) | in_bytes[3])*4;
   n.axis3 = ((in_bytes[4] << 8) | in_bytes[5])*4;
   n.axis4 = ((in_bytes[6] << 8) | in_bytes[7])*4;
   n.axis5 = ((in_bytes[8] << 8) | in_bytes[9])*4;
   n.axis6 = ((in_bytes[10] << 8) | in_bytes[11])*4;
+  */
+  n.axis1 = ((in_bytes[11] << 8) | in_bytes[10])*4;
+  n.axis2 = ((in_bytes[9] << 8) | in_bytes[8])*4;
+  n.axis3 = ((in_bytes[7] << 8) | in_bytes[6])*4;
+  n.axis4 = ((in_bytes[5] << 8) | in_bytes[4])*4;
+  n.axis5 = ((in_bytes[3] << 8) | in_bytes[2])*4;
+  n.axis6 = ((in_bytes[1] << 8) | in_bytes[0])*4;
   pos_lock.lock(5);
   queue.enqueue(n); //TODO: MUTEX?
   pos_lock.unlock();
@@ -123,7 +133,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  ctrl_loop_timer.begin(update, 200000);
+  ctrl_loop_timer.begin(update, 1000000/FRQ);
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
