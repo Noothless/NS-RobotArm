@@ -164,8 +164,8 @@ left_cam = Camera(lcam_name)
 
 #process = sp.Popen(command, stdin=sp.PIPE)
 
-cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
-cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+#cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
+#cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
 #Calculate translation vector from cameras to world origin
 def callibrate(img):
