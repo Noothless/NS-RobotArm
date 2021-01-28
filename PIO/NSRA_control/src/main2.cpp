@@ -111,8 +111,8 @@ void serial_interrupt_thread() {
     for(int n=0; n<12; n++) {
       in_bytes[n] = Serial.read();
     }
-  }
-  Wire.beginTransmission(8);
+  } 
+  Wire.beginTransmission(0x53);
   Wire.write(in_bytes, 12);       
   Wire.endTransmission();    
   pos n;
@@ -137,6 +137,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
+  Wire.begin();
   ctrl_loop_timer.begin(update, 1000000/FRQ);
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
