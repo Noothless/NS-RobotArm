@@ -113,8 +113,8 @@ void serial_interrupt_thread() {
     }
   } 
   Wire.beginTransmission(0x53);
-  Wire.write(in_bytes, 12);       
-  Wire.endTransmission();    
+  Wire.write(in_bytes, 12);
+  Wire.endTransmission();
   pos n;
   /*
   n.axis1 = ((in_bytes[0] << 8) | in_bytes[1])*4;
