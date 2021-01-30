@@ -146,6 +146,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       msg.data = joint_position_command_[i]*1024000/pi/8192;
       drive_pub1.publish(msg);
       steps = round(joint_position_command_[i]*12500/pi);
+      std::cout << steps << std::endl;
       msg_step.axis1 = steps;
     } else if(i == 1)
     {
