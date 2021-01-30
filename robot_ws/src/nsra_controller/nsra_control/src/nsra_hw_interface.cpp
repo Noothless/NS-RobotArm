@@ -182,6 +182,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     data[i*2+1] = ((uint16_t)steps >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
+
+  ROS_INFO_NAMED("nsra_hardware_interface", String(((data[0] << 8) | data[1])*4));
   
   try {
     ser.write(data, BUFFER_SIZE);

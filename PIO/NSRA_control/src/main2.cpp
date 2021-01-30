@@ -112,8 +112,9 @@ void serial_interrupt_thread() {
       in_bytes[n] = Serial.read();
     }
   } 
-  Wire.beginTransmission(0x53);
-  Wire.write(in_bytes, 12);       
+  Wire.beginTransmission(8);
+  Wire.write(in_bytes[1]);
+  Wire.write(in_bytes[0]);  
   Wire.endTransmission();    
   pos n;
   /*
