@@ -44,18 +44,18 @@
 #define MAX_SERIAL_WAIT 150
 #define QUEUE_SIZE 5
 #define ACCELERATION 5000
-#define FRQ 20
+#define FRQ 10
 
 Threads::Mutex pos_lock;
 
 volatile bool serialFlag = true;
 
-AccelStepper axis1(2, 0, 1);
-AccelStepper axis2(2, 2, 3);
-AccelStepper axis3(2, 4, 5);
-AccelStepper axis4(2, 6, 7);
-AccelStepper axis5(2, 8, 9);
-AccelStepper axis6(2,10,11);
+AccelStepper axis1(1, 0, 1);
+AccelStepper axis2(1, 2, 3);
+AccelStepper axis3(1, 4, 5);
+AccelStepper axis4(1, 6, 7);
+AccelStepper axis5(1, 8, 9);
+AccelStepper axis6(1,10,11);
 
 IntervalTimer ctrl_loop_timer;
 
@@ -88,9 +88,15 @@ void update() {
     axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * FRQ);
     axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * FRQ);
 
+    /*
     Wire.beginTransmission(8);
-    Wire.write(abs(n.axis1 - o.axis1));
+    if(abs(n.axis5 - o.axis5) > 256){
+      Wire.write(200);
+    } else {
+      Wire.write(abs(n.axis5 - o.axis5));
+    }
     Wire.endTransmission();
+    */
 
     axis1.moveTo(n.axis1);
     axis2.moveTo(n.axis2);
@@ -157,10 +163,10 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
+  //Wire.begin();
   ctrl_loop_timer.begin(update, 1000000/FRQ);
-  pinMode(12, OUTPUT);
-  digitalWrite(12, LOW);
+  //pinMode(12, OUTPUT);
+  //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
