@@ -40,7 +40,7 @@ import cv2
 import nsra_pyndi.finder as finder
 import nsra_pyndi.receiver as receiver
 import nsra_pyndi.lib as lib
-#import subprocess as sp
+import subprocess as sp
 import numpy as np
 import math
 import rospkg
@@ -142,27 +142,27 @@ class Camera():
 right_cam = Camera(rcam_name)
 left_cam = Camera(lcam_name)
 
-#rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
+rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
 #
-#sizeStr = str(2160) + \
-#    'x' + str(720)
+sizeStr = str(2160) + \
+    'x' + str(720)
 #
-#print("------------------- STR: " + sizeStr)
-#command = ['ffmpeg',
-#           '-y',
-#           '-f', 'rawvideo',
-#           '-vcodec', 'rawvideo',
-#           '-pix_fmt', 'bgr24',
-#           '-s', sizeStr,
-#           '-r', str(30),
-#           '-i', '-',
-#           '-c:v', 'libx264',
-#           '-pix_fmt', 'yuv420p',
-#           '-preset', 'ultrafast',
-#           '-f', 'flv',
-#           rtmp_url]
+print("------------------- STR: " + sizeStr)
+command = ['ffmpeg',
+           '-y',
+           '-f', 'rawvideo',
+           '-vcodec', 'rawvideo',
+           '-pix_fmt', 'bgr24',
+           '-s', sizeStr,
+           '-r', str(30),
+           '-i', '-',
+           '-c:v', 'libx264',
+           '-pix_fmt', 'yuv420p',
+           '-preset', 'ultrafast',
+           '-f', 'flv',
+           rtmp_url]
 
-#process = sp.Popen(command, stdin=sp.PIPE)
+process = sp.Popen(command, stdin=sp.PIPE)
 
 #cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
 #cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
@@ -255,7 +255,7 @@ while(True):
     cv2.imshow('left', out)
     #cv2.imshow('left', frame_l)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
-    #process.stdin.write(frame_l.tobytes())
+    process.stdin.write(out.tobytes())
 
     #Wait for user input
     key = cv2.waitKey(50)
