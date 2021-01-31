@@ -154,7 +154,7 @@ command = ['ffmpeg',
            '-vcodec', 'rawvideo',
            '-pix_fmt', 'bgr24',
            '-s', sizeStr,
-           '-r', str(30),
+           '-r', str(3),
            '-i', '-',
            '-c:v', 'libx264',
            '-pix_fmt', 'yuv420p',
@@ -252,7 +252,7 @@ while(True):
     out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
     #Show concentated frame
-    cv2.imshow('left', out)
+    #cv2.imshow('left', out)
     #cv2.imshow('left', frame_l)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
     process.stdin.write(out.tobytes())
