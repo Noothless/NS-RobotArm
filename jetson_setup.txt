@@ -1,3 +1,4 @@
+#odrive
 sudo apt update -y
 sudo apt install python3.8 python3.8-dev python3.8-distutils
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
@@ -10,19 +11,23 @@ sudo pip3 install Pillow
 sudo pip3 install flask flask_socketio flask_cors
 sudo pip3 install --upgrade odrive
 
+#ssh
 cd .ssh
 scp id_rsa.pub jetson@192.168.1.136:~
 mkdir .ssh
 cat id_rsa.pub >> .ssh/authorized_keys
 rm id_rsa.pub
 
+#odrive server
 git clone https://github.com/odriverobotics/ODrive.git
 
+#python2.7
 sudo apt install python2.7 python-pip
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 3
 (evtl) sudo ln -s /usr/bin/python2 /usr/bin/python
 (evtl) sudo ln -s /usr/bin/python2.7 /usr/bin/python2
 
+#ros
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt update
@@ -36,12 +41,14 @@ sudo apt-get install ros-melodic-serial
 sudo pip3 install rospkg
 source /opt/ros/melodic/setup.bash
 
+#serial
 git clone git://github.com/wjwwood/serial.git
 cd serial
 make
 sudo make install
 cd ..
 
+#NSRA
 git clone https://github.com/Noothless/NS-RobotArm.git
 cd NS-RobotArm/robot_ws/
 catkin config --blacklist nsra_robot_vision
