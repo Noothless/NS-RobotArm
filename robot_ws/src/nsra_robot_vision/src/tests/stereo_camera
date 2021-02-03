@@ -167,6 +167,26 @@ command = ['ffmpeg',
 
 process = sp.Popen(command, stdin=sp.PIPE)
 
+params = cv2.SimpleBlobDetector_Params()
+
+params.filterByArea = True
+params.minArea = 100
+params.maxArea = 10000
+
+params.filterByCircularity = True
+params.minCircularity = 0.1
+
+params.filterByConvexity = True
+params.minConvexity = 0
+params.maxConvexity = 1
+
+params.filterByInertia = True
+params.minInertiaRatio = 0.1
+
+detector = cv2.SimpleBlobDetector_create(params)
+
+kernal = np.ones((10,10), np.uint8)
+
 #cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
 #cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
@@ -269,6 +289,33 @@ while(True):
     #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+
+    #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
+    blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
+    blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
+
+    hsv_frame_left = cv2.cvtColor(blur_frame_left, cv2.COLOR_BGR2HSV)
+    hsv_frame_right = cv2.cvtColor(blur_frame_right, cv2.COLOR_BGR2HSV)
+
+    low_red = np.array([rl,gl,bl])
+    high_red = np.array([rh, gh, bh])
+    red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
+    red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
+
+    red_mask_left = cv2.bitwise_not(red_mask_left)
+    red_mask_right = cv2.bitwise_not(red_mask_right)
+
+    red_mask_left = cv2.dilate(red_mask_left, kernal)
+    red_mask_right = cv2.dilate(red_mask_right, kernal)
+
+    keypoints_left = detector.detect(red_mask_left)
+    keypoints_right = detector.detect(red_mask_right)
+
+    imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+    blur_frame_points_left = cv2.drawKeypoints(blur_frame_left, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    blur_frame_points_right = cv2.drawKeypoints(blur_frame_right, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #Draw world origin
     frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
