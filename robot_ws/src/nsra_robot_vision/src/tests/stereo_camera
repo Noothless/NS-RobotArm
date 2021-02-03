@@ -103,9 +103,11 @@ lcam_name = "PC-NOA (TV0200110013)"
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 #World origin of cameras relative to the robot
-origin_img = np.array([[0.0,0.0],
-                       [0.0,0.0]])
-origin_vec = np.array([0.0,0.0,0.0])
+mtrx = np.array([[0.0, 0.0, 0.0],
+                 [0.0, 0.0, 0.0],
+                 [0.0, 0.0, 0.0]])
+
+rob_offset_vec = np.array([0.0, 0.0, 0.0])
 
 #NDI camera class
 class Camera():
@@ -168,30 +170,51 @@ process = sp.Popen(command, stdin=sp.PIPE)
 #cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
 #cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
-#Calculate translation vector from cameras to world origin
-def callibrate(img):
-    global origin_img
-    global origin_vec
+#Calculate coordinate of point relative to the robot
+def detect(img):
+
+    pnts_img = np.array([[0.0,0.0],
+                         [0.0,0.0],
 
     for i in range(2):
-        gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
         if ret == True:
-            corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
-            origin_img[i,0] = corners2[0,0,0]
-            origin_img[i,1] = corners2[0,0,1]
+            #TODO: implement point tracking method!
+            origin_img[i,0] = ##
+            origin_img[i,1] = ##
     
-    p_4d = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
+    p_4d_obj = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
 
-    origin_vec = np.array([p_4d[0] / p_4d[3],
-                           p_4d[1] / p_4d[3],
-                           p_4d[2] / p_4d[3]])
-    print("origin_vec: ")
-    print(origin_vec)
+    obj_vec = np.array([p_4d[0] / p_4d[3],
+                        p_4d[1] / p_4d[3],
+                        p_4d[2] / p_4d[3]])
+    
+    mtrx_ret = np.linalg.solve(mtrx, obj_vec)
 
-#Calculate distance of point relative to the world origin
-def detect(img):
+    obj_trns_vec = np.array([np.linalg.norm(np.dot(mtrx[:,0], mtrx_ret[0])), np.linalg.norm(np.dot(mtrx[:,1], mtrx_ret[1])), np.linalg.norm(np.dot(mtrx[:,2], mtrx_ret[2]))])
+
+    if(mtrx_ret[0] < 0){
+        obj_trns_vec[0] = - obj_trns_vec[0]
+    }
+    if(mtrx_ret[1] < 0){
+        obj_trns_vec[1] = - obj_trns_vec[1]
+    }
+    if(mtrx_ret[2] < 0){
+        obj_trns_vec[2] = - obj_trns_vec[2]
+    }
+
+    obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
+
+    print("Object vector to robot: ")
+    print(obj_rob_vec)
+    #TODO: implement moveit control
+
+#Calculate transformation matrix
+def callibrate(img):
+    global mtrx
+
     pnts_img = np.array([[0.0,0.0],
+                         [0.0,0.0],
+                         [0.0,0.0],
                          [0.0,0.0],
                          [0.0,0.0],
                          [0.0,0.0]])
@@ -202,27 +225,40 @@ def detect(img):
             corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
             pnts_img[i,0] = corners2[0,0,0]
             pnts_img[i,1] = corners2[0,0,1]
-            pnts_img[i+2,0] = corners2[48,0,0]
-            pnts_img[i+2,1] = corners2[48,0,1]
+            pnts_img[i+2,0] = corners2[5,0,0]
+            pnts_img[i+2,1] = corners2[5,0,1]
+            pnts_img[i+4,0] = corners2[48,0,0]
+            pnts_img[i+4,1] = corners2[48,0,1]
+            
     
-    p_4d_1 = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
-    p_4d_2 = cv2.triangulatePoints(PR, PL, pnts_img[2,:], pnts_img[3,:])
+    p_4d_org = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
+    p_4d_x = cv2.triangulatePoints(PR, PL, pnts_img[2,:], pnts_img[3,:])
+    p_4d_y = cv2.triangulatePoints(PR, PL, pnts_img[4,:], pnts_img[5,:])
 
-    dist_vec_pnt1 = np.array([p_4d_1[0] / p_4d_1[3] - origin_vec[0],
-                              p_4d_1[1] / p_4d_1[3] - origin_vec[1],
-                              p_4d_1[2] / p_4d_1[3] - origin_vec[2]])
+    org_coord = np.array([p_4d_org[0] / p_4d_org[3],
+                        p_4d_org[1] / p_4d_org[3],
+                        p_4d_org[2] / p_4d_org[3]])
     
-    dist_vec_pnt2 = np.array([p_4d_2[0] / p_4d_2[3] - origin_vec[0],
-                              p_4d_2[1] / p_4d_2[3] - origin_vec[1],
-                              p_4d_2[2] / p_4d_2[3] - origin_vec[2]])
+    x_coord = np.array([p_4d_x[0] / p_4d_x[3],
+                      p_4d_x[1] / p_4d_x[3],
+                      p_4d_x[2] / p_4d_x[3]])
+
+    y_coord = np.array([p_4d_y[0] / p_4d_y[3],
+                      p_4d_y[1] / p_4d_y[3],
+                      p_4d_y[2] / p_4d_y[3]])
     
-    pnt_dist_vec = np.subtract(dist_vec_pnt1, dist_vec_pnt2)
+    x_vec = np.subtract(x_coord, org_coord)
+    y_vec = np.subtract(y_coord, org_coord)
+    z_vec = np.cross(x_vec, y_vec)
+
+    mtrx = np.array([[x_vec[0], y_vec[0], z_vec[0]],
+                     [x_vec[1], y_vec[1], z_vec[1]],
+                     [x_vec[2], y_vec[2], z_vec[2]]])
 
     print("---------------")
-    print("Distance points: " + str(math.sqrt(pnt_dist_vec[0]**2 + pnt_dist_vec[1]**2 + pnt_dist_vec[2]**2)))
-    print("Distance vector origin: ")
-    print(dist_vec_pnt1)
-    print("Distance origin: " + str(math.sqrt(dist_vec_pnt1[0]**2 + dist_vec_pnt1[1]**2 + dist_vec_pnt1[2]**2)))
+    print("Callibration successful!")
+    print("Transformation matrix: ")
+    print(mtrx)
     print("---------------")
 
 while(True):

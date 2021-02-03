@@ -45,6 +45,7 @@
 #define QUEUE_SIZE 5
 #define ACCELERATION 5000
 #define FRQ 10
+#define PULSE_WIDTH 50
 
 Threads::Mutex pos_lock;
 
@@ -173,6 +174,13 @@ void setup() {
   axis4.setAcceleration(ACCELERATION);
   axis5.setAcceleration(ACCELERATION);
   axis6.setAcceleration(ACCELERATION);
+
+  axis1.setMinPulseWidth(PULSE_WIDTH);
+  axis2.setMinPulseWidth(PULSE_WIDTH);
+  axis3.setMinPulseWidth(PULSE_WIDTH);
+  axis4.setMinPulseWidth(PULSE_WIDTH);
+  axis5.setMinPulseWidth(PULSE_WIDTH);
+  axis6.setMinPulseWidth(PULSE_WIDTH);
 }
 
 void loop() {
