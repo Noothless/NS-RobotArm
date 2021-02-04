@@ -186,8 +186,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
     }
     data[i*4+1] = ((int16_t)(steps) >> 0) & 0xFF;
     data[i*4+2] = ((int16_t)(steps) >> 8) & 0xFF;
-    data[i*4+3] = ((int16_t)(abs(steps_old - steps)) >> 0) & 0xFF;
-    data[i*4+4] = ((int16_t)(abs(steps_old - steps)) >> 8) & 0xFF;
+    data[i*4+3] = ((int16_t)(abs(steps_old - steps)*20) >> 0) & 0xFF;
+    data[i*4+4] = ((int16_t)(abs(steps_old - steps)*20) >> 8) & 0xFF;
 
     saved_pos[i] = joint_position_command_[i];
   }

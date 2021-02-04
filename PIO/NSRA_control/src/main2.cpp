@@ -71,6 +71,13 @@ struct pos {
     volatile int16_t axis4;
     volatile int16_t axis5;
     volatile int16_t axis6;
+
+    volatile int16_t vel1;
+    volatile int16_t vel2;
+    volatile int16_t vel3;
+    volatile int16_t vel4;
+    volatile int16_t vel5;
+    volatile int16_t vel6;
 };
 ArduinoQueue<pos> queue(50);
 
@@ -94,30 +101,11 @@ void update() {
     axis4.setMaxSpeed(abs(n.axis4 - o.axis4) * FRQ);
     axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * FRQ);
     axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * FRQ);
-    /*
-    if(n.axis1 >= -10000 && n.axis1 <= 10000){
-      Wire.beginTransmission(8);
-      Wire.write(((uint16_t)(n.axis1 + 16383) >> 0) & 0xFF);
-      Wire.write(((uint16_t)(n.axis1 + 16383) >> 8) & 0xFF);
-      Wire.endTransmission();
-    }
-    */
-    /*
-    if(n.axis1 < 0) {
-      n.axis1 = -n.axis1;
-    }
-    */
+
     Wire.beginTransmission(8);
-    Wire.write(((int16_t)(-n.axis1) >> 0) & 0xFF);
-    Wire.write(((int16_t)(-n.axis1) >> 8) & 0xFF);
+    Wire.write(((int16_t)(n.vel1) >> 0) & 0xFF);
+    Wire.write(((int16_t)(n.vel1) >> 8) & 0xFF);
     Wire.endTransmission();
-    
-    /*
-    Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(n.axis1 + 32767) >> 0) & 0xFF);
-    Wire.write(((uint16_t)(n.axis1 + 32767) >> 8) & 0xFF);
-    Wire.endTransmission();
-    */
 
     axis1.moveTo(n.axis1);
     axis2.moveTo(n.axis2);
@@ -131,76 +119,44 @@ void update() {
   if(queue.itemCount() == 0){
     queueFlag = false;
   }
-  /*
-  Wire.beginTransmission(8);
-  Wire.write(queue.itemCount());
-  Wire.endTransmission();
-  */
 }
 
 void serial_interrupt_thread() {
   unsigned int starttime;
   starttime = millis();
-  byte in_bytes[12];
-  while ( (Serial.available() < 13) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
+  byte in_bytes[24];
+  while ( (Serial.available() < 25) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
   
   while (Serial.available())
   {
     in_bytes[0] = Serial.read();
-    /*
-    Wire.beginTransmission(8);
-    Wire.write(in_bytes[0]);
-    Wire.endTransmission();
-    */
-    if (in_bytes[0] == 10)
-    {
-      
-      break;
-    }
+    if (in_bytes[0] == 10) { break; }
   }
-  /*
-  while(Serial.available()) { 
-    Serial.read();
-  }
-  */
   
-  //Wire.beginTransmission(8);
-  for (int n = 0; n < 12; n++)
+  for (int n = 0; n < 24; n++)
   {
     in_bytes[n] = Serial.read();
-    //Wire.write(in_bytes[n]);
   }
-  //Wire.endTransmission();
 
   pos n;
-  /*
-  n.axis1 = (((in_bytes[11] << 8) | in_bytes[10]) - 32767);
-  n.axis2 = (((in_bytes[9] << 8) | in_bytes[8]) - 32767);
-  n.axis3 = (((in_bytes[7] << 8) | in_bytes[6]) - 32767);
-  n.axis4 = (((in_bytes[5] << 8) | in_bytes[4]) - 32767);
-  n.axis5 = (((in_bytes[3] << 8) | in_bytes[2]) - 32767);
-  n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
-  */
   
   n.axis1 = (int16_t)((in_bytes[0] << 8) | in_bytes[1]);
   n.axis2 = (int16_t)((in_bytes[2] << 8) | in_bytes[3]);
   n.axis3 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
   n.axis4 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
   n.axis5 = (int16_t)((in_bytes[8] << 8) | in_bytes[9]);
-  n.axis6 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);    
+  n.axis6 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);
+  n.vel1 = (int16_t)((in_bytes[12] << 8) | in_bytes[13]);
+  n.vel2 = (int16_t)((in_bytes[14] << 8) | in_bytes[15]);
+  n.vel3 = (int16_t)((in_bytes[16] << 8) | in_bytes[17]);
+  n.vel4 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
+  n.vel5 = (int16_t)((in_bytes[20] << 8) | in_bytes[21]);
+  n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
 
   pos_lock.lock(5);
   queue.enqueue(n); //TODO: MUTEX?
   pos_lock.unlock();
 
-  /*
-  n.axis1 = ((in_bytes[0] << 8) | in_bytes[1])*4;
-  n.axis2 = ((in_bytes[2] << 8) | in_bytes[3])*4;
-  n.axis3 = ((in_bytes[4] << 8) | in_bytes[5])*4;
-  n.axis4 = ((in_bytes[6] << 8) | in_bytes[7])*4;
-  n.axis5 = ((in_bytes[8] << 8) | in_bytes[9])*4;
-  n.axis6 = ((in_bytes[10] << 8) | in_bytes[11])*4;
-  */
   serialFlag = true;
 }
 
@@ -228,7 +184,7 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available() > 10 && serialFlag) {
+  if(Serial.available() > 20 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
