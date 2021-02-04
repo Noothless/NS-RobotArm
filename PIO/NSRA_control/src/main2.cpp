@@ -46,6 +46,7 @@
 #define ACCELERATION 5000
 #define FRQ 20
 #define PULSE_WIDTH 50
+#define SPEED 5000
 
 Threads::Mutex pos_lock;
 
@@ -88,13 +89,6 @@ void update() {
     pos n = queue.dequeue();
     //pos n = queue.getHead();
     pos_lock.unlock();
-
-    axis1.setMaxSpeed(n.vel1);
-    axis2.setMaxSpeed(n.vel2);
-    axis3.setMaxSpeed(n.vel3);
-    axis4.setMaxSpeed(n.vel4);
-    axis5.setMaxSpeed(n.vel5);
-    axis6.setMaxSpeed(n.vel6);
     
     Wire.beginTransmission(8);
     Wire.write(((int16_t)(n.vel1) >> 0) & 0xFF);
@@ -165,6 +159,13 @@ void setup() {
   axis4.setAcceleration(ACCELERATION);
   axis5.setAcceleration(ACCELERATION);
   axis6.setAcceleration(ACCELERATION);
+
+  axis1.setMaxSpeed(SPEED);
+  axis2.setMaxSpeed(SPEED);
+  axis3.setMaxSpeed(SPEED);
+  axis4.setMaxSpeed(SPEED);
+  axis5.setMaxSpeed(SPEED);
+  axis6.setMaxSpeed(SPEED);
 
   axis1.setMinPulseWidth(PULSE_WIDTH);
   axis2.setMinPulseWidth(PULSE_WIDTH);
