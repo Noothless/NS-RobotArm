@@ -133,9 +133,9 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
 
-  const int BUFFER_SIZE = 12;
+  const int BUFFER_SIZE = 13;
   unsigned char data[BUFFER_SIZE];
-
+  data[0] = '\n';
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
     saved_pos[i] = joint_position_command_[i];
@@ -179,13 +179,13 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       steps = round(joint_position_command_[i]*4000/pi);
       msg_step.axis6 = steps;
     }
-    data[i*2] = ((uint16_t)(steps + 32767) >> 0) & 0xFF;
-    data[i*2+1] = ((uint16_t)(steps + 32767) >> 8) & 0xFF;
+    data[i*2+1] = ((uint16_t)(steps + 32767) >> 0) & 0xFF;
+    data[i*2+2] = ((uint16_t)(steps + 32767) >> 8) & 0xFF;
   }
   axis_step.publish(msg_step);
 
   //ROS_INFO_NAMED("nsra_hardware_interface", String(((data[0] << 8) | data[1])*4));
-  std::cout << ((data[1] << 8) | data[0]) - 32767 << std::endl;
+  std::cout << ((data[2] << 8) | data[1]) - 32767 << std::endl;
   
   try {
     ser.write(data, BUFFER_SIZE);

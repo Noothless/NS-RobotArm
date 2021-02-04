@@ -45,7 +45,7 @@
 #define QUEUE_SIZE 10
 #define ACCELERATION 5000
 #define FRQ 10
-#define PULSE_WIDTH 100
+#define PULSE_WIDTH 50
 
 Threads::Mutex pos_lock;
 
@@ -65,12 +65,12 @@ int prev_ax = 0;
 bool queueFlag = false;
 
 struct pos {
-    volatile long axis1;
-    volatile long axis2;
-    volatile long axis3;
-    volatile long axis4;
-    volatile long axis5;
-    volatile long axis6;
+    volatile int axis1;
+    volatile int axis2;
+    volatile int axis3;
+    volatile int axis4;
+    volatile int axis5;
+    volatile int axis6;
 };
 ArduinoQueue<pos> queue(50);
 
@@ -89,13 +89,15 @@ void update() {
     axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * FRQ);
     axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * FRQ);
 
+    
+    Wire.beginTransmission(8);
+    Wire.write(((uint16_t)(n.axis1 + 32767) >> 0) & 0xFF);
+    Wire.write(((uint16_t)(n.axis1 + 32767) >> 8) & 0xFF);
+    Wire.endTransmission();
     /*
     Wire.beginTransmission(8);
-    if(abs(n.axis5 - o.axis5) > 256){
-      Wire.write(200);
-    } else {
-      Wire.write(abs(n.axis5 - o.axis5));
-    }
+    Wire.write(((uint16_t)(n.axis1 + 32767) >> 0) & 0xFF);
+    Wire.write(((uint16_t)(n.axis1 + 32767) >> 8) & 0xFF);
     Wire.endTransmission();
     */
 
@@ -122,13 +124,17 @@ void serial_interrupt_thread() {
   unsigned int starttime;
   starttime = millis();
   byte in_bytes[12];
-  while ( (Serial.available() < 12) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
-  if(Serial.available() < 12) 
+  while ( (Serial.available() < 14) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
+  if(Serial.available() < 14) 
   { 
     Serial.flush();
   }
   else
   {
+    while(true) {
+      in_bytes[0] = Serial.read();
+      if(in_bytes[0] == '\n') { break; }
+    }
     for(int n=0; n<12; n++) {
       in_bytes[n] = Serial.read();
     }
@@ -139,12 +145,22 @@ void serial_interrupt_thread() {
     Wire.endTransmission();
     */
     pos n;
+    
     n.axis1 = (((in_bytes[11] << 8) | in_bytes[10]) - 32767);
     n.axis2 = (((in_bytes[9] << 8) | in_bytes[8]) - 32767);
     n.axis3 = (((in_bytes[7] << 8) | in_bytes[6]) - 32767);
     n.axis4 = (((in_bytes[5] << 8) | in_bytes[4]) - 32767);
     n.axis5 = (((in_bytes[3] << 8) | in_bytes[2]) - 32767);
     n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
+    
+    /*
+    n.axis1 = (((in_bytes[0] << 8) | in_bytes[1]) - 32767);
+    n.axis2 = (((in_bytes[2] << 8) | in_bytes[3]) - 32767);
+    n.axis3 = (((in_bytes[4] << 8) | in_bytes[5]) - 32767);
+    n.axis4 = (((in_bytes[6] << 8) | in_bytes[7]) - 32767);
+    n.axis5 = (((in_bytes[8] << 8) | in_bytes[9]) - 32767);
+    n.axis6 = (((in_bytes[10] << 8) | in_bytes[11]) - 32767);
+    */
     pos_lock.lock(5);
     queue.enqueue(n); //TODO: MUTEX?
     pos_lock.unlock();
@@ -164,7 +180,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  //Wire.begin();
+  Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
