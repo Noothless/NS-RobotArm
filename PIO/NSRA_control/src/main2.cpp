@@ -41,11 +41,11 @@
 #include <TeensyThreads.h>
 #include <Wire.h>
 
-#define MAX_SERIAL_WAIT 75
-#define QUEUE_SIZE 5
+#define MAX_SERIAL_WAIT 35
+#define QUEUE_SIZE 10
 #define ACCELERATION 5000
-#define FRQ 10
-#define PULSE_WIDTH 50
+#define FRQ 20
+#define PULSE_WIDTH 100
 
 Threads::Mutex pos_lock;
 
@@ -139,12 +139,12 @@ void serial_interrupt_thread() {
     Wire.endTransmission();
     */
     pos n;
-    n.axis1 = (((in_bytes[11] << 8) | in_bytes[10]) - 32767)*4;
-    n.axis2 = (((in_bytes[9] << 8) | in_bytes[8]) - 32767)*4;
-    n.axis3 = (((in_bytes[7] << 8) | in_bytes[6]) - 32767)*4;
-    n.axis4 = (((in_bytes[5] << 8) | in_bytes[4]) - 32767)*4;
-    n.axis5 = (((in_bytes[3] << 8) | in_bytes[2]) - 32767)*4;
-    n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767)*4;
+    n.axis1 = (((in_bytes[11] << 8) | in_bytes[10]) - 32767);
+    n.axis2 = (((in_bytes[9] << 8) | in_bytes[8]) - 32767);
+    n.axis3 = (((in_bytes[7] << 8) | in_bytes[6]) - 32767);
+    n.axis4 = (((in_bytes[5] << 8) | in_bytes[4]) - 32767);
+    n.axis5 = (((in_bytes[3] << 8) | in_bytes[2]) - 32767);
+    n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
     pos_lock.lock(5);
     queue.enqueue(n); //TODO: MUTEX?
     pos_lock.unlock();
@@ -186,7 +186,7 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available() && serialFlag) {
+  if(Serial.available() > 10 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
