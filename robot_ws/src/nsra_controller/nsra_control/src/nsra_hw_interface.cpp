@@ -132,20 +132,20 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
-
-  const int BUFFER_SIZE = 13;
+  const int BUFFER_SIZE = 25;
   unsigned char data[BUFFER_SIZE];
   data[0] = '\n';
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
-    saved_pos[i] = joint_position_command_[i];
     std_msgs::Float64 msg;
     int steps;
+    int steps_old;
     if(i == 0)
     {
       msg.data = joint_position_command_[i]*1024000/pi/8192;
       drive_pub1.publish(msg);
       steps = round(joint_position_command_[i]*12500/pi);
+      steps_old = round(saved_pos[i]*12500/pi);
       std::cout << steps << std::endl;
       msg_step.axis1 = steps;
     } else if(i == 1)
@@ -153,39 +153,48 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       msg.data = joint_position_command_[i]*(1024000*0.885)/pi/8192;
       drive_pub2.publish(msg);
       steps = round(joint_position_command_[i]*12500*0.885/pi);
+      steps_old = round(saved_pos[i]*12500*0.885/pi);
       msg_step.axis2 = steps;
     } else if(i == 2)
     {
       msg.data = joint_position_command_[i]*(-204800)/pi/8192;
       drive_pub3.publish(msg);
       steps = round(joint_position_command_[i]*(-2500)/pi);
+      steps_old = round(saved_pos[i]*(-2500)/pi);
       msg_step.axis3 = steps;
     } else if(i == 3)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub4.publish(msg);
       steps = round(joint_position_command_[i]*2500/pi);
+      steps_old = round(saved_pos[i]*2500/pi);
       msg_step.axis4 = steps;
     } else if(i == 4)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub5.publish(msg);
       steps = round(joint_position_command_[i]*2500/pi);
+      steps_old = round(saved_pos[i]*2500/pi);
       msg_step.axis5 = steps;
     } else if(i == 5)
     {
       msg.data = joint_position_command_[i]*327680/pi/8192;
       drive_pub6.publish(msg);
       steps = round(joint_position_command_[i]*4000/pi);
+      steps_old = round(saved_pos[i]*4000/pi);
       msg_step.axis6 = steps;
     }
-    data[i*2+1] = ((int16_t)(steps) >> 0) & 0xFF;
-    data[i*2+2] = ((int16_t)(steps) >> 8) & 0xFF;
+    data[i*4+1] = ((int16_t)(steps) >> 0) & 0xFF;
+    data[i*4+2] = ((int16_t)(steps) >> 8) & 0xFF;
+    data[i*4+3] = ((int16_t)(abs(steps_old - steps)) >> 0) & 0xFF;
+    data[i*4+4] = ((int16_t)(abs(steps_old - steps)) >> 8) & 0xFF;
+
+    saved_pos[i] = joint_position_command_[i];
   }
   axis_step.publish(msg_step);
-
+  
   //ROS_INFO_NAMED("nsra_hardware_interface", String(((data[0] << 8) | data[1])*4));
-  std::cout << abs((int16_t)((data[2] << 8) | data[1])) << std::endl;
+  std::cout << abs((int16_t)((data[4] << 8) | data[3])) << std::endl;
   
   try {
     ser.write(data, BUFFER_SIZE);
