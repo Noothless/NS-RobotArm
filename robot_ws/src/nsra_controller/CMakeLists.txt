@@ -58,6 +58,7 @@ catkin_package(
     generic_hw_control_loop
     generic_hw_interface
     sim_hw_interface
+    serial
 )
 
 ###########
