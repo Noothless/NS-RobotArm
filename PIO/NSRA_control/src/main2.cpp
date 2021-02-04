@@ -124,8 +124,8 @@ void serial_interrupt_thread() {
   unsigned int starttime;
   starttime = millis();
   byte in_bytes[12];
-  while ( (Serial.available() < 14) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
-  if(Serial.available() < 14) 
+  while ( (Serial.available() < 13) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
+  if(Serial.available() < 13) 
   { 
     Serial.flush();
   }
