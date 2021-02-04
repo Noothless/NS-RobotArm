@@ -74,6 +74,12 @@ struct pos {
 };
 ArduinoQueue<pos> queue(50);
 
+uint16_t absolute_value(int16_t n)
+{
+  int16_t mask = n >> 15;
+  return ((n+mask)^mask);
+}
+
 void update() {
   if(queueFlag)
   {
@@ -97,11 +103,15 @@ void update() {
     }
     */
     /*
-    Wire.beginTransmission(8);
-    Wire.write(((int16_t)(n.axis1) >> 0) & 0xFF);
-    Wire.write(((int16_t)(n.axis1) >> 8) & 0xFF);
-    Wire.endTransmission();
+    if(n.axis1 < 0) {
+      n.axis1 = -n.axis1;
+    }
     */
+    Wire.beginTransmission(8);
+    Wire.write(((int16_t)(-n.axis1) >> 0) & 0xFF);
+    Wire.write(((int16_t)(-n.axis1) >> 8) & 0xFF);
+    Wire.endTransmission();
+    
     /*
     Wire.beginTransmission(8);
     Wire.write(((uint16_t)(n.axis1 + 32767) >> 0) & 0xFF);
@@ -196,7 +206,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  //Wire.begin();
+  Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
