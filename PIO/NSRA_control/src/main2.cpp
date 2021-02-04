@@ -65,12 +65,12 @@ int prev_ax = 0;
 bool queueFlag = false;
 
 struct pos {
-    volatile int axis1;
-    volatile int axis2;
-    volatile int axis3;
-    volatile int axis4;
-    volatile int axis5;
-    volatile int axis6;
+    volatile int16_t axis1;
+    volatile int16_t axis2;
+    volatile int16_t axis3;
+    volatile int16_t axis4;
+    volatile int16_t axis5;
+    volatile int16_t axis6;
 };
 ArduinoQueue<pos> queue(50);
 
@@ -88,12 +88,19 @@ void update() {
     axis4.setMaxSpeed(abs(n.axis4 - o.axis4) * FRQ);
     axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * FRQ);
     axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * FRQ);
-
-    
+    /*
+    if(n.axis1 >= -10000 && n.axis1 <= 10000){
+      Wire.beginTransmission(8);
+      Wire.write(((uint16_t)(n.axis1 + 16383) >> 0) & 0xFF);
+      Wire.write(((uint16_t)(n.axis1 + 16383) >> 8) & 0xFF);
+      Wire.endTransmission();
+    }
+    */
     Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(16383) >> 0) & 0xFF);
-    Wire.write(((uint16_t)(16383) >> 8) & 0xFF);
+    Wire.write(((int16_t)(n.axis1) >> 0) & 0xFF);
+    Wire.write(((int16_t)(n.axis1) >> 8) & 0xFF);
     Wire.endTransmission();
+    
     /*
     Wire.beginTransmission(8);
     Wire.write(((uint16_t)(n.axis1 + 32767) >> 0) & 0xFF);
@@ -164,12 +171,12 @@ void serial_interrupt_thread() {
   n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
   */
   
-  n.axis1 = (((in_bytes[0] << 8) | in_bytes[1]) - 16383);
-  n.axis2 = (((in_bytes[2] << 8) | in_bytes[3]) - 16383);
-  n.axis3 = (((in_bytes[4] << 8) | in_bytes[5]) - 16383);
-  n.axis4 = (((in_bytes[6] << 8) | in_bytes[7]) - 16383);
-  n.axis5 = (((in_bytes[8] << 8) | in_bytes[9]) - 16383);
-  n.axis6 = (((in_bytes[10] << 8) | in_bytes[11]) - 16383);    
+  n.axis1 = (((in_bytes[0] << 8) | in_bytes[1]));
+  n.axis2 = (((in_bytes[2] << 8) | in_bytes[3]));
+  n.axis3 = (((in_bytes[4] << 8) | in_bytes[5]));
+  n.axis4 = (((in_bytes[6] << 8) | in_bytes[7]));
+  n.axis5 = (((in_bytes[8] << 8) | in_bytes[9]));
+  n.axis6 = (((in_bytes[10] << 8) | in_bytes[11]));    
 
   pos_lock.lock(5);
   queue.enqueue(n); //TODO: MUTEX?
