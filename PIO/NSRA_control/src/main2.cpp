@@ -81,32 +81,26 @@ struct pos {
 };
 ArduinoQueue<pos> queue(50);
 
-uint16_t absolute_value(int16_t n)
-{
-  int16_t mask = n >> 15;
-  return ((n+mask)^mask);
-}
-
 void update() {
   if(queueFlag)
   {
     pos_lock.lock(5);
-    pos o = queue.dequeue();
-    pos n = queue.getHead();
+    pos n = queue.dequeue();
+    //pos n = queue.getHead();
     pos_lock.unlock();
 
-    axis1.setMaxSpeed(abs(n.axis1 - o.axis1) * FRQ);
-    axis2.setMaxSpeed(abs(n.axis2 - o.axis2) * FRQ);
-    axis3.setMaxSpeed(abs(n.axis3 - o.axis3) * FRQ);
-    axis4.setMaxSpeed(abs(n.axis4 - o.axis4) * FRQ);
-    axis5.setMaxSpeed(abs(n.axis5 - o.axis5) * FRQ);
-    axis6.setMaxSpeed(abs(n.axis6 - o.axis6) * FRQ);
-
+    axis1.setMaxSpeed(n.vel1);
+    axis2.setMaxSpeed(n.vel2);
+    axis3.setMaxSpeed(n.vel3);
+    axis4.setMaxSpeed(n.vel4);
+    axis5.setMaxSpeed(n.vel5);
+    axis6.setMaxSpeed(n.vel6);
+    
     Wire.beginTransmission(8);
     Wire.write(((int16_t)(n.vel1) >> 0) & 0xFF);
     Wire.write(((int16_t)(n.vel1) >> 8) & 0xFF);
     Wire.endTransmission();
-
+    
     axis1.moveTo(n.axis1);
     axis2.moveTo(n.axis2);
     axis3.moveTo(n.axis3);
@@ -141,16 +135,16 @@ void serial_interrupt_thread() {
   pos n;
   
   n.axis1 = (int16_t)((in_bytes[0] << 8) | in_bytes[1]);
-  n.axis2 = (int16_t)((in_bytes[2] << 8) | in_bytes[3]);
-  n.axis3 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
-  n.axis4 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
-  n.axis5 = (int16_t)((in_bytes[8] << 8) | in_bytes[9]);
-  n.axis6 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);
-  n.vel1 = (int16_t)((in_bytes[12] << 8) | in_bytes[13]);
-  n.vel2 = (int16_t)((in_bytes[14] << 8) | in_bytes[15]);
-  n.vel3 = (int16_t)((in_bytes[16] << 8) | in_bytes[17]);
-  n.vel4 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
-  n.vel5 = (int16_t)((in_bytes[20] << 8) | in_bytes[21]);
+  n.vel1 = (int16_t)((in_bytes[2] << 8) | in_bytes[3]);
+  n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
+  n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
+  n.axis3 = (int16_t)((in_bytes[8] << 8) | in_bytes[9]);
+  n.vel3 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);
+  n.axis4 = (int16_t)((in_bytes[12] << 8) | in_bytes[13]);
+  n.vel4 = (int16_t)((in_bytes[14] << 8) | in_bytes[15]);
+  n.axis5 = (int16_t)((in_bytes[16] << 8) | in_bytes[17]);
+  n.vel5 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
+  n.axis6 = (int16_t)((in_bytes[20] << 8) | in_bytes[21]);
   n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
 
   pos_lock.lock(5);
@@ -184,7 +178,7 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available() > 20 && serialFlag) {
+  if(Serial.available() > 24 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
