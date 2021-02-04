@@ -44,7 +44,7 @@
 #define MAX_SERIAL_WAIT 35
 #define QUEUE_SIZE 10
 #define ACCELERATION 5000
-#define FRQ 10
+#define FRQ 20
 #define PULSE_WIDTH 50
 
 Threads::Mutex pos_lock;
@@ -96,11 +96,12 @@ void update() {
       Wire.endTransmission();
     }
     */
+    /*
     Wire.beginTransmission(8);
     Wire.write(((int16_t)(n.axis1) >> 0) & 0xFF);
     Wire.write(((int16_t)(n.axis1) >> 8) & 0xFF);
     Wire.endTransmission();
-    
+    */
     /*
     Wire.beginTransmission(8);
     Wire.write(((uint16_t)(n.axis1 + 32767) >> 0) & 0xFF);
@@ -171,12 +172,12 @@ void serial_interrupt_thread() {
   n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
   */
   
-  n.axis1 = (((in_bytes[0] << 8) | in_bytes[1]));
-  n.axis2 = (((in_bytes[2] << 8) | in_bytes[3]));
-  n.axis3 = (((in_bytes[4] << 8) | in_bytes[5]));
-  n.axis4 = (((in_bytes[6] << 8) | in_bytes[7]));
-  n.axis5 = (((in_bytes[8] << 8) | in_bytes[9]));
-  n.axis6 = (((in_bytes[10] << 8) | in_bytes[11]));    
+  n.axis1 = (int16_t)((in_bytes[0] << 8) | in_bytes[1]);
+  n.axis2 = (int16_t)((in_bytes[2] << 8) | in_bytes[3]);
+  n.axis3 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
+  n.axis4 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
+  n.axis5 = (int16_t)((in_bytes[8] << 8) | in_bytes[9]);
+  n.axis6 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);    
 
   pos_lock.lock(5);
   queue.enqueue(n); //TODO: MUTEX?
@@ -195,7 +196,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
+  //Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
