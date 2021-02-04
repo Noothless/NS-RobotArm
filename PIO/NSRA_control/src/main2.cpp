@@ -125,35 +125,39 @@ void serial_interrupt_thread() {
   starttime = millis();
   byte in_bytes[12];
   while ( (Serial.available() < 13) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
-  if(Serial.available() < 13) 
-  { 
-    Serial.flush();
-  }
-  else
+
+  Wire.beginTransmission(8);
+  Wire.write(Serial.available());
+  Wire.endTransmission();
+
+  
+  while (true)
   {
-    while(true) {
-      in_bytes[0] = Serial.read();
-      if(in_bytes[0] == '\n') { break; }
+    in_bytes[0] = Serial.read();
+    if (in_bytes[0] == '\n')
+    {
+      Wire.write(in_bytes[0]);
+      break;
     }
-    for(int n=0; n<12; n++) {
-      in_bytes[n] = Serial.read();
-    }
-    /*
-    Wire.beginTransmission(8);
-    Wire.write(in_bytes[0]);
-    Wire.write(in_bytes[1]);  
-    Wire.endTransmission();
-    */
-    pos n;
-    
-    n.axis1 = (((in_bytes[11] << 8) | in_bytes[10]) - 32767);
-    n.axis2 = (((in_bytes[9] << 8) | in_bytes[8]) - 32767);
-    n.axis3 = (((in_bytes[7] << 8) | in_bytes[6]) - 32767);
-    n.axis4 = (((in_bytes[5] << 8) | in_bytes[4]) - 32767);
-    n.axis5 = (((in_bytes[3] << 8) | in_bytes[2]) - 32767);
-    n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
-    
-    /*
+  }
+  //Wire.endTransmission();
+  for (int n = 0; n < 12; n++)
+  {
+    in_bytes[n] = Serial.read();
+    Wire.write(in_bytes[n]);
+  }
+  
+
+  pos n;
+
+  n.axis1 = (((in_bytes[11] << 8) | in_bytes[10]) - 32767);
+  n.axis2 = (((in_bytes[9] << 8) | in_bytes[8]) - 32767);
+  n.axis3 = (((in_bytes[7] << 8) | in_bytes[6]) - 32767);
+  n.axis4 = (((in_bytes[5] << 8) | in_bytes[4]) - 32767);
+  n.axis5 = (((in_bytes[3] << 8) | in_bytes[2]) - 32767);
+  n.axis6 = (((in_bytes[1] << 8) | in_bytes[0]) - 32767);
+
+  /*
     n.axis1 = (((in_bytes[0] << 8) | in_bytes[1]) - 32767);
     n.axis2 = (((in_bytes[2] << 8) | in_bytes[3]) - 32767);
     n.axis3 = (((in_bytes[4] << 8) | in_bytes[5]) - 32767);
@@ -161,12 +165,15 @@ void serial_interrupt_thread() {
     n.axis5 = (((in_bytes[8] << 8) | in_bytes[9]) - 32767);
     n.axis6 = (((in_bytes[10] << 8) | in_bytes[11]) - 32767);
     */
-    pos_lock.lock(5);
-    queue.enqueue(n); //TODO: MUTEX?
-    pos_lock.unlock();
-  } 
   
   
+
+  pos_lock.lock(5);
+  queue.enqueue(n); //TODO: MUTEX?
+  pos_lock.unlock();
+
+  
+
   /*
   n.axis1 = ((in_bytes[0] << 8) | in_bytes[1])*4;
   n.axis2 = ((in_bytes[2] << 8) | in_bytes[3])*4;
