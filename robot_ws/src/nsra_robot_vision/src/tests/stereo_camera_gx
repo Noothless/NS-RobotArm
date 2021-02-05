@@ -278,13 +278,13 @@ kernal = np.ones((10,10), np.uint8)
 def detect(img):
 
     pnts_img = np.array([[0.0,0.0],
-                         [0.0,0.0],
+                         [0.0,0.0]])
 
     for i in range(2):
         if ret == True:
             #TODO: implement point tracking method!
-            origin_img[i,0] = ##
-            origin_img[i,1] = ##
+            origin_img[i,0] = 0##
+            origin_img[i,1] = 0##
     
     p_4d_obj = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
 
