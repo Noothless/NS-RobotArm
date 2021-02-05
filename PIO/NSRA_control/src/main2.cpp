@@ -86,17 +86,19 @@ ArduinoQueue<pos> queue(50);
 void update() {
   if(queueFlag)
   {
-    pos_lock.lock(5);
+    
+    pos_lock.lock(1);
     pos n = queue.dequeue();
     //pos n = queue.getHead();
     pos_lock.unlock();
     
+    /*
     Wire.beginTransmission(8);
-    Wire.write(((int16_t)(n.vel1) >> 0) & 0xFF);
-    Wire.write(((int16_t)(n.vel1) >> 8) & 0xFF);
+    Wire.write(((int16_t)(n.axis1) >> 0) & 0xFF);
+    Wire.write(((int16_t)(n.axis1) >> 8) & 0xFF);
     Wire.endTransmission();
-
-    //axis1.setMaxSpeed(n.vel1);
+    */
+    axis1.setMaxSpeed((int)n.vel1);
     /*
     axis2.setMaxSpeed(n.vel2);
     axis3.setMaxSpeed(n.vel3);
@@ -104,8 +106,8 @@ void update() {
     axis5.setMaxSpeed(n.vel5);
     axis6.setMaxSpeed(n.vel6);
     */
-    prev_ax += 20;
-    axis1.moveTo(prev_ax);
+    //prev_ax += 50;
+    axis1.moveTo((int)n.axis1);
     /*
     axis2.moveTo(n.axis2);
     axis3.moveTo(n.axis3);
@@ -116,16 +118,18 @@ void update() {
   } else if(queue.itemCount() >= QUEUE_SIZE && !queueFlag){
     queueFlag = true;
   }
+  
   if(queue.itemCount() == 0){
     queueFlag = false;
   }
+  
 }
 
 void serial_interrupt_thread() {
-  unsigned int starttime;
-  starttime = millis();
+  //unsigned int starttime;
+  //starttime = millis();
   byte in_bytes[24];
-  while ( (Serial.available() < 25) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
+  //while ( (Serial.available() < 25) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
   
   while (Serial.available())
   {
@@ -154,7 +158,7 @@ void serial_interrupt_thread() {
   n.axis6 = (int16_t)((in_bytes[20] << 8) | in_bytes[21]);
   n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
   */
-  pos_lock.lock(5);
+  pos_lock.lock(1);
   queue.enqueue(n); //TODO: MUTEX?
   pos_lock.unlock();
 
@@ -163,7 +167,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
+  //Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
@@ -175,7 +179,7 @@ void setup() {
   axis6.setAcceleration(ACCELERATION);
   */
   axis1.setMinPulseWidth(PULSE_WIDTH);
-  axis1.setMaxSpeed(200);
+  axis1.setMaxSpeed(500);
   /*
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
@@ -188,11 +192,13 @@ void setup() {
 }
 
 void loop() {
+  
   if(Serial.available() > 24 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
   }
+
   axis1.run();
   /*
   axis2.run();

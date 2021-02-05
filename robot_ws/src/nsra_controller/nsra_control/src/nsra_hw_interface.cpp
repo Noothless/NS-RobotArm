@@ -146,47 +146,47 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       drive_pub1.publish(msg);
       steps = round(joint_position_command_[i]*12500/pi/10);
       steps_old = round(saved_pos[i]*12500/pi/10);
-      msg_step.axis1 = abs(steps_old - steps)*20;
+      msg_step.axis1 = abs(steps_old - steps)*10;
     } else if(i == 1)
     {
       msg.data = joint_position_command_[i]*(1024000*0.885)/pi/8192;
       drive_pub2.publish(msg);
       steps = round(joint_position_command_[i]*12500*0.885/pi/10);
       steps_old = round(saved_pos[i]*12500*0.885/pi/10);
-      msg_step.axis2 = abs(steps_old - steps)*20;
+      msg_step.axis2 = abs(steps_old - steps)*10;
     } else if(i == 2)
     {
       msg.data = joint_position_command_[i]*(-204800)/pi/8192;
       drive_pub3.publish(msg);
       steps = round(joint_position_command_[i]*(-2500)/pi/10);
       steps_old = round(saved_pos[i]*(-2500)/pi/10);
-      msg_step.axis3 = abs(steps_old - steps)*20;
+      msg_step.axis3 = abs(steps_old - steps)*10;
     } else if(i == 3)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub4.publish(msg);
       steps = round(joint_position_command_[i]*2500/pi/10);
       steps_old = round(saved_pos[i]*2500/pi/10);
-      msg_step.axis4 = abs(steps_old - steps)*20;
+      msg_step.axis4 = abs(steps_old - steps)*10;
     } else if(i == 4)
     {
       msg.data = joint_position_command_[i]*204800/pi/8192;
       drive_pub5.publish(msg);
       steps = round(joint_position_command_[i]*2500/pi/10);
       steps_old = round(saved_pos[i]*2500/pi/10);
-      msg_step.axis5 = abs(steps_old - steps)*20;
+      msg_step.axis5 = abs(steps_old - steps)*10;
     } else if(i == 5)
     {
       msg.data = joint_position_command_[i]*327680/pi/8192;
       drive_pub6.publish(msg);
       steps = round(joint_position_command_[i]*4000/pi/10);
       steps_old = round(saved_pos[i]*4000/pi/10);
-      msg_step.axis6 = abs(steps_old - steps)*20;
+      msg_step.axis6 = abs(steps_old - steps)*10;
     }
     data[i*4+1] = ((int16_t)(steps) >> 0) & 0xFF;
     data[i*4+2] = ((int16_t)(steps) >> 8) & 0xFF;
-    data[i*4+3] = ((int16_t)(abs(steps_old - steps)*20) >> 0) & 0xFF;
-    data[i*4+4] = ((int16_t)(abs(steps_old - steps)*20) >> 8) & 0xFF;
+    data[i*4+3] = ((int16_t)(abs(steps_old - steps)*10) >> 0) & 0xFF;
+    data[i*4+4] = ((int16_t)(abs(steps_old - steps)*10) >> 8) & 0xFF;
 
     saved_pos[i] = joint_position_command_[i];
   }
