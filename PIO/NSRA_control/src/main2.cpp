@@ -40,9 +40,6 @@
 #include <ros.h>
 #include <TeensyThreads.h>
 #include <Wire.h>
-#include <Stepper.h>
-
-Stepper myStepper(200, 0, 1);
 
 #define MAX_SERIAL_WAIT 35
 #define QUEUE_SIZE 10
@@ -99,7 +96,7 @@ void update() {
     Wire.write(((int16_t)(n.vel1) >> 8) & 0xFF);
     Wire.endTransmission();
 
-    axis1.setMaxSpeed(n.vel1);
+    //axis1.setMaxSpeed(n.vel1);
     /*
     axis2.setMaxSpeed(n.vel2);
     axis3.setMaxSpeed(n.vel3);
@@ -107,7 +104,8 @@ void update() {
     axis5.setMaxSpeed(n.vel5);
     axis6.setMaxSpeed(n.vel6);
     */
-    axis1.moveTo(n.axis1);
+    prev_ax += 20;
+    axis1.moveTo(prev_ax);
     /*
     axis2.moveTo(n.axis2);
     axis3.moveTo(n.axis3);
@@ -177,6 +175,7 @@ void setup() {
   axis6.setAcceleration(ACCELERATION);
   */
   axis1.setMinPulseWidth(PULSE_WIDTH);
+  axis1.setMaxSpeed(200);
   /*
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
