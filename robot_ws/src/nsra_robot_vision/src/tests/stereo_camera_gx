@@ -65,6 +65,14 @@ DL = None
 RR = None
 RL = None
 
+#color filter parameter
+rl = 90
+gl = 40
+bl = 100
+rh = 115
+gh = 255
+bh = 255
+
 try:
     fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
     PR = fs.getNode("PR").mat()
