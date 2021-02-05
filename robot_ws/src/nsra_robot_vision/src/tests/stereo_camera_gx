@@ -73,6 +73,8 @@ rh = 115
 gh = 255
 bh = 255
 
+send_img = None
+
 try:
     fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
     PR = fs.getNode("PR").mat()
@@ -370,6 +372,14 @@ def callibrate(img):
     print(mtrx)
     print("---------------")
 
+def send_img():
+    while(True):
+        process.stdin.write(send_img.tobytes())
+        sleep(0.04)
+
+t1 = Thread(target=send_img,args=())
+t1.start()
+
 while(True):
     #Get next image from cameras
     img_left = cam_left.get_frame()
@@ -428,7 +438,7 @@ while(True):
     #cv2.imshow('left', out)
     #cv2.imshow('left', frame_l)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
-    process.stdin.write(out.tobytes())
+    send_img = out
 
 
     #sleep(0.05)
@@ -444,3 +454,4 @@ while(True):
     #    detect([img_right, img_left])
 
 cv2.destroyAllWindows()
+quit()
