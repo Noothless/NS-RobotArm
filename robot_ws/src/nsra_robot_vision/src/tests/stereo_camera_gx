@@ -296,15 +296,12 @@ def detect(img):
 
     obj_trns_vec = np.array([np.linalg.norm(np.dot(mtrx[:,0], mtrx_ret[0])), np.linalg.norm(np.dot(mtrx[:,1], mtrx_ret[1])), np.linalg.norm(np.dot(mtrx[:,2], mtrx_ret[2]))])
 
-    if(mtrx_ret[0] < 0){
+    if mtrx_ret[0] < 0:
         obj_trns_vec[0] = - obj_trns_vec[0]
-    }
-    if(mtrx_ret[1] < 0){
+    if mtrx_ret[1] < 0:
         obj_trns_vec[1] = - obj_trns_vec[1]
-    }
-    if(mtrx_ret[2] < 0){
+    if mtrx_ret[2] < 0:
         obj_trns_vec[2] = - obj_trns_vec[2]
-    }
 
     obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
 
