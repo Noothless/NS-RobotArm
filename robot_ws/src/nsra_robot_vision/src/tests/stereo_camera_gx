@@ -407,12 +407,12 @@ while(True):
     blur_frame_points_right = cv2.drawKeypoints(blur_frame_right, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #Draw world origin
-    frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
-    frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    #frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    #frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
-    frame_l = cv2.resize(frame_l, (1080, 720))
-    frame_r = cv2.resize(frame_r, (1080, 720))
+    frame_l = cv2.resize(imgKeyPoints_left, (1080, 720))
+    frame_r = cv2.resize(imgKeyPoints_right, (1080, 720))
 
     #Draw horizontal lines
     #for line in range(0, int(frame_r.shape[0]/20)):
