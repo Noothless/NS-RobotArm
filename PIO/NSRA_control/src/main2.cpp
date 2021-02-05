@@ -40,25 +40,29 @@
 #include <ros.h>
 #include <TeensyThreads.h>
 #include <Wire.h>
+#include <Stepper.h>
+
+Stepper myStepper(200, 0, 1);
 
 #define MAX_SERIAL_WAIT 35
 #define QUEUE_SIZE 10
 #define ACCELERATION 5000
-#define FRQ 20
+#define FRQ 10
 #define PULSE_WIDTH 50
-#define SPEED 5000
+#define SPEED 10000
 
 Threads::Mutex pos_lock;
 
 volatile bool serialFlag = true;
 
 AccelStepper axis1(1, 0, 1);
+/*
 AccelStepper axis2(1, 2, 3);
 AccelStepper axis3(1, 4, 5);
 AccelStepper axis4(1, 6, 7);
 AccelStepper axis5(1, 8, 9);
 AccelStepper axis6(1,10,11);
-
+*/
 IntervalTimer ctrl_loop_timer;
 
 int prev_ax = 0;
@@ -94,13 +98,23 @@ void update() {
     Wire.write(((int16_t)(n.vel1) >> 0) & 0xFF);
     Wire.write(((int16_t)(n.vel1) >> 8) & 0xFF);
     Wire.endTransmission();
-    
+
+    axis1.setMaxSpeed(n.vel1);
+    /*
+    axis2.setMaxSpeed(n.vel2);
+    axis3.setMaxSpeed(n.vel3);
+    axis4.setMaxSpeed(n.vel4);
+    axis5.setMaxSpeed(n.vel5);
+    axis6.setMaxSpeed(n.vel6);
+    */
     axis1.moveTo(n.axis1);
+    /*
     axis2.moveTo(n.axis2);
     axis3.moveTo(n.axis3);
     axis4.moveTo(n.axis4);
     axis5.moveTo(n.axis5);
     axis6.moveTo(n.axis6);
+    */
   } else if(queue.itemCount() >= QUEUE_SIZE && !queueFlag){
     queueFlag = true;
   }
@@ -130,6 +144,7 @@ void serial_interrupt_thread() {
   
   n.axis1 = (int16_t)((in_bytes[0] << 8) | in_bytes[1]);
   n.vel1 = (int16_t)((in_bytes[2] << 8) | in_bytes[3]);
+  /*
   n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
   n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
   n.axis3 = (int16_t)((in_bytes[8] << 8) | in_bytes[9]);
@@ -140,7 +155,7 @@ void serial_interrupt_thread() {
   n.vel5 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
   n.axis6 = (int16_t)((in_bytes[20] << 8) | in_bytes[21]);
   n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
-
+  */
   pos_lock.lock(5);
   queue.enqueue(n); //TODO: MUTEX?
   pos_lock.unlock();
@@ -154,26 +169,21 @@ void setup() {
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
+  /*
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
   axis4.setAcceleration(ACCELERATION);
   axis5.setAcceleration(ACCELERATION);
   axis6.setAcceleration(ACCELERATION);
-
-  axis1.setMaxSpeed(SPEED);
-  axis2.setMaxSpeed(SPEED);
-  axis3.setMaxSpeed(SPEED);
-  axis4.setMaxSpeed(SPEED);
-  axis5.setMaxSpeed(SPEED);
-  axis6.setMaxSpeed(SPEED);
-
+  */
   axis1.setMinPulseWidth(PULSE_WIDTH);
+  /*
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
   axis4.setMinPulseWidth(PULSE_WIDTH);
   axis5.setMinPulseWidth(PULSE_WIDTH);
   axis6.setMinPulseWidth(PULSE_WIDTH);
-
+  */
   ctrl_loop_timer.begin(update, 1000000/FRQ);
 
 }
@@ -185,9 +195,11 @@ void loop() {
     serial_interrupt_thread();
   }
   axis1.run();
+  /*
   axis2.run();
   axis3.run();
   axis4.run();
   axis5.run();
   axis6.run();
+  */
 }
