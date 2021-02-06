@@ -314,7 +314,7 @@ def detect(img):
     
     mtrx_ret = np.linalg.solve(mtrx, obj_vec)
 
-    print(mtrx_ret)
+    print(mtrx_ret[0])
 
     obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
 
