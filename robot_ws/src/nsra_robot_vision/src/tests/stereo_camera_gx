@@ -73,7 +73,7 @@ rh = 115
 gh = 255
 bh = 255
 
-send_img = None
+img_send = None
 
 try:
     fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
@@ -358,7 +358,7 @@ frame_r = cv2.resize(img_right, (1080, 720))
 
 output_img = np.concatenate((frame_l, frame_r), axis=1)
 
-send_img = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
+img_send = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
 def send_img():
     rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
@@ -383,7 +383,7 @@ def send_img():
 
     process = sp.Popen(command, stdin=sp.PIPE)  
     while(True):
-        process.stdin.write(send_img.tobytes())
+        process.stdin.write(img_send.tobytes())
         sleep(0.04)
 
 t1 = Thread(target=send_img,args=())
@@ -447,7 +447,7 @@ while(True):
     #cv2.imshow('left', out)
     #cv2.imshow('left', frame_l)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
-    send_img = out
+    img_send = out
 
 
     #sleep(0.05)
