@@ -299,14 +299,14 @@ def detect(img):
 
         keypoints = detector.detect(red_mask)
 
-        origin_img[i,0] = keypoints[0].pt[0]
-        origin_img[i,1] = keypoints[0].pt[1]
+        pnts_img[i,0] = keypoints[0].pt[0]
+        pnts_img[i,1] = keypoints[0].pt[1]
     
-    p_4d_obj = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
+    p_4d_obj = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
 
-    obj_vec = np.array([p_4d[0] / p_4d[3],
-                        p_4d[1] / p_4d[3],
-                        p_4d[2] / p_4d[3]])
+    obj_vec = np.array([p_4d_obj[0] / p_4d_obj[3],
+                        p_4d_obj[1] / p_4d_obj[3],
+                        p_4d_obj[2] / p_4d_obj[3]])
     
     mtrx_ret = np.linalg.solve(mtrx, obj_vec)
 
