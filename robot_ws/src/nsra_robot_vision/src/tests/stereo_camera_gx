@@ -482,22 +482,22 @@ while(send_flag):
     img_right = cv2.resize(img_right, (1080, 720))
 
     #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
-    blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
-    blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
+    #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
+    #blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
 
-    hsv_frame_left = cv2.cvtColor(blur_frame_left, cv2.COLOR_RGB2HSV)
-    hsv_frame_right = cv2.cvtColor(blur_frame_right, cv2.COLOR_RGB2HSV)
+    hsv_frame_left = cv2.cvtColor(img_left, cv2.COLOR_RGB2HSV)
+    hsv_frame_right = cv2.cvtColor(img_right, cv2.COLOR_RGB2HSV)
 
     low_red = np.array([rl,gl,bl])
     high_red = np.array([rh, gh, bh])
     red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
     red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
 
-    red_mask_left = cv2.bitwise_not(red_mask_left)
-    red_mask_right = cv2.bitwise_not(red_mask_right)
+    #red_mask_left = cv2.bitwise_not(red_mask_left)
+    #red_mask_right = cv2.bitwise_not(red_mask_right)
 
-    red_mask_left = cv2.dilate(red_mask_left, kernal)
-    red_mask_right = cv2.dilate(red_mask_right, kernal)
+    #red_mask_left = cv2.dilate(red_mask_left, kernal)
+    #red_mask_right = cv2.dilate(red_mask_right, kernal)
 
     #keypoints_left = detector.detect(red_mask_left)
     #keypoints_right = detector.detect(red_mask_right)
