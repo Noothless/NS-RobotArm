@@ -310,7 +310,7 @@ def detect(img):
                         p_4d_obj[1] / p_4d_obj[3],
                         p_4d_obj[2] / p_4d_obj[3]])
 
-    #print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
+    print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
     
     mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
 
@@ -327,6 +327,7 @@ def detect(img):
 
     print("Object vector to robot: ")
     print(obj_rob_vec)
+    print(np.linalg.norm(obj_rob_vec))
     #TODO: implement moveit control
 
 pnts_img = np.array([[0.0,0.0],
