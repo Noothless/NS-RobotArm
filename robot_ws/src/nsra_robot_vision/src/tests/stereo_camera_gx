@@ -382,6 +382,8 @@ output_img = np.concatenate((frame_l, frame_r), axis=1)
 img_send = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
 def send_img():
+    global img_send
+    
     rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
     
     sizeStr = str(2160) + \
@@ -444,6 +446,7 @@ rospy.init_node('nsra_stereo_camera')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
 
 while(True):
+    global img_send
     #Get next image from cameras
     img_left = cam_left.get_frame()
     img_right = cam_right.get_frame()
