@@ -89,6 +89,7 @@ try:
     rh = config_object.getint("PARAMS", "rh")
     gh = config_object.getint("PARAMS", "gh")
     bh = config_object.getint("PARAMS", "bh")
+    print("Parameters loaded!")
 except:
     print("No valid config file found!")
 
