@@ -381,16 +381,23 @@ output_img = np.concatenate((frame_l, frame_r), axis=1)
 
 img_send = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
-def send_img():
-    global img_send
-    
-    rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
-    
-    sizeStr = str(2160) + \
-        'x' + str(720)
+c = threading.Condition()
 
-    print("------------------- STR: " + sizeStr)
-    command = ['ffmpeg',
+class Img_Thread(threading.Thread):
+    def __init__(self, name):
+        threading.Thread.__init__(self)
+        self.name = name
+
+    def run(self):
+        global img_send
+
+        rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
+    
+        sizeStr = str(2160) + \
+            'x' + str(720)
+
+        print("------------------- STR: " + sizeStr)
+        command = ['ffmpeg',
            '-y',
            '-f', 'rawvideo',
            '-vcodec', 'rawvideo',
@@ -404,12 +411,14 @@ def send_img():
            '-f', 'flv',
            rtmp_url]
 
-    process = sp.Popen(command, stdin=sp.PIPE)  
-    while(True):
-        process.stdin.write(img_send.tobytes())
-        key = cv2.waitKey(30)
+        process = sp.Popen(command, stdin=sp.PIPE)  
+        while(True):
+            c.acquire()
+            process.stdin.write(img_send.tobytes())
+            c.release()
+            key = cv2.waitKey(30)
 
-t1 = Thread(target=send_img,args=())
+t1 = Img_Thread("img_send")
 t1.start()
 
 def paramsChangeCallback(data):
@@ -446,7 +455,6 @@ rospy.init_node('nsra_stereo_camera')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
 
 while(True):
-    global img_send
     #Get next image from cameras
     img_left = cam_left.get_frame()
     img_right = cam_right.get_frame()
@@ -504,7 +512,9 @@ while(True):
     #cv2.imshow('left', out)
     #cv2.imshow('left', frame_l)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
+    c.acquire()
     img_send = out
+    c.release()
 
 
     #sleep(0.05)
