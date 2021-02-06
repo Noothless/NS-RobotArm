@@ -458,7 +458,7 @@ rospy.Subscriber("bd_params", String, paramsChangeCallback)
 
 test_nb = 0
 
-while(True):
+while(send_flag):
     test_nb += 1
     #Get next image from cameras
     img_left = cam_left.get_frame()
@@ -527,6 +527,9 @@ while(True):
     #sleep(0.05)
     #Wait for user input
     key = cv2.waitKey(50)
+    inp = input()
+    if inp == "end":
+        send_flag = False
     #if key == 27:
     #    print("User Quit")
     #    break
@@ -537,5 +540,4 @@ while(True):
     #    detect([img_right, img_left])
 
 cv2.destroyAllWindows()
-send_flag = False
 quit()
