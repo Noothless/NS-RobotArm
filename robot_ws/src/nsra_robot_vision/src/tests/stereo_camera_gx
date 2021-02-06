@@ -323,7 +323,7 @@ def detect(img):
     #if mtrx_ret[2] < 0:
     #    obj_trns_vec[2] = - obj_trns_vec[2]
 
-    obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
+    obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)/1000
 
     print("Object vector to robot: ")
     print(obj_rob_vec)
