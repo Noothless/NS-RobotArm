@@ -487,10 +487,10 @@ while(send_flag):
     hsv_frame_left = cv2.cvtColor(blur_frame_left, cv2.COLOR_RGB2HSV)
     hsv_frame_right = cv2.cvtColor(blur_frame_right, cv2.COLOR_RGB2HSV)
 
-    #low_red = np.array([rl,gl,bl])
-    #high_red = np.array([rh, gh, bh])
-    #red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
-    #red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
+    low_red = np.array([rl,gl,bl])
+    high_red = np.array([rh, gh, bh])
+    red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
+    red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
 
     #red_mask_left = cv2.bitwise_not(red_mask_left)
     #red_mask_right = cv2.bitwise_not(red_mask_right)
@@ -512,8 +512,8 @@ while(send_flag):
     #frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
-    frame_l = cv2.resize(hsv_frame_left, (1080, 720))
-    frame_r = cv2.resize(hsv_frame_right, (1080, 720))
+    frame_l = cv2.resize(red_mask_left, (1080, 720))
+    frame_r = cv2.resize(red_mask_right, (1080, 720))
 
     #Draw horizontal lines
     #for line in range(0, int(frame_r.shape[0]/20)):
