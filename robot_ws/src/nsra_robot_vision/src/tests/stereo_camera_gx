@@ -415,7 +415,7 @@ class Img_Thread(threading.Thread):
         rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
     
         sizeStr = str(2160) + \
-            'x' + str(720)
+            'x' + str(1440)
 
         print("------------------- STR: " + sizeStr)
         command = ['ffmpeg',
@@ -530,16 +530,16 @@ while(send_flag):
     keypoints_left = detector.detect(red_mask_left)
     keypoints_right = detector.detect(red_mask_right)
 
-    #imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    #imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     blur_frame_points_left = cv2.drawKeypoints(img_left_sized, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     blur_frame_points_right = cv2.drawKeypoints(img_right_sized, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #Draw world origin
-    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,0]*1080/3088)), int(round(pnts_img[0,1]*720/2064))), radius=5, color=(0, 0, 255), thickness=-1)
-    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[2,0]*1080/3088)), int(round(pnts_img[2,1]*720/2064))), radius=5, color=(0, 0, 255), thickness=-1)
-    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[4,0]*1080/3088)), int(round(pnts_img[4,1]*720/2064))), radius=5, color=(0, 0, 255), thickness=-1)
+    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,0]*1080/3088)), int(round(pnts_img[0,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
+    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[2,0]*1080/3088)), int(round(pnts_img[2,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
+    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[4,0]*1080/3088)), int(round(pnts_img[4,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
     #blur_frame_points_left = cv2.circle(blur_frame_points_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
@@ -552,7 +552,9 @@ while(send_flag):
     #    frame_r[line*20,:] = (0,255,0,0)
 
     #Concatenate left and right image
-    output_img = np.concatenate((blur_frame_points_left, blur_frame_points_right), axis=1)
+    blur_out_img = np.concatenate((blur_frame_points_left, blur_frame_points_right), axis=1)
+    mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
+    output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
     #out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
