@@ -524,14 +524,14 @@ while(send_flag):
     #Concatenate left and right image
     output_img = np.concatenate((blur_frame_points_left, blur_frame_points_right), axis=1)
 
-    out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
+    #out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
     #Show concentated frame
     #cv2.imshow('left', out)
     #cv2.imshow('left', frame_l)
     #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
     c.acquire()
-    img_send = out
+    img_send = output_img
     c.release()
 
 
