@@ -356,6 +356,8 @@ def callibrate(img):
     
     x_vec = np.subtract(x_coord, org_coord) #TODO: Make sure they point in the right way!
     y_vec = np.subtract(y_coord, org_coord)
+    np.squeeze(x_vec)
+    np.squeeze(y_vec)
     print(x_vec)
     print(y_vec)
     z_vec = np.cross(x_vec, y_vec)
