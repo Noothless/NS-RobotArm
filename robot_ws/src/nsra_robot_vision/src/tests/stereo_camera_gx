@@ -312,7 +312,7 @@ def detect(img):
 
     #print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
     
-    mtrx_ret = np.linalg.solve(mtrx, obj_vec)
+    mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
 
     print(mtrx_ret[0])
     print(np.linalg.norm(mtrx[:,0]))
