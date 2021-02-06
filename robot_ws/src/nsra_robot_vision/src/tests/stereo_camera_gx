@@ -384,7 +384,7 @@ def send_img():
     process = sp.Popen(command, stdin=sp.PIPE)  
     while(True):
         process.stdin.write(img_send.tobytes())
-        sleep(0.04)
+        key = cv2.waitKey(40)
 
 t1 = Thread(target=send_img,args=())
 t1.start()
