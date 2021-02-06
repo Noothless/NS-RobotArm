@@ -524,7 +524,7 @@ while(send_flag):
     #Concatenate left and right image
     output_img = np.concatenate((red_mask_left, red_mask_right), axis=1)
 
-    out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
+    out = cv2.cvtColor(output_img, cv2.COLOR_HSV2BGR)
 
     #Show concentated frame
     #cv2.imshow('left', out)
