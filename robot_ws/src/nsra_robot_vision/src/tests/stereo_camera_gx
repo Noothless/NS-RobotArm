@@ -326,7 +326,7 @@ def detect(img):
     obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
 
     print("Object vector to robot: ")
-    print(np.linal.norm(obj_rob_vec))
+    print(np.linalg.norm(obj_rob_vec))
     #TODO: implement moveit control
 
 #Calculate transformation matrix
