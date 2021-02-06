@@ -499,11 +499,11 @@ while(send_flag):
     red_mask_left = cv2.dilate(red_mask_left, kernal)
     red_mask_right = cv2.dilate(red_mask_right, kernal)
 
-    #keypoints_left = detector.detect(red_mask_left)
-    #keypoints_right = detector.detect(red_mask_right)
+    keypoints_left = detector.detect(red_mask_left)
+    keypoints_right = detector.detect(red_mask_right)
 
-    #imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    #imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #blur_frame_points_left = cv2.drawKeypoints(blur_frame_left, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     #blur_frame_points_right = cv2.drawKeypoints(blur_frame_right, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
