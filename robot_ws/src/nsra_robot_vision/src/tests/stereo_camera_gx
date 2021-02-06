@@ -287,10 +287,20 @@ def detect(img):
                          [0.0,0.0]])
 
     for i in range(2):
-        if ret == True:
-            #TODO: implement point tracking method!
-            origin_img[i,0] = 0##
-            origin_img[i,1] = 0##
+        hsv_frame = cv2.cvtColor(img[i], cv2.COLOR_RGB2HSV)
+
+        low_red = np.array([rl,gl,bl])
+        high_red = np.array([rh, gh, bh])
+        red_mask = cv2.inRange(hsv_frame, low_red, high_red)
+
+        red_mask = cv2.bitwise_not(red_mask)
+
+        red_mask = cv2.dilate(red_mask, kernal)
+
+        keypoints = detector.detect(red_mask)
+
+        origin_img[i,0] = keypoints[0].pt[0]
+        origin_img[i,1] = keypoints[0].pt[1]
     
     p_4d_obj = cv2.triangulatePoints(PR, PL, origin_img[0,:], origin_img[1,:])
 
@@ -354,12 +364,9 @@ def callibrate(img):
                         p_4d_y[1] / p_4d_y[3],
                         p_4d_y[2] / p_4d_y[3]])
     
-    x_vec = np.subtract(x_coord, org_coord) #TODO: Make sure they point in the right way!
-    y_vec = np.subtract(y_coord, org_coord)
-    x_vec = np.squeeze(x_vec)
-    y_vec = np.squeeze(y_vec)
-    print(x_vec.shape)
-    print(y_vec.shape)
+    x_vec = np.squeeze(np.subtract(x_coord, org_coord)) #TODO: Make sure they point in the right way!
+    y_vec = np.squeeze(np.subtract(y_coord, org_coord))
+
     z_vec = np.cross(x_vec, y_vec)
 
     mtrx = np.array([[x_vec[0], y_vec[0], z_vec[0]],
