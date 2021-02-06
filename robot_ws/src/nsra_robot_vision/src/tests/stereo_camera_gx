@@ -280,6 +280,8 @@ kernal = np.ones((2,2), np.uint8)
 #cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
 #cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
+org_coord = None
+
 #Calculate coordinate of point relative to the robot
 def detect(img):
 
@@ -307,6 +309,8 @@ def detect(img):
     obj_vec = np.array([p_4d_obj[0] / p_4d_obj[3],
                         p_4d_obj[1] / p_4d_obj[3],
                         p_4d_obj[2] / p_4d_obj[3]])
+
+    print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
     
     mtrx_ret = np.linalg.solve(mtrx, obj_vec)
 
@@ -328,6 +332,7 @@ def detect(img):
 #Calculate transformation matrix
 def callibrate(img):
     global mtrx
+    global org_coord
 
     pnts_img = np.array([[0.0,0.0],
                          [0.0,0.0],
