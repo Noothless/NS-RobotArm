@@ -275,7 +275,7 @@ params.minInertiaRatio = 0.1
 
 detector = cv2.SimpleBlobDetector_create(params)
 
-kernal = np.ones((10,10), np.uint8)
+kernal = np.ones((2,2), np.uint8)
 
 #cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
 #cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
@@ -496,8 +496,8 @@ while(send_flag):
     red_mask_left = cv2.bitwise_not(red_mask_left)
     red_mask_right = cv2.bitwise_not(red_mask_right)
 
-    #red_mask_left = cv2.dilate(red_mask_left, kernal)
-    #red_mask_right = cv2.dilate(red_mask_right, kernal)
+    red_mask_left = cv2.dilate(red_mask_left, kernal)
+    red_mask_right = cv2.dilate(red_mask_right, kernal)
 
     #keypoints_left = detector.detect(red_mask_left)
     #keypoints_right = detector.detect(red_mask_right)
