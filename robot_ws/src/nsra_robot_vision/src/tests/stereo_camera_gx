@@ -493,11 +493,11 @@ while(send_flag):
     red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
     red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
 
-    #red_mask_left = cv2.bitwise_not(red_mask_left)
-    #red_mask_right = cv2.bitwise_not(red_mask_right)
+    red_mask_left = cv2.bitwise_not(red_mask_left)
+    red_mask_right = cv2.bitwise_not(red_mask_right)
 
-    #red_mask_left = cv2.dilate(red_mask_left, kernal)
-    #red_mask_right = cv2.dilate(red_mask_right, kernal)
+    red_mask_left = cv2.dilate(red_mask_left, kernal)
+    red_mask_right = cv2.dilate(red_mask_right, kernal)
 
     #keypoints_left = detector.detect(red_mask_left)
     #keypoints_right = detector.detect(red_mask_right)
@@ -524,7 +524,7 @@ while(send_flag):
     #Concatenate left and right image
     output_img = np.concatenate((red_mask_left, red_mask_right), axis=1)
 
-    out = cv2.cvtColor(output_img, cv2.COLOR_HSV2BGR)
+    out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
     #Show concentated frame
     #cv2.imshow('left', out)
