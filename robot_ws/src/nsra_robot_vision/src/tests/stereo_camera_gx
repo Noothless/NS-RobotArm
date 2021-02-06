@@ -46,6 +46,13 @@ import numpy as np
 import math
 import rospkg
 from threading import Thread
+import rospy
+from std_msgs.msg import String
+from std_msgs.msg import Float32
+from configparser import ConfigParser
+
+#config
+config_object = ConfigParser()
 
 #rospack
 rospack = rospkg.RosPack()
@@ -73,7 +80,17 @@ rh = 115
 gh = 255
 bh = 255
 
-img_send = None
+#load config file
+try:
+    config_object.read(pack_path + "/config/stereo_camera_config.yml")
+    rl = config_object.getint("PARAMS", "rl")
+    gl = config_object.getint("PARAMS", "gl")
+    bl = config_object.getint("PARAMS", "bl")
+    rh = config_object.getint("PARAMS", "rh")
+    gh = config_object.getint("PARAMS", "gh")
+    bh = config_object.getint("PARAMS", "bh")
+except:
+    print("No valid config file found!")
 
 try:
     fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
@@ -350,6 +367,9 @@ def callibrate(img):
     print(mtrx)
     print("---------------")
 
+#RTMP stream
+img_send = None
+
 img_left = cam_left.get_frame()
 img_right = cam_right.get_frame()
 
@@ -388,6 +408,39 @@ def send_img():
 
 t1 = Thread(target=send_img,args=())
 t1.start()
+
+def paramsChangeCallback(data):
+    msg = str(data.data)
+    sp_msg = msg.split("/")
+
+    global rl
+    global gl
+    global bl
+    global rh
+    global gh
+    global bh
+    
+    rl = int(sp_msg[0])
+    gl = int(sp_msg[1])
+    bl = int(sp_msg[2])
+    rh = int(sp_msg[3])
+    gh = int(sp_msg[4])
+    bh = int(sp_msg[5])
+
+    config_object["PARAMS"] = {
+            "rl": str(rl),
+            "gl": str(gl),
+            "bl": str(bl),
+            "rh": str(rh),
+            "gh": str(gh),
+            "bh": str(bh),
+    }
+
+    with open(pack_path + "/config/stereo_camera_config.yml", 'w') as conf:
+        config_object.write(conf)
+
+rospy.init_node('nsra_stereo_camera')
+rospy.Subscriber("bd_params", String, paramsChangeCallback)
 
 while(True):
     #Get next image from cameras
