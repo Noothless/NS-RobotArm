@@ -184,7 +184,7 @@ class camera():
 
         cam.ExposureTime.set(80000.0)
 
-        cam.Gain.set(5.0)
+        cam.Gain.set(10.0)
 
         cam.BalanceWhiteAuto.set(1)
 
