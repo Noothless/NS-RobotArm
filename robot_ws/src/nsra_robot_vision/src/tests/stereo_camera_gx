@@ -383,6 +383,8 @@ img_send = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
 c = threading.Condition()
 
+bool send_flag = True
+
 class Img_Thread(threading.Thread):
     def __init__(self, name):
         threading.Thread.__init__(self)
@@ -412,7 +414,7 @@ class Img_Thread(threading.Thread):
            rtmp_url]
 
         process = sp.Popen(command, stdin=sp.PIPE)  
-        while(True):
+        while(send_flag):
             c.acquire()
             process.stdin.write(img_send.tobytes())
             c.release()
@@ -454,7 +456,10 @@ def paramsChangeCallback(data):
 rospy.init_node('nsra_stereo_camera')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
 
+test_nb = 0
+
 while(True):
+    test_nb += 1
     #Get next image from cameras
     img_left = cam_left.get_frame()
     img_right = cam_right.get_frame()
@@ -462,6 +467,8 @@ while(True):
     #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+
+    cv2.putText(img_left, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
     #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
@@ -530,4 +537,5 @@ while(True):
     #    detect([img_right, img_left])
 
 cv2.destroyAllWindows()
+send_flag = False
 quit()
