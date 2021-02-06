@@ -384,6 +384,8 @@ img_send = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 c = threading.Condition()
 
 send_flag = True
+calib_flag = False
+detect_flag = False
 
 class Img_Thread(threading.Thread):
     def __init__(self, name):
@@ -425,10 +427,17 @@ t1.start()
 
 def get_input():
     global send_flag
+    global calib_flag
+    global detect_flag
+
     while(send_flag):
         inp = input()
         if inp == "end":
             send_flag = False
+        elif inp == "calib":
+            calib_flag = True
+        elif inp == "det":
+            detect_flag = True
 
 input_thread = threading.Thread(target=get_input)
 input_thread.start()
@@ -466,6 +475,8 @@ def paramsChangeCallback(data):
 rospy.init_node('nsra_stereo_camera')
 rospy.Subscriber("bd_params", String, paramsChangeCallback)
 
+#105/120/100/120/220/255
+
 test_nb = 0
 
 while(send_flag):
@@ -478,15 +489,15 @@ while(send_flag):
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
-    img_left = cv2.resize(img_left, (1080, 720))
-    img_right = cv2.resize(img_right, (1080, 720))
+    img_left_sized = cv2.resize(img_left, (1080, 720))
+    img_right_sized = cv2.resize(img_right, (1080, 720))
 
     #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
     #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
     #blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
 
-    hsv_frame_left = cv2.cvtColor(img_left, cv2.COLOR_RGB2HSV)
-    hsv_frame_right = cv2.cvtColor(img_right, cv2.COLOR_RGB2HSV)
+    hsv_frame_left = cv2.cvtColor(img_left_sized, cv2.COLOR_RGB2HSV)
+    hsv_frame_right = cv2.cvtColor(img_right_sized, cv2.COLOR_RGB2HSV)
 
     low_red = np.array([rl,gl,bl])
     high_red = np.array([rh, gh, bh])
@@ -505,8 +516,8 @@ while(send_flag):
     #imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     #imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-    blur_frame_points_left = cv2.drawKeypoints(img_left, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    blur_frame_points_right = cv2.drawKeypoints(img_right, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    blur_frame_points_left = cv2.drawKeypoints(img_left_sized, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    blur_frame_points_right = cv2.drawKeypoints(img_right_sized, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #Draw world origin
     #frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
@@ -534,10 +545,18 @@ while(send_flag):
     img_send = output_img
     c.release()
 
+    if calib_flag:
+        calib_flag = False
+        print("Callibrate camera origin")
+        callibrate([img_right, img_left])
+    elif detect_flag:
+        detect_flag = False
+        print("Detect!")
+        detect([img_right, img_left])
 
     #sleep(0.05)
     #Wait for user input
-    key = cv2.waitKey(50)
+    #key = cv2.waitKey(50)
     #if key == 27:
     #    print("User Quit")
     #    break
