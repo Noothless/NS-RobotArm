@@ -474,12 +474,12 @@ while(send_flag):
     img_left = cam_left.get_frame()
     img_right = cam_right.get_frame()
 
-    img_left = cv2.resize(img_left, (1080, 720))
-    img_right = cv2.resize(img_right, (1080, 720))
-
     #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+
+    img_left = cv2.resize(img_left, (1080, 720))
+    img_right = cv2.resize(img_right, (1080, 720))
 
     #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
     blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
