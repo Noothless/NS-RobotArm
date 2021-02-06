@@ -423,6 +423,20 @@ class Img_Thread(threading.Thread):
 t1 = Img_Thread("img_send")
 t1.start()
 
+c_inp = threading.Condition()
+
+def get_input():
+    global send_flag
+    while(send_flag):
+        inp = input()
+        if inp == "end":
+            c_inp.acquire()
+            send_flag = False
+            c_inp.release()
+
+input_thread = threading.Thread(target=get_input)
+input_thread.start()
+
 def paramsChangeCallback(data):
     msg = str(data.data)
     sp_msg = msg.split("/")
@@ -527,9 +541,6 @@ while(send_flag):
     #sleep(0.05)
     #Wait for user input
     key = cv2.waitKey(50)
-    inp = input()
-    if inp == "end":
-        send_flag = False
     #if key == 27:
     #    print("User Quit")
     #    break
