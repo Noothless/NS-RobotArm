@@ -471,8 +471,8 @@ while(True):
     cv2.putText(img_left, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
-    #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
-    #blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
+    blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
+    blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
 
     #hsv_frame_left = cv2.cvtColor(blur_frame_left, cv2.COLOR_BGR2HSV)
     #hsv_frame_right = cv2.cvtColor(blur_frame_right, cv2.COLOR_BGR2HSV)
@@ -502,8 +502,8 @@ while(True):
     #frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
-    frame_l = cv2.resize(img_left, (1080, 720))
-    frame_r = cv2.resize(img_right, (1080, 720))
+    frame_l = cv2.resize(blur_frame_left, (1080, 720))
+    frame_r = cv2.resize(blur_frame_right, (1080, 720))
 
     #Draw horizontal lines
     #for line in range(0, int(frame_r.shape[0]/20)):
