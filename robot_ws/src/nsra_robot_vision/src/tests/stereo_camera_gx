@@ -478,8 +478,6 @@ while(send_flag):
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
-    cv2.putText(img_left, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-
     #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
     blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
     blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
@@ -514,6 +512,8 @@ while(send_flag):
     #Resize for imshow
     frame_l = cv2.resize(red_mask_left, (1080, 720))
     frame_r = cv2.resize(red_mask_right, (1080, 720))
+
+    cv2.putText(frame_l, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     #Draw horizontal lines
     #for line in range(0, int(frame_r.shape[0]/20)):
