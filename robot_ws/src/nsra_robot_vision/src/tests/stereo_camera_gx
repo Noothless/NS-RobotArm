@@ -310,7 +310,7 @@ def detect(img):
     
     mtrx_ret = np.linalg.solve(mtrx, obj_vec)
 
-    obj_trns_vec = np.array([np.linalg.norm(np.dot(mtrx[:,0], mtrx_ret[0])), np.linalg.norm(np.dot(mtrx[:,1], mtrx_ret[1])), np.linalg.norm(np.dot(mtrx[:,2], mtrx_ret[2]))])
+    obj_trns_vec = np.array([np.linalg.norm(np.dot(np.squeeze(mtrx[:,0]), np.squeeze(mtrx_ret[0]))), np.linalg.norm(np.dot(np.squeeze(mtrx[:,1]), np.squeeze(mtrx_ret[1]))), np.linalg.norm(np.dot(np.squeeze(mtrx[:,2]), np.squeeze(mtrx_ret[2])))])
 
     if mtrx_ret[0] < 0:
         obj_trns_vec[0] = - obj_trns_vec[0]
