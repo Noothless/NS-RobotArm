@@ -423,16 +423,12 @@ class Img_Thread(threading.Thread):
 t1 = Img_Thread("img_send")
 t1.start()
 
-c_inp = threading.Condition()
-
 def get_input():
     global send_flag
     while(send_flag):
         inp = input()
         if inp == "end":
-            c_inp.acquire()
             send_flag = False
-            c_inp.release()
 
 input_thread = threading.Thread(target=get_input)
 input_thread.start()
@@ -488,8 +484,8 @@ while(send_flag):
     blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
     blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
 
-    hsv_frame_left = cv2.cvtColor(blur_frame_left, cv2.COLOR_BGR2HSV)
-    hsv_frame_right = cv2.cvtColor(blur_frame_right, cv2.COLOR_BGR2HSV)
+    hsv_frame_left = cv2.cvtColor(blur_frame_left, cv2.COLOR_RGB2HSV)
+    hsv_frame_right = cv2.cvtColor(blur_frame_right, cv2.COLOR_RGB2HSV)
 
     #low_red = np.array([rl,gl,bl])
     #high_red = np.array([rh, gh, bh])
