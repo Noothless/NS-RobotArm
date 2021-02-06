@@ -45,7 +45,7 @@ import nsra_gxipy as gx
 import numpy as np
 import math
 import rospkg
-from threading import Thread
+import threading
 import rospy
 from std_msgs.msg import String
 from std_msgs.msg import Float32
