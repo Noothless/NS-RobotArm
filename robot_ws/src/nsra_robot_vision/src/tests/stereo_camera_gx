@@ -350,6 +350,16 @@ def callibrate(img):
     print(mtrx)
     print("---------------")
 
+img_left = cam_left.get_frame()
+img_right = cam_right.get_frame()
+
+frame_l = cv2.resize(img_left, (1080, 720))
+frame_r = cv2.resize(img_right, (1080, 720))
+
+output_img = np.concatenate((frame_l, frame_r), axis=1)
+
+send_img = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
+
 def send_img():
     rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
     
