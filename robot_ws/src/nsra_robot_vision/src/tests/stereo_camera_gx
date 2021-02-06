@@ -329,17 +329,18 @@ def detect(img):
     print(np.linalg.norm(obj_rob_vec))
     #TODO: implement moveit control
 
+pnts_img = np.array([[0.0,0.0],
+                     [0.0,0.0],
+                     [0.0,0.0],
+                     [0.0,0.0],
+                     [0.0,0.0],
+                     [0.0,0.0]])
+
 #Calculate transformation matrix
 def callibrate(img):
     global mtrx
     global org_coord
 
-    pnts_img = np.array([[0.0,0.0],
-                         [0.0,0.0],
-                         [0.0,0.0],
-                         [0.0,0.0],
-                         [0.0,0.0],
-                         [0.0,0.0]])
     for i in range(2):
         gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
         ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
@@ -536,8 +537,8 @@ while(send_flag):
     blur_frame_points_right = cv2.drawKeypoints(img_right_sized, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #Draw world origin
-    #frame_r = cv2.circle(img_right, (int(round(origin_img[0,0])), int(round(origin_img[0,1]))), radius=5, color=(0, 0, 255), thickness=-1)
-    #frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
+    blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,0]*1920/3088)), int(round(pnts_img[0,1]*1080/2064))), radius=5, color=(0, 0, 255), thickness=-1)
+    #blur_frame_points_left = cv2.circle(blur_frame_points_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
 
