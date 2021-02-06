@@ -116,28 +116,6 @@ mtrx = np.array([[0.0, 0.0, 0.0],
 
 rob_offset_vec = np.array([0.0, 0.0, 0.0])
 
-rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
-#
-sizeStr = str(2160) + \
-    'x' + str(720)
-#
-print("------------------- STR: " + sizeStr)
-command = ['ffmpeg',
-           '-y',
-           '-f', 'rawvideo',
-           '-vcodec', 'rawvideo',
-           '-pix_fmt', 'bgr24',
-           '-s', sizeStr,
-           '-r', str(2),
-           '-i', '-',
-           '-c:v', 'libx264',
-           '-pix_fmt', 'yuv420p',
-           '-preset', 'ultrafast',
-           '-f', 'flv',
-           rtmp_url]
-
-process = sp.Popen(command, stdin=sp.PIPE)
-
 class camera():
 
     def __init__(self,cam_num):        
@@ -373,6 +351,27 @@ def callibrate(img):
     print("---------------")
 
 def send_img():
+    rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
+    
+    sizeStr = str(2160) + \
+        'x' + str(720)
+
+    print("------------------- STR: " + sizeStr)
+    command = ['ffmpeg',
+           '-y',
+           '-f', 'rawvideo',
+           '-vcodec', 'rawvideo',
+           '-pix_fmt', 'bgr24',
+           '-s', sizeStr,
+           '-r', str(2),
+           '-i', '-',
+           '-c:v', 'libx264',
+           '-pix_fmt', 'yuv420p',
+           '-preset', 'ultrafast',
+           '-f', 'flv',
+           rtmp_url]
+
+    process = sp.Popen(command, stdin=sp.PIPE)  
     while(True):
         process.stdin.write(send_img.tobytes())
         sleep(0.04)
