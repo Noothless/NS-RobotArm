@@ -383,7 +383,7 @@ img_send = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
 c = threading.Condition()
 
-bool send_flag = True
+send_flag = True
 
 class Img_Thread(threading.Thread):
     def __init__(self, name):
