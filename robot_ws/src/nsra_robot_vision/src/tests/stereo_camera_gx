@@ -380,6 +380,8 @@ def callibrate(img):
 
     z_vec = np.cross(x_vec, y_vec)
 
+    print(np.linalg.norm(z_vec))
+
     mtrx = np.array([[x_vec[0], y_vec[0], z_vec[0]],
                      [x_vec[1], y_vec[1], z_vec[1]],
                      [x_vec[2], y_vec[2], z_vec[2]]])
