@@ -474,6 +474,9 @@ while(send_flag):
     img_left = cam_left.get_frame()
     img_right = cam_right.get_frame()
 
+    img_left = cv2.resize(img_left, (1080, 720))
+    img_right = cv2.resize(img_right, (1080, 720))
+
     #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
@@ -510,10 +513,8 @@ while(send_flag):
     #frame_l = cv2.circle(img_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
-    frame_l = cv2.resize(red_mask_left, (1080, 720))
-    frame_r = cv2.resize(red_mask_right, (1080, 720))
 
-    cv2.putText(frame_l, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.putText(red_mask_left, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     #Draw horizontal lines
     #for line in range(0, int(frame_r.shape[0]/20)):
@@ -521,7 +522,7 @@ while(send_flag):
     #    frame_r[line*20,:] = (0,255,0,0)
 
     #Concatenate left and right image
-    output_img = np.concatenate((frame_l, frame_r), axis=1)
+    output_img = np.concatenate((red_mask_left, red_mask_right), axis=1)
 
     out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
 
