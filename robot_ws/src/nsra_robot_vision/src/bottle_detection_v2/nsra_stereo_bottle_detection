@@ -277,9 +277,6 @@ detector = cv2.SimpleBlobDetector_create(params)
 
 kernal = np.ones((2,2), np.uint8)
 
-#cv2.namedWindow("left", cv2.WND_PROP_FULLSCREEN)
-#cv2.setWindowProperty("left",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-
 org_coord = None
 
 #Calculate coordinate of point relative to the robot
@@ -557,12 +554,6 @@ while(send_flag):
     mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
-    #out = cv2.cvtColor(output_img, cv2.COLOR_RGB2BGR)
-
-    #Show concentated frame
-    #cv2.imshow('left', out)
-    #cv2.imshow('left', frame_l)
-    #out = cv2.cvtColor(frame_l, cv2.COLOR_RGB2BGR)
     c.acquire()
     img_send = output_img
     c.release()
@@ -575,18 +566,3 @@ while(send_flag):
         detect_flag = False
         print("Detect!")
         detect([img_right, img_left])
-
-    #sleep(0.05)
-    #Wait for user input
-    #key = cv2.waitKey(50)
-    #if key == 27:
-    #    print("User Quit")
-    #    break
-    #elif key == 13:
-    #    print("Callibrate camera origin")
-    #    callibrate([img_right, img_left])
-    #elif key == 32:
-    #    detect([img_right, img_left])
-
-cv2.destroyAllWindows()
-quit()
