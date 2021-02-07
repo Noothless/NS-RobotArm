@@ -35,6 +35,7 @@
 # Author: Noa Sendlhofer
 # Desc:   Part of the NSRA Robot Vision stack. Stereo camera test program using an NDI source.
 # 01.01.2021 - Stereo camera works! :)
+# 06.02.2021 - Full bottle detection works! :)
 
 import cv2
 import multiprocessing as mp
