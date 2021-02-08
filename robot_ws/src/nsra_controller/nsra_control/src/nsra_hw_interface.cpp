@@ -190,10 +190,10 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       steps_old = round(saved_pos[i]*4000/pi/10);
       msg_step.axis6 = abs(steps_old - steps)*10;
     }
-    data[i*4+1] = NSRAHWInterface::reverse(((int16_t)(steps) >> 0) & 0xFF);
-    data[i*4+2] = NSRAHWInterface::reverse(((int16_t)(steps) >> 8) & 0xFF);
-    data[i*4+3] = NSRAHWInterface::reverse(((int16_t)(abs(steps_old - steps)*10) >> 0) & 0xFF);
-    data[i*4+4] = NSRAHWInterface::reverse(((int16_t)(abs(steps_old - steps)*10) >> 8) & 0xFF);
+    data[i*4+1] = ((int16_t)(steps) >> 0) & 0xFF;
+    data[i*4+2] = ((int16_t)(steps) >> 8) & 0xFF;
+    data[i*4+3] = ((int16_t)(abs(steps_old - steps)*10) >> 0) & 0xFF;
+    data[i*4+4] = ((int16_t)(abs(steps_old - steps)*10) >> 8) & 0xFF;
 
     saved_pos[i] = joint_position_command_[i];
   }
