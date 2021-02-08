@@ -70,6 +70,8 @@ public:
   /** \breif Enforce limits for all values before writing */
   virtual void enforceLimits(ros::Duration &period);
 
+  virtual unsigned char reverse(unsigned char b);
+
   ros::Publisher drive_pub1;
   ros::Publisher drive_pub2;
   ros::Publisher drive_pub3;
