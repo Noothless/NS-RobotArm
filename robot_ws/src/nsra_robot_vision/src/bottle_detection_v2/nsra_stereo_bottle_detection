@@ -411,7 +411,7 @@ class Img_Thread(threading.Thread):
     def run(self):
         global img_send
 
-        rtmp_url = 'rtmp://192.168.1.125:1935/app/live'
+        rtmp_url = 'rtmp://192.168.1.174:1935/app/live'
     
         sizeStr = str(2160) + \
             'x' + str(1440)
