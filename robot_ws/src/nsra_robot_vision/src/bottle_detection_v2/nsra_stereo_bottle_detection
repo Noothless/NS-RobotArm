@@ -230,7 +230,7 @@ class camera():
                 cam.close_device()
                 run = False
 
-        print("Camera Connection Closed")        
+        print("Camera %s Connection Closed" % devices.get(cam_num))        
         conn.close()
 
     def get_frame(self,resize=None):
@@ -251,7 +251,7 @@ class camera():
         else:
             return self.rescale_frame(frame,resize)
 
-    def rescale_frame(self,frame, percent=65):
+    def rescale_frame(self,frame, percent=65): #TODO: check percent!
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
@@ -498,8 +498,8 @@ test_nb = 0
 while(send_flag):
     test_nb += 1
     #Get next image from cameras
-    img_left = cam_left.get_frame()
-    img_right = cam_right.get_frame()
+    img_left = cam_left.get_frame(1)
+    img_right = cam_right.get_frame(1)
 
     #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
