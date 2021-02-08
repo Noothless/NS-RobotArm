@@ -144,8 +144,8 @@ void serial_interrupt_thread() {
 
   pos n;
   
-  n.axis1 = (int16_t)((in_bytes[0] << 8) | in_bytes[1]);
-  n.vel1 = (int16_t)((in_bytes[2] << 8) | in_bytes[3]);
+  n.axis1 = (int16_t)((in_bytes[1] << 8) | in_bytes[0]);
+  n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
   /*
   n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
   n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
