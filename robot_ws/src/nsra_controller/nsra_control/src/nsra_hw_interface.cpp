@@ -212,10 +212,11 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
 
   test_pos -= 100;
   std::cout << test_pos << std::endl;
-  unsigned char data_test[2];
-  data_test[0] = ((int16_t)(test_pos) >> 0) & 0xFF;
-  data_test[0] = ((int16_t)(test_pos) >> 8) & 0xFF;
-  ser.write(data_test, 2);
+  unsigned char data_test[3];
+  data_test[0] = '\n';
+  data_test[1] = ((int16_t)(test_pos) >> 0) & 0xFF;
+  data_test[2] = ((int16_t)(test_pos) >> 8) & 0xFF;
+  ser.write(data_test, 3);
   //serial_stream.DrainWriteBuffer();
 }
 
