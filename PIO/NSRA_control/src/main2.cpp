@@ -144,7 +144,7 @@ void serial_interrupt_thread() {
   
   pos n;
   
-  n.axis1 = (uint16_t)((in_bytes[1] << 8) | in_bytes[0]);
+  n.axis1 = (uint16_t)((in_bytes[0] << 8) | in_bytes[1]);
   //n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
   /*
   n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
@@ -179,7 +179,7 @@ void setup() {
   axis6.setAcceleration(ACCELERATION);
   */
   axis1.setMinPulseWidth(PULSE_WIDTH);
-  axis1.setMaxSpeed(100);
+  axis1.setMaxSpeed(1000);
   /*
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
