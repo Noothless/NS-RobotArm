@@ -86,7 +86,7 @@ void update() {
     pos next = queue.getHead();
     pos_lock.unlock();
 
-    int speed = round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2);
+    int speed = round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ;
     
     
     Wire.beginTransmission(8);
