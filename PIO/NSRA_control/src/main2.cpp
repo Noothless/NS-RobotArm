@@ -61,8 +61,6 @@ AccelStepper axis6(1,10,11);
 
 IntervalTimer ctrl_loop_timer;
 
-int prev_ax = 0;
-
 bool queueFlag = false;
 
 struct pos {
@@ -86,23 +84,20 @@ void update() {
     pos next = queue.getHead();
     pos_lock.unlock();
 
-    int speed = round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ;
-    
-    
+    /*
     Wire.beginTransmission(8);
     Wire.write(((uint16_t)(speed + 32000) >> 8) & 0xFF);
     Wire.write(((uint16_t)(speed + 32000) >> 0) & 0xFF);
     Wire.endTransmission();
-    
+    */
 
-    axis1.setMaxSpeed(speed);
-    axis2.setMaxSpeed((int)abs(now.axis2 - next.axis2)*FRQ);
-    axis3.setMaxSpeed((int)abs(now.axis3 - next.axis3)*FRQ);
-    axis4.setMaxSpeed((int)abs(now.axis4 - next.axis4)*FRQ);
-    axis5.setMaxSpeed((int)abs(now.axis5 - next.axis5)*FRQ);
-    axis6.setMaxSpeed((int)abs(now.axis6 - next.axis6)*FRQ);
+    axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + 100);
+    axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + 100);
+    axis3.setMaxSpeed((int)round((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2)*FRQ + 100);
+    axis4.setMaxSpeed((int)round((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2)*FRQ + 100);
+    axis5.setMaxSpeed((int)round((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2)*FRQ + 100);
+    axis6.setMaxSpeed((int)round((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2)*FRQ + 100);
     
-    //prev_ax += 50;
     axis1.moveTo(now.axis1);
     axis2.moveTo(now.axis2);
     axis3.moveTo(now.axis3);
@@ -155,7 +150,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
+  //Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
