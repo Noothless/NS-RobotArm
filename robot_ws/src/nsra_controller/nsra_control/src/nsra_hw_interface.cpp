@@ -139,7 +139,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
-  const int BUFFER_SIZE = 25;
+  const int BUFFER_SIZE = 13;
   unsigned char data[BUFFER_SIZE];
   data[0] = '\n';
   for (size_t i = 0; i < num_joints_; i++) {
@@ -190,10 +190,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       steps_old = round(saved_pos[i]*4000/pi/10);
       msg_step.axis6 = abs(steps_old - steps)*10;
     }
-    data[i*4+1] = ((uint16_t)(steps + 32000) >> 0) & 0xFF;
-    data[i*4+2] = ((uint16_t)(steps + 32000) >> 8) & 0xFF;
-    data[i*4+3] = ((int16_t)(abs(steps_old - steps)*10) >> 0) & 0xFF;
-    data[i*4+4] = ((int16_t)(abs(steps_old - steps)*10) >> 8) & 0xFF;
+    data[i*2+1] = ((uint16_t)(steps + 32000) >> 0) & 0xFF;
+    data[i*2+2] = ((uint16_t)(steps + 32000) >> 8) & 0xFF;
 
     saved_pos[i] = joint_position_command_[i];
   }

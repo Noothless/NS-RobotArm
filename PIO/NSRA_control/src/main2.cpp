@@ -88,17 +88,17 @@ void update() {
   {
     
     pos_lock.lock(1);
-    pos n = queue.dequeue();
-    //pos n = queue.getHead();
+    pos o = queue.dequeue();
+    pos n = queue.getHead();
     pos_lock.unlock();
     
-    
+    /*
     Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(abs(n.axis1) + 23000) >> 8) & 0xFF);
-    Wire.write(((uint16_t)(abs(n.axis1) + 23000) >> 0) & 0xFF);
+    Wire.write(((uint16_t)(abs(n.axis1 - o.axis1) + 32000) >> 8) & 0xFF);
+    Wire.write(((uint16_t)(abs(n.axis1 - o.axis1) + 32000) >> 0) & 0xFF);
     Wire.endTransmission();
-    
-    //axis1.setMaxSpeed((int)n.vel1);
+    */
+    axis1.setMaxSpeed((int)abs(n.axis1 - o.axis1));
     /*
     axis2.setMaxSpeed(n.vel2);
     axis3.setMaxSpeed(n.vel3);
@@ -137,7 +137,7 @@ void serial_interrupt_thread() {
     if (in_bytes[0] == 10) { break; }
   }
 
-  for (int n = 0; n < 2; n++)
+  for (int n = 0; n < 24; n++)
   {
     in_bytes[n] = Serial.read();
   }
@@ -193,7 +193,7 @@ void setup() {
 
 void loop() {
   
-  if(Serial.available() > 2 && serialFlag) {
+  if(Serial.available() > 24 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
