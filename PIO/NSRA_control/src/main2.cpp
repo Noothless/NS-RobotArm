@@ -92,13 +92,13 @@ void update() {
     //pos n = queue.getHead();
     pos_lock.unlock();
     
-    /*
+    
     Wire.beginTransmission(8);
-    Wire.write(((int16_t)(n.axis1) >> 0) & 0xFF);
-    Wire.write(((int16_t)(n.axis1) >> 8) & 0xFF);
+    Wire.write(n.axis1);
+    Wire.write(abs(n.axis1));
     Wire.endTransmission();
-    */
-    axis1.setMaxSpeed((int)n.vel1);
+    
+    //axis1.setMaxSpeed((int)n.vel1);
     /*
     axis2.setMaxSpeed(n.vel2);
     axis3.setMaxSpeed(n.vel3);
@@ -130,7 +130,7 @@ void serial_interrupt_thread() {
   //starttime = millis();
   byte in_bytes[24];
   //while ( (Serial.available() < 25) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
-  
+  /*
   while (Serial.available())
   {
     in_bytes[0] = Serial.read();
@@ -141,11 +141,14 @@ void serial_interrupt_thread() {
   {
     in_bytes[n] = Serial.read();
   }
+  */
+
+  in_bytes[0] = Serial.read();
 
   pos n;
   
-  n.axis1 = (int16_t)((in_bytes[1] << 8) | in_bytes[0]);
-  n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
+  n.axis1 = in_bytes[0];
+  //n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
   /*
   n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
   n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
@@ -193,7 +196,7 @@ void setup() {
 
 void loop() {
   
-  if(Serial.available() > 24 && serialFlag) {
+  if(Serial.available() > 0 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
