@@ -190,8 +190,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       steps_old = round(saved_pos[i]*4000/pi/10);
       msg_step.axis6 = abs(steps_old - steps)*10;
     }
-    data[i*4+1] = ((int16_t)(steps) >> 0) & 0xFF;
-    data[i*4+2] = ((int16_t)(steps) >> 8) & 0xFF;
+    data[i*4+1] = ((uint16_t)(steps + 32000) >> 0) & 0xFF;
+    data[i*4+2] = ((uint16_t)(steps + 32000) >> 8) & 0xFF;
     data[i*4+3] = ((int16_t)(abs(steps_old - steps)*10) >> 0) & 0xFF;
     data[i*4+4] = ((int16_t)(abs(steps_old - steps)*10) >> 8) & 0xFF;
 
@@ -201,15 +201,15 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   
   //ROS_INFO_NAMED("nsra_hardware_interface", String(((data[0] << 8) | data[1])*4));
   //std::cout << abs((int16_t)((data[4] << 8) | data[3])) << std::endl;
-  /*
+  
   try {
     ser.write(data, BUFFER_SIZE);
   } catch (char *excp)
   {
     ROS_ERROR_STREAM("Error!");
   }
-  */
-
+  
+  /*
   test_pos -= 100;
   std::cout << test_pos << std::endl;
   unsigned char data_test[3];
@@ -217,6 +217,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   data_test[1] = ((uint16_t)(test_pos + 32000) >> 0) & 0xFF;
   data_test[2] = ((uint16_t)(test_pos + 32000) >> 8) & 0xFF;
   ser.write(data_test, 3);
+  */
   //serial_stream.DrainWriteBuffer();
 }
 
