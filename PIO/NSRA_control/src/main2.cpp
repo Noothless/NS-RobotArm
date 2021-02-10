@@ -53,13 +53,12 @@ Threads::Mutex pos_lock;
 volatile bool serialFlag = true;
 
 AccelStepper axis1(1, 0, 1);
-/*
 AccelStepper axis2(1, 2, 3);
 AccelStepper axis3(1, 4, 5);
 AccelStepper axis4(1, 6, 7);
 AccelStepper axis5(1, 8, 9);
 AccelStepper axis6(1,10,11);
-*/
+
 IntervalTimer ctrl_loop_timer;
 
 int prev_ax = 0;
@@ -68,11 +67,11 @@ bool queueFlag = false;
 
 struct pos {
     volatile int axis1;
-    volatile int16_t axis2;
-    volatile int16_t axis3;
-    volatile int16_t axis4;
-    volatile int16_t axis5;
-    volatile int16_t axis6;
+    volatile int axis2;
+    volatile int axis3;
+    volatile int axis4;
+    volatile int axis5;
+    volatile int axis6;
 
     volatile int16_t vel1;
     volatile int16_t vel2;
@@ -98,23 +97,22 @@ void update() {
     Wire.write(((uint16_t)(abs(n.axis1 - o.axis1) + 32000) >> 0) & 0xFF);
     Wire.endTransmission();
     */
+
     axis1.setMaxSpeed((int)abs(n.axis1 - o.axis1));
-    /*
-    axis2.setMaxSpeed(n.vel2);
-    axis3.setMaxSpeed(n.vel3);
-    axis4.setMaxSpeed(n.vel4);
-    axis5.setMaxSpeed(n.vel5);
-    axis6.setMaxSpeed(n.vel6);
-    */
+    axis2.setMaxSpeed((int)abs(n.axis2 - o.axis2));
+    axis3.setMaxSpeed((int)abs(n.axis3 - o.axis3));
+    axis4.setMaxSpeed((int)abs(n.axis4 - o.axis4));
+    axis5.setMaxSpeed((int)abs(n.axis5 - o.axis5));
+    axis6.setMaxSpeed((int)abs(n.axis6 - o.axis6));
+    
     //prev_ax += 50;
     axis1.moveTo(n.axis1);
-    /*
     axis2.moveTo(n.axis2);
     axis3.moveTo(n.axis3);
     axis4.moveTo(n.axis4);
     axis5.moveTo(n.axis5);
     axis6.moveTo(n.axis6);
-    */
+    
   } else if(queue.itemCount() >= QUEUE_SIZE && !queueFlag){
     queueFlag = true;
   }
@@ -126,10 +124,8 @@ void update() {
 }
 
 void serial_interrupt_thread() {
-  //unsigned int starttime;
-  //starttime = millis();
-  byte in_bytes[24];
-  //while ( (Serial.available() < 25) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
+
+  byte in_bytes[12];
   
   while (Serial.available())
   {
@@ -137,7 +133,7 @@ void serial_interrupt_thread() {
     if (in_bytes[0] == 10) { break; }
   }
 
-  for (int n = 0; n < 24; n++)
+  for (int n = 0; n < 12; n++)
   {
     in_bytes[n] = Serial.read();
   }
@@ -146,20 +142,19 @@ void serial_interrupt_thread() {
   
   n.axis1 = (uint16_t)((in_bytes[1] << 8) | in_bytes[0]) - 32000;
   //n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
-  /*
-  n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
-  n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
-  n.axis3 = (int16_t)((in_bytes[8] << 8) | in_bytes[9]);
-  n.vel3 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);
-  n.axis4 = (int16_t)((in_bytes[12] << 8) | in_bytes[13]);
-  n.vel4 = (int16_t)((in_bytes[14] << 8) | in_bytes[15]);
-  n.axis5 = (int16_t)((in_bytes[16] << 8) | in_bytes[17]);
-  n.vel5 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
-  n.axis6 = (int16_t)((in_bytes[20] << 8) | in_bytes[21]);
-  n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
-  */
+  n.axis2 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]) - 32000;
+  //n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
+  n.axis3 = (int16_t)((in_bytes[5] << 8) | in_bytes[4]) - 32000;
+  //n.vel3 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);
+  n.axis4 = (int16_t)((in_bytes[7] << 8) | in_bytes[6]) - 32000;
+  //n.vel4 = (int16_t)((in_bytes[14] << 8) | in_bytes[15]);
+  n.axis5 = (int16_t)((in_bytes[9] << 8) | in_bytes[8]) - 32000;
+  //n.vel5 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
+  n.axis6 = (int16_t)((in_bytes[11] << 8) | in_bytes[10]) - 32000;
+  //n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
+  
   pos_lock.lock(1);
-  queue.enqueue(n); //TODO: MUTEX?
+  queue.enqueue(n);
   pos_lock.unlock();
 
   serialFlag = true;
@@ -167,44 +162,42 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
+  //Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
-  /*
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
   axis4.setAcceleration(ACCELERATION);
   axis5.setAcceleration(ACCELERATION);
   axis6.setAcceleration(ACCELERATION);
-  */
+
+  //axis1.setMaxSpeed(1100);
+
   axis1.setMinPulseWidth(PULSE_WIDTH);
-  axis1.setMaxSpeed(1100);
-  /*
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
   axis4.setMinPulseWidth(PULSE_WIDTH);
   axis5.setMinPulseWidth(PULSE_WIDTH);
   axis6.setMinPulseWidth(PULSE_WIDTH);
-  */
+
   ctrl_loop_timer.begin(update, 1000000/FRQ);
 
 }
 
 void loop() {
   
-  if(Serial.available() > 24 && serialFlag) {
+  if(Serial.available() > 12 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
   }
 
   axis1.run();
-  /*
   axis2.run();
   axis3.run();
   axis4.run();
   axis5.run();
   axis6.run();
-  */
+  
 }
