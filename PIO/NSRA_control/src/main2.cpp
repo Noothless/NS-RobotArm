@@ -67,7 +67,7 @@ int prev_ax = 0;
 bool queueFlag = false;
 
 struct pos {
-    volatile uint16_t axis1;
+    volatile int16_t axis1;
     volatile int16_t axis2;
     volatile int16_t axis3;
     volatile int16_t axis4;
@@ -94,8 +94,8 @@ void update() {
     
     
     Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(n.axis1) >> 0) & 0xFF);
-    Wire.write(((uint16_t)(n.axis1) >> 8) & 0xFF);
+    Wire.write(((int16_t)abs(n.axis1) >> 0) & 0xFF);
+    Wire.write(((int16_t)abs(n.axis1) >> 8) & 0xFF);
     Wire.endTransmission();
     
     //axis1.setMaxSpeed((int)n.vel1);
@@ -144,7 +144,7 @@ void serial_interrupt_thread() {
   
   pos n;
   
-  n.axis1 = (uint16_t)((in_bytes[0] << 8) | in_bytes[1]);
+  n.axis1 = (int16_t)((in_bytes[0] << 8) | in_bytes[1]);
   //n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
   /*
   n.axis2 = (int16_t)((in_bytes[4] << 8) | in_bytes[5]);
@@ -179,7 +179,7 @@ void setup() {
   axis6.setAcceleration(ACCELERATION);
   */
   axis1.setMinPulseWidth(PULSE_WIDTH);
-  axis1.setMaxSpeed(1000);
+  axis1.setMaxSpeed(1100);
   /*
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
