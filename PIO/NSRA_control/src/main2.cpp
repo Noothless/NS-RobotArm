@@ -94,8 +94,8 @@ void update() {
     
     
     Wire.beginTransmission(8);
-    Wire.write(((int16_t)abs(n.axis1) >> 0) & 0xFF);
-    Wire.write(((int16_t)abs(n.axis1) >> 8) & 0xFF);
+    Wire.write(((int16_t)(n.axis1) >> 0) & 0xFF);
+    Wire.write(((int16_t)(n.axis1) >> 8) & 0xFF);
     Wire.endTransmission();
     
     //axis1.setMaxSpeed((int)n.vel1);
@@ -130,13 +130,13 @@ void serial_interrupt_thread() {
   //starttime = millis();
   byte in_bytes[24];
   //while ( (Serial.available() < 25) && ((millis() - starttime) < MAX_SERIAL_WAIT) ) { delay(1); }
-  /*
+  
   while (Serial.available())
   {
     in_bytes[0] = Serial.read();
     if (in_bytes[0] == 10) { break; }
   }
-  */
+
   for (int n = 0; n < 2; n++)
   {
     in_bytes[n] = Serial.read();
@@ -193,7 +193,7 @@ void setup() {
 
 void loop() {
   
-  if(Serial.available() > 1 && serialFlag) {
+  if(Serial.available() > 2 && serialFlag) {
     serialFlag = false;
     //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();

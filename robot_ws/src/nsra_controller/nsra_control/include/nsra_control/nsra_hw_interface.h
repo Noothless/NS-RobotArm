@@ -85,7 +85,7 @@ public:
 
   serial::Serial ser;
 
-  int16_t test_pos = 0;
+  uint16_t test_pos = 0;
 
   //LibSerial::SerialStream serial_stream;
 
