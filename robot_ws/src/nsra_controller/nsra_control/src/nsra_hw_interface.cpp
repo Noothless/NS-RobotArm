@@ -201,14 +201,16 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   
   //ROS_INFO_NAMED("nsra_hardware_interface", String(((data[0] << 8) | data[1])*4));
   std::cout << abs((int16_t)((data[4] << 8) | data[3])) << std::endl;
-  
+  /*
   try {
     ser.write(data, BUFFER_SIZE);
   } catch (char *excp)
   {
     ROS_ERROR_STREAM("Error!");
   }
-  
+  */
+  test_pos++;
+  ser.write(test_pos, 1);
   //serial_stream.DrainWriteBuffer();
 }
 

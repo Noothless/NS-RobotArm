@@ -85,6 +85,8 @@ public:
 
   serial::Serial ser;
 
+  int test_pos = 0;
+
   //LibSerial::SerialStream serial_stream;
 
 };  // class
