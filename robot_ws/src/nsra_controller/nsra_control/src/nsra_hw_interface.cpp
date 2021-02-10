@@ -166,7 +166,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       msg.data = joint_position_command_[i]*(-204800)/pi/8192;
       drive_pub3.publish(msg);
       steps = round(joint_position_command_[i]*(-2500)/pi);
-      steps_old = round(saved_pos[i]*(-2500)/pi0);
+      steps_old = round(saved_pos[i]*(-2500)/pi);
       msg_step.axis3 = abs(steps_old - steps)*10;
     } else if(i == 3)
     {
