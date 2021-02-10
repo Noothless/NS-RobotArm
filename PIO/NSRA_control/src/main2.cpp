@@ -44,7 +44,7 @@
 #define MAX_SERIAL_WAIT 35
 #define QUEUE_SIZE 10
 #define ACCELERATION 5000
-#define FRQ 10
+#define FRQ 20
 #define PULSE_WIDTH 50
 #define SPEED 10000
 
