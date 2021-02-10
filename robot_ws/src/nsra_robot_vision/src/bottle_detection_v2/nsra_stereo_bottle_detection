@@ -81,9 +81,34 @@ rh = 115
 gh = 255
 bh = 255
 
+#World origin of cameras relative to the robot
+mtrx = np.array([[0.0, 0.0, 0.0],
+                 [0.0, 0.0, 0.0],
+                 [0.0, 0.0, 0.0]])
+
+rob_offset_vec = np.array([0.0, 0.0, 0.0])
+
+cam_left_config = [0,0]
+cam_right_config = [0,0]
+
 #load config file
 try:
-    config_object.read(pack_path + "/config/stereo_camera_config.yml")
+    config_object.read(pack_path + "/config/stereo_bd_config.yml")
+    mtrx[0,0] = config_object.getfloat("CONFIG", "mtrx_0")
+    mtrx[0,1] = config_object.getfloat("CONFIG", "mtrx_1")
+    mtrx[0,2] = config_object.getfloat("CONFIG", "mtrx_2")
+    mtrx[1,0] = config_object.getfloat("CONFIG", "mtrx_3")
+    mtrx[1,1] = config_object.getfloat("CONFIG", "mtrx_4")
+    mtrx[1,2] = config_object.getfloat("CONFIG", "mtrx_5")
+    mtrx[2,0] = config_object.getfloat("CONFIG", "mtrx_6")
+    mtrx[2,1] = config_object.getfloat("CONFIG", "mtrx_7")
+    mtrx[2,2] = config_object.getfloat("CONFIG", "mtrx_8")
+
+    cam_left_config[0] = config_object.getint("CAMERA", "clc_gain")
+    cam_left_config[1] = config_object.getint("CAMERA", "clc_exposure")
+    cam_right_config[0] = config_object.getint("CAMERA", "crc_gain")
+    cam_right_config[1] = config_object.getint("CAMERA", "crc_exposure")
+
     rl = config_object.getint("PARAMS", "rl")
     gl = config_object.getint("PARAMS", "gl")
     bl = config_object.getint("PARAMS", "bl")
@@ -127,13 +152,6 @@ Right_Stereo_Map= cv2.initUndistortRectifyMap(KR, DR, RR, PR,
 
 #CBC detection
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-
-#World origin of cameras relative to the robot
-mtrx = np.array([[0.0, 0.0, 0.0],
-                 [0.0, 0.0, 0.0],
-                 [0.0, 0.0, 0.0]])
-
-rob_offset_vec = np.array([0.0, 0.0, 0.0])
 
 class camera():
 
