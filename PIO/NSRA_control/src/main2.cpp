@@ -170,7 +170,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  //Wire.begin();
+  Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
