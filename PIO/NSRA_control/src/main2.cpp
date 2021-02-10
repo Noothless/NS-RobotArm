@@ -72,46 +72,45 @@ struct pos {
     volatile int axis4;
     volatile int axis5;
     volatile int axis6;
-
-    volatile int16_t vel1;
-    volatile int16_t vel2;
-    volatile int16_t vel3;
-    volatile int16_t vel4;
-    volatile int16_t vel5;
-    volatile int16_t vel6;
 };
 ArduinoQueue<pos> queue(50);
+
+pos last;
 
 void update() {
   if(queueFlag)
   {
     
     pos_lock.lock(1);
-    pos o = queue.dequeue();
-    pos n = queue.getHead();
+    pos now = queue.dequeue();
+    pos next = queue.getHead();
     pos_lock.unlock();
-    
-    /*
-    Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(abs(n.axis1 - o.axis1) + 32000) >> 8) & 0xFF);
-    Wire.write(((uint16_t)(abs(n.axis1 - o.axis1) + 32000) >> 0) & 0xFF);
-    Wire.endTransmission();
-    */
 
-    axis1.setMaxSpeed((int)abs(n.axis1 - o.axis1));
-    axis2.setMaxSpeed((int)abs(n.axis2 - o.axis2));
-    axis3.setMaxSpeed((int)abs(n.axis3 - o.axis3));
-    axis4.setMaxSpeed((int)abs(n.axis4 - o.axis4));
-    axis5.setMaxSpeed((int)abs(n.axis5 - o.axis5));
-    axis6.setMaxSpeed((int)abs(n.axis6 - o.axis6));
+    int speed = round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2);
+    
+    
+    Wire.beginTransmission(8);
+    Wire.write(((uint16_t)(speed + 32000) >> 8) & 0xFF);
+    Wire.write(((uint16_t)(speed + 32000) >> 0) & 0xFF);
+    Wire.endTransmission();
+    
+
+    axis1.setMaxSpeed(speed);
+    axis2.setMaxSpeed((int)abs(now.axis2 - next.axis2)*FRQ);
+    axis3.setMaxSpeed((int)abs(now.axis3 - next.axis3)*FRQ);
+    axis4.setMaxSpeed((int)abs(now.axis4 - next.axis4)*FRQ);
+    axis5.setMaxSpeed((int)abs(now.axis5 - next.axis5)*FRQ);
+    axis6.setMaxSpeed((int)abs(now.axis6 - next.axis6)*FRQ);
     
     //prev_ax += 50;
-    axis1.moveTo(n.axis1);
-    axis2.moveTo(n.axis2);
-    axis3.moveTo(n.axis3);
-    axis4.moveTo(n.axis4);
-    axis5.moveTo(n.axis5);
-    axis6.moveTo(n.axis6);
+    axis1.moveTo(now.axis1);
+    axis2.moveTo(now.axis2);
+    axis3.moveTo(now.axis3);
+    axis4.moveTo(now.axis4);
+    axis5.moveTo(now.axis5);
+    axis6.moveTo(now.axis6);
+
+    last = now;
     
   } else if(queue.itemCount() >= QUEUE_SIZE && !queueFlag){
     queueFlag = true;
@@ -141,17 +140,11 @@ void serial_interrupt_thread() {
   pos n;
   
   n.axis1 = (uint16_t)((in_bytes[1] << 8) | in_bytes[0]) - 32000;
-  //n.vel1 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]);
-  n.axis2 = (int16_t)((in_bytes[3] << 8) | in_bytes[2]) - 32000;
-  //n.vel2 = (int16_t)((in_bytes[6] << 8) | in_bytes[7]);
-  n.axis3 = (int16_t)((in_bytes[5] << 8) | in_bytes[4]) - 32000;
-  //n.vel3 = (int16_t)((in_bytes[10] << 8) | in_bytes[11]);
-  n.axis4 = (int16_t)((in_bytes[7] << 8) | in_bytes[6]) - 32000;
-  //n.vel4 = (int16_t)((in_bytes[14] << 8) | in_bytes[15]);
-  n.axis5 = (int16_t)((in_bytes[9] << 8) | in_bytes[8]) - 32000;
-  //n.vel5 = (int16_t)((in_bytes[18] << 8) | in_bytes[19]);
-  n.axis6 = (int16_t)((in_bytes[11] << 8) | in_bytes[10]) - 32000;
-  //n.vel6 = (int16_t)((in_bytes[22] << 8) | in_bytes[23]);    
+  n.axis2 = (uint16_t)((in_bytes[3] << 8) | in_bytes[2]) - 32000;
+  n.axis3 = (uint16_t)((in_bytes[5] << 8) | in_bytes[4]) - 32000;
+  n.axis4 = (uint16_t)((in_bytes[7] << 8) | in_bytes[6]) - 32000;
+  n.axis5 = (uint16_t)((in_bytes[9] << 8) | in_bytes[8]) - 32000;
+  n.axis6 = (uint16_t)((in_bytes[11] << 8) | in_bytes[10]) - 32000;
   
   pos_lock.lock(1);
   queue.enqueue(n);
@@ -162,7 +155,7 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
-  //Wire.begin();
+  Wire.begin();
   //pinMode(12, OUTPUT);
   //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
@@ -180,6 +173,13 @@ void setup() {
   axis4.setMinPulseWidth(PULSE_WIDTH);
   axis5.setMinPulseWidth(PULSE_WIDTH);
   axis6.setMinPulseWidth(PULSE_WIDTH);
+
+  last.axis1 = 0;
+  last.axis2 = 0;
+  last.axis3 = 0;
+  last.axis4 = 0;
+  last.axis5 = 0;
+  last.axis6 = 0;
 
   ctrl_loop_timer.begin(update, 1000000/FRQ);
 
