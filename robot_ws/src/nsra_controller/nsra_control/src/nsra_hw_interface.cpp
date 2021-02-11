@@ -148,7 +148,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   axis_step.publish(msg_step);
 
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
-  std::cout << crc << std::endl;
+
   unsigned char crc_data[16];
   for(int n = 0; n < 12; n++) {
     crc_data[n] = data[n];
@@ -158,18 +158,12 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   crc_data[14] = ((uint32_t)crc >> 16) & 0xFF;
   crc_data[15] = ((uint32_t)crc >> 24) & 0xFF;
 
-  //std::cout << data << std::endl;
-
   std::string result;
   base64::encode(result, crc_data);
   result.insert(0, 1, '\n');
-
-  //std::cout << result << std::endl;
   
   unsigned char message[result.length()];
   strcpy((char*)message, result.c_str());
-
-  //std::cout << message << std::endl;
   
   try { 
     ser.write(message, result.length());

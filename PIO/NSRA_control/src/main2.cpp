@@ -85,12 +85,12 @@ void update() {
     pos next = queue.getHead();
     pos_lock.unlock();
 
-    /*
+    
     Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(speed + 32000) >> 8) & 0xFF);
-    Wire.write(((uint16_t)(speed + 32000) >> 0) & 0xFF);
+    Wire.write(((uint16_t)(now.axis1 + 32000) >> 8) & 0xFF);
+    Wire.write(((uint16_t)(now.axis1 + 32000) >> 0) & 0xFF);
     Wire.endTransmission();
-    */
+    
 
     axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + VEL_DIFF);
     axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + VEL_DIFF);
@@ -138,12 +138,13 @@ void serial_interrupt_thread() {
 
   Base64.decode(dec_string, in_bytes, 24);
   
-  for(int i = 11; i >= 0; i--) {
+  for(int i = 0; i < 12; i++) {
     crc.update(dec_string[i]);
   }
 
   uint32_t checksum = crc.finalize();
 
+  /*
   Wire.beginTransmission(8);
   Wire.write(dec_string[12]);
   Wire.write(dec_string[13]);
@@ -157,35 +158,39 @@ void serial_interrupt_thread() {
   Wire.write(((uint32_t)checksum >> 16) & 0xFF);
   Wire.write(((uint32_t)checksum >> 24) & 0xFF);
   Wire.endTransmission();
+  */
 
   uint32_t rec_checksum;
-  rec_checksum = dec_string[12];
-  rec_checksum = rec_checksum << 8;
-  rec_checksum = rec_checksum | dec_string[13];
+  rec_checksum = dec_string[15];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[14];
   rec_checksum = rec_checksum << 8;
-  rec_checksum = rec_checksum | dec_string[15];
+  rec_checksum = rec_checksum | dec_string[13];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[12];
 
   if(rec_checksum == checksum) {
+    
     digitalWrite(LED_BUILTIN, HIGH);
+    pos n;
+  
+    n.axis1 = (uint16_t)((dec_string[1] << 8) | dec_string[0]) - 32000;
+    n.axis2 = (uint16_t)((dec_string[3] << 8) | dec_string[2]) - 32000;
+    n.axis3 = (uint16_t)((dec_string[5] << 8) | dec_string[4]) - 32000;
+    n.axis4 = (uint16_t)((dec_string[7] << 8) | dec_string[6]) - 32000;
+    n.axis5 = (uint16_t)((dec_string[9] << 8) | dec_string[8]) - 32000;
+    n.axis6 = (uint16_t)((dec_string[11] << 8) | dec_string[10]) - 32000;
+  
+    pos_lock.lock(1);
+    queue.enqueue(n);
+    pos_lock.unlock();
+
   } else {
+
     digitalWrite(LED_BUILTIN, LOW);
+
   }
-  /*
-  pos n;
   
-  n.axis1 = (uint16_t)((in_bytes[1] << 8) | in_bytes[0]) - 32000;
-  n.axis2 = (uint16_t)((in_bytes[3] << 8) | in_bytes[2]) - 32000;
-  n.axis3 = (uint16_t)((in_bytes[5] << 8) | in_bytes[4]) - 32000;
-  n.axis4 = (uint16_t)((in_bytes[7] << 8) | in_bytes[6]) - 32000;
-  n.axis5 = (uint16_t)((in_bytes[9] << 8) | in_bytes[8]) - 32000;
-  n.axis6 = (uint16_t)((in_bytes[11] << 8) | in_bytes[10]) - 32000;
-  
-  pos_lock.lock(1);
-  queue.enqueue(n);
-  pos_lock.unlock();
-  */
   serialFlag = true;
 }
 
