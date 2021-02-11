@@ -36,7 +36,7 @@ def drive_pub6(data):
     #actual.publish(odrv1.axis1.encoder.pos_estimate)
     if commandFlag:
         #np.append(data_points, [[data.data, odrv1.axis1.encoder.pos_estimate]], axis=0)
-        np.concatenate((data_points, [[data.data, odrv1.axis1.encoder.pos_estimate]]), axis=0)
+        np.concatenate((data_points, [data.data, odrv1.axis1.encoder.pos_estimate]), axis=0)
         print(data_points)
 
 def command(data):
