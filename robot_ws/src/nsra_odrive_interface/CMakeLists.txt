@@ -158,6 +158,7 @@ include_directories(
 install(PROGRAMS
   src/nsra_odrive_interface
   src/test_driver_node
+  src/odrive1
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
