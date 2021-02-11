@@ -91,28 +91,40 @@ def command(data):
     global file_counter
     
     if commandFlag:
-        axis={
-            0: data_points_axis1
-            1: data_points_axis2
-            2: data_points_axis3
-            3: data_points_axis4
-            4: data_points_axis5
-            5: data_points_axis6
-        }
+
         for i in range(6):
+            data_list = None
+            if i == 0:
+                data_list = data_points_axis1
+                data_points_axis1 = np.array([[0.0, 0.0]])
+            elif i == 1:
+                data_list = data_points_axis2
+                data_points_axis2 = np.array([[0.0, 0.0]])
+            elif i == 2:
+                data_list = data_points_axis3
+                data_points_axis3 = np.array([[0.0, 0.0]])
+            elif i == 3:
+                data_list = data_points_axis4
+                data_points_axis4 = np.array([[0.0, 0.0]])
+            elif i == 4:
+                data_list = data_points_axis5
+                data_points_axis5 = np.array([[0.0, 0.0]])
+            elif i == 5:
+                data_list = data_points_axis6
+                data_points_axis6 = np.array([[0.0, 0.0]])
+            
             filename = pack_path + "/data_axis%d_%d.csv" % (i+1, file_counter)
             with open(filename, "w") as out_file:
-                num_rows, num_cols = axis.get(i).shape
+                num_rows, num_cols = data_list.shape
                 out_file.write("should,actual")
                 for i in range(num_rows-1):
                     out_string = ""
-                    out_string += str(axis.get(i)[i+1,0])
-                    out_string += "," + str(axis.get(i)[i+1,1])
+                    out_string += str(data_list[i+1,0])
+                    out_string += "," + str(data_list[i+1,1])
                     out_string += "\n"
                     out_file.write(out_string)
 
             out_file.close() 
-            axis.get(i) = np.array([[0.0, 0.0]])
 
         print("Data saved to files!")
         file_counter += 1
