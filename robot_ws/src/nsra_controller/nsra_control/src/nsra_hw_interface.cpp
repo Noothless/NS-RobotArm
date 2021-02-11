@@ -148,7 +148,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   axis_step.publish(msg_step);
 
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
-  //std::cout << crc << std::endl; AH0 AfQ B9A H0A fQB 97F GWU w==
+  std::cout << crc << std::endl; //AH0 AfQ B9A H0A fQB 97F GWU w==
   
   data[12] = ((uint32_t)crc >> 0) & 0xFF;
   data[13] = ((uint32_t)crc >> 8) & 0xFF;
@@ -161,7 +161,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   base64::encode(result, data);
   result.insert(0, 1, '\n');
 
-  std::cout << result << std::endl;
+  //std::cout << result << std::endl;
   
   unsigned char message[result.length()];
   strcpy((char*)message, result.c_str());
