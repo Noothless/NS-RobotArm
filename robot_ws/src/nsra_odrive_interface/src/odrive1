@@ -50,7 +50,9 @@ def command(data):
                 out_string += "," + str(data_points[i,1])
                 out_string += "\n"
                 out_file.write(out_string)
-        
+                print(out_string)
+        out_file.close() 
+
         data_points = np.array([[0.0, 0.0]])
         print("Data saved to file!")
         file_counter += 1
