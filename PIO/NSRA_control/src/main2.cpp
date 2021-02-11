@@ -119,7 +119,7 @@ void update() {
   
 }
 
-void serial_interrupt_thread() {
+void serial_interrupt() {
 
   char in_bytes[24];
   CRC32 crc;
@@ -247,7 +247,7 @@ void loop() {
   
   if(Serial.available() > 24 && serialFlag) {
     serialFlag = false;
-    serial_interrupt_thread();
+    serial_interrupt();
   }
 
   if(controlFlag) {
