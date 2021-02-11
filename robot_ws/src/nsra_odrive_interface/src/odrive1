@@ -17,7 +17,7 @@ pack_path = rospack.get_path('nsra_odrive_interface')
 
 from nsra_odrive_interface.srv import *
 
-data_points = None
+data_points = np.array([[0.0, 0.0]])
 commandFlag = False
 
 file_counter = 0
@@ -51,7 +51,7 @@ def command(data):
                 out_string += "\n"
                 out_file.write(out_string)
         
-        data_points = None
+        data_points = np.array([[0.0, 0.0]])
         print("Data saved to file!")
         file_counter += 1
         commandFlag = False
