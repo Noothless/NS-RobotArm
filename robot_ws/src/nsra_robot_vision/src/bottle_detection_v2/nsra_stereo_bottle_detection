@@ -88,8 +88,7 @@ mtrx = np.array([[0.0, 0.0, 0.0],
 
 rob_offset_vec = np.array([0.0, 0.0, 0.0])
 
-cam_left_config = [0,0]
-cam_right_config = [0,0]
+cam_config = [15.0,100000.0]
 
 #load config file
 try:
@@ -104,10 +103,8 @@ try:
     mtrx[2,1] = config_object.getfloat("CONFIG", "mtrx_7")
     mtrx[2,2] = config_object.getfloat("CONFIG", "mtrx_8")
 
-    cam_left_config[0] = config_object.getint("CAMERA", "clc_gain")
-    cam_left_config[1] = config_object.getint("CAMERA", "clc_exposure")
-    cam_right_config[0] = config_object.getint("CAMERA", "crc_gain")
-    cam_right_config[1] = config_object.getint("CAMERA", "crc_exposure")
+    cam_config[0] = config_object.getint("CAMERA", "cam_gain")
+    cam_config[1] = config_object.getint("CAMERA", "cam_exposure")
 
     rl = config_object.getint("PARAMS", "rl")
     gl = config_object.getint("PARAMS", "gl")
@@ -201,9 +198,9 @@ class camera():
 
         cam.TriggerMode.set(gx.GxSwitchEntry.OFF)
 
-        cam.ExposureTime.set(100000.0)
+        cam.ExposureTime.set(cam_config[1])
 
-        cam.Gain.set(15.0)
+        cam.Gain.set(cam_config[0])
 
         cam.BalanceWhiteAuto.set(1)
 
