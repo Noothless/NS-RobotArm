@@ -9,8 +9,18 @@ import odrive
 from odrive.enums import *
 import time
 import math
+import rospkg
+import numpy
+
+rospack = rospkg.RosPack()
+pack_path = rospack.get_path('nsra_odrive_interface')
 
 from nsra_odrive_interface.srv import *
+
+data_points = None
+commandFlag = False
+
+file_counter = 0
 
 print("Connecting...")
 odrv1 = odrive.find_any(serial_number="20573882304E")
@@ -20,10 +30,34 @@ should = rospy.Publisher('should', Float64, queue_size=10)
 actual = rospy.Publisher('actual', Float64, queue_size=10)
 
 def drive_pub6(data):
+    global data_points
 
-    should.publish(data.data)
-    actual.publish(odrv1.axis1.encoder.pos_estimate)
+    #should.publish(data.data)
+    #actual.publish(odrv1.axis1.encoder.pos_estimate)
+    if commandFlag:
+        np.append(data_points, [[data.data, odrv1.axis1.encoder.pos_estimate]], axis=0)
 
+def command(data):
+    global commandFlag
+    global data_points
+    global file_counter
+
+    if commandFlag:
+        with open(pack_path + "/output_data_%d.csv" % file_counter, "w") as out_file:
+            for i in range(len(data_points)):
+                out_string = ""
+                out_string += str(data_points[i,0])
+                out_string += "," + str(data_points[i,1])
+                out_string += "\n"
+                out_file.write(out_string)
+        
+        data_points = None
+        print("Data saved to file!")
+        file_counter += 1
+        commandFlag = False
+    else:  
+        commandFlag = True
+        print("Data is registered!")
 
 def axis_requested_state(req):
     print("Axis requested_state")
@@ -42,6 +76,7 @@ def axis_requested_state(req):
 rospy.init_node('odrive1_driver')
 
 rospy.Subscriber("/nsra/drive_pub6", Float64, drive_pub6)
+rospy.Subscriber("/data_command", String, command)
 
 requested_state = rospy.Service('odrv1_requested_state', requested_state, axis_requested_state)
 

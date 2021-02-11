@@ -43,7 +43,7 @@
 #include <CRC32.h>
 #include <Base64.h>
 
-#define QUEUE_SIZE 10
+#define QUEUE_SIZE 3
 #define ACCELERATION 5000
 #define FRQ 20
 #define PULSE_WIDTH 50
