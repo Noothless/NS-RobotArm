@@ -137,30 +137,11 @@ void serial_interrupt_thread() {
   char dec_string[16];
 
   Base64.decode(dec_string, in_bytes, 24);
-  
-  for(int i = 0; i < 12; i++) {
-    crc.update(dec_string[i]);
-  }
 
-  uint32_t checksum = crc.finalize();
-
-  /*
-  Wire.beginTransmission(8);
-  Wire.write(dec_string[12]);
-  Wire.write(dec_string[13]);
-  Wire.write(dec_string[14]);
-  Wire.write(dec_string[15]);
-  Wire.endTransmission();
-
-  Wire.beginTransmission(8);
-  Wire.write(((uint32_t)checksum >> 0) & 0xFF);
-  Wire.write(((uint32_t)checksum >> 8) & 0xFF);
-  Wire.write(((uint32_t)checksum >> 16) & 0xFF);
-  Wire.write(((uint32_t)checksum >> 24) & 0xFF);
-  Wire.endTransmission();
-  */
+  uint32_t checksum = crc.calculate(dec_string, 12);
 
   uint32_t rec_checksum;
+
   rec_checksum = dec_string[15];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[14];
