@@ -41,12 +41,11 @@
 #include <TeensyThreads.h>
 #include <Wire.h>
 
-#define MAX_SERIAL_WAIT 35
 #define QUEUE_SIZE 10
 #define ACCELERATION 5000
 #define FRQ 20
 #define PULSE_WIDTH 50
-#define SPEED 10000
+#define VEL_DIFF 500
 
 Threads::Mutex pos_lock;
 
@@ -91,12 +90,12 @@ void update() {
     Wire.endTransmission();
     */
 
-    axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + 500);
-    axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + 500);
-    axis3.setMaxSpeed((int)round((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2)*FRQ + 500);
-    axis4.setMaxSpeed((int)round((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2)*FRQ + 500);
-    axis5.setMaxSpeed((int)round((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2)*FRQ + 500);
-    axis6.setMaxSpeed((int)round((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2)*FRQ + 500);
+    axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + VEL_DIFF);
+    axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + VEL_DIFF);
+    axis3.setMaxSpeed((int)round((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2)*FRQ + VEL_DIFF);
+    axis4.setMaxSpeed((int)round((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2)*FRQ + VEL_DIFF);
+    axis5.setMaxSpeed((int)round((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2)*FRQ + VEL_DIFF);
+    axis6.setMaxSpeed((int)round((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2)*FRQ + VEL_DIFF);
     
     axis1.moveTo(now.axis1);
     axis2.moveTo(now.axis2);
@@ -151,8 +150,6 @@ void serial_interrupt_thread() {
 void setup() {
   Serial.begin(115200);
   //Wire.begin();
-  //pinMode(12, OUTPUT);
-  //digitalWrite(12, LOW);
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
@@ -184,7 +181,6 @@ void loop() {
   
   if(Serial.available() > 12 && serialFlag) {
     serialFlag = false;
-    //threads.addThread(serial_interrupt_thread);
     serial_interrupt_thread();
   }
 
