@@ -20,7 +20,7 @@ def drive_pub6(data):
 
     print(data.data)
     
-    print(odrv1.axis0.encoder.pos_estimate)
+    print(odrv1.axis1.encoder.pos_estimate)
 
 
 def axis_requested_state(req):
