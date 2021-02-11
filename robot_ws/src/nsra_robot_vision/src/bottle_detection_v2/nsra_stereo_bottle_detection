@@ -117,7 +117,7 @@ try:
     bh = config_object.getint("PARAMS", "bh")
     print("Parameters loaded!")
 except:
-    print("No valid config file found!")
+    print(colored(255, 0, 0, "No valid config file found!"))
 
 try:
     fs = cv2.FileStorage(pack_path + "/config/cam_stereo.yml", cv2.FILE_STORAGE_READ)
@@ -130,18 +130,18 @@ try:
     RR = fs.getNode("RR").mat()
     RL = fs.getNode("RL").mat()
 except:
-    print("Error no config file found!")
+    print(colored(255, 0, 0, "Error no config file found!"))
     quit()
 
 if PR.any() == None or PL.any() == None:
-    print("Error config file not valid!")
+    print(colored(255, 0, 0, "Error config file not valid!"))
     quit()
 
 try:
     chessImg = cv2.imread(pack_path + "/images/left1.jpg")
     imsize = (chessImg.shape[1], chessImg.shape[0])
 except:
-    print("Error no valid image found in the /image folder!")
+    print(colored(255, 0, 0, "Error no valid image found in the /image folder!"))
     quit()
 
 # initUndistortRectifyMap 
@@ -185,17 +185,17 @@ class camera():
         dev_num, dev_info_list = device_manager.update_device_list()
 
         if dev_num == 0:
-            print("Number of enumerated devices is 0")
+            print(colored(255, 0, 0, "Number of enumerated devices is 0"))
             return
 
         if cam_num != 0 and cam_num != 1:
-            print("Invalid cam number!")
+            print(colored(255, 0, 0, "Invalid cam number!"))
             return
 
         cam = device_manager.open_device_by_sn(devices.get(cam_num))
 
         if cam.PixelColorFilter.is_implemented() == False:
-            print("This sample does not support mono camera.")
+            print(colored(255, 0, 0, "This program does not support mono camera."))
             cam.close_device()
             return
 
@@ -224,7 +224,7 @@ class camera():
                 raw_image = cam.data_stream[0].get_image()
 
                 if raw_image is None:
-                    print("Getting image failed.")
+                    print(colored(255, 0, 0, "Getting image failed."))
                     continue
 
                 if raw_image.get_status() == gx.GxFrameStatusList.INCOMPLETE:
@@ -582,9 +582,7 @@ while(send_flag):
 
     if calib_flag:
         calib_flag = False
-        print("Callibrate camera origin")
         callibrate([img_right, img_left])
     elif detect_flag:
         detect_flag = False
-        print("Detect!")
         detect([img_right, img_left])
