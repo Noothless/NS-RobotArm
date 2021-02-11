@@ -155,13 +155,13 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   data[14] = ((uint32_t)crc >> 16) & 0xFF;
   data[15] = ((uint32_t)crc >> 24) & 0xFF;
 
-  std::cout << data << std::endl;
+  //std::cout << data << std::endl;
 
   std::string result;
   base64::encode(result, data);
   result.insert(0, 1, '\n');
 
-  //std::cout << result << std::endl;
+  std::cout << result << std::endl;
   
   unsigned char message[result.length()];
   strcpy((char*)message, result.c_str());

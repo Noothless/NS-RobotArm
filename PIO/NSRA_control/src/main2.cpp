@@ -136,13 +136,13 @@ void serial_interrupt_thread() {
 
   char dec_string[16];
 
-  Base64.decode(dec_string, in_bytes, 24);
-
-  
   Wire.beginTransmission(8);
-  Wire.write(dec_string, 16);
+  Wire.write(in_bytes, 24);
   Wire.endTransmission();
+
+  Base64.decode(dec_string, in_bytes, 24);
   
+
 
   for(int i = 0; i < 12; i++) {
     crc.update(dec_string[i]);
