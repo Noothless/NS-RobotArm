@@ -145,10 +145,10 @@ void serial_interrupt_thread() {
   uint32_t checksum = crc.finalize();
 
   Wire.beginTransmission(8);
-  Wire.write(dec_string[12]);
-  Wire.write(dec_string[13]);
-  Wire.write(dec_string[14]);
   Wire.write(dec_string[15]);
+  Wire.write(dec_string[14]);
+  Wire.write(dec_string[13]);
+  Wire.write(dec_string[12]);
   Wire.endTransmission();
 
   Wire.beginTransmission(8);
