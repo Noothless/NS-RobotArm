@@ -145,10 +145,10 @@ void serial_interrupt_thread() {
   uint32_t checksum = crc.finalize();
 
   Wire.beginTransmission(8);
-  Wire.write(dec_string[15]);
-  Wire.write(dec_string[14]);
-  Wire.write(dec_string[13]);
   Wire.write(dec_string[12]);
+  Wire.write(dec_string[13]);
+  Wire.write(dec_string[14]);
+  Wire.write(dec_string[15]);
   Wire.endTransmission();
 
   Wire.beginTransmission(8);
@@ -159,13 +159,13 @@ void serial_interrupt_thread() {
   Wire.endTransmission();
 
   uint32_t rec_checksum;
-  rec_checksum = dec_string[15];
-  rec_checksum = rec_checksum << 8;
-  rec_checksum = rec_checksum | dec_string[14];
+  rec_checksum = dec_string[12];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[13];
   rec_checksum = rec_checksum << 8;
-  rec_checksum = rec_checksum | dec_string[12];
+  rec_checksum = rec_checksum | dec_string[14];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[15];
 
   if(rec_checksum == checksum) {
     digitalWrite(LED_BUILTIN, HIGH);
