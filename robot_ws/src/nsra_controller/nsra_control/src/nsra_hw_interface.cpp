@@ -150,7 +150,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
   std::cout << crc << std::endl;
   unsigned char crc_data[16];
-  for(int n; n < 12; n++) {
+  for(int n = 0; n < 12; n++) {
     crc_data[n] = data[n];
   }
   crc_data[12] = ((uint32_t)crc >> 0) & 0xFF;
