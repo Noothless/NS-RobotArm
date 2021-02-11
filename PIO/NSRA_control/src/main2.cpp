@@ -40,6 +40,8 @@
 #include <ros.h>
 #include <TeensyThreads.h>
 #include <Wire.h>
+#include <CRC32.h>
+#include <Base64.h>
 
 #define QUEUE_SIZE 10
 #define ACCELERATION 5000
