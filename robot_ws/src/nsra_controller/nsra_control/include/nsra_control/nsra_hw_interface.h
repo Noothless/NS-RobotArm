@@ -43,9 +43,13 @@
 #include <nsra_controller/generic_hw_interface.h>
 #include <vector>
 #include "serial/serial.h"
+#include <cppcodec/base64_rfc4648.hpp>
+#include <nsra_control/CRC.h>
 
 namespace nsra_control
 {
+
+using base64 = cppcodec::base64_rfc4648;
 
 constexpr const char* const SERIAL_PORT = "/dev/controller";
 

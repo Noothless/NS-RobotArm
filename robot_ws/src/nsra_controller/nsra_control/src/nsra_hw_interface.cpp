@@ -84,11 +84,7 @@ NSRAHWInterface::NSRAHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
     saved_pos.push_back(0);
   }
 }
-/*
-NSRAHWInterface::~NSRAHWInterface(){
-  serial_stream.Close();
-}
-*/
+
 void NSRAHWInterface::read(ros::Duration &elapsed_time)
 {
   for (size_t i = 0; i < num_joints_; i++) {
@@ -98,18 +94,11 @@ void NSRAHWInterface::read(ros::Duration &elapsed_time)
 
 void NSRAHWInterface::write(ros::Duration &elapsed_time)
 {
-  /*
-  if ( ! serial_stream.good() )
-  {
-    ROS_INFO_NAMED("nsra_hardware_interface", "Serial Error - test!");
-  }
-  */
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
-  const int BUFFER_SIZE = 13;
+  const int BUFFER_SIZE = 16;
   unsigned char data[BUFFER_SIZE];
-  data[0] = '\n';
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
     std_msgs::Float64 msg;
@@ -151,20 +140,30 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       steps = round(joint_position_command_[i]*4000/pi);
       msg_step.axis6 = steps;
     }
-    data[i*2+1] = ((uint16_t)(steps + 32000) >> 0) & 0xFF;
-    data[i*2+2] = ((uint16_t)(steps + 32000) >> 8) & 0xFF;
+    data[i*2] = ((uint16_t)(steps + 32000) >> 0) & 0xFF;
+    data[i*2+1] = ((uint16_t)(steps + 32000) >> 8) & 0xFF;
 
     saved_pos[i] = joint_position_command_[i];
   }
   axis_step.publish(msg_step);
-  
+
+  uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
+  std::cout << std::hex << crc << std::endl;
+
+  data[12] = ((uint32_t)crc >> 0) & 0xFF;
+  data[13] = ((uint32_t)crc >> 8) & 0xFF;
+  data[14] = ((uint32_t)crc >> 16) & 0xFF;
+  data[15] = ((uint32_t)crc >> 24) & 0xFF;
+
+  std::cout << base64::encode(data) << std::endl;
+  /*
   try {
     ser.write(data, BUFFER_SIZE);
   } catch (char *excp)
   {
     ROS_ERROR_STREAM("Error!");
   }
-
+  */
 }
 
 void NSRAHWInterface::enforceLimits(ros::Duration &period)
