@@ -85,12 +85,12 @@ void update() {
     pos next = queue.getHead();
     pos_lock.unlock();
 
-    
+    /*
     Wire.beginTransmission(8);
     Wire.write(((uint16_t)(now.axis1 + 32000) >> 8) & 0xFF);
     Wire.write(((uint16_t)(now.axis1 + 32000) >> 0) & 0xFF);
     Wire.endTransmission();
-    
+    */
 
     axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + VEL_DIFF);
     axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + VEL_DIFF);
@@ -197,10 +197,7 @@ void serial_interrupt_thread() {
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
-  digitalWrite(LED_BUILTIN, LOW);
-  Wire.begin();
+  //Wire.begin();
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
