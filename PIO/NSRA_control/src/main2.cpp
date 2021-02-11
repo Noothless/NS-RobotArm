@@ -138,6 +138,12 @@ void serial_interrupt_thread() {
 
   Base64.decode(dec_string, in_bytes, 24);
 
+  
+  Wire.beginTransmission(8);
+  Wire.write(dec_string, 16);
+  Wire.endTransmission();
+  
+
   for(int i = 0; i < 12; i++) {
     crc.update(dec_string[i]);
   }
@@ -181,7 +187,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);
   delay(1000);
   digitalWrite(LED_BUILTIN, LOW);
-  //Wire.begin();
+  Wire.begin();
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
