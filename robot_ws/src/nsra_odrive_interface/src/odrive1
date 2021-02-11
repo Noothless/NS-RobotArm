@@ -42,9 +42,10 @@ def command(data):
     global commandFlag
     global data_points
     global file_counter
-
+    
     if commandFlag:
-        with open(pack_path + "/output_data_%d.csv" % file_counter, "w") as out_file:
+        filename = pack_path + "/output_data_%d.csv" % file_counter
+        with open(filename, "w") as out_file:
             num_rows, num_cols = data_points.shape
             for i in range(num_rows):
                 out_string = ""
@@ -52,11 +53,11 @@ def command(data):
                 out_string += "," + str(data_points[i,1])
                 out_string += "\n"
                 out_file.write(out_string)
-                print(out_string)
+
         out_file.close() 
 
         data_points = np.array([[0.0, 0.0]])
-        print("Data saved to file!")
+        print("Data saved to file %s!" % filename)
         file_counter += 1
         commandFlag = False
     else:  
