@@ -74,11 +74,11 @@ RR = None
 RL = None
 
 #color filter parameter
-rl = 90
-gl = 40
+rl = 105
+gl = 120
 bl = 100
-rh = 115
-gh = 255
+rh = 120
+gh = 220
 bh = 255
 
 #World origin of cameras relative to the robot
@@ -103,8 +103,8 @@ try:
     mtrx[2,1] = config_object.getfloat("CONFIG", "mtrx_7")
     mtrx[2,2] = config_object.getfloat("CONFIG", "mtrx_8")
 
-    cam_config[0] = config_object.getint("CAMERA", "cam_gain")
-    cam_config[1] = config_object.getint("CAMERA", "cam_exposure")
+    cam_config[0] = config_object.getfloat("CAMERA", "cam_gain")
+    cam_config[1] = config_object.getfloat("CAMERA", "cam_exposure")
 
     rl = config_object.getint("PARAMS", "rl")
     gl = config_object.getint("PARAMS", "gl")
@@ -112,7 +112,17 @@ try:
     rh = config_object.getint("PARAMS", "rh")
     gh = config_object.getint("PARAMS", "gh")
     bh = config_object.getint("PARAMS", "bh")
+
+    print("---------------")
     print("Parameters loaded!")
+    print("Transformation matrix:")
+    print(mtrx)
+    print("Camera config:")
+    print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
+    print("HSV Color filter:")
+    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (rh, gh, bh, rl, gl, bl))
+    print("---------------")
+
 except:
     print(colored(255, 0, 0, "No valid config file found!"))
 
@@ -158,6 +168,8 @@ class camera():
         #load process
         self.p = mp.Process(target=self.update, args=(child_conn,cam_num))        
         #start process
+        self.cam = None
+
         self.p.daemon = True
         self.p.start()
 
@@ -189,23 +201,23 @@ class camera():
             print(colored(255, 0, 0, "Invalid cam number!"))
             return
 
-        cam = device_manager.open_device_by_sn(devices.get(cam_num))
+        self.cam = device_manager.open_device_by_sn(devices.get(cam_num))
 
         if cam.PixelColorFilter.is_implemented() == False:
             print(colored(255, 0, 0, "This program does not support mono camera."))
-            cam.close_device()
+            self.cam.close_device()
             return
 
-        cam.TriggerMode.set(gx.GxSwitchEntry.OFF)
+        self.cam.TriggerMode.set(gx.GxSwitchEntry.OFF)
 
-        cam.ExposureTime.set(cam_config[1])
+        self.cam.ExposureTime.set(cam_config[1])
 
-        cam.Gain.set(cam_config[0])
+        self.cam.Gain.set(cam_config[0])
 
-        cam.BalanceWhiteAuto.set(1)
+        self.cam.BalanceWhiteAuto.set(1)
 
-        cam.data_stream[0].set_acquisition_buffer_number(1)
-        cam.stream_on()
+        self.cam.data_stream[0].set_acquisition_buffer_number(1)
+        self.cam.stream_on()
 
         print("Cam %s Loaded..." % devices.get(cam_num))
 
@@ -218,7 +230,7 @@ class camera():
 
             if rec_dat == 1:
                 #if frame requested
-                raw_image = cam.data_stream[0].get_image()
+                raw_image = self.cam.data_stream[0].get_image()
 
                 if raw_image is None:
                     print(colored(255, 0, 0, "Getting image failed."))
@@ -241,8 +253,8 @@ class camera():
 
             elif rec_dat == 2:
                 #if close requested
-                cam.stream_off()
-                cam.close_device()
+                self.cam.stream_off()
+                self.cam.close_device()
                 run = False
 
         print("Camera %s Connection Closed" % devices.get(cam_num))        
@@ -265,7 +277,23 @@ class camera():
             return frame
         else:
             return self.rescale_frame(frame,resize)
+    
+    def change_gain(self, gain):
 
+        try:
+            self.cam.Gain.set(gain)
+        except:
+            print(colored(255, 0, 0, "Error changing parameters!"))
+            quit()
+    
+    def change_exposure(self, exposure):
+
+        try:
+            self.cam.ExposureTime.set(exposure)
+        except:
+            print(colored(255, 0, 0, "Error changing parameters!"))
+            quit()
+        
     def rescale_frame(self,frame, percent=65): #TODO: check percent!
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
@@ -396,6 +424,21 @@ def callibrate(img):
                      [x_vec[1], y_vec[1], z_vec[1]],
                      [x_vec[2], y_vec[2], z_vec[2]]])
 
+    config_object["CONFIG"] = {
+            "mtrx_0": str(mtrx[0,0]),
+            "mtrx_1": str(mtrx[0,1]),
+            "mtrx_2": str(mtrx[0,2]),
+            "mtrx_3": str(mtrx[1,0]),
+            "mtrx_4": str(mtrx[1,1]),
+            "mtrx_5": str(mtrx[1,2]),
+            "mtrx_6": str(mtrx[2,0]),
+            "mtrx_7": str(mtrx[2,1]),
+            "mtrx_8": str(mtrx[2,2]),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+
     print("---------------")
     print("Callibration successful!")
     print("Transformation matrix: ")
@@ -503,13 +546,37 @@ def paramsChangeCallback(data):
             "bh": str(bh),
     }
 
-    with open(pack_path + "/config/stereo_camera_config.yml", 'w') as conf:
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+
+def camGainCallback(data):
+    cam_left.change_gain(data.data)
+    cam_right.change_gain(data.data)
+    print("Gain changed!")
+
+    config_object["CAMERA"] = {
+            "cam_gain": str(data.data),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+
+def camExposureCallback(data):
+    cam_left.change_exposure(data.data)
+    cam_right.change_exposure(data.data)
+    print("Exposure changed!")
+
+    config_object["CAMERA"] = {
+            "cam_exposure": str(data.data),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
         config_object.write(conf)
 
 rospy.init_node('nsra_stereo_camera')
-rospy.Subscriber("bd_params", String, paramsChangeCallback)
-
-#105/120/100/120/220/255
+rospy.Subscriber("nsra/bd_params", String, paramsChangeCallback)
+rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
+rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)
 
 test_nb = 0
 
@@ -557,7 +624,6 @@ while(send_flag):
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,0]*1080/3088)), int(round(pnts_img[0,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[2,0]*1080/3088)), int(round(pnts_img[2,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[4,0]*1080/3088)), int(round(pnts_img[4,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
-    #blur_frame_points_left = cv2.circle(blur_frame_points_left, (int(round(origin_img[1,0])), int(round(origin_img[1,1]))), radius=5, color=(0, 0, 255), thickness=-1)
 
     #Resize for imshow
 
