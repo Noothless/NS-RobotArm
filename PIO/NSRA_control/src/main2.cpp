@@ -145,13 +145,13 @@ void serial_interrupt_thread() {
   uint32_t checksum = crc.finalize();
 
   uint32_t rec_checksum;
-  rec_checksum = dec_string[16];
-  rec_checksum = rec_checksum << 8;
-  rec_checksum = rec_checksum | dec_string[15];
+  rec_checksum = dec_string[15];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[14];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[13];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[12];
 
   if(rec_checksum == checksum) {
     digitalWrite(LED_BUILTIN, HIGH);
@@ -178,6 +178,8 @@ void serial_interrupt_thread() {
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
   digitalWrite(LED_BUILTIN, LOW);
   //Wire.begin();
   axis1.setAcceleration(ACCELERATION);
