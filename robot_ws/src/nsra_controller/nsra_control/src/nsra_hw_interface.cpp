@@ -160,12 +160,12 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   result.insert(0, 1, '\n');
 
   std::cout << result.length() << std::endl;
-  /*
+  
   unsigned char message[result.length()];
-  strcpy((char*)message, result);
-  */
+  strcpy((char*)message, result.c_str());
+  
   try { 
-    ser.write(result.c_str(), result.length());
+    ser.write(result, result.length());
   } catch (char *excp)
   {
     ROS_ERROR_STREAM("Error!");
