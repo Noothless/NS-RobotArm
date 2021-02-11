@@ -159,10 +159,12 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   base64::encode(result, data);
   result.insert(0, 1, '\n');
 
-  std::cout << result.length() << std::endl;
+  std::cout << result << std::endl;
   
   unsigned char message[result.length()];
   strcpy((char*)message, result.c_str());
+
+  std::cout << message << std::endl;
   
   try { 
     ser.write(message, result.length());
