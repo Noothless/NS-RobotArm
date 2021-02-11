@@ -63,6 +63,7 @@ AccelStepper axis6(1,10,11);
 IntervalTimer ctrl_loop_timer;
 
 bool queueFlag = false;
+bool controlFlag = false;
 
 struct pos {
     volatile int axis1;
@@ -77,7 +78,7 @@ ArduinoQueue<pos> queue(50);
 pos last;
 
 void update() {
-  if(queueFlag)
+  if(queueFlag && controlFlag)
   {
     
     pos_lock.lock(1);
@@ -151,8 +152,26 @@ void serial_interrupt_thread() {
   rec_checksum = rec_checksum | dec_string[12];
 
   if(rec_checksum == checksum) {
+
+    if(!controlFlag) {
+      axis1.enableOutputs();
+      axis2.enableOutputs();
+      axis3.enableOutputs();
+      axis4.enableOutputs();
+      axis5.enableOutputs();
+      axis6.enableOutputs();
+
+      axis1.setCurrentPosition(0);
+      axis2.setCurrentPosition(0);
+      axis3.setCurrentPosition(0);
+      axis4.setCurrentPosition(0);
+      axis5.setCurrentPosition(0);
+      axis6.setCurrentPosition(0);
+
+      controlFlag = true;
+      digitalWrite(LED_BUILTIN, HIGH);
+    }
     
-    digitalWrite(LED_BUILTIN, HIGH);
     pos n;
   
     n.axis1 = (uint16_t)((dec_string[1] << 8) | dec_string[0]) - 32000;
@@ -166,10 +185,18 @@ void serial_interrupt_thread() {
     queue.enqueue(n);
     pos_lock.unlock();
 
-  } else {
+  } else if(controlFlag) {
 
+    axis1.disableOutputs();
+    axis2.disableOutputs();
+    axis3.disableOutputs();
+    axis4.disableOutputs();
+    axis5.disableOutputs();
+    axis6.disableOutputs();
+
+    controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);
-
+     
   }
   
   serialFlag = true;
@@ -177,6 +204,11 @@ void serial_interrupt_thread() {
 
 void setup() {
   Serial.begin(115200);
+
+  while (!Serial) {
+    delay(1);
+  }
+
   pinMode(LED_BUILTIN, OUTPUT);
   //Wire.begin();
   axis1.setAcceleration(ACCELERATION);
@@ -186,14 +218,19 @@ void setup() {
   axis5.setAcceleration(ACCELERATION);
   axis6.setAcceleration(ACCELERATION);
 
-  //axis1.setMaxSpeed(1100);
-
   axis1.setMinPulseWidth(PULSE_WIDTH);
   axis2.setMinPulseWidth(PULSE_WIDTH);
   axis3.setMinPulseWidth(PULSE_WIDTH);
   axis4.setMinPulseWidth(PULSE_WIDTH);
   axis5.setMinPulseWidth(PULSE_WIDTH);
   axis6.setMinPulseWidth(PULSE_WIDTH);
+
+  axis1.disableOutputs();
+  axis2.disableOutputs();
+  axis3.disableOutputs();
+  axis4.disableOutputs();
+  axis5.disableOutputs();
+  axis6.disableOutputs();
 
   last.axis1 = 0;
   last.axis2 = 0;
@@ -213,11 +250,25 @@ void loop() {
     serial_interrupt_thread();
   }
 
-  axis1.run();
-  axis2.run();
-  axis3.run();
-  axis4.run();
-  axis5.run();
-  axis6.run();
+  if(controlFlag) {
+    axis1.run();
+    axis2.run();
+    axis3.run();
+    axis4.run();
+    axis5.run();
+    axis6.run();
+  }
+
+  if(!Serial && controlFlag) {
+    axis1.disableOutputs();
+    axis2.disableOutputs();
+    axis3.disableOutputs();
+    axis4.disableOutputs();
+    axis5.disableOutputs();
+    axis6.disableOutputs();
+
+    controlFlag = false;
+    digitalWrite(LED_BUILTIN, LOW);
+  }
   
 }
