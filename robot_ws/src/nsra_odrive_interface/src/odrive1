@@ -39,7 +39,7 @@ def axis_requested_state(req):
 
 rospy.init_node('odrive1_driver')
 
-rospy.Subscriber("/nsra/drive_pub6", Int32, drive_pub1)
+rospy.Subscriber("/nsra/drive_pub6", Int32, drive_pub6)
 
 requested_state = rospy.Service('odrv1_requested_state', requested_state, axis_requested_state)
 
