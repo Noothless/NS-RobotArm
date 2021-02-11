@@ -120,7 +120,8 @@ void update() {
 
 void serial_interrupt_thread() {
 
-  byte in_bytes[12];
+  char in_bytes[24];
+  CRC32 crc;
   
   while (Serial.available())
   {
@@ -128,11 +129,36 @@ void serial_interrupt_thread() {
     if (in_bytes[0] == 10) { break; }
   }
 
-  for (int n = 0; n < 12; n++)
+  for (int n = 0; n < 24; n++)
   {
     in_bytes[n] = Serial.read();
   }
-  
+
+  char dec_string[16];
+
+  Base64.decode(dec_string, in_bytes, 24);
+
+  for(int i = 0; i < 12; i++) {
+    crc.update(dec_string[i]);
+  }
+
+  uint32_t checksum = crc.finalize();
+
+  uint32_t rec_checksum;
+  rec_checksum = dec_string[16];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[15];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[14];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[13];
+
+  if(rec_checksum == checksum) {
+    digitalWrite(LED_BUILTIN, HIGH);
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  /*
   pos n;
   
   n.axis1 = (uint16_t)((in_bytes[1] << 8) | in_bytes[0]) - 32000;
@@ -145,12 +171,14 @@ void serial_interrupt_thread() {
   pos_lock.lock(1);
   queue.enqueue(n);
   pos_lock.unlock();
-
+  */
   serialFlag = true;
 }
 
 void setup() {
   Serial.begin(115200);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
   //Wire.begin();
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
