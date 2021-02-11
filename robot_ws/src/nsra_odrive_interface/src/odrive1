@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import rospy
 from std_msgs.msg import String
-from std_msgs.msg import Int32
+from std_msgs.msg import Float64
 import odrive
 from odrive.enums import *
 import time
@@ -39,7 +39,7 @@ def axis_requested_state(req):
 
 rospy.init_node('odrive1_driver')
 
-rospy.Subscriber("/nsra/drive_pub6", Int32, drive_pub6)
+rospy.Subscriber("/nsra/drive_pub6", Float64, drive_pub6)
 
 requested_state = rospy.Service('odrv1_requested_state', requested_state, axis_requested_state)
 
