@@ -97,7 +97,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
-  const int BUFFER_SIZE = 16;
+  const int BUFFER_SIZE = 12;
   unsigned char data[BUFFER_SIZE];
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
@@ -149,16 +149,19 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
 
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
   std::cout << crc << std::endl; //AH0 AfQ B9A H0A fQB 97F GWU w==
-  
-  data[12] = ((uint32_t)crc >> 0) & 0xFF;
-  data[13] = ((uint32_t)crc >> 8) & 0xFF;
-  data[14] = ((uint32_t)crc >> 16) & 0xFF;
-  data[15] = ((uint32_t)crc >> 24) & 0xFF;
+  unsigned char crc_data[16];
+  for(int n; n < 12; n++) {
+    crc_data[n] = data[n]
+  }
+  crc_data[12] = ((uint32_t)crc >> 0) & 0xFF;
+  crc_data[13] = ((uint32_t)crc >> 8) & 0xFF;
+  crc_data[14] = ((uint32_t)crc >> 16) & 0xFF;
+  crc_data[15] = ((uint32_t)crc >> 24) & 0xFF;
 
   //std::cout << data << std::endl;
 
   std::string result;
-  base64::encode(result, data);
+  base64::encode(result, crc_data);
   result.insert(0, 1, '\n');
 
   //std::cout << result << std::endl;
