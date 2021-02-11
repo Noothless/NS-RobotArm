@@ -148,7 +148,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   axis_step.publish(msg_step);
 
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
-  std::cout << crc << std::endl;
+  //std::cout << crc << std::endl; AH0 AfQ B9A H0A fQB 97F GWU w==
   
   data[12] = ((uint32_t)crc >> 0) & 0xFF;
   data[13] = ((uint32_t)crc >> 8) & 0xFF;
@@ -156,19 +156,16 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   data[15] = ((uint32_t)crc >> 24) & 0xFF;
 
   std::string result;
-  //unsigned char message[18];
   base64::encode(result, data);
+  result.insert(0, '\n');
 
-  std::cout << result << std::endl;
-  std::cout << base64::decode(result).size() << std::endl;
-  /*
   try { 
-    ser.write(data, BUFFER_SIZE);
+    ser.write(result, length(result));
   } catch (char *excp)
   {
     ROS_ERROR_STREAM("Error!");
   }
-  */
+  
 }
 
 void NSRAHWInterface::enforceLimits(ros::Duration &period)
