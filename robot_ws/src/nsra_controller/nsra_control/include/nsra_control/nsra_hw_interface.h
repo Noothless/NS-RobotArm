@@ -42,8 +42,6 @@
 
 #include <nsra_controller/generic_hw_interface.h>
 #include <vector>
-//#include <SerialStream.h>
-//#include <SerialPort.h>
 #include "serial/serial.h"
 
 namespace nsra_control
@@ -70,8 +68,6 @@ public:
   /** \breif Enforce limits for all values before writing */
   virtual void enforceLimits(ros::Duration &period);
 
-  virtual unsigned char reverse(unsigned char b);
-
   ros::Publisher drive_pub1;
   ros::Publisher drive_pub2;
   ros::Publisher drive_pub3;
@@ -84,10 +80,6 @@ public:
   std::vector<double> saved_pos;
 
   serial::Serial ser;
-
-  uint16_t test_pos = 0;
-
-  //LibSerial::SerialStream serial_stream;
 
 };  // class
 
