@@ -16,11 +16,13 @@ print("Connecting...")
 odrv1 = odrive.find_any(serial_number="20573882304E")
 print("Connected to ODrive 1")
 
+should = rospy.Publisher('should', Float64, queue_size=10)
+actual = rospy.Publisher('actual', Float64, queue_size=10)
+
 def drive_pub6(data):
 
-    print(data.data)
-    
-    print(odrv1.axis1.encoder.pos_estimate)
+    should.publish(data.data)
+    actual.publish(odrv1.axis1.encoder.pos_estimate)
 
 
 def axis_requested_state(req):
