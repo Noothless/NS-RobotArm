@@ -159,7 +159,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   base64::encode(result, data);
 
   std::cout << result << std::endl;
-  /*
+  std::cout << base64::decode(result) << std::endl;
+  /* x2V Yav 94I nil gXi ENt t2L w ==
   try {
     ser.write(data, BUFFER_SIZE);
   } catch (char *excp)
