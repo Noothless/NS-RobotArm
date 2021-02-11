@@ -10,7 +10,7 @@ from odrive.enums import *
 import time
 import math
 import rospkg
-import numpy
+import numpy as np
 
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_odrive_interface')
