@@ -159,6 +159,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   base64::encode(result, data);
   result.insert(0, '\n');
 
+  std::cout << length(result) << std::endl;
+
   try { 
     ser.write(result, length(result));
   } catch (char *excp)

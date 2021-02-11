@@ -181,7 +181,7 @@ void setup() {
 
 void loop() {
   
-  if(Serial.available() > 12 && serialFlag) {
+  if(Serial.available() > 24 && serialFlag) {
     serialFlag = false;
     serial_interrupt_thread();
   }
