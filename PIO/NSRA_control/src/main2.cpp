@@ -72,6 +72,7 @@ struct pos {
     volatile int axis4;
     volatile int axis5;
     volatile int axis6;
+    pos(): axis1(0), axis2(0), axis3(0), axis4(0), axis5(0), axis6(0) {}
 };
 ArduinoQueue<pos> queue(50);
 
@@ -231,13 +232,6 @@ void setup() {
   axis4.disableOutputs();
   axis5.disableOutputs();
   axis6.disableOutputs();
-
-  last.axis1 = 0;
-  last.axis2 = 0;
-  last.axis3 = 0;
-  last.axis4 = 0;
-  last.axis5 = 0;
-  last.axis6 = 0;
 
   ctrl_loop_timer.begin(update, 1000000/FRQ);
 
