@@ -289,12 +289,13 @@ class camera():
         cam_config[0] = gain
 
         self.parent_conn.send(3)
-
+        self.parent_conn.send(0)
     
     def change_exposure(self, exposure):
         cam_config[1] = exposure
-        
+
         self.parent_conn.send(3)
+        self.parent_conn.send(0)
         
     def rescale_frame(self,frame, percent=65): #TODO: check percent!
 
@@ -558,6 +559,7 @@ def camGainCallback(data):
 
     config_object["CAMERA"] = {
             "cam_gain": str(data.data),
+            "cam_exposure": str(cam_config[1]),
     }
 
     with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
@@ -569,6 +571,7 @@ def camExposureCallback(data):
     print("Exposure changed!")
 
     config_object["CAMERA"] = {
+            "cam_gain": str(cam_config[0]),
             "cam_exposure": str(data.data),
     }
 
