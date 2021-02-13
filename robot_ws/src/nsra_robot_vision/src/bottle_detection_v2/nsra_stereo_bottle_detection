@@ -287,12 +287,12 @@ class camera():
             quit()
     
     def change_exposure(self, exposure):
-
-        try:
-            self.cam.ExposureTime.set(exposure)
-        except:
-            print("Error changing parameters!")
-            quit()
+        self.cam.ExposureTime.set(exposure)
+        #try:
+            
+        #except:
+        #    print("Error changing parameters!")
+        #    quit()
         
     def rescale_frame(self,frame, percent=65): #TODO: check percent!
 
