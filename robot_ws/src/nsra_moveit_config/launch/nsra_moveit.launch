@@ -45,11 +45,12 @@
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
-  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <!-- Run Rviz and load the default config to see the state of the move_group node 
   <include file="$(find nsra_moveit_config)/launch/moveit_rviz.launch">
     <arg name="rviz_config" value="$(find nsra_moveit_config)/launch/moveit.rviz"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
+  -->
 
   <!-- If database loading was enabled, start mongodb as well -->
   <include file="$(find nsra_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)">
