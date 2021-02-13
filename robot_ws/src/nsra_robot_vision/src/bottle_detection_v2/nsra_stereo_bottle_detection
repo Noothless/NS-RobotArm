@@ -203,7 +203,7 @@ class camera():
 
         self.cam = device_manager.open_device_by_sn(devices.get(cam_num))
 
-        if cam.PixelColorFilter.is_implemented() == False:
+        if self.cam.PixelColorFilter.is_implemented() == False:
             print("This program does not support mono camera.")
             self.cam.close_device()
             return
