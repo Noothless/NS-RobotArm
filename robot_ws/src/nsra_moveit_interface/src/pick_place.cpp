@@ -48,33 +48,39 @@ void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
   // BEGIN_SUB_TUTORIAL open_gripper
   /* Add both finger joints of panda robot. */
+  /*
   posture.joint_names.resize(2);
   posture.joint_names[0] = "panda_finger_joint1";
   posture.joint_names[1] = "panda_finger_joint2";
-
+  */
   /* Set them as open, wide enough for the object to fit. */
+  /*
   posture.points.resize(1);
   posture.points[0].positions.resize(2);
   posture.points[0].positions[0] = 0.04;
   posture.points[0].positions[1] = 0.04;
   posture.points[0].time_from_start = ros::Duration(0.5);
   // END_SUB_TUTORIAL
+  */
 }
 
 void closedGripper(trajectory_msgs::JointTrajectory& posture)
 {
   // BEGIN_SUB_TUTORIAL closed_gripper
   /* Add both finger joints of panda robot. */
+  /*
   posture.joint_names.resize(2);
   posture.joint_names[0] = "panda_finger_joint1";
   posture.joint_names[1] = "panda_finger_joint2";
-
+  */
   /* Set them as closed. */
+  /*
   posture.points.resize(1);
   posture.points[0].positions.resize(2);
   posture.points[0].positions[0] = 0.00;
   posture.points[0].positions[1] = 0.00;
   posture.points[0].time_from_start = ros::Duration(0.5);
+  */
   // END_SUB_TUTORIAL
 }
 
@@ -120,13 +126,13 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
   // Setting posture of eef before grasp
   // +++++++++++++++++++++++++++++++++++
-  openGripper(grasps[0].pre_grasp_posture);
+  //openGripper(grasps[0].pre_grasp_posture);
   // END_SUB_TUTORIAL
 
   // BEGIN_SUB_TUTORIAL pick2
   // Setting posture of eef during grasp
   // +++++++++++++++++++++++++++++++++++
-  closedGripper(grasps[0].grasp_posture);
+  //closedGripper(grasps[0].grasp_posture);
   // END_SUB_TUTORIAL
 
   // BEGIN_SUB_TUTORIAL pick3
