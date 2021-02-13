@@ -28,8 +28,8 @@ catkin_package(
 )
 
 include_directories(
-# include
-# ${catkin_INCLUDE_DIRS}
+  include
+  ${catkin_INCLUDE_DIRS}
 )
 
 add_executable(pick_place src/pick_place.cpp)
