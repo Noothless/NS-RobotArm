@@ -256,6 +256,13 @@ class camera():
                 self.cam.stream_off()
                 self.cam.close_device()
                 run = False
+            
+            elif rec_dat == 3:
+                try:
+                    self.cam.ExposureTime.set(cam_config[1])
+                    self.cam.Gain.set(cam_config[0])
+                except:
+                    print("Error changing parameters!")
 
         print("Camera %s Connection Closed" % devices.get(cam_num))        
         conn.close()
@@ -279,20 +286,15 @@ class camera():
             return self.rescale_frame(frame,resize)
     
     def change_gain(self, gain):
+        cam_config[0] = gain
 
-        try:
-            self.cam.Gain.set(gain)
-        except:
-            print("Error changing parameters!")
-            quit()
+        self.parent_conn.send(3)
+
     
     def change_exposure(self, exposure):
-        self.cam.ExposureTime.set(exposure)
-        #try:
-            
-        #except:
-        #    print("Error changing parameters!")
-        #    quit()
+        cam_config[1] = exposure
+        
+        self.parent_conn.send(3)
         
     def rescale_frame(self,frame, percent=65): #TODO: check percent!
 
