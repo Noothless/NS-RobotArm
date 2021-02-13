@@ -103,6 +103,8 @@ try:
     mtrx[2,1] = config_object.getfloat("CONFIG", "mtrx_7")
     mtrx[2,2] = config_object.getfloat("CONFIG", "mtrx_8")
 
+    calib_flag = True
+
     cam_config[0] = config_object.getfloat("CAMERA", "cam_gain")
     cam_config[1] = config_object.getfloat("CAMERA", "cam_exposure")
 
