@@ -3,6 +3,7 @@ project(nsra_moveit_interface)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  roscpp
   std_msgs
   interactive_markers
   moveit_core
