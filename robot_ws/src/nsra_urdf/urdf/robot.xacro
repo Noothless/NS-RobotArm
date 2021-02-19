@@ -118,7 +118,7 @@
     <inertia ixx="0.004147" ixy="1e-06" ixz="0.028379" iyy="0.006606" iyz="-0.027606" izz="0.003957"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="-0.741 -0.350743 -0.04081"/>
+    <origin rpy="0 0 0" xyz="-0.541 -0.350743 -0.04081"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component5_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -127,7 +127,7 @@
     </material>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="-0.741 -0.350743 -0.04081"/>
+    <origin rpy="0 0 0" xyz="-0.541 -0.350743 -0.04081"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component5_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
