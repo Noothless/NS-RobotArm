@@ -74,7 +74,7 @@ DL = None
 RR = None
 RL = None
 
-#color filter parameter
+#color filter parameter 105/120/100/120/220/255
 rl = 105
 gl = 120
 bl = 100
