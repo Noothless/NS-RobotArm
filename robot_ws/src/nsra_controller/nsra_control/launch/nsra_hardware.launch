@@ -7,7 +7,7 @@
   <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 
   <!-- Load example URDF -->
-  <param name="robot_description" command="xacro --inorder $(find nsra_support)/urdf/nsra.xacro" />
+  <param name="robot_description" command="xacro --inorder $(find nsra_urdf)/urdf/nsra.xacro" />
 
   <group ns="nsra">
 
