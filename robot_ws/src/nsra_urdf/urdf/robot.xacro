@@ -234,7 +234,7 @@
   </actuator>
 </transmission>
 <joint name="Rev3" type="revolute">
-  <origin rpy="0 0 0" xyz="0.0 0.67 0.1741"/>
+  <origin rpy="0 0 0" xyz="0.0 0.459999 0.1741"/>
   <parent link="Component2_1"/>
   <child link="Component3_1"/>
   <axis xyz="0.0 -0.0 0.01"/>
