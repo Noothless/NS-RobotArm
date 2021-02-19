@@ -47,12 +47,12 @@
 </link>
 <link name="Component2_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.0 0.436486 0.05349900000000002"/>
+    <origin rpy="0 0 0" xyz="0.0 0.226486 0.05349900000000002"/>
     <mass value="13.1521"/>
     <inertia ixx="0.673202" ixy="-0.0" ixz="-0.235485" iyy="0.032171" iyz="0.181962" izz="0.660051"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="-0.2 0.425257 0.12679"/>
+    <origin rpy="0 0 0" xyz="-0.2 0.215257 0.12679"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component2_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -61,7 +61,7 @@
     </material>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="-0.2 0.425257 0.12679"/>
+    <origin rpy="0 0 0" xyz="-0.2 0.215257 0.12679"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component2_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
