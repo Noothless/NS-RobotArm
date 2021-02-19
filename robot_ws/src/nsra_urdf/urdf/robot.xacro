@@ -162,7 +162,7 @@
     <inertia ixx="0.000682" ixy="-0.00011" ixz="-0.022235" iyy="0.002443" iyz="0.022711" izz="0.002199"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.082596 -0.148634 -0.225661"/>
+    <origin rpy="0 0 0" xyz="0.182596 -0.148634 -0.225661"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component8_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -171,7 +171,7 @@
     </material>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.082596 -0.148634 -0.225661"/>
+    <origin rpy="0 0 0" xyz="0.182596 -0.148634 -0.225661"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component8_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -184,7 +184,7 @@
     <inertia ixx="0.000681" ixy="0.00011" ixz="0.022057" iyy="0.002445" iyz="-0.022338" izz="0.002201"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.082596 -0.190634 -0.085661"/>
+    <origin rpy="0 0 0" xyz="0.182596 -0.190634 -0.085661"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component7_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -193,7 +193,7 @@
     </material>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.082596 -0.190634 -0.085661"/>
+    <origin rpy="0 0 0" xyz="0.182596 -0.190634 -0.085661"/>
     <geometry>
       <mesh filename="package://nsra_urdf/urdf/mm_stl/Component7_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
