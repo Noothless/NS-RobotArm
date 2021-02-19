@@ -11,8 +11,6 @@ controller_list:
       - Rev4
       - Rev5
       - Rev6
-      - Slider8
-      - Slider9
   - name: /nsra/joint_position_controller
     action_ns: joint_group_position_controller
     type: JointGroupPositionController
@@ -24,11 +22,11 @@ controller_list:
       - Rev4
       - Rev5
       - Rev6
-  #- name: /nsra/gripper_controller
-  #  action_ns: gripper_action
-  #  type: GripperCommand
-  #  default: true
-  #  parallel: true
-  #  joints:
-  #    - Slider8
-  #    - Slider9
+  - name: /nsra/gripper_controller
+    action_ns: gripper_action
+    type: GripperCommand
+    default: true
+    parallel: true
+    joints:
+      - Slider8
+      - Slider9

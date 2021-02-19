@@ -23,6 +23,12 @@ joint_state_controller:
    type:         joint_state_controller/JointStateController
    publish_rate: 20
 
+gripper_controller:
+    type: gripper_controller/gripper_action
+    joints:
+      - Slider8
+      - Slider9
+
 # Joint Trajectory Controller -------------------------------
 # For detailed explanations of parameter see http://wiki.ros.org/joint_trajectory_controller
 position_trajectory_controller:
@@ -35,8 +41,7 @@ position_trajectory_controller:
       - Rev4
       - Rev5
       - Rev6
-      - Slider8
-      - Slider9
+
    constraints:
       goal_time: 10
       #stopped_position_tolerance: 0.4 # Defaults to 0.01
@@ -56,12 +61,6 @@ position_trajectory_controller:
           goal:       1
           trajectory: 1
       Rev6:
-          goal:       1
-          trajectory: 1
-      Slider8:
-          goal:       1
-          trajectory: 1
-      Slider9:
           goal:       1
           trajectory: 1
 
