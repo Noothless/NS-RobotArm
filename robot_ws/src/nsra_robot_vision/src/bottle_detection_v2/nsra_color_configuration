@@ -193,13 +193,16 @@ class camera():
                 run = False
             
             elif rec_dat == 3:
+                gain = conn.recv()
+                exp = conn.recv()
                 try:
                     self.cam.stream_off()
                     self.cam.close_device()
                     self.cam = device_manager.open_device_by_sn(devices.get(cam_num))
-                    self.cam.ExposureTime.set(cam_config[1])
-                    self.cam.Gain.set(cam_config[0])
-                    print(cam_config[0])
+                    self.cam.ExposureTime.set(exp)
+                    print(exp)
+                    self.cam.Gain.set(gain)
+                    print(gain)
                     self.cam.TriggerMode.set(gx.GxSwitchEntry.OFF)
                     self.cam.BalanceWhiteAuto.set(1)
                     self.cam.data_stream[0].set_acquisition_buffer_number(1)
@@ -231,6 +234,8 @@ class camera():
     def change_params(self):
 
         self.parent_conn.send(3)
+        self.parent_conn.send(cam_config[0])
+        self.parent_conn.send(cam_config[1])
         self.parent_conn.send(0)
         
     def rescale_frame(self,frame, percent=65): #TODO: check percent!
