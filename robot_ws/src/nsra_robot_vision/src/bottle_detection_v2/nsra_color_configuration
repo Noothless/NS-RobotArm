@@ -194,8 +194,10 @@ class camera():
             
             elif rec_dat == 3:
                 try:
+                    self.cam.stream_off()
                     self.cam.ExposureTime.set(cam_config[1])
                     self.cam.Gain.set(cam_config[0])
+                    self.cam.stream_on()
                 except:
                     print(colored("Error changing parameters!", 'red'))
 
