@@ -24,7 +24,7 @@ joint_state_controller:
    publish_rate: 20
 
 gripper_controller:
-    type: gripper_controller/gripper_action
+    type: position_controllers/GripperActionController
     joints:
       - Slider8
       - Slider9
@@ -118,5 +118,3 @@ joint_position_controller:
      - Rev4
      - Rev5
      - Rev6
-     - Slider8
-     - Slider9
