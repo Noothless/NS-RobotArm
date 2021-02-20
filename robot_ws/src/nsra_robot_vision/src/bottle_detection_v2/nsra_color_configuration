@@ -262,6 +262,8 @@ detector = cv2.SimpleBlobDetector_create(params)
 kernal = np.ones((2,2), np.uint8)
 
 windowName = "color"
+cv2.namedWindow(windowName)
+cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
 
 while(True):
     #Get next image from cameras
@@ -300,7 +302,7 @@ while(True):
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
     cv2.imshow(windowName, output_img)
-    cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
+    p = cv2.getTrackbarPos("slider", windowName)
 
     key = cv2.waitKey(1)
     if key == 97:
