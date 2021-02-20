@@ -69,6 +69,7 @@ install(PROGRAMS
   src/camera_callibration/calib_ingest
   src/tests/stereo_camera
   src/bottle_detection_v2/nsra_stereo_bottle_detection
+  src/bottle_detection_v2/nsra_color_configuration
   src/tests/stereo_depth_map
   src/deprecated/NDI_source_viewer
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
