@@ -77,12 +77,12 @@ try:
     cam_config[0] = config_object.getfloat("CAMERA", "cam_gain")
     cam_config[1] = config_object.getfloat("CAMERA", "cam_exposure")
 
-    rl = config_object.getint("PARAMS", "rl")
-    gl = config_object.getint("PARAMS", "gl")
-    bl = config_object.getint("PARAMS", "bl")
-    rh = config_object.getint("PARAMS", "rh")
-    gh = config_object.getint("PARAMS", "gh")
-    bh = config_object.getint("PARAMS", "bh")
+    hl = config_object.getint("PARAMS", "hl")
+    sl = config_object.getint("PARAMS", "sl")
+    vl = config_object.getint("PARAMS", "vl")
+    hh = config_object.getint("PARAMS", "hh")
+    sh = config_object.getint("PARAMS", "sh")
+    vh = config_object.getint("PARAMS", "vh")
 
     print("---------------")
     print("Parameters loaded!")
@@ -273,9 +273,21 @@ def nothing(value):
 
 cv2.createTrackbar('Gain', windowName, 0, 25, camGainCallback)
 cv2.createTrackbar('Exposure', windowName, 0, 120000, camExposureCallback)
-cv2.createTrackbar('Hue', windowName, 0, 255, nothing)
-cv2.createTrackbar('Saturation', windowName, 0, 255, nothing)
-cv2.createTrackbar('Value', windowName, 0, 255, nothing)
+cv2.createTrackbar('Hue High', windowName, 0, 255, nothing)
+cv2.createTrackbar('Saturation High', windowName, 0, 255, nothing)
+cv2.createTrackbar('Value High', windowName, 0, 255, nothing)
+cv2.createTrackbar('Hue Low', windowName, 0, 255, nothing)
+cv2.createTrackbar('Saturation Low', windowName, 0, 255, nothing)
+cv2.createTrackbar('Value Low', windowName, 0, 255, nothing)
+
+cv2.setTrackbarPos("Gain", windowName, int(cam_config[0]))
+cv2.setTrackbarPos("Exposure", windowName, int(cam_config[1]))
+cv2.setTrackbarPos("Hue High", windowName, hh)
+cv2.setTrackbarPos("Saturation High", windowName, sh)
+cv2.setTrackbarPos("Value High", windowName, vh)
+cv2.setTrackbarPos("Hue Low", windowName, hl)
+cv2.setTrackbarPos("Saturation Low", windowName, sl)
+cv2.setTrackbarPos("Value Low", windowName, vl)
 
 while(True):
     #Get next image from cameras
@@ -313,9 +325,12 @@ while(True):
     mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
-    hh = cv2.getTrackbarPos("Hue", windowName)
-    sh = cv2.getTrackbarPos("Saturation", windowName)
-    vh = cv2.getTrackbarPos("Value", windowName)
+    hh = cv2.getTrackbarPos("Hue High", windowName)
+    sh = cv2.getTrackbarPos("Saturation High", windowName)
+    vh = cv2.getTrackbarPos("Value High", windowName)
+    hl = cv2.getTrackbarPos("Hue Low", windowName)
+    sl = cv2.getTrackbarPos("Saturation Low", windowName)
+    vl = cv2.getTrackbarPos("Value Low", windowName)
     cv2.imshow(windowName, output_img)
     
     key = cv2.waitKey(1)
@@ -330,7 +345,19 @@ while(True):
 
         config_object["CAMERA"] = {
             "cam_gain": str(cam_config[0]),
-            "cam_exposure": str(cam_config[1]),
+            "cam_exposure": str(cam_config[1]),  
+        }
+
+        with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+            config_object.write(conf)
+        
+        config_object["PARAMS"] = {
+            "hh": hh,
+            "sh": sh,
+            "vh": vh,
+            "hl": hl,
+            "sl": sl,
+            "vl": vl,
         }
 
         with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
