@@ -99,7 +99,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   nsra_odrive_interface::nsra_control_step msg_step;
   const int BUFFER_SIZE = 12;
   unsigned char data[BUFFER_SIZE];
-  std::cout << num_joints_ << std::endl;
+  //std::cout << num_joints_ << std::endl;
   for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
     std_msgs::Float64 msg;
@@ -142,7 +142,7 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       msg_step.axis6 = steps;
     } else if(i == 6)
     {
-      //std::cout << joint_position_command_[i] << std::endl;
+      std::cout << joint_position_command_[i] << std::endl;
     } else if(i == 7)
     {
       //std::cout << joint_position_command_[i] << std::endl;
