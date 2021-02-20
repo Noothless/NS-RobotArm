@@ -300,7 +300,7 @@ while(True):
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
     cv2.imshow(windowName, output_img)
-    cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback
+    cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
 
     key = cv2.waitKey(1)
     if key == 97:
