@@ -220,14 +220,7 @@ class camera():
         else:
             return self.rescale_frame(frame,resize)
     
-    def change_gain(self, gain):
-        cam_config[0] = gain
-
-        self.parent_conn.send(3)
-        self.parent_conn.send(0)
-    
-    def change_exposure(self, exposure):
-        cam_config[1] = exposure
+    def change_params(self):
 
         self.parent_conn.send(3)
         self.parent_conn.send(0)
@@ -240,30 +233,11 @@ cam_left = camera(0)
 cam_right = camera(1)
 
 def camGainCallback(value):
-    cam_left.change_gain(value)
-    cam_right.change_gain(value)
-    print("Gain changed!")
+    cam_config[0] = value
+    
 
-    config_object["CAMERA"] = {
-            "cam_gain": str(value),
-            "cam_exposure": str(cam_config[1]),
-    }
-
-    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
-        config_object.write(conf)
-
-def camExposureCallback(data):
-    cam_left.change_exposure(data.data)
-    cam_right.change_exposure(data.data)
-    print("Exposure changed!")
-
-    config_object["CAMERA"] = {
-            "cam_gain": str(cam_config[0]),
-            "cam_exposure": str(data.data),
-    }
-
-    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
-        config_object.write(conf)
+def camExposureCallback(value):
+    cam_config[1] = value
 
 rospy.init_node('nsra_stereo_camera')
 rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
@@ -335,3 +309,15 @@ while(True):
         cv2.imwrite("ref_frame_front.jpg", output_img)
     if key == 27:
         break
+    if key == 10:
+        cam_left.change_params()
+        cam_right.change_params()
+        print("Gain changed!")
+
+        config_object["CAMERA"] = {
+            "cam_gain": str(cam_config[0]),
+            "cam_exposure": str(cam_config[1]),
+        }
+
+        with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+            config_object.write(conf)
