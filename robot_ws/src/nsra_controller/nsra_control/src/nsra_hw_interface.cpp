@@ -176,8 +176,6 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   
   unsigned char message[result.length()];
   strcpy((char*)message, result.c_str());
-
-  //std::cout << result << std::endl;
   
   try { 
     ser.write(message, result.length());

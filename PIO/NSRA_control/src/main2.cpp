@@ -48,6 +48,7 @@
 #define FRQ 20
 #define PULSE_WIDTH 50
 #define VEL_DIFF 500
+#define GRIPPER_PIN 12
 
 Threads::Mutex pos_lock;
 
@@ -88,13 +89,6 @@ void update() {
     pos now = queue.dequeue();
     pos next = queue.getHead();
     pos_lock.unlock();
-
-    /*
-    Wire.beginTransmission(8);
-    Wire.write(((uint16_t)(now.axis1 + 32000) >> 8) & 0xFF);
-    Wire.write(((uint16_t)(now.axis1 + 32000) >> 0) & 0xFF);
-    Wire.endTransmission();
-    */
 
     axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + VEL_DIFF);
     axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + VEL_DIFF);
@@ -200,7 +194,7 @@ void serial_interrupt() {
 
     controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);
-     
+    digitalWrite(GRIPPER_PIN, LOW);
   }
   
   serialFlag = true;
@@ -214,7 +208,9 @@ void setup() {
   }
 
   pinMode(LED_BUILTIN, OUTPUT);
-  //Wire.begin();
+  pinMode(GRIPPER_PIN, OUTPUT);
+  digitalWrite(GRIPPER_PIN, LOW);
+
   axis1.setAcceleration(ACCELERATION);
   axis2.setAcceleration(ACCELERATION);
   axis3.setAcceleration(ACCELERATION);
@@ -247,12 +243,6 @@ void loop() {
     serial_interrupt();
   }
 
-  if(gripper_enabled) {
-    digitalWrite(LED_BUILTIN, HIGH);
-  } else {
-    digitalWrite(LED_BUILTIN, LOW);
-  }
-
   if(controlFlag) {
     axis1.run();
     axis2.run();
@@ -260,6 +250,8 @@ void loop() {
     axis4.run();
     axis5.run();
     axis6.run();
+
+    digitalWrite(GRIPPER_PIN, gripper_enabled);
   }
 
   if(!Serial && controlFlag) {
@@ -272,6 +264,7 @@ void loop() {
 
     controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(GRIPPER_PIN, LOW);
   }
   
 }
