@@ -61,12 +61,12 @@ rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_robot_vision')
 
 #color filter parameter 105/120/100/120/220/255
-rl = 105
-gl = 120
-bl = 100
-rh = 120
-gh = 220
-bh = 255
+hl = 105
+sl = 120
+vl = 100
+hh = 120
+sh = 220
+vh = 255
 
 cam_config = [15.0,100000.0]
 
@@ -267,7 +267,12 @@ kernal = np.ones((2,2), np.uint8)
 
 windowName = "color"
 cv2.namedWindow(windowName)
-cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
+
+cv2.createTrackbar('Gain', windowName, 0, 25, cam_config[0])
+cv2.createTrackbar('Exposure', windowName, 0, 255, cam_config[1])
+cv2.createTrackbar('Hue', windowName, 0, 255, hh)
+cv2.createTrackbar('Saturation', windowName, 0, 255, hs)
+cv2.createTrackbar('Value', windowName, 0, 255, hv)
 
 while(True):
     #Get next image from cameras
@@ -280,8 +285,8 @@ while(True):
     hsv_frame_left = cv2.cvtColor(img_left_sized, cv2.COLOR_RGB2HSV)
     hsv_frame_right = cv2.cvtColor(img_right_sized, cv2.COLOR_RGB2HSV)
 
-    low_red = np.array([rl,gl,bl])
-    high_red = np.array([rh, gh, bh])
+    low_red = np.array([hl,sl,vl])
+    high_red = np.array([hh, sh, vh])
     red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
     red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
 
