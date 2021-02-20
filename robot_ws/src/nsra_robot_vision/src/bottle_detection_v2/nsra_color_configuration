@@ -239,13 +239,13 @@ class camera():
 cam_left = camera(0)
 cam_right = camera(1)
 
-def camGainCallback(data):
-    cam_left.change_gain(data.data)
-    cam_right.change_gain(data.data)
+def camGainCallback(value):
+    cam_left.change_gain(value)
+    cam_right.change_gain(value)
     print("Gain changed!")
 
     config_object["CAMERA"] = {
-            "cam_gain": str(data.data),
+            "cam_gain": str(value),
             "cam_exposure": str(cam_config[1]),
     }
 
@@ -289,6 +289,8 @@ detector = cv2.SimpleBlobDetector_create(params)
 
 kernal = np.ones((2,2), np.uint8)
 
+windowName = "color"
+
 while(True):
     #Get next image from cameras
     img_left = cam_left.get_frame(1)
@@ -325,7 +327,8 @@ while(True):
     mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
-    cv2.imshow("color", output_img)
+    cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
+    cv2.imshow(windowName, output_img)
 
     key = cv2.waitKey(1)
     if key == 97:
