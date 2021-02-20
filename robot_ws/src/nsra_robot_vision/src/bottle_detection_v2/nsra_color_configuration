@@ -268,11 +268,14 @@ kernal = np.ones((2,2), np.uint8)
 windowName = "color"
 cv2.namedWindow(windowName)
 
-cv2.createTrackbar('Gain', windowName, 0, 25, cam_config[0])
-cv2.createTrackbar('Exposure', windowName, 0, 255, cam_config[1])
-cv2.createTrackbar('Hue', windowName, 0, 255, hh)
-cv2.createTrackbar('Saturation', windowName, 0, 255, hs)
-cv2.createTrackbar('Value', windowName, 0, 255, hv)
+def nothing(value):
+    pass
+
+cv2.createTrackbar('Gain', windowName, 0, 25, camGainCallback)
+cv2.createTrackbar('Exposure', windowName, 0, 255, camExposureCallback)
+cv2.createTrackbar('Hue', windowName, 0, 255, nothing)
+cv2.createTrackbar('Saturation', windowName, 0, 255, nothing)
+cv2.createTrackbar('Value', windowName, 0, 255, nothing)
 
 while(True):
     #Get next image from cameras
@@ -310,7 +313,9 @@ while(True):
     mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
-    p = cv2.getTrackbarPos("slider", windowName)
+    hh = cv2.getTrackbarPos("Hue", windowName)
+    sh = cv2.getTrackbarPos("Saturation", windowName)
+    vh = cv2.getTrackbarPos("Value", windowName)
     cv2.imshow(windowName, output_img)
     
     key = cv2.waitKey(1)
