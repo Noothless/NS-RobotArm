@@ -307,9 +307,9 @@ while(True):
     key = cv2.waitKey(1)
     if key == 97:
         cv2.imwrite("ref_frame_front.jpg", output_img)
-    if key == 27:
+    elif key == 27:
         break
-    if key == 10:
+    elif key == 13:
         cam_left.change_params()
         cam_right.change_params()
         print("Gain changed!")
