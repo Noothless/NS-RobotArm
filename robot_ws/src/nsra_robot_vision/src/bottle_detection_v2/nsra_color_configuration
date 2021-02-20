@@ -269,7 +269,7 @@ kernal = np.ones((2,2), np.uint8)
 
 windowName = "color"
 cv2.namedWindow(windowName)
-cv2.createTrackbar('slider', windowName, 0.0, 25.0, camGainCallback)
+cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
 
 while(True):
     #Get next image from cameras
