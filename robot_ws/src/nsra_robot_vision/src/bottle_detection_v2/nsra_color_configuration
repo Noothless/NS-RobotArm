@@ -89,7 +89,7 @@ try:
     print("Camera config:")
     print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
     print("HSV Color filter:")
-    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (rh, gh, bh, rl, gl, bl))
+    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (hh, sh, vh, hl, sl, vl))
     print("---------------")
 
 except:
