@@ -59,6 +59,7 @@ config_object = ConfigParser()
 #rospack
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_robot_vision')
+rospy.init_node('nsra_stereo_camera')
 
 #config
 #Projection
@@ -75,12 +76,7 @@ RR = None
 RL = None
 
 #color filter parameter 105/120/100/120/220/255
-rl = 105
-gl = 120
-bl = 100
-rh = 120
-gh = 220
-bh = 255
+color_filter = [105,120,100,120,220,255]
 
 #World origin of cameras relative to the robot
 mtrx = np.array([[0.0, 0.0, 0.0],
@@ -127,12 +123,12 @@ try:
     cam_config[0] = config_object.getfloat("CAMERA", "cam_gain")
     cam_config[1] = config_object.getfloat("CAMERA", "cam_exposure")
 
-    rl = config_object.getint("PARAMS", "rl")
-    gl = config_object.getint("PARAMS", "gl")
-    bl = config_object.getint("PARAMS", "bl")
-    rh = config_object.getint("PARAMS", "rh")
-    gh = config_object.getint("PARAMS", "gh")
-    bh = config_object.getint("PARAMS", "bh")
+    color_filter[0] = config_object.getint("PARAMS", "hh")
+    color_filter[1] = config_object.getint("PARAMS", "sh")
+    color_filter[2] = config_object.getint("PARAMS", "vh")
+    color_filter[3] = config_object.getint("PARAMS", "hl")
+    color_filter[4] = config_object.getint("PARAMS", "sl")
+    color_filter[5] = config_object.getint("PARAMS", "vl")
 
     print("---------------")
     print("Parameters loaded!")
@@ -141,7 +137,7 @@ try:
     print("Camera config:")
     print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
     print("HSV Color filter:")
-    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (rh, gh, bh, rl, gl, bl))
+    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (color_filter[0], color_filter[1], color_filter[2], color_filter[3], color_filter[4], color_filter[5]))
     print("---------------")
 
 except:
@@ -171,6 +167,38 @@ try:
 except:
     print(colored("Error no valid image found in the /image folder!", 'red'))
     quit()
+
+if rospy.has_param('camera_config') and rospy.has_param('color_filter'):
+    cam_config = rospy.get_param('camera_config')
+    color_filter = rospy.get_param('color_filter')
+
+    config_object["PARAMS"] = {
+            "hh": str(color_filter[0]),
+            "sh": str(color_filter[1]),
+            "vh": str(color_filter[2]),
+            "hl": str(color_filter[3]),
+            "sl": str(color_filter[4]),
+            "vl": str(color_filter[5]),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+    
+    config_object["CAMERA"] = {
+            "cam_gain": str(cam_config[0]),
+            "cam_exposure": str(cam_config[1]),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+
+    print("---------------")
+    print("ROS Paramaters loaded!")
+    print("Camera config:")
+    print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
+    print("HSV Color filter:")
+    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (color_filter[0], color_filter[1], color_filter[2], color_filter[3], color_filter[4], color_filter[5]))
+    print("---------------")
 
 # initUndistortRectifyMap 
 Left_Stereo_Map= cv2.initUndistortRectifyMap(KL, DL, RL, PL,
@@ -279,9 +307,11 @@ class camera():
                 run = False
             
             elif rec_dat == 3:
+                gain = conn.recv()
+                exp = conn.recv()
                 try:
-                    self.cam.ExposureTime.set(cam_config[1])
-                    self.cam.Gain.set(cam_config[0])
+                    self.cam.ExposureTime.set(exp)
+                    self.cam.Gain.set(gain)
                 except:
                     print(colored("Error changing parameters!", 'red'))
 
@@ -289,36 +319,24 @@ class camera():
         conn.close()
 
     def get_frame(self,resize=None):
-        ###used to grab frames from the cam connection process
 
-        ##[resize] param : % of size reduction or increase i.e 0.65 for 35% reduction  or 1.5 for a 50% increase
-
-        #send request
         self.parent_conn.send(1)
         frame = self.parent_conn.recv()
-        #print(frame)
-        #reset request 
         self.parent_conn.send(0)
 
-        #resize if needed
         if resize == None:            
             return frame
         else:
             return self.rescale_frame(frame,resize)
     
-    def change_gain(self, gain):
-        cam_config[0] = gain
+    def change_params(self):
 
         self.parent_conn.send(3)
-        self.parent_conn.send(0)
-    
-    def change_exposure(self, exposure):
-        cam_config[1] = exposure
-
-        self.parent_conn.send(3)
+        self.parent_conn.send(cam_config[0])
+        self.parent_conn.send(cam_config[1])
         self.parent_conn.send(0)
         
-    def rescale_frame(self,frame, percent=65): #TODO: check percent!
+    def rescale_frame(self,frame, percent=65):
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
@@ -356,8 +374,8 @@ def detect(img):
     for i in range(2):
         hsv_frame = cv2.cvtColor(img[i], cv2.COLOR_RGB2HSV)
 
-        low_red = np.array([rl,gl,bl])
-        high_red = np.array([rh, gh, bh])
+        low_red = np.array([color_filter[3], color_filter[4], color_filter[5]])
+        high_red = np.array([color_filter[0], color_filter[1], color_filter[2]])
         red_mask = cv2.inRange(hsv_frame, low_red, high_red)
 
         red_mask = cv2.bitwise_not(red_mask)
@@ -553,39 +571,30 @@ def paramsChangeCallback(data):
     msg = str(data.data)
     sp_msg = msg.split("/")
 
-    global rl
-    global gl
-    global bl
-    global rh
-    global gh
-    global bh
-    
-    rl = int(sp_msg[0])
-    gl = int(sp_msg[1])
-    bl = int(sp_msg[2])
-    rh = int(sp_msg[3])
-    gh = int(sp_msg[4])
-    bh = int(sp_msg[5])
+    global color_filter
+
+    color_filter = int(sp_msg)    
 
     config_object["PARAMS"] = {
-            "rl": str(rl),
-            "gl": str(gl),
-            "bl": str(bl),
-            "rh": str(rh),
-            "gh": str(gh),
-            "bh": str(bh),
+            "hh": str(color_filter[0]),
+            "sh": str(color_filter[1]),
+            "vh": str(color_filter[2]),
+            "hl": str(color_filter[3]),
+            "sl": str(color_filter[4]),
+            "vl": str(color_filter[5]),
     }
 
     with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
         config_object.write(conf)
 
 def camGainCallback(data):
-    cam_left.change_gain(data.data)
-    cam_right.change_gain(data.data)
+    cam_config[0] = data.data
+    cam_left.change_params()
+    cam_right.change_params()
     print("Gain changed!")
 
     config_object["CAMERA"] = {
-            "cam_gain": str(data.data),
+            "cam_gain": str(cam_config[0]),
             "cam_exposure": str(cam_config[1]),
     }
 
@@ -593,19 +602,19 @@ def camGainCallback(data):
         config_object.write(conf)
 
 def camExposureCallback(data):
-    cam_left.change_exposure(data.data)
-    cam_right.change_exposure(data.data)
+    cam_config[1] = data.data
+    cam_left.change_params()
+    cam_right.change_params()
     print("Exposure changed!")
 
     config_object["CAMERA"] = {
             "cam_gain": str(cam_config[0]),
-            "cam_exposure": str(data.data),
+            "cam_exposure": str(cam_config[1]),
     }
 
     with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
         config_object.write(conf)
 
-rospy.init_node('nsra_stereo_camera')
 rospy.Subscriber("nsra/bd_params", String, paramsChangeCallback)
 rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
 rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)
@@ -632,8 +641,8 @@ while(send_flag):
     hsv_frame_left = cv2.cvtColor(img_left_sized, cv2.COLOR_RGB2HSV)
     hsv_frame_right = cv2.cvtColor(img_right_sized, cv2.COLOR_RGB2HSV)
 
-    low_red = np.array([rl,gl,bl])
-    high_red = np.array([rh, gh, bh])
+    low_red = np.array([color_filter[3], color_filter[4], color_filter[5]])
+    high_red = np.array([color_filter[0], color_filter[1], color_filter[2]])
     red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
     red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
 

@@ -229,7 +229,7 @@ class camera():
         self.parent_conn.send(cam_config[1])
         self.parent_conn.send(0)
         
-    def rescale_frame(self,frame, percent=65): #TODO: check percent!
+    def rescale_frame(self,frame, percent=65):
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
