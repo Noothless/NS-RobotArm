@@ -65,8 +65,6 @@ IntervalTimer ctrl_loop_timer;
 bool queueFlag = false;
 bool controlFlag = false;
 
-volatile bool gripper_enabled = false;
-
 struct pos {
     volatile int axis1;
     volatile int axis2;
@@ -138,21 +136,21 @@ void serial_interrupt() {
     in_bytes[n] = Serial.read();
   }
 
-  char dec_string[17];
+  char dec_string[16];
 
   Base64.decode(dec_string, in_bytes, 24);
 
-  uint32_t checksum = crc.calculate(dec_string, 13);
+  uint32_t checksum = crc.calculate(dec_string, 12);
 
   uint32_t rec_checksum;
 
-  rec_checksum = dec_string[16];
-  rec_checksum = rec_checksum << 8;
-  rec_checksum = rec_checksum | dec_string[15];
+  rec_checksum = dec_string[15];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[14];
   rec_checksum = rec_checksum << 8;
   rec_checksum = rec_checksum | dec_string[13];
+  rec_checksum = rec_checksum << 8;
+  rec_checksum = rec_checksum | dec_string[12];
 
   if(rec_checksum == checksum) {
 
@@ -183,7 +181,6 @@ void serial_interrupt() {
     n.axis4 = (uint16_t)((dec_string[7] << 8) | dec_string[6]) - 32000;
     n.axis5 = (uint16_t)((dec_string[9] << 8) | dec_string[8]) - 32000;
     n.axis6 = (uint16_t)((dec_string[11] << 8) | dec_string[10]) - 32000;
-    gripper_enabled = (uint8_t)dec_string[12];
   
     pos_lock.lock(1);
     queue.enqueue(n);
@@ -245,12 +242,6 @@ void loop() {
   if(Serial.available() > 24 && serialFlag) {
     serialFlag = false;
     serial_interrupt();
-  }
-
-  if(gripper_enabled) {
-    digitalWrite(LED_BUILTIN, HIGH);
-  } else {
-    digitalWrite(LED_BUILTIN, LOW);
   }
 
   if(controlFlag) {
