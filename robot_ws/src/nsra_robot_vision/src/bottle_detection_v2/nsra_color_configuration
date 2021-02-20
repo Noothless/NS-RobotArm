@@ -241,10 +241,6 @@ def camGainCallback(value):
 def camExposureCallback(value):
     cam_config[1] = value
 
-rospy.init_node('nsra_stereo_camera')
-rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
-rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)
-
 params = cv2.SimpleBlobDetector_Params()
 
 params.filterByArea = True
