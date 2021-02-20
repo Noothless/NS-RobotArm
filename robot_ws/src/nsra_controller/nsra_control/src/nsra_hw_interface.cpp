@@ -156,6 +156,8 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   {
     data[12] = (uint8_t)0;
   }
+  saved_pos[6] = joint_position_command_[6];
+  saved_pos[7] = joint_position_command_[7];
 
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
 
