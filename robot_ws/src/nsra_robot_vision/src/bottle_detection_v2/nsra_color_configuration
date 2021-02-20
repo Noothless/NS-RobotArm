@@ -301,9 +301,9 @@ while(True):
     mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
     output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
-    cv2.imshow(windowName, output_img)
     p = cv2.getTrackbarPos("slider", windowName)
-
+    cv2.imshow(windowName, output_img)
+    
     key = cv2.waitKey(1)
     if key == 97:
         cv2.imwrite("ref_frame_front.jpg", output_img)
