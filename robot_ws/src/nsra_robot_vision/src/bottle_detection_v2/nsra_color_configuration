@@ -197,9 +197,7 @@ class camera():
                 exp = conn.recv()
                 try:
                     self.cam.ExposureTime.set(exp)
-                    print(exp)
                     self.cam.Gain.set(gain)
-                    print(gain)
                 except:
                     print(colored("Error changing parameters!", 'red'))
 
@@ -341,7 +339,7 @@ while(True):
     elif key == 13:
         cam_left.change_params()
         cam_right.change_params()
-        print("Gain changed!")
+        print("Changes saved!")
 
         config_object["CAMERA"] = {
             "cam_gain": str(cam_config[0]),
