@@ -25,7 +25,7 @@ joint_state_controller:
 
 gripper_controller:
     type: position_controllers/GripperActionController
-    joint:
+    joints:
       - Slider8
       #- Slider9
 
