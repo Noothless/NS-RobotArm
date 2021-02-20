@@ -270,7 +270,6 @@ rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
 rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)
 
 while(True):
-    test_nb += 1
     #Get next image from cameras
     img_left = cam_left.get_frame(1)
     img_right = cam_right.get_frame(1)
