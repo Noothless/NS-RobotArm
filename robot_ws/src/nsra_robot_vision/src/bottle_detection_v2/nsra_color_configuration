@@ -287,6 +287,8 @@ cv2.setTrackbarPos("Hue Low", windowName, hl)
 cv2.setTrackbarPos("Saturation Low", windowName, sl)
 cv2.setTrackbarPos("Value Low", windowName, vl)
 
+rospy.init_node('nsra_camera_configurator')
+
 while(True):
     #Get next image from cameras
     img_left = cam_left.get_frame(1)
@@ -340,6 +342,9 @@ while(True):
         cam_left.change_params()
         cam_right.change_params()
         print("Changes saved!")
+
+        rospy.set_param('color_filter', [hh, sh, vh, hl, sl, vl])
+        rospy.set_param('camera_config', cam_config)
 
         config_object["CAMERA"] = {
             "cam_gain": str(cam_config[0]),
