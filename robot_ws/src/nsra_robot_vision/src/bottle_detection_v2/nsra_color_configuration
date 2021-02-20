@@ -269,7 +269,7 @@ kernal = np.ones((2,2), np.uint8)
 
 windowName = "color"
 cv2.namedWindow(windowName)
-cv2.createTrackbar('slider', windowName, 0, 25, camGainCallback)
+cv2.createTrackbar('slider', windowName, 0.0, 25.0, camGainCallback)
 
 while(True):
     #Get next image from cameras
@@ -316,6 +316,7 @@ while(True):
     elif key == 27:
         break
     elif key == 13:
+        cam_config[0] = p
         cam_left.change_params()
         cam_right.change_params()
         print("Gain changed!")
