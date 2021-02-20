@@ -97,10 +97,10 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   // Safety
   enforceLimits(elapsed_time);
   nsra_odrive_interface::nsra_control_step msg_step;
-  const int BUFFER_SIZE = 13;
+  const int BUFFER_SIZE = 12;
   unsigned char data[BUFFER_SIZE];
   //std::cout << num_joints_ << std::endl;
-  for (size_t i = 0; i < num_joints_ - 2; i++) {
+  for (size_t i = 0; i < num_joints_; i++) {
     double pi = 2*acos(0.0);
     std_msgs::Float64 msg;
     int steps;
@@ -140,8 +140,13 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
       drive_pub6.publish(msg);
       steps = round(joint_position_command_[i]*4000/pi);
       msg_step.axis6 = steps;
+    } else if(i == 6)
+    {
+      std::cout << joint_position_command_[i] << std::endl;
+    } else if(i == 7)
+    {
+      //std::cout << joint_position_command_[i] << std::endl;
     }
-
     data[i*2] = ((uint16_t)(steps + 32000) >> 0) & 0xFF;
     data[i*2+1] = ((uint16_t)(steps + 32000) >> 8) & 0xFF;
 
@@ -149,24 +154,16 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   }
   axis_step.publish(msg_step);
 
-  if(joint_position_command_[6] > 0.01) 
-  {
-    data[12] = (uint8_t)1;
-  } else 
-  {
-    data[12] = (uint8_t)0;
-  }
-
   uint32_t crc = CRC::Calculate(data, BUFFER_SIZE, CRC::CRC_32());
 
-  unsigned char crc_data[17];
-  for(int n = 0; n < 13; n++) {
+  unsigned char crc_data[16];
+  for(int n = 0; n < 12; n++) {
     crc_data[n] = data[n];
   }
-  crc_data[13] = ((uint32_t)crc >> 0) & 0xFF;
-  crc_data[14] = ((uint32_t)crc >> 8) & 0xFF;
-  crc_data[15] = ((uint32_t)crc >> 16) & 0xFF;
-  crc_data[16] = ((uint32_t)crc >> 24) & 0xFF;
+  crc_data[12] = ((uint32_t)crc >> 0) & 0xFF;
+  crc_data[13] = ((uint32_t)crc >> 8) & 0xFF;
+  crc_data[14] = ((uint32_t)crc >> 16) & 0xFF;
+  crc_data[15] = ((uint32_t)crc >> 24) & 0xFF;
 
   std::string result;
   base64::encode(result, crc_data);
@@ -174,8 +171,6 @@ void NSRAHWInterface::write(ros::Duration &elapsed_time)
   
   unsigned char message[result.length()];
   strcpy((char*)message, result.c_str());
-
-  //std::cout << result << std::endl;
   
   try { 
     ser.write(message, result.length());
