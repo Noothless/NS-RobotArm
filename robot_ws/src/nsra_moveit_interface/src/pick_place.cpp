@@ -100,7 +100,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // transform from `"panda_link8"` to the palm of the end effector.
   grasps[0].grasp_pose.header.frame_id = "world";
   tf2::Quaternion orientation;
-  orientation.setRPY(M_PI / 2, -M_PI / 4, -M_PI / 2);
+  orientation.setRPY(M_PI / 2, 0, 0);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = 0.3;
   grasps[0].grasp_pose.pose.position.y = 0.2;
