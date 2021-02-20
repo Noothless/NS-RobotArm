@@ -103,7 +103,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   orientation.setRPY(-M_PI / 2, -M_PI / 4, -M_PI / 2);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = 0.3;
-  grasps[0].grasp_pose.pose.position.y = 0;
+  grasps[0].grasp_pose.pose.position.y = 0.2;
   grasps[0].grasp_pose.pose.position.z = 0.5;
 
   // Setting pre-grasp approach
@@ -163,7 +163,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
   /* For place location, we set the value to the exact location of the center of the object. */
   place_location[0].place_pose.pose.position.x = 0;
-  place_location[0].place_pose.pose.position.y = 0.5;
+  place_location[0].place_pose.pose.position.y = 0.8;
   place_location[0].place_pose.pose.position.z = 0.5;
 
   // Setting pre-place approach
