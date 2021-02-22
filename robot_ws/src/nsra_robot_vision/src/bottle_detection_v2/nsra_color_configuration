@@ -295,7 +295,7 @@ detector = cv2.SimpleBlobDetector_create(params)
 
 kernal = np.ones((2,2), np.uint8)
 
-windowName = "color"
+windowName = "color_configurator"
 cv2.namedWindow(windowName)
 
 def nothing(value):

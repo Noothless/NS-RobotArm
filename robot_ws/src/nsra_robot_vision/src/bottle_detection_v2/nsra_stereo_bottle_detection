@@ -131,7 +131,7 @@ try:
     color_filter[5] = config_object.getint("PARAMS", "vl")
 
     print("---------------")
-    print("Parameters loaded!")
+    print("Config File Parameters loaded!")
     print("Transformation matrix:")
     print(mtrx)
     print("Camera config:")
@@ -193,7 +193,7 @@ if rospy.has_param('camera_config') and rospy.has_param('color_filter'):
         config_object.write(conf)
 
     print("---------------")
-    print("ROS Paramaters loaded!")
+    print("ROS Paramaters loaded!", 'green'))
     print("Camera config:")
     print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
     print("HSV Color filter:")
@@ -201,9 +201,9 @@ if rospy.has_param('camera_config') and rospy.has_param('color_filter'):
     print("---------------")
 
 # initUndistortRectifyMap 
-Left_Stereo_Map= cv2.initUndistortRectifyMap(KL, DL, RL, PL,
+Left_Stereo_Map = cv2.initUndistortRectifyMap(KL, DL, RL, PL,
                                              imsize, cv2.CV_16SC2)
-Right_Stereo_Map= cv2.initUndistortRectifyMap(KR, DR, RR, PR,
+Right_Stereo_Map = cv2.initUndistortRectifyMap(KR, DR, RR, PR,
                                               imsize, cv2.CV_16SC2)
 
 #CBC detection
@@ -526,6 +526,7 @@ c = threading.Condition()
 send_flag = True
 calib_flag = False
 detect_flag = False
+lines_flag = False
 
 class Img_Thread(threading.Thread):
     def __init__(self, name):
@@ -578,6 +579,8 @@ def get_input():
             calib_flag = True
         elif inp == "det":
             detect_flag = True
+        elif inp == "lines":
+            lines_flag = not lines_flag
         else:
             print(colored("Error command not found!", 'red'))
 
@@ -651,7 +654,6 @@ while(send_flag):
     img_left_sized = cv2.resize(img_left, (1080, 720))
     img_right_sized = cv2.resize(img_right, (1080, 720))
 
-    #Detect bottle caps TODO: If the code runs too slow put all of this in the detect function...
     #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
     #blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
 
@@ -683,14 +685,13 @@ while(send_flag):
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[2,0]*1080/3088)), int(round(pnts_img[2,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[4,0]*1080/3088)), int(round(pnts_img[4,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
 
-    #Resize for imshow
-
     cv2.putText(blur_frame_points_left, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     #Draw horizontal lines
-    #for line in range(0, int(frame_r.shape[0]/20)):
-    #    frame_l[line*20,:] = (0,255,0,0)
-    #    frame_r[line*20,:] = (0,255,0,0)
+    if lines_flag:
+        for line in range(0, int(blur_frame_points_right.shape[0]/20)):
+            blur_frame_points_left[line*20,:] = (0,255,0,0)
+            blur_frame_points_right[line*20,:] = (0,255,0,0)
 
     #Concatenate left and right image
     blur_out_img = np.concatenate((blur_frame_points_left, blur_frame_points_right), axis=1)
