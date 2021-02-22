@@ -399,8 +399,8 @@ def detect(img):
     objects = np.array([[[0.0, 0.0]]])
 
     for i in range(len(pnts_img[0])):
-        objects[i,0] = pnts_img[0,i]
-        objects[i,1] = closest_point(pnts_img[0,i], pnts_img[1,:]) #TODO: Test sorting algorithm! -------------------------------------------------------------
+        objects[i,0,:] = pnts_img[0,i,:]
+        objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
     
     p_4d_obj = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
 
