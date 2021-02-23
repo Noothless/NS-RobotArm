@@ -429,7 +429,6 @@ def detect(img):
     print("Object vector to robot: ")
     print(obj_rob_vec)
     print("---------------")
-    #TODO: implement moveit control
 
 #Calculate transformation matrix
 def callibrate(img):
