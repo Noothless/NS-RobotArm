@@ -398,19 +398,24 @@ def detect(img):
     
     objects = np.array([[[0.0, 0.0]]])
 
-    for i in range(len(pnts_img[0])):
-        objects[i,0,:] = pnts_img[0,i,:]
-        objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
-    
-    p_4d_obj = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
+    print(pnts_img.shape)
 
-    obj_vec = np.array([p_4d_obj[0] / p_4d_obj[3],
-                        p_4d_obj[1] / p_4d_obj[3],
-                        p_4d_obj[2] / p_4d_obj[3]])
-    
-    mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
+    _ , kp_nmb_0 , _ = pnts_img.shape
 
-    obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
+    #for i in range(kp_nmb):
+    #    objects[i,0,:] = pnts_img[0,i,:]
+    #    objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
+    
+
+    #p_4d_obj = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
+
+    #obj_vec = np.array([p_4d_obj[0] / p_4d_obj[3],
+    #                    p_4d_obj[1] / p_4d_obj[3],
+    #                    p_4d_obj[2] / p_4d_obj[3]])
+    
+    #mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
+
+    #obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
 
     #if mtrx_ret[0] < 0:
     #    obj_trns_vec[0] = - obj_trns_vec[0]
@@ -419,15 +424,15 @@ def detect(img):
     #if mtrx_ret[2] < 0:
     #    obj_trns_vec[2] = - obj_trns_vec[2]
 
-    obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
+    #obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
 
     print("---------------")
     print("Original origin to bottle distance: ")
-    print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
+    #print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
     print("New origin to bottle distance: ")
-    print(np.linalg.norm(obj_rob_vec))
+    #print(np.linalg.norm(obj_rob_vec))
     print("Object vector to robot: ")
-    print(obj_rob_vec)
+    #print(obj_rob_vec)
     print("---------------")
 
 #Calculate transformation matrix
