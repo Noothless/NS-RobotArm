@@ -38,8 +38,6 @@
 #include <ODriveArduino.h>
 #include <HardwareSerial.h>
 #include <ArduinoQueue.h>
-#include <ros.h>
-#include <Wire.h>
 #include <CRC32.h>
 #include <Base64.h>
 
