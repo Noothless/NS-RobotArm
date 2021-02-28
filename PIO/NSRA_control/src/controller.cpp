@@ -31,7 +31,7 @@
 ****************************************************************************/
 
 /* Author: Noa Sendlhofer
-   Desc:   Part of the NSRA Control stack. Teensy step/direction signal generator.
+   Desc:   Part of the NSRA Control stack. Teensy ODrive UART controller.
 */
 
 #include <Arduino.h>
@@ -193,20 +193,6 @@ void serial_interrupt() {
   if(rec_checksum == checksum) {
 
     if(!controlFlag) {
-      //axis1.enableOutputs();
-      //axis2.enableOutputs();
-      //axis3.enableOutputs();
-      //axis4.enableOutputs();
-      //axis5.enableOutputs();
-      //axis6.enableOutputs();
-
-      //axis1.setCurrentPosition(0);
-      //axis2.setCurrentPosition(0);
-      //axis3.setCurrentPosition(0);
-      //axis4.setCurrentPosition(0);
-      //axis5.setCurrentPosition(0);
-      //axis6.setCurrentPosition(0);
-
       serialFlag = true;
       digitalWrite(LED_BUILTIN, HIGH);
     }
@@ -225,12 +211,9 @@ void serial_interrupt() {
 
   } else if(controlFlag) {
 
-    //axis1.disableOutputs();
-    //axis2.disableOutputs();
-    //axis3.disableOutputs();
-    //axis4.disableOutputs();
-    //axis5.disableOutputs();
-    //axis6.disableOutputs();
+    while(queue.itemCount() != 0) {
+      queue.dequeue();
+    }
 
     controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);
@@ -267,29 +250,19 @@ void loop() {
   }
 
   if(serialFlag) {
-    
     serialFlag = false;
     controlFlag = true;
   }
 
   if(controlFlag) {
-    //axis1.run();
-    //axis2.run();
-    //axis3.run();
-    //axis4.run();
-    //axis5.run();
-    //axis6.run();
-
     digitalWrite(GRIPPER_PIN, gripper_enabled);
   }
 
   if(!Serial && (controlFlag || serialFlag)) {
-    //axis1.disableOutputs();
-    //axis2.disableOutputs();
-    //axis3.disableOutputs();
-    //axis4.disableOutputs();
-    //axis5.disableOutputs();
-    //axis6.disableOutputs();
+
+    while(queue.itemCount() != 0) {
+      queue.dequeue();
+    }
 
     controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);
