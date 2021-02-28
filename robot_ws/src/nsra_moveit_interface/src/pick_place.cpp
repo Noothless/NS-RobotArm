@@ -139,6 +139,9 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // Set support surface as table1.
   move_group.setSupportSurfaceName("table1");
   // Call pick to pick up the object using the grasps given
+  move_group.setMaxVelocityScalingFactor(0.6);
+  move_group.setMaxAccelerationScalingFactor(0.3);
+
   move_group.pick("object", grasps);
   // END_SUB_TUTORIAL
 }
@@ -192,6 +195,9 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   // Set support surface as table2.
   group.setSupportSurfaceName("table2");
   // Call place to place the object using the place locations given.
+  group.setMaxVelocityScalingFactor(0.6);
+  group.setMaxAccelerationScalingFactor(0.3);
+
   group.place("object", place_location);
   // END_SUB_TUTORIAL
 }
@@ -288,9 +294,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
-  group.setMaxVelocityScalingFactor(0.6);
-  group.setMaxAccelerationScalingFactor(0.3);
-
+  
   addCollisionObjects(planning_scene_interface);
 
   // Wait a bit for ROS things to initialize
