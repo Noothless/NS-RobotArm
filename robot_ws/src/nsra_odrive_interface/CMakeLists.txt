@@ -54,7 +54,7 @@ add_message_files(
  )
 
 ## Generate services in the 'srv' folder
-add_service_files(DIRECTORY srv FILES driver.srv feedback.srv requested_state.srv velocity.srv lr_coords.srv bd_coords.srv)
+add_service_files(DIRECTORY srv FILES driver.srv feedback.srv requested_state.srv requested_pos.srv velocity.srv lr_coords.srv bd_coords.srv)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
