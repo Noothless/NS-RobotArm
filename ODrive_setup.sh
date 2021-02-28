@@ -17,7 +17,7 @@ echo "Axis 3 homing: Press any key to continue"
 read -n 1
 rosservice call /axis_requested_state 3 8
 sleep 0.1
-rosservice call /axis_requested_pos 3 0
+rosservice call /axis_requested_pos 3 0.0
 sleep 3
 rosservice call /axis_requested_state 4 3
 sleep 0.1
@@ -31,7 +31,7 @@ echo "Axis 5 homing, axis 4 and 6 closed loop: Press any key to continue"
 read -n 1
 rosservice call /axis_requested_state 5 8
 sleep 0.1
-rosservice call /axis_requested_pos 5 0
+rosservice call /axis_requested_pos 5 0.0
 sleep 0.1
 rosservice call /axis_requested_state 4 8
 sleep 0.1
