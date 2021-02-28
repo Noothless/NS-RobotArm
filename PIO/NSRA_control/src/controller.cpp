@@ -53,8 +53,12 @@
 #define VEL_LIMIT_A5 3.0
 #define VEL_LIMIT_A6 3.0
 
-#define VEL_DIFF_A1 200.0
+#define VEL_DIFF_A1 300.0
 #define VEL_DIFF_A2 200.0
+#define VEL_DIFF_A3 100.0
+#define VEL_DIFF_A4 100.0
+#define VEL_DIFF_A5 100.0
+#define VEL_DIFF_A6 100.0
 
 #define GRIPPER_PIN 2
 
@@ -114,25 +118,25 @@ void update() {
     {
       odrive_serial0 << "w axis" << 1 << ".controller.config.vel_limit " << (float)VEL_LIMIT_A3 << '\n';
     } else {
-      odrive_serial0 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2.0*(float)FRQ)/100.0 << '\n';
+      odrive_serial0 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2.0*(float)FRQ + VEL_DIFF_A3)/100.0 << '\n';
     }
     if(((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2.0*(float)FRQ)/100.0 < VEL_LIMIT_A4)
     {
       odrive_serial2 << "w axis" << 0 << ".controller.config.vel_limit " << (float)VEL_LIMIT_A4 << '\n';
     } else {
-      odrive_serial2 << "w axis" << 0 << ".controller.config.vel_limit " << (float)((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2.0*(float)FRQ)/100.0 << '\n';
+      odrive_serial2 << "w axis" << 0 << ".controller.config.vel_limit " << (float)((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2.0*(float)FRQ + VEL_DIFF_A4)/100.0 << '\n';
     }
     if(((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2.0*(float)FRQ)/100.0 < VEL_LIMIT_A5)
     {
       odrive_serial2 << "w axis" << 1 << ".controller.config.vel_limit " << (float)VEL_LIMIT_A5 << '\n';
     } else {
-      odrive_serial2 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2.0*(float)FRQ)/100.0 << '\n';
+      odrive_serial2 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2.0*(float)FRQ + VEL_DIFF_A5)/100.0 << '\n';
     }
     if(((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2.0*(float)FRQ)/100.0 < VEL_LIMIT_A6)
     {
       odrive_serial1 << "w axis" << 1 << ".controller.config.vel_limit " << (float)VEL_LIMIT_A6 << '\n';
     } else {
-      odrive_serial1 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2.0*(float)FRQ)/100.0 << '\n';
+      odrive_serial1 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2.0*(float)FRQ + VEL_DIFF_A6)/100.0 << '\n';
     }
     
     odrv1.SetPosition(0, (float)now.axis1/100.0);
