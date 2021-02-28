@@ -288,8 +288,8 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
-  group.set_max_velocity_scaling_factor(0.6);
-  group.set_max_acceleration_scaling_factor(0.3);
+  group.setMaxVelocityScalingFactor(0.6);
+  group.setMaxAccelerationScalingFactor(0.3);
 
   addCollisionObjects(planning_scene_interface);
 
