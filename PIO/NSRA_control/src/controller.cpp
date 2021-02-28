@@ -35,31 +35,31 @@
 */
 
 #include <Arduino.h>
-#include <AccelStepper.h>
+#include <ODriveArduino.h>
+#include <HardwareSerial.h>
 #include <ArduinoQueue.h>
 #include <ros.h>
-#include <TeensyThreads.h>
 #include <Wire.h>
 #include <CRC32.h>
 #include <Base64.h>
 
 #define QUEUE_SIZE 3
-#define ACCELERATION 5000
 #define FRQ 20
-#define PULSE_WIDTH 50
-#define VEL_DIFF 500
-#define GRIPPER_PIN 12
+#define VEL_LIMIT 3.0
+#define GRIPPER_PIN 2
 
-Threads::Mutex pos_lock;
+template<class T> inline Print& operator <<(Print &obj,     T arg) { obj.print(arg);    return obj; }
+template<>        inline Print& operator <<(Print &obj, float arg) { obj.print(arg, 4); return obj; }
 
-volatile bool serialFlag = true;
+HardwareSerial& odrive_serial0 = Serial1;
+HardwareSerial& odrive_serial1 = Serial2;
+HardwareSerial& odrive_serial2 = Serial3;
 
-AccelStepper axis1(1, 0, 1);
-AccelStepper axis2(1, 2, 3);
-AccelStepper axis3(1, 4, 5);
-AccelStepper axis4(1, 6, 7);
-AccelStepper axis5(1, 8, 9);
-AccelStepper axis6(1,10,11);
+ODriveArduino odrv0(odrive_serial0);
+ODriveArduino odrv1(odrive_serial1);
+ODriveArduino odrv2(odrive_serial2);
+
+bool serialFlag = false;
 
 IntervalTimer ctrl_loop_timer;
 
@@ -69,12 +69,12 @@ bool controlFlag = false;
 volatile bool gripper_enabled = false;
 
 struct pos {
-    volatile int axis1;
-    volatile int axis2;
-    volatile int axis3;
-    volatile int axis4;
-    volatile int axis5;
-    volatile int axis6;
+    volatile float axis1;
+    volatile float axis2;
+    volatile float axis3;
+    volatile float axis4;
+    volatile float axis5;
+    volatile float axis6;
     pos(): axis1(0), axis2(0), axis3(0), axis4(0), axis5(0), axis6(0) {}
 };
 ArduinoQueue<pos> queue(50);
@@ -85,24 +85,52 @@ void update() {
   if(queueFlag && controlFlag)
   {
     
-    pos_lock.lock(1);
     pos now = queue.dequeue();
     pos next = queue.getHead();
-    pos_lock.unlock();
 
-    axis1.setMaxSpeed((int)round((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2)*FRQ + VEL_DIFF);
-    axis2.setMaxSpeed((int)round((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2)*FRQ + VEL_DIFF);
-    axis3.setMaxSpeed((int)round((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2)*FRQ + VEL_DIFF);
-    axis4.setMaxSpeed((int)round((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2)*FRQ + VEL_DIFF);
-    axis5.setMaxSpeed((int)round((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2)*FRQ + VEL_DIFF);
-    axis6.setMaxSpeed((int)round((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2)*FRQ + VEL_DIFF);
+    if(((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2.0*(float)FRQ)/100.0 < VEL_LIMIT)
+    {
+      odrive_serial1 << "w axis" << 0 << ".controller.config.vel_limit " << (float)VEL_LIMIT << '\n';
+    } else {
+      odrive_serial1 << "w axis" << 0 << ".controller.config.vel_limit " << (float)((abs(last.axis1 - now.axis1) + abs(now.axis1 - next.axis1))/2.0*(float)FRQ + 200.0)/100.0 << '\n';
+    }
+    if(((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2.0*(float)FRQ)/100.0 < VEL_LIMIT)
+    {
+      odrive_serial0 << "w axis" << 0 << ".controller.config.vel_limit " << (float)VEL_LIMIT << '\n';
+    } else {
+      odrive_serial0 << "w axis" << 0 << ".controller.config.vel_limit " << (float)((abs(last.axis2 - now.axis2) + abs(now.axis2 - next.axis2))/2.0*(float)FRQ + 200.0)/100.0 << '\n';
+    }
+    if(((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2.0*(float)FRQ)/100.0 < VEL_LIMIT)
+    {
+      odrive_serial0 << "w axis" << 1 << ".controller.config.vel_limit " << (float)VEL_LIMIT << '\n';
+    } else {
+      odrive_serial0 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis3 - now.axis3) + abs(now.axis3 - next.axis3))/2.0*(float)FRQ)/100.0 << '\n';
+    }
+    if(((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2.0*(float)FRQ)/100.0 < VEL_LIMIT)
+    {
+      odrive_serial2 << "w axis" << 0 << ".controller.config.vel_limit " << (float)VEL_LIMIT << '\n';
+    } else {
+      odrive_serial2 << "w axis" << 0 << ".controller.config.vel_limit " << (float)((abs(last.axis4 - now.axis4) + abs(now.axis4 - next.axis4))/2.0*(float)FRQ)/100.0 << '\n';
+    }
+    if(((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2.0*(float)FRQ)/100.0 < VEL_LIMIT)
+    {
+      odrive_serial2 << "w axis" << 1 << ".controller.config.vel_limit " << (float)VEL_LIMIT << '\n';
+    } else {
+      odrive_serial2 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis5 - now.axis5) + abs(now.axis5 - next.axis5))/2.0*(float)FRQ)/100.0 << '\n';
+    }
+    if(((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2.0*(float)FRQ)/100.0 < VEL_LIMIT)
+    {
+      odrive_serial1 << "w axis" << 1 << ".controller.config.vel_limit " << (float)VEL_LIMIT << '\n';
+    } else {
+      odrive_serial1 << "w axis" << 1 << ".controller.config.vel_limit " << (float)((abs(last.axis6 - now.axis6) + abs(now.axis6 - next.axis6))/2.0*(float)FRQ)/100.0 << '\n';
+    }
     
-    axis1.moveTo(now.axis1);
-    axis2.moveTo(now.axis2);
-    axis3.moveTo(now.axis3);
-    axis4.moveTo(now.axis4);
-    axis5.moveTo(now.axis5);
-    axis6.moveTo(now.axis6);
+    odrv1.SetPosition(0, (float)now.axis1/100.0);
+    odrv0.SetPosition(0, (float)now.axis2/100.0);
+    odrv0.SetPosition(1, (float)now.axis3/100.0);
+    odrv2.SetPosition(0, (float)now.axis4/100.0);
+    odrv2.SetPosition(1, (float)now.axis5/100.0);
+    odrv1.SetPosition(1, (float)now.axis6/100.0);
 
     last = now;
     
@@ -110,7 +138,7 @@ void update() {
     queueFlag = true;
   }
   
-  if(queue.itemCount() == 0){
+  if(queue.itemCount() == 0 && queueFlag){
     queueFlag = false;
   }
   
@@ -151,86 +179,68 @@ void serial_interrupt() {
   if(rec_checksum == checksum) {
 
     if(!controlFlag) {
-      axis1.enableOutputs();
-      axis2.enableOutputs();
-      axis3.enableOutputs();
-      axis4.enableOutputs();
-      axis5.enableOutputs();
-      axis6.enableOutputs();
+      //axis1.enableOutputs();
+      //axis2.enableOutputs();
+      //axis3.enableOutputs();
+      //axis4.enableOutputs();
+      //axis5.enableOutputs();
+      //axis6.enableOutputs();
 
-      axis1.setCurrentPosition(0);
-      axis2.setCurrentPosition(0);
-      axis3.setCurrentPosition(0);
-      axis4.setCurrentPosition(0);
-      axis5.setCurrentPosition(0);
-      axis6.setCurrentPosition(0);
+      //axis1.setCurrentPosition(0);
+      //axis2.setCurrentPosition(0);
+      //axis3.setCurrentPosition(0);
+      //axis4.setCurrentPosition(0);
+      //axis5.setCurrentPosition(0);
+      //axis6.setCurrentPosition(0);
 
-      controlFlag = true;
+      serialFlag = true;
       digitalWrite(LED_BUILTIN, HIGH);
     }
     
     pos n;
   
-    n.axis1 = (uint16_t)((dec_string[1] << 8) | dec_string[0]) - 32000;
-    n.axis2 = (uint16_t)((dec_string[3] << 8) | dec_string[2]) - 32000;
-    n.axis3 = (uint16_t)((dec_string[5] << 8) | dec_string[4]) - 32000;
-    n.axis4 = (uint16_t)((dec_string[7] << 8) | dec_string[6]) - 32000;
-    n.axis5 = (uint16_t)((dec_string[9] << 8) | dec_string[8]) - 32000;
-    n.axis6 = (uint16_t)((dec_string[11] << 8) | dec_string[10]) - 32000;
+    n.axis1 = ((uint16_t)((dec_string[1] << 8) | dec_string[0]) - 32000);
+    n.axis2 = ((uint16_t)((dec_string[3] << 8) | dec_string[2]) - 32000);
+    n.axis3 = ((uint16_t)((dec_string[5] << 8) | dec_string[4]) - 32000);
+    n.axis4 = ((uint16_t)((dec_string[7] << 8) | dec_string[6]) - 32000);
+    n.axis5 = ((uint16_t)((dec_string[9] << 8) | dec_string[8]) - 32000);
+    n.axis6 = ((uint16_t)((dec_string[11] << 8) | dec_string[10]) - 32000);
     gripper_enabled = (uint8_t)dec_string[12];
   
-    pos_lock.lock(1);
     queue.enqueue(n);
-    pos_lock.unlock();
 
   } else if(controlFlag) {
 
-    axis1.disableOutputs();
-    axis2.disableOutputs();
-    axis3.disableOutputs();
-    axis4.disableOutputs();
-    axis5.disableOutputs();
-    axis6.disableOutputs();
+    //axis1.disableOutputs();
+    //axis2.disableOutputs();
+    //axis3.disableOutputs();
+    //axis4.disableOutputs();
+    //axis5.disableOutputs();
+    //axis6.disableOutputs();
 
     controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);
     digitalWrite(GRIPPER_PIN, LOW);
   }
-  
-  serialFlag = true;
+
 }
 
 void setup() {
   Serial.begin(115200);
 
-  while (!Serial) {
-    delay(1);
-  }
-
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(GRIPPER_PIN, OUTPUT);
   digitalWrite(GRIPPER_PIN, LOW);
 
-  axis1.setAcceleration(ACCELERATION);
-  axis2.setAcceleration(ACCELERATION);
-  axis3.setAcceleration(ACCELERATION);
-  axis4.setAcceleration(ACCELERATION);
-  axis5.setAcceleration(ACCELERATION);
-  axis6.setAcceleration(ACCELERATION);
+  odrive_serial0.begin(115200);
+  odrive_serial1.begin(115200);
+  odrive_serial2.begin(115200);
 
-  axis1.setMinPulseWidth(PULSE_WIDTH);
-  axis2.setMinPulseWidth(PULSE_WIDTH);
-  axis3.setMinPulseWidth(PULSE_WIDTH);
-  axis4.setMinPulseWidth(PULSE_WIDTH);
-  axis5.setMinPulseWidth(PULSE_WIDTH);
-  axis6.setMinPulseWidth(PULSE_WIDTH);
+  delay(2000);
 
-  axis1.disableOutputs();
-  axis2.disableOutputs();
-  axis3.disableOutputs();
-  axis4.disableOutputs();
-  axis5.disableOutputs();
-  axis6.disableOutputs();
+  while (!Serial) {
+    delay(1);
+  }
 
   ctrl_loop_timer.begin(update, 1000000/FRQ);
 
@@ -238,29 +248,34 @@ void setup() {
 
 void loop() {
   
-  if(Serial.available() > 24 && serialFlag) {
-    serialFlag = false;
+  if(Serial.available() > 24) {
     serial_interrupt();
   }
 
+  if(serialFlag) {
+    
+    serialFlag = false;
+    controlFlag = true;
+  }
+
   if(controlFlag) {
-    axis1.run();
-    axis2.run();
-    axis3.run();
-    axis4.run();
-    axis5.run();
-    axis6.run();
+    //axis1.run();
+    //axis2.run();
+    //axis3.run();
+    //axis4.run();
+    //axis5.run();
+    //axis6.run();
 
     digitalWrite(GRIPPER_PIN, gripper_enabled);
   }
 
-  if(!Serial && controlFlag) {
-    axis1.disableOutputs();
-    axis2.disableOutputs();
-    axis3.disableOutputs();
-    axis4.disableOutputs();
-    axis5.disableOutputs();
-    axis6.disableOutputs();
+  if(!Serial && (controlFlag || serialFlag)) {
+    //axis1.disableOutputs();
+    //axis2.disableOutputs();
+    //axis3.disableOutputs();
+    //axis4.disableOutputs();
+    //axis5.disableOutputs();
+    //axis6.disableOutputs();
 
     controlFlag = false;
     digitalWrite(LED_BUILTIN, LOW);

@@ -133,6 +133,35 @@ def command(data):
         commandFlag = True
         print("Data is registered!")
 
+def axis_requested_pos(req):
+    print("Axis requested position")
+
+    if req.axis == 1:
+        odrv1.axis0.controller.config.vel_limit = 3.0
+        odrv1.axis0.controller.input_pos = req.requested_state
+
+    if req.axis == 2:
+        odrv0.axis0.controller.config.vel_limit = 3.0
+        odrv0.axis0.controller.input_pos = req.requested_state
+
+    if req.axis == 3:
+        odrv0.axis1.controller.config.vel_limit = 3.0
+        odrv0.axis1.controller.input_pos = req.requested_state
+    
+    if req.axis == 4:
+        odrv2.axis0.controller.config.vel_limit = 3.0
+        odrv2.axis0.controller.input_pos = req.requested_state
+    
+    if req.axis == 5:
+        odrv2.axis1.controller.config.vel_limit = 3.0
+        odrv2.axis1.controller.input_pos = req.requested_state
+    
+    if req.axis == 6:
+        odrv1.axis1.controller.config.vel_limit = 3.0
+        odrv1.axis1.controller.input_pos = req.requested_state
+
+    return requested_stateResponse(True)
+
 def axis_requested_state(req):
     print("Axis requested_state")
 
@@ -198,5 +227,6 @@ rospy.Subscriber("/nsra/drive_pub6", Float64, drive_pub6)
 rospy.Subscriber("/data_command", String, command)
 
 requested_state = rospy.Service('axis_requested_state', requested_state, axis_requested_state)
+requested_position = rospy.Service('axis_requested_position', requested_state, axis_requested_pos)
 
 rospy.spin()
