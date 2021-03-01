@@ -369,6 +369,24 @@ params.minInertiaRatio = 0.1
 
 detector = cv2.SimpleBlobDetector_create(params)
 
+params_hr = cv2.SimpleBlobDetector_Params()
+
+params_hr.filterByArea = True
+params_hr.minArea = 1000
+params_hr.maxArea = 100000
+
+params_hr.filterByCircularity = True
+params_hr.minCircularity = 0.1
+
+params_hr.filterByConvexity = True
+params_hr.minConvexity = 0
+params_hr.maxConvexity = 1
+
+params_hr.filterByInertia = True
+params_hr.minInertiaRatio = 0.1
+
+detector_hr = cv2.SimpleBlobDetector_create(params_hr)
+
 kernal = np.ones((2,2), np.uint8)
 
 org_coord = None
@@ -405,7 +423,7 @@ def detect(img):
 
     red_mask = cv2.dilate(red_mask, kernal)
 
-    keypoints = detector.detect(red_mask)
+    keypoints = detector_hr.detect(red_mask)
 
     pnts_img_right = np.zeros((len(keypoints), 2))
 
@@ -424,7 +442,7 @@ def detect(img):
 
     red_mask = cv2.dilate(red_mask, kernal)
 
-    keypoints = detector.detect(red_mask)
+    keypoints = detector_hr.detect(red_mask)
 
     pnts_img_left = np.zeros((len(keypoints), 2))
 
