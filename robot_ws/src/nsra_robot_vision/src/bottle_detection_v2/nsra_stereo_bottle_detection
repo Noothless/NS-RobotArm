@@ -416,8 +416,8 @@ def detect(img):
     print(pnts_img_right)
     print(pnts_img_left)
     
-    _ , nmb_img_l , _ = pnts_img_left.shape
-    _ , nmb_img_r , _ = pnts_img_right.shape
+    nmb_img_l , _ = pnts_img_left.shape
+    nmb_img_r , _ = pnts_img_right.shape
 
     #objects = np.zeros((nmb_img, 2, 2))
 
