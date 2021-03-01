@@ -736,8 +736,8 @@ def coords_publisher():
         
         time.sleep(1)
 
-#input_thread = threading.Thread(target=coords_publisher)
-#input_thread.start()
+input_thread = threading.Thread(target=coords_publisher)
+input_thread.start()
 
 test_nb = 0
 
