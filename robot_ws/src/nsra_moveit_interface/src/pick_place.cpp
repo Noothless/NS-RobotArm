@@ -243,7 +243,7 @@ int main(int argc, char** argv)
     addCollisionObjects(planning_scene_interface);
     ros::WallDuration(1.0).sleep();
 
-    string var;
+    std::string var;
     std::cin >> var;
     if(std::stoi(var) > 0 && std::stoi(var) < nmb_prv_objs - 1)
     {
