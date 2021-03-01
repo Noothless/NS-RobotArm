@@ -422,7 +422,7 @@ def detect(img):
 
         for i in range(nmb_obj_l):
             objects[i,0,:] = pnts_img_left[i,:]
-            objects[i,1,:] = pnts_img_right[closest_point(pnts_img_left[i,:], pnts_img_right[:,:]),:)
+            objects[i,1,:] = pnts_img_right[closest_point(pnts_img_left[i,:], pnts_img_right[:,:]),:]
             print(objects[i,1,:])
     
         print(objects) 
