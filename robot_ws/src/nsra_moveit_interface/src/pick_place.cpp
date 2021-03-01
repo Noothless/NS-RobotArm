@@ -39,6 +39,9 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include "nsra_robot_vision/stereo_camera_coords.h"
+#include <vector>
+#include <string> 
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -139,21 +142,15 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
 }
 
-void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
+void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, std::vector<float> x, std::vector<float> y, std::vector<float> z)
 {
-  // BEGIN_SUB_TUTORIAL table1
-  //
-  // Creating Environment
-  // ^^^^^^^^^^^^^^^^^^^^
-  // Create vector to hold 3 collision objects.
-  std::vector<moveit_msgs::CollisionObject> collision_objects;
-  collision_objects.resize(3);
 
-  // Add the first table where the cube will originally be kept.
+  std::vector<moveit_msgs::CollisionObject> collision_objects;
+  collision_objects.resize(v.size() + 1);
+
   collision_objects[0].id = "table1";
   collision_objects[0].header.frame_id = "world";
 
-  /* Define the primitive and its dimensions. */
   collision_objects[0].primitives.resize(1);
   collision_objects[0].primitives[0].type = collision_objects[0].primitives[0].BOX;
   collision_objects[0].primitives[0].dimensions.resize(3);
@@ -161,61 +158,35 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[0].primitives[0].dimensions[1] = 0.54;
   collision_objects[0].primitives[0].dimensions[2] = 0.2;
 
-  /* Define the pose of the table. */
   collision_objects[0].primitive_poses.resize(1);
   collision_objects[0].primitive_poses[0].position.x = 0.27;
   collision_objects[0].primitive_poses[0].position.y = 0.27;
   collision_objects[0].primitive_poses[0].position.z = 0.1;
   collision_objects[0].primitive_poses[0].orientation.w = 1.0;
-  // END_SUB_TUTORIAL
 
   collision_objects[0].operation = collision_objects[0].ADD;
 
-  // BEGIN_SUB_TUTORIAL table2
-  // Add the second table where we will be placing the cube.
-  collision_objects[1].id = "table2";
-  collision_objects[1].header.frame_id = "world";
+  for(int i = 1; i < v.size() + 1; i++)
+  {
 
-  /* Define the primitive and its dimensions. */
-  collision_objects[1].primitives.resize(1);
-  collision_objects[1].primitives[0].type = collision_objects[1].primitives[0].BOX;
-  collision_objects[1].primitives[0].dimensions.resize(3);
-  collision_objects[1].primitives[0].dimensions[0] = 0.4;
-  collision_objects[1].primitives[0].dimensions[1] = 0.2;
-  collision_objects[1].primitives[0].dimensions[2] = 0.4;
+    collision_objects[i].header.frame_id = "world";
+    collision_objects[i].id = "object" + std::to_string(i);
 
-  /* Define the pose of the table. */
-  collision_objects[1].primitive_poses.resize(1);
-  collision_objects[1].primitive_poses[0].position.x = 0;
-  collision_objects[1].primitive_poses[0].position.y = 0.8;
-  collision_objects[1].primitive_poses[0].position.z = 0.2;
-  collision_objects[1].primitive_poses[0].orientation.w = 1.0;
-  // END_SUB_TUTORIAL
+    collision_objects[i].primitives.resize(1);
+    collision_objects[i].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
+    collision_objects[i].primitives[0].dimensions.resize(3);
+    collision_objects[i].primitives[0].dimensions[0] = 0.2;
+    collision_objects[i].primitives[0].dimensions[1] = 0.025;
+    collision_objects[i].primitives[0].dimensions[2] = 0.1;
 
-  collision_objects[1].operation = collision_objects[1].ADD;
+    collision_objects[i].primitive_poses.resize(1);
+    collision_objects[i].primitive_poses[0].position.x = x[i-1]/1000;
+    collision_objects[i].primitive_poses[0].position.y = y[i-1]/1000;
+    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000;
+    collision_objects[i].primitive_poses[0].orientation.w = 1.0;
 
-  // BEGIN_SUB_TUTORIAL object
-  // Define the object that we will be manipulating
-  collision_objects[2].header.frame_id = "world";
-  collision_objects[2].id = "object";
-
-  /* Define the primitive and its dimensions. */
-  collision_objects[2].primitives.resize(1);
-  collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
-  collision_objects[2].primitives[0].dimensions.resize(3);
-  collision_objects[2].primitives[0].dimensions[0] = 0.2;
-  collision_objects[2].primitives[0].dimensions[1] = 0.025;
-  collision_objects[2].primitives[0].dimensions[2] = 0.1;
-
-  /* Define the pose of the object. */
-  collision_objects[2].primitive_poses.resize(1);
-  collision_objects[2].primitive_poses[0].position.x = 0.25;
-  collision_objects[2].primitive_poses[0].position.y = 0.25;
-  collision_objects[2].primitive_poses[0].position.z = 0.3;
-  collision_objects[2].primitive_poses[0].orientation.w = 1.0;
-  // END_SUB_TUTORIAL
-
-  collision_objects[2].operation = collision_objects[2].ADD;
+    collision_objects[i].operation = collision_objects[2].ADD;
+  }
 
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
@@ -231,16 +202,26 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
-  
-  addCollisionObjects(planning_scene_interface);
 
-  ros::WallDuration(1.0).sleep();
+  ros::ServiceClient camera_client = n.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
 
-  pick(group);
+  nsra_robot_vision::stereo_camera_coords srv;
+  if (camera_client.call(srv))
+  {
+    addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
 
-  ros::WallDuration(1.0).sleep();
+    ros::WallDuration(1.0).sleep();
 
-  place(group);
+    pick(group);
+
+    ros::WallDuration(1.0).sleep();
+
+    place(group);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service add_two_ints");
+  }
 
   ros::waitForShutdown();
   return 0;
