@@ -411,12 +411,18 @@ def detect(img):
         pnts_img_left[n, 0] = keypoints[n].pt[0]
         pnts_img_left[n, 1] = keypoints[n].pt[1]
     
-    nmb_img_l , _ = pnts_img_left.shape
-    nmb_img_r , _ = pnts_img_right.shape
+    nmb_obj_l , _ = pnts_img_left.shape
+    nmb_obj_r , _ = pnts_img_right.shape
 
-    #objects = np.zeros((nmb_img, 2, 2))
+    if nmb_obj_l == nmb_obj_r:
 
-    #print(pnts_img.shape)
+        objects = np.zeros((nmb_obj_l, 2, 2))
+
+        print(objects)
+    
+    else:
+        print(colored("Error: Number of objects doesn't match!", 'red'))
+    
 
     """     for i in range(nmb_img):
         objects[i,0,:] = pnts_img[0,i,:]
