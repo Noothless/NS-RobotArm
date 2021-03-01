@@ -50,6 +50,8 @@ std::vector<double> x;
 std::vector<double> y;
 std::vector<double> z;
 
+nmb_prv_objs = 0;
+
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
 
@@ -152,6 +154,8 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
 
+  nmb_prv_objs = x.size() + 1;
+
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(x.size() + 1);
 
@@ -189,7 +193,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[i].primitive_poses.resize(1);
     collision_objects[i].primitive_poses[0].position.x = y[i-1]/1000;
     collision_objects[i].primitive_poses[0].position.y = x[i-1]/1000;
-    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000;
+    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000 + 0.1;
     collision_objects[i].primitive_poses[0].orientation.w = 1.0;
 
     collision_objects[i].operation = collision_objects[2].ADD;
@@ -230,7 +234,7 @@ int main(int argc, char** argv)
   {
     std::vector<std::string> object_ids;
     object_ids.push_back("table");
-    for (int i = 1; i < x.size() + 1; i++)
+    for (int i = 1; i < nmb_prv_objs; i++)
     {
       object_ids.push_back("object" + std::to_string(i));
     }
