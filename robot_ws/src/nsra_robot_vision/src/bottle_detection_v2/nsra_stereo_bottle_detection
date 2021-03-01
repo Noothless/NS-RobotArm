@@ -396,11 +396,9 @@ def detect(img):
             pnts_img[i,n,0] = keypoints[n].pt[0]
             pnts_img[i,n,1] = keypoints[n].pt[1]
     
-    objects = np.array([[[0.0, 0.0]]])
+    objects = np.zeros((pnts_img.shape))
 
     print(pnts_img.shape)
-
-    _ , kp_nmb , _ = pnts_img.shape
 
     for i in range(kp_nmb):
         objects[i,0,:] = pnts_img[0,i,:]
