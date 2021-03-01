@@ -257,7 +257,7 @@ int main(int argc, char** argv)
 
   std::thread update_thread(update_scene, planning_scene_interface, nh, do_flag, mtx);
 
-  string inp;
+  std::string inp;
 
   std::cin >> inp;
 
