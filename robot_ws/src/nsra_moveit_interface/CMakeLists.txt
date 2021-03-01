@@ -25,7 +25,7 @@ catkin_package(
     moveit_core
     moveit_ros_planning_interface
     interactive_markers
-    moveit_commander$
+    moveit_commander
     nsra_robot_vision
 )
 
