@@ -404,7 +404,8 @@ def detect(img):
 
     for i in range(nmb_img):
         objects[i,0,:] = pnts_img[0,i,:]
-        objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
+        objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:])
+        print(objects[i,1,:])
     
     print(objects)
 
