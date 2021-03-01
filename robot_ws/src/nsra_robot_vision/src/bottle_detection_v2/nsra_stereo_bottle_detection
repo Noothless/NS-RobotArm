@@ -809,5 +809,5 @@ while(send_flag):
         callibrate([img_right, img_left])
     elif detect_flag and is_calib_flag:
         detect_flag = False
-        input_thread = threading.Thread(target=detect, args=([img_right, img_left]))
+        input_thread = threading.Thread(target=detect, args=[img_right, img_left])
         input_thread.start()
