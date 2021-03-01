@@ -49,8 +49,6 @@
 int num_of_objs = 0;
 bool first_time = true;
 
-bool do_flag = true;
-
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
 
@@ -201,10 +199,12 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
 
-void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh, bool& do_flag) 
+void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh) 
 {
 
   ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
+
+  bool do_flag = true;
 
   while (do_flag)
   {
@@ -251,7 +251,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
 
-  std::thread update_thread(update_scene, planning_scene_interface, nh, do_flag);
+  std::thread update_thread(update_scene, planning_scene_interface, nh);
 
   std::string inp;
 
@@ -269,9 +269,8 @@ int main(int argc, char** argv)
 
   } else
   {
-    do_flag = false;
+    ros::waitForShutdown();
+    return 0;
   }
 
-  ros::waitForShutdown();
-  return 0;
 }
