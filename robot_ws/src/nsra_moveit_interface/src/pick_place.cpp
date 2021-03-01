@@ -217,16 +217,16 @@ int main(int argc, char** argv)
     {
       ROS_ERROR("Failed to call service add_two_ints");
     }
-    sleep(1000);
+    ros::WallDuration(1.0).sleep();
   }
 
   ros::WallDuration(1.0).sleep();
 
-    pick(group);
+  pick(group);
 
-    ros::WallDuration(1.0).sleep();
+  ros::WallDuration(1.0).sleep();
 
-    place(group);
+  place(group);
 
   ros::waitForShutdown();
   return 0;
