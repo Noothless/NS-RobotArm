@@ -400,7 +400,7 @@ def detect(img):
 
     print(pnts_img.shape)
 
-    _ , kp_nmb_0 , _ = pnts_img.shape
+    _ , kp_nmb , _ = pnts_img.shape
 
     for i in range(kp_nmb):
         objects[i,0,:] = pnts_img[0,i,:]
@@ -713,3 +713,6 @@ while(send_flag):
     elif detect_flag:
         detect_flag = False
         detect([img_right, img_left])
+
+    cam_left.end()
+    cam_right.end()
