@@ -423,32 +423,30 @@ def detect(img):
         for i in range(nmb_obj_l):
             objects[i,0,:] = pnts_img_left[i,:]
             objects[i,1,:] = pnts_img_right[closest_point(pnts_img_left[i,:], pnts_img_right[:,:]),:]
+            print(objects[i,1,:])
 
         print(objects) 
 
-        obj_vec = np.zeros((nmb_obj_l, 3))
+        obj_rob_vec = np.zeros((nmb_obj_l, 3))
 
         for i in range(nmb_obj_l):
             p_4d_obj = cv2.triangulatePoints(PR, PL, objects[i,1,:], objects[i,0,:])
 
-            obj_vec[i,0] = p_4d_obj[0] / p_4d_obj[3]
-            obj_vec[i,1] = p_4d_obj[1] / p_4d_obj[3]
-            obj_vec[i,2] = p_4d_obj[2] / p_4d_obj[3]
+            obj_vec = np.array([p_4d_obj[0] / p_4d_obj[3],
+                                p_4d_obj[1] / p_4d_obj[3],
+                                p_4d_obj[2] / p_4d_obj[3]])
+            
+            mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
+
+            obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
+
+            obj_rob_vec[i,:] = np.add(obj_trns_vec, rob_offset_vec)
     
-        print(obj_vec) 
+        print(obj_rob_vec) 
     
     else:
         print(colored("Error: Number of objects doesn't match!", 'red'))
     
-
-    
-
-    
-    
-    #mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
-
-    #obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
-
     #if mtrx_ret[0] < 0:
     #    obj_trns_vec[0] = - obj_trns_vec[0]
     #if mtrx_ret[1] < 0:
@@ -456,7 +454,7 @@ def detect(img):
     #if mtrx_ret[2] < 0:
     #    obj_trns_vec[2] = - obj_trns_vec[2]
 
-    #obj_rob_vec = np.add(obj_trns_vec, rob_offset_vec)
+    #obj_rob_vec = 
 
     print("---------------")
     print("Original origin to bottle distance: ")
