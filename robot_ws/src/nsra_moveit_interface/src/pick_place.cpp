@@ -46,8 +46,9 @@
 #include <iostream>
 #include <thread>
 
-int num_of_objs = 0;
-bool first_time = true;
+std::vector<double> x;
+std::vector<double> y;
+std::vector<double> z;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -148,7 +149,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
 }
 
-void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, std::vector<double> x, std::vector<double> y, std::vector<double> z)
+void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
 
   num_of_objs = x.size() + 1;
@@ -199,6 +200,13 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
 
+void scene_callback(const )
+{
+  x = data.x;
+  y = data.y;
+  z = data.z;
+}
+
 void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh) 
 {
 
@@ -213,63 +221,36 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
+  ros::Subscriber sub = nh.subscribe("nsra/stereo_camera_coords", 1, scene_callback);
+
   ros::WallDuration(1.0).sleep();
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
 
-  ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
-
-  bool do_flag = true;
-
-  while (do_flag)
+  while(true)
   {
-    nsra_robot_vision::stereo_camera_coords srv;
-    if (camera_client.call(srv))
+    std::vector<std::string> object_ids;
+    object_ids.push_back("table");
+    for (int i = 1; i < x.size() + 1; i++)
     {
-      if(srv.response.resp)
-      { 
-        if(first_time) {
-          first_time = false;
-        } else {
-          std::vector<std::string> object_ids;
-          object_ids.push_back("table");
-          for(int i = 1; i < num_of_objs; i++) {
-            object_ids.push_back("object" + std::to_string(i));
-          }
-          planning_scene_interface.removeCollisionObjects(object_ids);
-        }
-        addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
-      } else
-      {
-        ROS_ERROR("Stereo camera detection failed");
-      }
+      object_ids.push_back("object" + std::to_string(i));
     }
-    else
-    {
-      ROS_ERROR("Failed to call service nsra/stereo_camera_coords");
-      do_flag = false;
-    }
+    planning_scene_interface.removeCollisionObjects(object_ids);
 
-    std::string inp;
-
-    std::cin >> inp;
-
-    if(inp == "try") {
-
-      ros::WallDuration(1.0).sleep();
-
-      pick(group);
-
-      ros::WallDuration(1.0).sleep();
-
-      place(group);
-
-    } else
-    {
-      ros::waitForShutdown();
-      return 0;
-    }
+    addCollisionObjects(planning_scene_interface);
+    ros::WallDuration(1.0).sleep();
   }
+
+  ros::WallDuration(1.0).sleep();
+
+  pick(group);
+
+  ros::WallDuration(1.0).sleep();
+
+  place(group);
+
+  ros::waitForShutdown();
+  return 0;
 
 }
