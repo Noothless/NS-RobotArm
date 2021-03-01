@@ -142,7 +142,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
   openGripper(place_location[0].post_place_posture);
 
-  group.setSupportSurfaceName("table2");
+  group.setSupportSurfaceName("table1");
 
   group.place("object1", place_location);
 
@@ -202,6 +202,22 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh) 
 {
 
+  
+
+}
+
+int main(int argc, char** argv)
+{
+  ros::init(argc, argv, "nsra_moveit_interface");
+  ros::NodeHandle nh;
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
+
+  ros::WallDuration(1.0).sleep();
+  moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+  moveit::planning_interface::MoveGroupInterface group("nsra");
+  group.setPlanningTime(45.0);
+
   ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
 
   bool do_flag = true;
@@ -234,43 +250,26 @@ void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_s
       ROS_ERROR("Failed to call service nsra/stereo_camera_coords");
       do_flag = false;
     }
-    ros::WallDuration(1.0).sleep();
-  }
 
-}
+    std::string inp;
 
-int main(int argc, char** argv)
-{
-  ros::init(argc, argv, "nsra_moveit_interface");
-  ros::NodeHandle nh;
-  ros::AsyncSpinner spinner(1);
-  spinner.start();
+    std::cin >> inp;
 
-  ros::WallDuration(1.0).sleep();
-  moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-  moveit::planning_interface::MoveGroupInterface group("nsra");
-  group.setPlanningTime(45.0);
+    if(inp == "try") {
 
-  std::thread update_thread(update_scene, planning_scene_interface, nh);
+      ros::WallDuration(1.0).sleep();
 
-  std::string inp;
+      pick(group);
 
-  std::cin >> inp;
+      ros::WallDuration(1.0).sleep();
 
-  if(inp == "try") {
+      place(group);
 
-    ros::WallDuration(1.0).sleep();
-
-    pick(group);
-
-    ros::WallDuration(1.0).sleep();
-
-    place(group);
-
-  } else
-  {
-    ros::waitForShutdown();
-    return 0;
+    } else
+    {
+      ros::waitForShutdown();
+      return 0;
+    }
   }
 
 }
