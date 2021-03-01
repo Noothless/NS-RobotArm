@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   pluginlib
   geometric_shapes
   rosbag
+  nsra_robot_vision
 )
 
 
@@ -24,7 +25,8 @@ catkin_package(
     moveit_core
     moveit_ros_planning_interface
     interactive_markers
-    moveit_commander
+    moveit_commander$
+    nsra_robot_vision
 )
 
 include_directories(
