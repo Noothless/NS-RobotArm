@@ -395,6 +395,8 @@ def detect(img):
         for n in range(len(keypoints)):
             pnts_img[i,n,0] = keypoints[n].pt[0]
             pnts_img[i,n,1] = keypoints[n].pt[1]
+
+    print(pnts_img)
     
     _ , nmb_img , _ = pnts_img.shape
 
