@@ -114,7 +114,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
 
   move_group.setSupportSurfaceName("table");
 
-  move_group.pick("object" + to_string(index), grasps);
+  move_group.pick("object" + std::to_string(index), grasps);
 
 }
 
@@ -147,7 +147,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
 
   group.setSupportSurfaceName("table");
 
-  group.place("object1" + to_string(index), place_location);
+  group.place("object1" + std::to_string(index), place_location);
 
 }
 
