@@ -163,9 +163,9 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   /* Define the pose of the table. */
   collision_objects[0].primitive_poses.resize(1);
-  collision_objects[0].primitive_poses[0].position.x = 0;
-  collision_objects[0].primitive_poses[0].position.y = 0;
-  collision_objects[0].primitive_poses[0].position.z = 0;
+  collision_objects[0].primitive_poses[0].position.x = 0.5;
+  collision_objects[0].primitive_poses[0].position.y = 0.5;
+  collision_objects[0].primitive_poses[0].position.z = 0.2;
   collision_objects[0].primitive_poses[0].orientation.w = 1.0;
   // END_SUB_TUTORIAL
 
@@ -178,7 +178,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   /* Define the primitive and its dimensions. */
   collision_objects[1].primitives.resize(1);
-  collision_objects[1].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
+  collision_objects[1].primitives[0].type = collision_objects[1].primitives[0].BOX;
   collision_objects[1].primitives[0].dimensions.resize(3);
   collision_objects[1].primitives[0].dimensions[0] = 0.4;
   collision_objects[1].primitives[0].dimensions[1] = 0.2;
@@ -201,7 +201,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   /* Define the primitive and its dimensions. */
   collision_objects[2].primitives.resize(1);
-  collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].BOX;
+  collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
   collision_objects[2].primitives[0].dimensions.resize(3);
   collision_objects[2].primitives[0].dimensions[0] = 0.02;
   collision_objects[2].primitives[0].dimensions[1] = 0.02;
