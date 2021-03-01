@@ -580,6 +580,8 @@ def get_input():
         inp = input()
         if inp == "end":
             send_flag = False
+            cam_left.end()
+            cam_right.end()
         elif inp == "calib":
             calib_flag = True
         elif inp == "det":
@@ -713,6 +715,3 @@ while(send_flag):
     elif detect_flag:
         detect_flag = False
         detect([img_right, img_left])
-
-    cam_left.end()
-    cam_right.end()
