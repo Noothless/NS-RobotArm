@@ -723,7 +723,7 @@ def coords_publisher():
     while(send_flag):
 
         detect_flag = True
-        while(srv_flag is False):
+        while(srv_flag is False and send_flag):
             time.sleep(0.1)
         srv_flag = False
 
@@ -809,5 +809,5 @@ while(send_flag):
         callibrate([img_right, img_left])
     elif detect_flag and is_calib_flag:
         detect_flag = False
-        input_thread = threading.Thread(target=detect, args=[img_right, img_left])
+        input_thread = threading.Thread(target=detect, args=([img_right, img_left],))
         input_thread.start()
