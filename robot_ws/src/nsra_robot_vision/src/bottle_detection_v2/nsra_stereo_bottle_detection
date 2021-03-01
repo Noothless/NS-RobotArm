@@ -402,10 +402,11 @@ def detect(img):
 
     _ , kp_nmb_0 , _ = pnts_img.shape
 
-    #for i in range(kp_nmb):
-    #    objects[i,0,:] = pnts_img[0,i,:]
-    #    objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
+    for i in range(kp_nmb):
+        objects[i,0,:] = pnts_img[0,i,:]
+        objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
     
+    print(objects)
 
     #p_4d_obj = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
 
