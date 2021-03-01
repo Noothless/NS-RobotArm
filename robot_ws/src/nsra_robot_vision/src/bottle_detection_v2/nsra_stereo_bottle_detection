@@ -458,7 +458,8 @@ def detect(img):
             print("Bottle %d: %f mm" % (i, np.linalg.norm(obj_rob_vec[i])*10.0))
         print("Object vector to robot: ")
         for i in range(nmb_obj_l):
-            print("Bottle %d: %f" % (i, obj_rob_vec[i]))
+            print("Bottle %d: " % i)
+            print(obj_rob_vec[i])
         print("---------------")
 
     else:
