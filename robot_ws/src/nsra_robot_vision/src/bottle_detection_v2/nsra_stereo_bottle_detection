@@ -569,9 +569,9 @@ def service_callback(req):
     srv_flag = False
     
     if(det_resp_flag):
-        return stereo_camera_coordsResponse(tuple(obj_rob_vec[:,0]), tuple(obj_rob_vec[:,1]), tuple(obj_rob_vec[:,2]), True)
+        return stereo_camera_coordsResponse(tuple(obj_rob_vec[:,0]), tuple(obj_rob_vec[:,1]), tuple(obj_rob_vec[:,2]), 1)
     else:
-        return stereo_camera_coordsResponse(tuple(0.0), tuple(0.0), tuple(0.0), False)
+        return stereo_camera_coordsResponse(tuple(0.0), tuple(0.0), tuple(0.0), 0)
 
 #RTMP stream
 img_send = None
