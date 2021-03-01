@@ -80,9 +80,9 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   tf2::Quaternion orientation;
   orientation.setRPY(M_PI / 2, 0, 0);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
-  grasps[0].grasp_pose.pose.position.x = 0.35;
-  grasps[0].grasp_pose.pose.position.y = 0;
-  grasps[0].grasp_pose.pose.position.z = 0.5;
+  grasps[0].grasp_pose.pose.position.x = 0.25;
+  grasps[0].grasp_pose.pose.position.y = 0.25;
+  grasps[0].grasp_pose.pose.position.z = 0.3;
 
 
   grasps[0].pre_grasp_approach.direction.header.frame_id = "world";
@@ -204,7 +204,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[2].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
   collision_objects[2].primitives[0].dimensions.resize(3);
   collision_objects[2].primitives[0].dimensions[0] = 0.2;
-  collision_objects[2].primitives[0].dimensions[1] = 0.05;
+  collision_objects[2].primitives[0].dimensions[1] = 0.025;
   collision_objects[2].primitives[0].dimensions[2] = 0.1;
 
   /* Define the pose of the object. */
