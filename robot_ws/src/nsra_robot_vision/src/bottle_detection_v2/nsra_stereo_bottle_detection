@@ -392,6 +392,7 @@ def closest_point(node, nodes):
 def detect(img):
     global obj_rob_vec
     global srv_flag
+    global det_resp_flag
 
     hsv_frame = cv2.cvtColor(img[0], cv2.COLOR_RGB2HSV)
 
