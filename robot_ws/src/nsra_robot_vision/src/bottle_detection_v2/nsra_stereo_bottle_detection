@@ -132,6 +132,10 @@ try:
     color_filter[4] = config_object.getint("PARAMS", "sl")
     color_filter[5] = config_object.getint("PARAMS", "vl")
 
+    rob_offset_vec[0] = config_object.getfloat("ROBOT", "rob_offset_x")
+    rob_offset_vec[1] = config_object.getfloat("ROBOT", "rob_offset_y")
+    rob_offset_vec[2] = config_object.getfloat("ROBOT", "rob_offset_z")
+
     print("---------------")
     print("Config File Parameters loaded!")
     print("Transformation matrix:")
@@ -140,6 +144,8 @@ try:
     print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
     print("HSV Color filter:")
     print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (color_filter[0], color_filter[1], color_filter[2], color_filter[3], color_filter[4], color_filter[5]))
+    print("Robot offset:")
+    print("x: %f y: %f z: %f" % (rob_offset_vec[0], rob_offset_vec[1], rob_offset_vec[2]))
     print("---------------")
 
 except:
@@ -631,6 +637,27 @@ def get_input():
             detect_flag = True
         elif inp == "lines":
             lines_flag = not lines_flag
+        elif inp == "rob":
+            print("Robot offset vector x:")
+            inp = input()
+            rob_offset_vec[0] = float(inp)
+            print("Robot offset vector y:")
+            inp = input()
+            rob_offset_vec[1] = float(inp)
+            print("Robot offset vector z:")
+            inp = input()
+            rob_offset_vec[2] = float(inp)
+
+            config_object["ROBOT"] = {
+            "rob_offset_x": str(rob_offset_vec[0]),
+            "rob_offset_y": str(rob_offset_vec[1]),
+            "rob_offset_z": str(rob_offset_vec[2]),
+            }
+
+            with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+                    config_object.write(conf)
+
+            print(colored("Changes saved!", 'green'))
         else:
             print(colored("Error command not found!", 'red'))
 
