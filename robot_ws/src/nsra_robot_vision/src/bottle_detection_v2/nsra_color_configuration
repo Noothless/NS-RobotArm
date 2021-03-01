@@ -33,9 +33,7 @@
 ############################################################################# 
 
 # Author: Noa Sendlhofer
-# Desc:   Part of the NSRA Robot Vision stack. Stereo camera test program using an NDI source.
-# 01.01.2021 - Stereo camera works! :)
-# 06.02.2021 - Full bottle detection works! :)
+# Desc:   Part of the NSRA Robot Vision stack. Stereo camera color configurator.
 
 import cv2
 import multiprocessing as mp
@@ -266,7 +264,7 @@ class camera():
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
 cam_left = camera(0)
-cam_right = camera(1)
+#cam_right = camera(1)
 
 def camGainCallback(value):
     cam_config[0] = value
@@ -324,38 +322,38 @@ rospy.init_node('nsra_camera_configurator')
 while(True):
     #Get next image from cameras
     img_left = cam_left.get_frame(1)
-    img_right = cam_right.get_frame(1)
+    #img_right = cam_right.get_frame(1)
 
     img_left_sized = cv2.resize(img_left, (1080, 720))
-    img_right_sized = cv2.resize(img_right, (1080, 720))
+    #img_right_sized = cv2.resize(img_right, (1080, 720))
 
     hsv_frame_left = cv2.cvtColor(img_left_sized, cv2.COLOR_RGB2HSV)
-    hsv_frame_right = cv2.cvtColor(img_right_sized, cv2.COLOR_RGB2HSV)
+    #hsv_frame_right = cv2.cvtColor(img_right_sized, cv2.COLOR_RGB2HSV)
 
     low_red = np.array([hl,sl,vl])
     high_red = np.array([hh, sh, vh])
     red_mask_left = cv2.inRange(hsv_frame_left, low_red, high_red)
-    red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
+    #red_mask_right = cv2.inRange(hsv_frame_right, low_red, high_red)
 
     red_mask_left = cv2.bitwise_not(red_mask_left)
-    red_mask_right = cv2.bitwise_not(red_mask_right)
+    #red_mask_right = cv2.bitwise_not(red_mask_right)
 
     red_mask_left = cv2.dilate(red_mask_left, kernal)
-    red_mask_right = cv2.dilate(red_mask_right, kernal)
+    #red_mask_right = cv2.dilate(red_mask_right, kernal)
 
     keypoints_left = detector.detect(red_mask_left)
-    keypoints_right = detector.detect(red_mask_right)
+    #keypoints_right = detector.detect(red_mask_right)
 
     imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    imgKeyPoints_right = cv2.drawKeypoints(imgKeyPoints_left, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    #imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     blur_frame_points_left = cv2.drawKeypoints(img_left_sized, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    blur_frame_points_right = cv2.drawKeypoints(img_right_sized, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    #blur_frame_points_right = cv2.drawKeypoints(img_right_sized, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     #Concatenate left and right image
-    blur_out_img = np.concatenate((blur_frame_points_left, blur_frame_points_right), axis=1)
-    mask_out_img = np.concatenate((imgKeyPoints_left, imgKeyPoints_right), axis=1)
-    output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
+    #blur_out_img = np.concatenate((blur_frame_points_left, blur_frame_points_right), axis=1)
+    output_img = np.concatenate((imgKeyPoints_left, blur_frame_points_left), axis=1)
+    #output_img = np.concatenate((blur_out_img, mask_out_img), axis=0)
 
     hh = cv2.getTrackbarPos("Hue High", windowName)
     sh = cv2.getTrackbarPos("Saturation High", windowName)
@@ -370,7 +368,7 @@ while(True):
         break
     elif key == 13:
         cam_left.change_params()
-        cam_right.change_params()
+        # cam_right.change_params()
         print("Changes saved!")
 
         rospy.set_param('color_filter', [hh, sh, vh, hl, sl, vl])
