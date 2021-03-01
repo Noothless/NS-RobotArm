@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   nsra_odrive_interface
 )
 
-add_service_files(DIRECTORY srv FILES coords.srv)
+add_service_files(DIRECTORY srv FILES coords.srv nsra_bdv2_bottle_coords.srv)
 
 generate_messages(
   DEPENDENCIES
