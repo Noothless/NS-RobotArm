@@ -142,11 +142,11 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
 }
 
-void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, std::vector<float> x, std::vector<float> y, std::vector<float> z)
+void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, std::vector<double> x, std::vector<double> y, std::vector<double> z)
 {
 
   std::vector<moveit_msgs::CollisionObject> collision_objects;
-  collision_objects.resize(v.size() + 1);
+  collision_objects.resize(x.size() + 1);
 
   collision_objects[0].id = "table1";
   collision_objects[0].header.frame_id = "world";
@@ -166,7 +166,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   collision_objects[0].operation = collision_objects[0].ADD;
 
-  for(int i = 1; i < v.size() + 1; i++)
+  for(int i = 1; i < x.size() + 1; i++)
   {
 
     collision_objects[i].header.frame_id = "world";
@@ -203,7 +203,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
 
-  ros::ServiceClient camera_client = n.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
+  ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
 
   nsra_robot_vision::stereo_camera_coords srv;
   if (camera_client.call(srv))
