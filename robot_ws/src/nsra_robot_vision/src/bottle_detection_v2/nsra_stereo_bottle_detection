@@ -441,29 +441,28 @@ def detect(img):
             obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
 
             obj_rob_vec[i,:] = np.add(obj_trns_vec, rob_offset_vec)
+
+            #if mtrx_ret[0] < 0:
+            #    obj_trns_vec[i,0] = - obj_trns_vec[i,0]
+            #if mtrx_ret[1] < 0:
+            #    obj_trns_vec[i,1] = - obj_trns_vec[i,1]
+            #if mtrx_ret[2] < 0:
+            #    obj_trns_vec[i,2] = - obj_trns_vec[i,2]
     
-        print(obj_rob_vec) 
-    
+        print(obj_rob_vec)
+
+        print("---------------")
+        print("Number of bottles: %d" % nmb_obj_l)
+        print("New origin to bottle distance: ")
+        for i in range(nmb_obj_l):
+            print("Bottle %d: %f mm" % (i, np.linalg.norm(obj_rob_vec[i])*10.0))
+        print("Object vector to robot: ")
+        for i in range(nmb_obj_l):
+            print("Bottle %d: %f" % (i, obj_rob_vec[i]))
+        print("---------------")
+
     else:
         print(colored("Error: Number of objects doesn't match!", 'red'))
-    
-    #if mtrx_ret[0] < 0:
-    #    obj_trns_vec[0] = - obj_trns_vec[0]
-    #if mtrx_ret[1] < 0:
-    #    obj_trns_vec[1] = - obj_trns_vec[1]
-    #if mtrx_ret[2] < 0:
-    #    obj_trns_vec[2] = - obj_trns_vec[2]
-
-    #obj_rob_vec = 
-
-    print("---------------")
-    print("Original origin to bottle distance: ")
-    #print(np.linalg.norm(np.subtract(org_coord, obj_vec)))
-    print("New origin to bottle distance: ")
-    #print(np.linalg.norm(obj_rob_vec))
-    print("Object vector to robot: ")
-    #print(obj_rob_vec)
-    print("---------------")
 
 #Calculate transformation matrix
 def callibrate(img):
