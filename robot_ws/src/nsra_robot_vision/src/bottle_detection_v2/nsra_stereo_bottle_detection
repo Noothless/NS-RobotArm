@@ -193,7 +193,7 @@ if rospy.has_param('camera_config') and rospy.has_param('color_filter'):
         config_object.write(conf)
 
     print("---------------")
-    print("ROS Paramaters loaded!", 'green'))
+    print("ROS Paramaters loaded!")
     print("Camera config:")
     print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
     print("HSV Color filter:")
