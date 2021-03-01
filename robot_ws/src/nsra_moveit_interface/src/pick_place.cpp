@@ -151,9 +151,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
-
-  num_of_objs = x.size() + 1;
-
+  
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(x.size() + 1);
 
