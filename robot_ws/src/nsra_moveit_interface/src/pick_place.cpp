@@ -217,7 +217,7 @@ int main(int argc, char** argv)
     {
       ROS_ERROR("Failed to call service add_two_ints");
     }
-    std::sleep(1000);
+    sleep(1000);
   }
 
   ros::WallDuration(1.0).sleep();
