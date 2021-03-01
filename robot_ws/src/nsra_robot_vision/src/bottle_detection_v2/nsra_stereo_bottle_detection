@@ -53,7 +53,7 @@ from termcolor import colored
 from std_msgs.msg import String
 from std_msgs.msg import Float32
 from configparser import ConfigParser
-from nsra_robot_vision.srv import *
+from nsra_robot_vision.msg import *
 
 #config
 config_object = ConfigParser()
@@ -559,21 +559,6 @@ def callibrate(img):
     print(mtrx)
     print("---------------")
 
-def service_callback(req):
-    global obj_rob_vec
-    global srv_flag
-    global detect_flag
-
-    detect_flag = True
-    while(srv_flag is False):
-        time.sleep(0.1)
-    srv_flag = False
-    
-    if(det_resp_flag):
-        return stereo_camera_coordsResponse(True, tuple(obj_rob_vec[:,0]), tuple(obj_rob_vec[:,1]), tuple(obj_rob_vec[:,2]))
-    else:
-        return stereo_camera_coordsResponse(False, tuple(0.0), tuple(0.0), tuple(0.0))
-
 #RTMP stream
 img_send = None
 
@@ -722,7 +707,30 @@ def camExposureCallback(data):
 rospy.Subscriber("nsra/bd_params", String, paramsChangeCallback)
 rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
 rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)
-bottle_coords = rospy.Service('nsra/stereo_camera_coords', stereo_camera_coords, service_callback)
+pub = rospy.Publisher('nsra/stereo_camera_coords', stereo_camera_coords)
+
+def coords_publisher():
+    global obj_rob_vec
+    global srv_flag
+    global detect_flag
+    global send_flag
+
+    while(send_flag):
+
+        detect_flag = True
+        while(srv_flag is False):
+            time.sleep(0.1)
+        srv_flag = False
+
+        if(det_resp_flag):
+            msg = stereo_camera_coords()
+            msg.x = tuple(obj_rob_vec[:,0])
+            msg.y = tuple(obj_rob_vec[:,1])
+            msg.z = tuple(obj_rob_vec[:,2])
+            pub.publish(msg)
+
+input_thread = threading.Thread(target=coords_publisher)
+input_thread.start()
 
 test_nb = 0
 
