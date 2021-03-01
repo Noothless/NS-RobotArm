@@ -434,7 +434,7 @@ def detect(img):
 
             obj_vec[i,0] = p_4d_obj[0] / p_4d_obj[3]
             obj_vec[i,1] = p_4d_obj[1] / p_4d_obj[3]
-            obj_vec[i,1] = p_4d_obj[2] / p_4d_obj[3]])
+            obj_vec[i,1] = p_4d_obj[2] / p_4d_obj[3])
     
         print(obj_vec) 
     
