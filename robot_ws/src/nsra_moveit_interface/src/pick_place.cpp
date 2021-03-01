@@ -49,8 +49,6 @@
 int num_of_objs = 0;
 bool first_time = true;
 
-std::mutex mtx;
-
 bool do_flag = true;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
@@ -203,7 +201,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
 
-void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh, bool& do_flag, std::mutex& mtx) 
+void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh, bool& do_flag) 
 {
 
   ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
@@ -234,9 +232,7 @@ void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_s
     else
     {
       ROS_ERROR("Failed to call service nsra/stereo_camera_coords");
-      mtx.lock();
       do_flag = false;
-      mtx.unlock();
     }
     ros::WallDuration(1.0).sleep();
   }
@@ -255,7 +251,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::MoveGroupInterface group("nsra");
   group.setPlanningTime(45.0);
 
-  std::thread update_thread(update_scene, planning_scene_interface, nh, do_flag, mtx);
+  std::thread update_thread(update_scene, planning_scene_interface, nh, do_flag);
 
   std::string inp;
 
@@ -273,9 +269,7 @@ int main(int argc, char** argv)
 
   } else
   {
-    mtx.lock();
     do_flag = false;
-    mtx.unlock();
   }
 
   ros::waitForShutdown();
