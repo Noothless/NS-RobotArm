@@ -50,7 +50,7 @@ std::vector<double> x;
 std::vector<double> y;
 std::vector<double> z;
 
-nmb_prv_objs = 0;
+int nmb_prv_objs = 0;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
