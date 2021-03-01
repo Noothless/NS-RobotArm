@@ -198,7 +198,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
 
-void scene_callback(data)
+void scene_callback(const nsra_robot_vision::stereo_camera_coords& data)
 {
   x = data.x;
   y = data.y;
