@@ -418,14 +418,9 @@ def detect(img):
 
         objects = np.zeros((nmb_obj_l, 2, 2))
 
-        #print(objects)
-
         for i in range(nmb_obj_l):
             objects[i,0,:] = pnts_img_left[i,:]
             objects[i,1,:] = pnts_img_right[closest_point(pnts_img_left[i,:], pnts_img_right[:,:]),:]
-            print(objects[i,1,:])
-
-        print(objects) 
 
         obj_rob_vec = np.zeros((nmb_obj_l, 3))
 
@@ -455,7 +450,7 @@ def detect(img):
         print("Number of bottles: %d" % nmb_obj_l)
         print("New origin to bottle distance: ")
         for i in range(nmb_obj_l):
-            print("Bottle %d: %f mm" % (i, np.linalg.norm(obj_rob_vec[i])*10.0))
+            print("Bottle %d: %f mm" % (i, np.linalg.norm(obj_rob_vec[i])/10.0))
         print("Object vector to robot: ")
         for i in range(nmb_obj_l):
             print("Bottle %d: " % i)
