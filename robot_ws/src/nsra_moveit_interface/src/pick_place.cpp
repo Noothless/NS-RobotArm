@@ -211,11 +211,17 @@ int main(int argc, char** argv)
     nsra_robot_vision::stereo_camera_coords srv;
     if (camera_client.call(srv))
     {
-      addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
+      if(srv.response.resp)
+      {
+        addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
+      } else
+      {
+        ROS_ERROR("Stereo camera detection failed");
+      }
     }
     else
     {
-      ROS_ERROR("Failed to call service add_two_ints");
+      ROS_ERROR("Failed to call service nsra/stereo_camera_coords");
     }
     ros::WallDuration(1.0).sleep();
   }

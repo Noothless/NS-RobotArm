@@ -380,6 +380,7 @@ send_flag = True
 calib_flag = False
 detect_flag = False
 lines_flag = False
+det_resp_flag = True
 
 def closest_point(node, nodes):
     nodes = np.asarray(nodes)
@@ -474,9 +475,11 @@ def detect(img):
         print("---------------")
 
         srv_flag = True
+        det_resp_flag = True
 
     else:
         print(colored("Error: Number of objects doesn't match!", 'red'))
+        det_resp_flag = False
 
 #Calculate transformation matrix
 def callibrate(img):
@@ -564,8 +567,11 @@ def service_callback(req):
     while(srv_flag is False):
         time.sleep(0.1)
     srv_flag = False
-
-    return stereo_camera_coordsResponse(tuple(obj_rob_vec[:,0]), tuple(obj_rob_vec[:,1]), tuple(obj_rob_vec[:,2]))
+    
+    if(det_resp_flag):
+        return stereo_camera_coordsResponse(tuple(obj_rob_vec[:,0]), tuple(obj_rob_vec[:,1]), tuple(obj_rob_vec[:,2]), True)
+    else:
+        return stereo_camera_coordsResponse(tuple(0.0), tuple(0.0), tuple(0.0), False)
 
 #RTMP stream
 img_send = None
