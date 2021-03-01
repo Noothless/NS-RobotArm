@@ -92,7 +92,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
   tf2::Quaternion orientation;
   orientation.setRPY(M_PI / 2, 0, 0);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
-  grasps[0].grasp_pose.pose.position.x = y[index]/1000;
+  grasps[0].grasp_pose.pose.position.x = y[index]/1000 - 0.15;
   grasps[0].grasp_pose.pose.position.y = x[index]/1000;
   grasps[0].grasp_pose.pose.position.z = z[index]/1000 + 0.1;
 
