@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   nsra_odrive_interface
 )
 
-add_service_files(DIRECTORY srv FILES coords.srv stereo_camera_coords.srv)
+add_service_files(DIRECTORY srv FILES coords.srv)
 add_message_files(DIRECTORY msg FILES stereo_camera_coords.msg)
 
 generate_messages(
