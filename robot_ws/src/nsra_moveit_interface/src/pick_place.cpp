@@ -43,9 +43,14 @@
 #include <vector>
 #include <string>
 #include <stdlib.h>
+#include <iostream>
 
 int num_of_objs = 0;
 bool first_time = true;
+
+std::mutex mtx;
+
+bool do_flag = true;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -197,23 +202,12 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
 
-int main(int argc, char** argv)
+void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh, bool& do_flag, std::mutex& mtx) 
 {
-  ros::init(argc, argv, "nsra_moveit_interface");
-  ros::NodeHandle nh;
-  ros::AsyncSpinner spinner(1);
-  spinner.start();
-
-  ros::WallDuration(1.0).sleep();
-  moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-  moveit::planning_interface::MoveGroupInterface group("nsra");
-  group.setPlanningTime(45.0);
 
   ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
 
-  bool go = true;
-
-  while (go)
+  while (do_flag)
   {
     nsra_robot_vision::stereo_camera_coords srv;
     if (camera_client.call(srv))
@@ -239,18 +233,49 @@ int main(int argc, char** argv)
     else
     {
       ROS_ERROR("Failed to call service nsra/stereo_camera_coords");
-      go = false;
+      mtx.lock();
+      do_flag = false;
+      mtx.unlock();
     }
     ros::WallDuration(1.0).sleep();
   }
 
+}
+
+int main(int argc, char** argv)
+{
+  ros::init(argc, argv, "nsra_moveit_interface");
+  ros::NodeHandle nh;
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
+
   ros::WallDuration(1.0).sleep();
+  moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+  moveit::planning_interface::MoveGroupInterface group("nsra");
+  group.setPlanningTime(45.0);
 
-  pick(group);
+  std::thread update_thread(update_scene, planning_scene_interface, nh, do_flag, mtx);
 
-  ros::WallDuration(1.0).sleep();
+  string inp;
 
-  place(group);
+  std::cin >> inp;
+
+  if(inp == "try") {
+
+    ros::WallDuration(1.0).sleep();
+
+    pick(group);
+
+    ros::WallDuration(1.0).sleep();
+
+    place(group);
+
+  } else
+  {
+    mtx.lock();
+    do_flag = false;
+    mtx.unlock();
+  }
 
   ros::waitForShutdown();
   return 0;
