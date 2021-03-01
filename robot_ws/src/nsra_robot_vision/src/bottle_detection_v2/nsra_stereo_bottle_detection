@@ -810,9 +810,9 @@ while(send_flag):
     img_send = output_img
     c.release()
 
-    if calib_flag and is_calib_flag:
+    if calib_flag:
         calib_flag = False
         callibrate([img_right, img_left])
-    elif detect_flag:
+    elif detect_flag and is_calib_flag:
         detect_flag = False
         detect([img_right, img_left])
