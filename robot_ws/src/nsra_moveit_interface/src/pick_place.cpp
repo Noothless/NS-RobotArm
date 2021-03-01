@@ -151,7 +151,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
-  
+
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(x.size() + 1);
 
@@ -198,7 +198,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
 
-void scene_callback(const )
+void scene_callback(data)
 {
   x = data.x;
   y = data.y;
