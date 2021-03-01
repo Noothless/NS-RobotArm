@@ -41,7 +41,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include "nsra_robot_vision/stereo_camera_coords.h"
 #include <vector>
-#include <string> 
+#include <string>
+#include <stdlib.h>
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -105,7 +106,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
   move_group.setSupportSurfaceName("table1");
 
-  move_group.pick("object", grasps);
+  move_group.pick("object1", grasps);
 
 }
 
@@ -205,23 +206,27 @@ int main(int argc, char** argv)
 
   ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
 
-  nsra_robot_vision::stereo_camera_coords srv;
-  if (camera_client.call(srv))
+  while (true)
   {
-    addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
+    nsra_robot_vision::stereo_camera_coords srv;
+    if (camera_client.call(srv))
+    {
+      addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
+    }
+    else
+    {
+      ROS_ERROR("Failed to call service add_two_ints");
+    }
+    std::sleep(1000);
+  }
 
-    ros::WallDuration(1.0).sleep();
+  ros::WallDuration(1.0).sleep();
 
     pick(group);
 
     ros::WallDuration(1.0).sleep();
 
     place(group);
-  }
-  else
-  {
-    ROS_ERROR("Failed to call service add_two_ints");
-  }
 
   ros::waitForShutdown();
   return 0;
