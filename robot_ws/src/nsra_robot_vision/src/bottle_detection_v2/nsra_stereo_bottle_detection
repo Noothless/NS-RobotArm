@@ -480,6 +480,7 @@ def detect(img):
 
     else:
         print(colored("Error: Number of objects doesn't match!", 'red'))
+        srv_flag = True
         det_resp_flag = False
 
 #Calculate transformation matrix
@@ -728,6 +729,8 @@ def coords_publisher():
             msg.y = tuple(obj_rob_vec[:,1])
             msg.z = tuple(obj_rob_vec[:,2])
             pub.publish(msg)
+        
+        time.sleep(1)
 
 input_thread = threading.Thread(target=coords_publisher)
 input_thread.start()
