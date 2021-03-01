@@ -211,7 +211,9 @@ int main(int argc, char** argv)
 
   ros::ServiceClient camera_client = nh.serviceClient<nsra_robot_vision::stereo_camera_coords>("nsra/stereo_camera_coords");
 
-  while (true)
+  bool go = true;
+
+  while (go)
   {
     nsra_robot_vision::stereo_camera_coords srv;
     if (camera_client.call(srv))
@@ -237,6 +239,7 @@ int main(int argc, char** argv)
     else
     {
       ROS_ERROR("Failed to call service nsra/stereo_camera_coords");
+      go = false;
     }
     ros::WallDuration(1.0).sleep();
   }
