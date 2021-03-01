@@ -396,11 +396,13 @@ def detect(img):
             pnts_img[i,n,0] = keypoints[n].pt[0]
             pnts_img[i,n,1] = keypoints[n].pt[1]
     
-    objects = np.zeros((pnts_img.shape))
+    _ , nmb_img , _ = pnts_img.shape
+
+    objects = np.zeros((nmb_img, 2, 2))
 
     print(pnts_img.shape)
 
-    for i in range(kp_nmb):
+    for i in range(nmb_img):
         objects[i,0,:] = pnts_img[0,i,:]
         objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:]) #TODO: Test sorting algorithm! ===========================================================
     
