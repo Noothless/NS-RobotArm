@@ -94,7 +94,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = x[index]/1000;
   grasps[0].grasp_pose.pose.position.y = y[index]/1000;
-  grasps[0].grasp_pose.pose.position.z = z[index]/1000;
+  grasps[0].grasp_pose.pose.position.z = z[index]/1000 + 0.1;
 
 
   grasps[0].pre_grasp_approach.direction.header.frame_id = "world";
@@ -245,7 +245,7 @@ int main(int argc, char** argv)
 
     std::string var;
     std::cin >> var;
-    if(std::stoi(var) > 0 && std::stoi(var) < nmb_prv_objs - 1)
+    if(std::stoi(var) >= 0 && std::stoi(var) < nmb_prv_objs - 1)
     {
       pick(group, std::stoi(var));
 
