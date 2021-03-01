@@ -149,7 +149,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, std::vector<double> x, std::vector<double> y, std::vector<double> z)
 {
 
-  num_of_objs = x.size() + 1
+  num_of_objs = x.size() + 1;
 
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(x.size() + 1);
@@ -221,10 +221,12 @@ int main(int argc, char** argv)
         if(first_time) {
           first_time = false;
         } else {
-          planning_scene_interface.removeCollisionObjects("table");
+          std::vector<std::string> object_ids;
+          object_ids.push_back("table");
           for(int i = 1; i < num_of_objs; i++) {
-            planning_scene_interface.removeCollisionObjects("object" + std::to_string(i));
+            object_ids.push_back("object" + std::to_string(i));
           }
+          planning_scene_interface.removeCollisionObjects(object_ids);
         }
         addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
       } else
