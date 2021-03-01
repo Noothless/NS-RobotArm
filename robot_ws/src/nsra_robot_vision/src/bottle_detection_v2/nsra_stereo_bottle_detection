@@ -419,15 +419,16 @@ def detect(img):
         objects = np.zeros((nmb_obj_l, 2, 2))
 
         print(objects)
-    
-    else:
-        print(colored("Error: Number of objects doesn't match!", 'red'))
-    
+
         for i in range(nmb_obj_l):
             objects[i,0,:] = pnts_img_left[i,:]
             objects[i,1,:] = closest_point(pnts_img_left[i,:], pnts_img_right[:,:])
     
         print(objects) 
+    
+    else:
+        print(colored("Error: Number of objects doesn't match!", 'red'))
+    
 
     #p_4d_obj = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
 
