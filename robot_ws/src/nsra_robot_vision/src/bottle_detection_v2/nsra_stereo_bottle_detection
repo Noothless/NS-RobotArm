@@ -381,6 +381,7 @@ calib_flag = False
 detect_flag = False
 lines_flag = False
 det_resp_flag = True
+is_calib_flag = False
 
 def closest_point(node, nodes):
     nodes = np.asarray(nodes)
@@ -487,11 +488,14 @@ def detect(img):
 def callibrate(img):
     global mtrx
     global org_coord
+    global is_calib_flag
+
+    cb_ret = False
 
     for i in range(2):
         gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
-        ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
-        if ret == True:
+        cb_ret, corners = cv2.findChessboardCorners(gray, (6,9), None)
+        if cb_ret == True:
             corners2 = cv2.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
             pnts_img[i,0] = corners2[0,0,0]
             pnts_img[i,1] = corners2[0,0,1]
@@ -499,34 +503,35 @@ def callibrate(img):
             pnts_img[i+2,1] = corners2[5,0,1]
             pnts_img[i+4,0] = corners2[48,0,0]
             pnts_img[i+4,1] = corners2[48,0,1]
-            
+
+    if cb_ret:        
     
-    p_4d_org = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
-    p_4d_x = cv2.triangulatePoints(PR, PL, pnts_img[2,:], pnts_img[3,:])
-    p_4d_y = cv2.triangulatePoints(PR, PL, pnts_img[4,:], pnts_img[5,:])
+        p_4d_org = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
+        p_4d_x = cv2.triangulatePoints(PR, PL, pnts_img[2,:], pnts_img[3,:])
+        p_4d_y = cv2.triangulatePoints(PR, PL, pnts_img[4,:], pnts_img[5,:])
 
-    org_coord = np.array([p_4d_org[0] / p_4d_org[3],
-                          p_4d_org[1] / p_4d_org[3],
-                          p_4d_org[2] / p_4d_org[3]])
+        org_coord = np.array([p_4d_org[0] / p_4d_org[3],
+                              p_4d_org[1] / p_4d_org[3],
+                              p_4d_org[2] / p_4d_org[3]])
     
-    x_coord = np.array([p_4d_x[0] / p_4d_x[3],
-                        p_4d_x[1] / p_4d_x[3],
-                        p_4d_x[2] / p_4d_x[3]])
+        x_coord = np.array([p_4d_x[0] / p_4d_x[3],
+                            p_4d_x[1] / p_4d_x[3],
+                            p_4d_x[2] / p_4d_x[3]])
 
-    y_coord = np.array([p_4d_y[0] / p_4d_y[3],
-                        p_4d_y[1] / p_4d_y[3],
-                        p_4d_y[2] / p_4d_y[3]])
+        y_coord = np.array([p_4d_y[0] / p_4d_y[3],
+                            p_4d_y[1] / p_4d_y[3],
+                            p_4d_y[2] / p_4d_y[3]])
     
-    x_vec = np.squeeze(np.subtract(x_coord, org_coord)) #TODO: Make sure they point in the right way!
-    y_vec = np.squeeze(np.subtract(y_coord, org_coord))
+        x_vec = np.squeeze(np.subtract(x_coord, org_coord)) #TODO: Make sure they point in the right way!
+        y_vec = np.squeeze(np.subtract(y_coord, org_coord))
 
-    z_vec = np.cross(x_vec, y_vec)
+        z_vec = np.cross(x_vec, y_vec)
 
-    mtrx = np.array([[x_vec[0], y_vec[0], z_vec[0]],
-                     [x_vec[1], y_vec[1], z_vec[1]],
-                     [x_vec[2], y_vec[2], z_vec[2]]])
+        mtrx = np.array([[x_vec[0], y_vec[0], z_vec[0]],
+                         [x_vec[1], y_vec[1], z_vec[1]],
+                         [x_vec[2], y_vec[2], z_vec[2]]])
 
-    config_object["CONFIG"] = {
+        config_object["CONFIG"] = {
             "mtrx_0": str(mtrx[0,0]),
             "mtrx_1": str(mtrx[0,1]),
             "mtrx_2": str(mtrx[0,2]),
@@ -549,16 +554,21 @@ def callibrate(img):
             "pnts_9": str(pnts_img[4,1]),
             "pnts_10": str(pnts_img[5,0]),
             "pnts_11": str(pnts_img[5,1]),
-    }
+        }
 
-    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
-        config_object.write(conf)
+        with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+            config_object.write(conf)
 
-    print("---------------")
-    print("Callibration successful!")
-    print("Transformation matrix: ")
-    print(mtrx)
-    print("---------------")
+        print("---------------")
+        print("Callibration successful!")
+        print("Transformation matrix: ")
+        print(mtrx)
+        print("---------------")
+
+        is_calib_flag = True
+
+    else:
+        print(colored("Callibration failed!", 'red'))
 
 #RTMP stream
 img_send = None
@@ -800,7 +810,7 @@ while(send_flag):
     img_send = output_img
     c.release()
 
-    if calib_flag:
+    if calib_flag and is_calib_flag:
         calib_flag = False
         callibrate([img_right, img_left])
     elif detect_flag:
