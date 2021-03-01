@@ -504,7 +504,7 @@ def callibrate(img):
             pnts_img[i+4,0] = corners2[48,0,0]
             pnts_img[i+4,1] = corners2[48,0,1]
 
-    if cb_ret:        
+    if cb_ret == True:        
     
         p_4d_org = cv2.triangulatePoints(PR, PL, pnts_img[0,:], pnts_img[1,:])
         p_4d_x = cv2.triangulatePoints(PR, PL, pnts_img[2,:], pnts_img[3,:])
