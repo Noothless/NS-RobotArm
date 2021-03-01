@@ -82,7 +82,7 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   
 }
 
-void pick(moveit::planning_interface::MoveGroupInterface& move_group)
+void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
 {
 
   std::vector<moveit_msgs::Grasp> grasps;
@@ -92,9 +92,9 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   tf2::Quaternion orientation;
   orientation.setRPY(M_PI / 2, 0, 0);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
-  grasps[0].grasp_pose.pose.position.x = 0.25;
-  grasps[0].grasp_pose.pose.position.y = 0.25;
-  grasps[0].grasp_pose.pose.position.z = 0.3;
+  grasps[0].grasp_pose.pose.position.x = x[index]/1000;
+  grasps[0].grasp_pose.pose.position.y = y[index]/1000;
+  grasps[0].grasp_pose.pose.position.z = z[index]/1000;
 
 
   grasps[0].pre_grasp_approach.direction.header.frame_id = "world";
@@ -112,13 +112,13 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   openGripper(grasps[0].pre_grasp_posture);
   closedGripper(grasps[0].grasp_posture);
 
-  move_group.setSupportSurfaceName("table1");
+  move_group.setSupportSurfaceName("table");
 
-  move_group.pick("object1", grasps);
+  move_group.pick("object" + to_string(index), grasps);
 
 }
 
-void place(moveit::planning_interface::MoveGroupInterface& group)
+void place(moveit::planning_interface::MoveGroupInterface& group, int index)
 {
 
   std::vector<moveit_msgs::PlaceLocation> place_location;
@@ -145,9 +145,9 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
   openGripper(place_location[0].post_place_posture);
 
-  group.setSupportSurfaceName("table1");
+  group.setSupportSurfaceName("table");
 
-  group.place("object1", place_location);
+  group.place("object1" + to_string(index), place_location);
 
 }
 
@@ -181,7 +181,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   {
 
     collision_objects[i].header.frame_id = "world";
-    collision_objects[i].id = "object" + std::to_string(i);
+    collision_objects[i].id = "object" + std::to_string(i - 1);
 
     collision_objects[i].primitives.resize(1);
     collision_objects[i].primitives[0].type = collision_objects[1].primitives[0].CYLINDER;
@@ -236,21 +236,26 @@ int main(int argc, char** argv)
     object_ids.push_back("table");
     for (int i = 1; i < nmb_prv_objs; i++)
     {
-      object_ids.push_back("object" + std::to_string(i));
+      object_ids.push_back("object" + std::to_string(i - 1));
     }
     planning_scene_interface.removeCollisionObjects(object_ids);
 
     addCollisionObjects(planning_scene_interface);
     ros::WallDuration(1.0).sleep();
+
+    string var;
+    std::cin >> var;
+    if(std::stoi(var) > 0 && std::stoi(var) < nmb_prv_objs - 1)
+    {
+      pick(group, std::stoi(var));
+
+      ros::WallDuration(1.0).sleep();
+
+      place(group, std::stoi(var));
+
+      break;
+    }
   }
-
-  ros::WallDuration(1.0).sleep();
-
-  pick(group);
-
-  ros::WallDuration(1.0).sleep();
-
-  place(group);
 
   ros::waitForShutdown();
   return 0;
