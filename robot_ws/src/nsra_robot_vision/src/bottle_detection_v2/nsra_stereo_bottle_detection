@@ -423,7 +423,7 @@ def detect(img):
 
     #print(pnts_img.shape)
 
-"""     for i in range(nmb_img):
+    """     for i in range(nmb_img):
         objects[i,0,:] = pnts_img[0,i,:]
         objects[i,1,:] = closest_point(pnts_img[0,i,:], pnts_img[1,:,:])
         print(pnts_img[1,:,:])
