@@ -433,7 +433,7 @@ def detect(img):
             
             mtrx_ret = np.linalg.solve(mtrx, np.subtract(obj_vec, org_coord))
 
-            obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0]), np.linalg.norm(mtrx[:,1]*mtrx_ret[1]), np.linalg.norm(mtrx[:,2]*mtrx_ret[2])])
+            obj_trns_vec = np.array([np.linalg.norm(mtrx[:,0]*mtrx_ret[0])/10.0, np.linalg.norm(mtrx[:,1]*mtrx_ret[1])/10.0, np.linalg.norm(mtrx[:,2]*mtrx_ret[2])/10.0])
 
             obj_rob_vec[i,:] = np.add(obj_trns_vec, rob_offset_vec)
 
@@ -448,7 +448,7 @@ def detect(img):
         print("Number of bottles: %d" % nmb_obj_l)
         print("New origin to bottle distance: ")
         for i in range(nmb_obj_l):
-            print("Bottle %d: %f mm" % (i, np.linalg.norm(obj_rob_vec[i])/10.0))
+            print("Bottle %d: %f mm" % (i, np.linalg.norm(obj_rob_vec[i])))
         print("Object vector to robot: ")
         for i in range(nmb_obj_l):
             print("Bottle %d: " % i)
