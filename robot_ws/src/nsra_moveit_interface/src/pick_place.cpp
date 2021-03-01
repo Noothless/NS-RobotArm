@@ -44,6 +44,9 @@
 #include <string>
 #include <stdlib.h>
 
+int num_of_objs = 0;
+bool first_time = true;
+
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
 
@@ -146,10 +149,12 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, std::vector<double> x, std::vector<double> y, std::vector<double> z)
 {
 
+  num_of_objs = x.size() + 1
+
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(x.size() + 1);
 
-  collision_objects[0].id = "table1";
+  collision_objects[0].id = "table";
   collision_objects[0].header.frame_id = "world";
 
   collision_objects[0].primitives.resize(1);
@@ -212,7 +217,15 @@ int main(int argc, char** argv)
     if (camera_client.call(srv))
     {
       if(srv.response.resp)
-      {
+      { 
+        if(first_time) {
+          first_time = false;
+        } else {
+          planning_scene_interface.removeCollisionObjects("table");
+          for(int i = 1; i < num_of_objs; i++) {
+            planning_scene_interface.removeCollisionObjects("object" + std::to_string(i));
+          }
+        }
         addCollisionObjects(planning_scene_interface, srv.response.x, srv.response.y, srv.response.z);
       } else
       {
