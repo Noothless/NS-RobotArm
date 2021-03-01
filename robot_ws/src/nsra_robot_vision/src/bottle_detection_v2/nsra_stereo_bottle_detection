@@ -387,7 +387,6 @@ def detect(img):
     keypoints = detector.detect(red_mask)
 
     pnts_img_right = np.zeros((len(keypoints), 2))
-    print(len(keypoints))
 
     for n in range(len(keypoints)):
         pnts_img_right[n, 0] = keypoints[n].pt[0]
@@ -407,14 +406,10 @@ def detect(img):
     keypoints = detector.detect(red_mask)
 
     pnts_img_left = np.zeros((len(keypoints), 2))
-    print(len(keypoints))
 
     for n in range(len(keypoints)):
         pnts_img_left[n, 0] = keypoints[n].pt[0]
         pnts_img_left[n, 1] = keypoints[n].pt[1]
-
-    print(pnts_img_right)
-    print(pnts_img_left)
     
     nmb_img_l , _ = pnts_img_left.shape
     nmb_img_r , _ = pnts_img_right.shape
@@ -705,6 +700,8 @@ while(send_flag):
 
     imgKeyPoints_left = cv2.drawKeypoints(red_mask_left, keypoints_left, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     imgKeyPoints_right = cv2.drawKeypoints(red_mask_right, keypoints_right, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_left = cv2.drawKeypoints(imgKeyPoints_left, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    imgKeyPoints_right = cv2.drawKeypoints(imgKeyPoints_right, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     blur_frame_points_left = cv2.drawKeypoints(img_left_sized, keypoints_left, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     blur_frame_points_right = cv2.drawKeypoints(img_right_sized, keypoints_right, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
