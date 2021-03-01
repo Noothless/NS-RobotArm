@@ -377,8 +377,7 @@ def detect(img):
     hsv_frame = cv2.cvtColor(img[0], cv2.COLOR_RGB2HSV)
 
     low_red = np.array([color_filter[3], color_filter[4], color_filter[5]])
-    high_red = np.array(
-        [color_filter[0], color_filter[1], color_filter[2]])
+    high_red = np.array([color_filter[0], color_filter[1], color_filter[2]])
     red_mask = cv2.inRange(hsv_frame, low_red, high_red)
 
     red_mask = cv2.bitwise_not(red_mask)
@@ -388,6 +387,7 @@ def detect(img):
     keypoints = detector.detect(red_mask)
 
     pnts_img_right = np.zeros((len(keypoints), 2))
+    print(len(keypoints))
 
     for n in range(len(keypoints)):
         pnts_img_right[n, 0] = keypoints[n].pt[0]
@@ -397,8 +397,7 @@ def detect(img):
     hsv_frame = cv2.cvtColor(img[1], cv2.COLOR_RGB2HSV)
 
     low_red = np.array([color_filter[3], color_filter[4], color_filter[5]])
-    high_red = np.array(
-        [color_filter[0], color_filter[1], color_filter[2]])
+    high_red = np.array([color_filter[0], color_filter[1], color_filter[2]])
     red_mask = cv2.inRange(hsv_frame, low_red, high_red)
 
     red_mask = cv2.bitwise_not(red_mask)
@@ -408,6 +407,7 @@ def detect(img):
     keypoints = detector.detect(red_mask)
 
     pnts_img_left = np.zeros((len(keypoints), 2))
+    print(len(keypoints))
 
     for n in range(len(keypoints)):
         pnts_img_left[n, 0] = keypoints[n].pt[0]
