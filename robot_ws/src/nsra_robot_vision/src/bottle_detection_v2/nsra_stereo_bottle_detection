@@ -432,9 +432,9 @@ def detect(img):
         for i in range(nmb_obj_l):
             p_4d_obj = cv2.triangulatePoints(PR, PL, objects[i,1,:], objects[i,0,:])
 
-            obj_vec[i,:] = np.array([p_4d_obj[0] / p_4d_obj[3],
-                                     p_4d_obj[1] / p_4d_obj[3],
-                                     p_4d_obj[2] / p_4d_obj[3]])
+            obj_vec[i,0] = p_4d_obj[0] / p_4d_obj[3]
+            obj_vec[i,1] = p_4d_obj[1] / p_4d_obj[3]
+            obj_vec[i,1] = p_4d_obj[2] / p_4d_obj[3]])
     
         print(obj_vec) 
     
