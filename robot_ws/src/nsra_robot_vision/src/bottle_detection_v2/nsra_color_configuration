@@ -266,8 +266,8 @@ class camera():
 
         return cv2.resize(frame,None,fx=percent,fy=percent) 
 
-image_left = None
-image_right = None
+img_left = None
+img_right = None
 
 rec_flag_l = True
 rec_flag_r = True
@@ -275,16 +275,16 @@ rec_flag_r = True
 br = CvBridge()
 
 def change_img_left(msg):
-    global image_left
+    global img_left
     global rec_flag_l
     rec_flag_l = False
-    image_left = br.imgmsg_to_cv2(msg)
+    img_left = br.imgmsg_to_cv2(msg)
 
 def change_img_right(msg):
-    global image_right
+    global img_right
     global rec_flag_r
     rec_flag_r = False
-    image_right = br.imgmsg_to_cv2(msg)
+    img_right = br.imgmsg_to_cv2(msg)
 
 rospy.init_node('nsra_camera_configurator')
 rospy.Subscriber("nsra/stereo_camera_left", Image, change_img_left)
