@@ -11,6 +11,7 @@ import time
 import math
 import rospkg
 import numpy as np
+from termcolor import colored
 
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_odrive_interface')
@@ -27,13 +28,20 @@ commandFlag = False
 
 file_counter = 0
 
+if rospy.has_param('data_file_counter'):
+    file_counter = rospy.get_param('data_file_counter')
+else:
+    rospy.set_param('data_file_counter', 0)
+
+print("File counter is: %d" % file_counter)
+
 print("Connecting...")
 odrv0 = odrive.find_any(serial_number="205F387F304E")
-print("Connected to ODrive 0")
+print(colored("Connected to ODrive 0", 'green'))
 odrv1 = odrive.find_any(serial_number="20573882304E")
-print("Connected to ODrive 1")
+print(colored("Connected to ODrive 1", 'green'))
 odrv2 = odrive.find_any(serial_number="20843881304E")
-print("Connected to ODrive 2")
+print(colored("Connected to ODrive 2", 'green'))
 
 should = rospy.Publisher('should', Float64, queue_size=10)
 actual = rospy.Publisher('actual', Float64, queue_size=10)
@@ -126,12 +134,14 @@ def command(data):
 
             out_file.close() 
 
-        print("Data saved to files!")
+        print(colored("Data saved!", 'green'))
+        print("Files have number: %d" % file_counter)
         file_counter += 1
+        rospy.set_param('data_file_counter', file_counter)
         commandFlag = False
     else:  
         commandFlag = True
-        print("Data is registered!")
+        print(colored("Data is registered!", 'green'))
 
 def axis_requested_pos(req):
     print("Axis requested position")
