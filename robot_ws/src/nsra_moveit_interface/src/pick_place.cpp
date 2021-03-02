@@ -52,6 +52,7 @@ std::vector<double> z;
 
 int nmb_prv_objs = 0;
 bool exec_flag = false;
+int table_height = 0.25
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -168,12 +169,12 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[0].primitives[0].dimensions.resize(3);
   collision_objects[0].primitives[0].dimensions[0] = 0.54;
   collision_objects[0].primitives[0].dimensions[1] = 0.54;
-  collision_objects[0].primitives[0].dimensions[2] = 0.2;
+  collision_objects[0].primitives[0].dimensions[2] = table_height;
 
   collision_objects[0].primitive_poses.resize(1);
   collision_objects[0].primitive_poses[0].position.x = 0.27;
   collision_objects[0].primitive_poses[0].position.y = 0.27;
-  collision_objects[0].primitive_poses[0].position.z = 0.1;
+  collision_objects[0].primitive_poses[0].position.z = table_height/2.0;
   collision_objects[0].primitive_poses[0].orientation.w = 1.0;
 
   collision_objects[0].operation = collision_objects[0].ADD;
@@ -236,6 +237,8 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
   ros::AsyncSpinner spinner(1);
   spinner.start();
+
+  nh.getParam("/table_height", table_height)
 
   ros::Subscriber sub = nh.subscribe("nsra/stereo_camera_coords", 1, scene_callback);
 
