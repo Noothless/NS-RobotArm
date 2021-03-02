@@ -261,8 +261,6 @@ def robot_grasp(data):
   tutorial.go_to_pose_goal(data.x/1000, data.y/1000, data.z/1000, 0)
   tutorial.go_to_joint_state()
 
-
-
 def robot_grasp_test(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
   tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000, 350.0/1000, 0)
@@ -279,7 +277,6 @@ def robot_grasp_test(data):
   pub.publish(1)
   tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000, 350.0/1000, 0)
   tutorial.go_to_joint_state()
-
 
 def joint_test(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
