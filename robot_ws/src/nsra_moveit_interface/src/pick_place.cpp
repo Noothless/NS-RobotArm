@@ -172,8 +172,8 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[0].primitives[0].dimensions[2] = table_height/1000.0;
 
   collision_objects[0].primitive_poses.resize(1);
-  collision_objects[0].primitive_poses[0].position.x = 0.27;
-  collision_objects[0].primitive_poses[0].position.y = 0.40;
+  collision_objects[0].primitive_poses[0].position.x = 0.40;
+  collision_objects[0].primitive_poses[0].position.y = 0.27;
   collision_objects[0].primitive_poses[0].position.z = table_height/2000.0;
   collision_objects[0].primitive_poses[0].orientation.w = 1.0;
 
