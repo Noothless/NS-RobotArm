@@ -208,8 +208,8 @@ void scene_callback(const nsra_robot_vision::stereo_camera_coords& data)
   if(exec_flag) {
     return;
   }
-  
-  nh.getParam("/table_height", table_height);
+
+  ros::param::get("/table_height", table_height);
 
   x = data.x;
   y = data.y;
