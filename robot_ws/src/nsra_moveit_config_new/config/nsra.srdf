@@ -55,6 +55,14 @@
         <joint name="Rev5" value="0"/>
         <joint name="Rev6" value="0"/>
     </group_state>
+    <group_state name="a5_test" group="nsra">
+        <joint name="Rev1" value="0"/>
+        <joint name="Rev2" value="0"/>
+        <joint name="Rev3" value="0"/>
+        <joint name="Rev4" value="0"/>
+        <joint name="Rev5" value="1.5707"/>
+        <joint name="Rev6" value="0"/>
+    </group_state>
     <group_state name="a6_test" group="nsra">
         <joint name="Rev1" value="0"/>
         <joint name="Rev2" value="0"/>
