@@ -277,6 +277,7 @@ def change_img_left(msg):
 def change_img_right(msg):
     image_right = br.imgmsg_to_cv2(msg)
 
+rospy.init_node('nsra_camera_configurator')
 rospy.Subscriber("nsra/stereo_camera_left", Image, change_img_left)
 rospy.Subscriber("nsra/stereo_camera_right", Image, change_img_right)
 
@@ -337,8 +338,6 @@ cv2.setTrackbarPos("Value High", windowName, vh)
 cv2.setTrackbarPos("Hue Low", windowName, hl)
 cv2.setTrackbarPos("Saturation Low", windowName, sl)
 cv2.setTrackbarPos("Value Low", windowName, vl)
-
-rospy.init_node('nsra_camera_configurator')
 
 while(True):
     #Get next image from cameras
