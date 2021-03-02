@@ -51,6 +51,7 @@ std::vector<double> y;
 std::vector<double> z;
 
 int nmb_prv_objs = 0;
+bool exec_flag = false;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -204,6 +205,9 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
 void scene_callback(const nsra_robot_vision::stereo_camera_coords& data)
 {
+  if(exec_flag) {
+    return;
+  }
   x = data.x;
   y = data.y;
   z = data.z;
@@ -257,11 +261,15 @@ int main(int argc, char** argv)
     }
     if(val >= 0 && val < nmb_prv_objs - 1)
     {
+      exec_flag = true;
+
       pick(group, val);
 
       ros::WallDuration(1.0).sleep();
 
       place(group, val);
+
+      exec_flag = false;
 
     } else if(var == "end")
     {
