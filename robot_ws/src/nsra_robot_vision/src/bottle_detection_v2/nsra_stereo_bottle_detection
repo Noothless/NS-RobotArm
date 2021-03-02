@@ -654,6 +654,37 @@ def get_input():
             detect_flag = True
         elif inp == "lines":
             lines_flag = not lines_flag
+        elif inp == "upd":
+            cam_config = rospy.get_param('camera_config')
+            color_filter = rospy.get_param('color_filter')
+
+            config_object["PARAMS"] = {
+                "hh": str(color_filter[0]),
+                "sh": str(color_filter[1]),
+                "vh": str(color_filter[2]),
+                "hl": str(color_filter[3]),
+                "sl": str(color_filter[4]),
+                "vl": str(color_filter[5]),
+            }
+
+            with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+                config_object.write(conf)
+    
+            config_object["CAMERA"] = {
+                "cam_gain": str(cam_config[0]),
+                "cam_exposure": str(cam_config[1]),
+            }
+
+            with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+                config_object.write(conf)
+
+            print("---------------")
+            print("ROS Paramaters loaded!")
+            print("Camera config:")
+            print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
+            print("HSV Color filter:")
+            print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (color_filter[0], color_filter[1], color_filter[2], color_filter[3], color_filter[4], color_filter[5]))
+            print("---------------")
         elif inp == "rob":
             print("Robot offset vector x:")
             inp = input()
@@ -729,6 +760,39 @@ def camExposureCallback(data):
     with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
         config_object.write(conf)
 
+def update_params(msg):
+    cam_config = rospy.get_param('camera_config')
+    color_filter = rospy.get_param('color_filter')
+
+    config_object["PARAMS"] = {
+            "hh": str(color_filter[0]),
+            "sh": str(color_filter[1]),
+            "vh": str(color_filter[2]),
+            "hl": str(color_filter[3]),
+            "sl": str(color_filter[4]),
+            "vl": str(color_filter[5]),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+    
+    config_object["CAMERA"] = {
+            "cam_gain": str(cam_config[0]),
+            "cam_exposure": str(cam_config[1]),
+    }
+
+    with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
+        config_object.write(conf)
+
+    print("---------------")
+    print("ROS Paramaters loaded!")
+    print("Camera config:")
+    print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
+    print("HSV Color filter:")
+    print("Upper limit: %d / %d / %d Lower limit: %d / %d / %d" % (color_filter[0], color_filter[1], color_filter[2], color_filter[3], color_filter[4], color_filter[5]))
+    print("---------------")
+
+rospy.Subscriber("nsra/configurator_update", String, update_params)
 rospy.Subscriber("nsra/bd_params", String, paramsChangeCallback)
 rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
 rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)

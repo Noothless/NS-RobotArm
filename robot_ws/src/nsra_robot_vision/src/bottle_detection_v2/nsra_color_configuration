@@ -289,6 +289,7 @@ def change_img_right(msg):
 rospy.init_node('nsra_camera_configurator')
 rospy.Subscriber("nsra/stereo_camera_left", Image, change_img_left)
 rospy.Subscriber("nsra/stereo_camera_right", Image, change_img_right)
+update_call = rospy.Publisher('nsra/configurator_update', String, queue_size=1)
 
 #cam_left = camera(0)
 #cam_right = camera(1)
@@ -402,6 +403,8 @@ while(True):
 
         rospy.set_param('color_filter', [hh, sh, vh, hl, sl, vl])
         rospy.set_param('camera_config', cam_config)
+
+        update_call.publish("update")
 
         config_object["CAMERA"] = {
             "cam_gain": str(cam_config[0]),
