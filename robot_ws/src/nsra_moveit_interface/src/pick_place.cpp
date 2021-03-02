@@ -189,12 +189,11 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[i].primitives[0].dimensions.resize(3);
     collision_objects[i].primitives[0].dimensions[0] = 0.2;
     collision_objects[i].primitives[0].dimensions[1] = 0.02;
-    collision_objects[i].primitives[0].dimensions[2] = 0.1;
 
     collision_objects[i].primitive_poses.resize(1);
     collision_objects[i].primitive_poses[0].position.x = y[i-1]/1000;
     collision_objects[i].primitive_poses[0].position.y = x[i-1]/1000;
-    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000;
+    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000 - 0.1;
     collision_objects[i].primitive_poses[0].orientation.w = 1.0;
 
     collision_objects[i].operation = collision_objects[2].ADD;
