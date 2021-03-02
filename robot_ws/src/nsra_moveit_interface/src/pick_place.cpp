@@ -95,7 +95,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = y[index]/1000 - 0.16;
   grasps[0].grasp_pose.pose.position.y = x[index]/1000;
-  grasps[0].grasp_pose.pose.position.z = z[index]/1000 + 0.1;
+  grasps[0].grasp_pose.pose.position.z = z[index]/1000;
 
 
   grasps[0].pre_grasp_approach.direction.header.frame_id = "world";
@@ -194,7 +194,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[i].primitive_poses.resize(1);
     collision_objects[i].primitive_poses[0].position.x = y[i-1]/1000;
     collision_objects[i].primitive_poses[0].position.y = x[i-1]/1000;
-    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000;
+    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000 - 0.1;
     collision_objects[i].primitive_poses[0].orientation.w = 1.0;
 
     collision_objects[i].operation = collision_objects[2].ADD;
