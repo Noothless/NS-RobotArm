@@ -802,7 +802,7 @@ def update_params(msg):
         config_object.write(conf)
 
     print("---------------")
-    print("ROS Paramaters loaded!")
+    print(colored("ROS Paramaters loaded!", 'green'))
     print("Camera config:")
     print("Gain: %f Exposure: %f" % (cam_config[0], cam_config[1]))
     print("HSV Color filter:")
