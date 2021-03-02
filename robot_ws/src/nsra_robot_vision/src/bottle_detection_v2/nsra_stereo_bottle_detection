@@ -54,6 +54,8 @@ from std_msgs.msg import String
 from std_msgs.msg import Float32
 from configparser import ConfigParser
 from nsra_robot_vision.msg import *
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 
 #config
 config_object = ConfigParser()
@@ -731,6 +733,8 @@ rospy.Subscriber("nsra/bd_params", String, paramsChangeCallback)
 rospy.Subscriber("nsra/cam_gain", Float32, camGainCallback)
 rospy.Subscriber("nsra/cam_exposure", Float32, camExposureCallback)
 pub = rospy.Publisher('nsra/stereo_camera_coords', stereo_camera_coords)
+left_img_pub = rospy.Publisher('nsra/stereo_camera_left', Image, queue_size=1)
+right_img_pub = rospy.Publisher('nsra/stereo_camera_right', Image, queue_size=1)
 
 def coords_publisher():
     global obj_rob_vec
@@ -771,6 +775,9 @@ while(send_flag):
 
     img_left_sized = cv2.resize(img_left, (1080, 720))
     img_right_sized = cv2.resize(img_right, (1080, 720))
+
+    left_img_pub.publish(br.cv2_to_imgmsg(img_left_sized))
+    right_img_pub.publish(br.cv2_to_imgmsg(img_right_sized))
 
     #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
     #blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
