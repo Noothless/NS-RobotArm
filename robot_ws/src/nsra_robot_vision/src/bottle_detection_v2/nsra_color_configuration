@@ -272,9 +272,11 @@ image_right = None
 br = CvBridge()
 
 def change_img_left(msg):
+    print("left")
     image_left = br.imgmsg_to_cv2(msg)
 
 def change_img_right(msg):
+    print("right")
     image_right = br.imgmsg_to_cv2(msg)
 
 rospy.init_node('nsra_camera_configurator')
