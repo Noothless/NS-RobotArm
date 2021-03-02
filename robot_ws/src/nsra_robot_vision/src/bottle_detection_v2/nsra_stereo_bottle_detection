@@ -138,7 +138,7 @@ try:
     rob_offset_vec[1] = config_object.getfloat("ROBOT", "rob_offset_y")
     rob_offset_vec[2] = config_object.getfloat("ROBOT", "rob_offset_z")
 
-    rospy.set_param('table_height', rob_offset_vec[2]/1000.0)
+    rospy.set_param('table_height', int(round(rob_offset_vec[2])))
 
     print("---------------")
     print("Config File Parameters loaded!")
@@ -701,7 +701,7 @@ def get_input():
             inp = input()
             rob_offset_vec[2] = float(inp)
 
-            rospy.set_param('table_height', rob_offset_vec[2]/1000.0)
+            rospy.set_param('table_height', int(round(rob_offset_vec[2])))
 
             config_object["ROBOT"] = {
             "rob_offset_x": str(rob_offset_vec[0]),
