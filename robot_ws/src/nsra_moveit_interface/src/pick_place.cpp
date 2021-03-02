@@ -208,6 +208,9 @@ void scene_callback(const nsra_robot_vision::stereo_camera_coords& data)
   if(exec_flag) {
     return;
   }
+  
+  nh.getParam("/table_height", table_height);
+
   x = data.x;
   y = data.y;
   z = data.z;
@@ -222,13 +225,6 @@ void scene_callback(const nsra_robot_vision::stereo_camera_coords& data)
   planning_scene_interface.removeCollisionObjects(object_ids);
 
   addCollisionObjects(planning_scene_interface);
-}
-
-void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh) 
-{
-
-  
-
 }
 
 int main(int argc, char** argv)
