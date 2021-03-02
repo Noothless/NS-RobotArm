@@ -193,7 +193,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[i].primitive_poses.resize(1);
     collision_objects[i].primitive_poses[0].position.x = y[i-1]/1000;
     collision_objects[i].primitive_poses[0].position.y = x[i-1]/1000;
-    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000 + 0.1;
+    collision_objects[i].primitive_poses[0].position.z = z[i-1]/1000;
     collision_objects[i].primitive_poses[0].orientation.w = 1.0;
 
     collision_objects[i].operation = collision_objects[2].ADD;
@@ -207,6 +207,17 @@ void scene_callback(const nsra_robot_vision::stereo_camera_coords& data)
   x = data.x;
   y = data.y;
   z = data.z;
+  moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+
+  std::vector<std::string> object_ids;
+  object_ids.push_back("table");
+  for (int i = 1; i < nmb_prv_objs; i++)
+  {
+    object_ids.push_back("object" + std::to_string(i - 1));
+  }
+  planning_scene_interface.removeCollisionObjects(object_ids);
+
+  addCollisionObjects(planning_scene_interface);
 }
 
 void update_scene(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface, ros::NodeHandle& nh) 
@@ -232,15 +243,7 @@ int main(int argc, char** argv)
 
   while(true)
   {
-    std::vector<std::string> object_ids;
-    object_ids.push_back("table");
-    for (int i = 1; i < nmb_prv_objs; i++)
-    {
-      object_ids.push_back("object" + std::to_string(i - 1));
-    }
-    planning_scene_interface.removeCollisionObjects(object_ids);
-
-    addCollisionObjects(planning_scene_interface);
+    
     ros::WallDuration(1.0).sleep();
 
     std::string var;
