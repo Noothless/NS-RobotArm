@@ -282,7 +282,7 @@ rospy.Subscriber("nsra/stereo_camera_right", Image, change_img_right)
 #cam_left = camera(0)
 #cam_right = camera(1)
 
-while(image_left == None):
+while(image_left == None or image_right == None):
     sleep(0.1)
 
 
