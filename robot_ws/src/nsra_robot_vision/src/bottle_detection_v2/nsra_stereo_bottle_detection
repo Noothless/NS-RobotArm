@@ -736,6 +736,8 @@ pub = rospy.Publisher('nsra/stereo_camera_coords', stereo_camera_coords)
 left_img_pub = rospy.Publisher('nsra/stereo_camera_left', Image, queue_size=1)
 right_img_pub = rospy.Publisher('nsra/stereo_camera_right', Image, queue_size=1)
 
+br = CvBridge()
+
 def coords_publisher():
     global obj_rob_vec
     global srv_flag
