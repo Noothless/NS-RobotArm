@@ -764,6 +764,9 @@ def update_params(msg):
     cam_config = rospy.get_param('camera_config')
     color_filter = rospy.get_param('color_filter')
 
+    cam_left.change_params()
+    cam_right.change_params()
+
     config_object["PARAMS"] = {
             "hh": str(color_filter[0]),
             "sh": str(color_filter[1]),
