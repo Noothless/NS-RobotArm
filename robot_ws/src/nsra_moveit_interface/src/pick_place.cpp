@@ -52,7 +52,7 @@ std::vector<double> z;
 
 int nmb_prv_objs = 0;
 bool exec_flag = false;
-int table_height = 0.25
+int table_height = 0.25;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -238,7 +238,7 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  nh.getParam("/table_height", table_height)
+  nh.getParam("/table_height", table_height);
 
   ros::Subscriber sub = nh.subscribe("nsra/stereo_camera_coords", 1, scene_callback);
 
