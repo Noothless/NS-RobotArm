@@ -641,6 +641,9 @@ def get_input():
     global send_flag
     global calib_flag
     global detect_flag
+    global rob_offset_vec
+    global cam_config
+    global color_filter
 
     while(send_flag):
         inp = input()
@@ -713,10 +716,10 @@ input_thread = threading.Thread(target=get_input)
 input_thread.start()
 
 def paramsChangeCallback(data):
+    global color_filter
+
     msg = str(data.data)
     sp_msg = msg.split("/")
-
-    global color_filter
 
     color_filter = int(sp_msg)    
 
@@ -733,6 +736,8 @@ def paramsChangeCallback(data):
         config_object.write(conf)
 
 def camGainCallback(data):
+    global cam_config
+
     cam_config[0] = data.data
     cam_left.change_params()
     cam_right.change_params()
@@ -747,6 +752,8 @@ def camGainCallback(data):
         config_object.write(conf)
 
 def camExposureCallback(data):
+    global cam_config
+
     cam_config[1] = data.data
     cam_left.change_params()
     cam_right.change_params()
@@ -761,6 +768,9 @@ def camExposureCallback(data):
         config_object.write(conf)
 
 def update_params(msg):
+    global cam_config
+    global color_filter
+
     cam_config = rospy.get_param('camera_config')
     color_filter = rospy.get_param('color_filter')
 
