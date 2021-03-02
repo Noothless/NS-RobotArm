@@ -269,15 +269,19 @@ class camera():
 image_left = None
 image_right = None
 
+rec_flag = False
+
 br = CvBridge()
 
 def change_img_left(msg):
     print("left")
     image_left = br.imgmsg_to_cv2(msg)
+    rec_flag = True
 
 def change_img_right(msg):
     print("right")
     image_right = br.imgmsg_to_cv2(msg)
+    rec_flag = True
 
 rospy.init_node('nsra_camera_configurator')
 rospy.Subscriber("nsra/stereo_camera_left", Image, change_img_left)
@@ -286,7 +290,7 @@ rospy.Subscriber("nsra/stereo_camera_right", Image, change_img_right)
 #cam_left = camera(0)
 #cam_right = camera(1)
 
-while(image_left == None or image_right == None):
+while(rec_flag is not):
     time.sleep(0.1)
 
 
