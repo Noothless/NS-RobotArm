@@ -111,20 +111,20 @@ class MoveGroupPythonIntefaceTutorial(object):
   def print_robot_info(self):
     print(self.move_group.get_current_pose().pose)
 
-  def go_to_joint_state(self):
+  def go_to_joint_state(self, a1, a2, a3, a4, a5, a6):
 
     move_group = self.move_group
 
-    move_group.set_max_velocity_scaling_factor(0.7)
-    move_group.set_max_acceleration_scaling_factor(0.3)
+    move_group.set_max_velocity_scaling_factor(1.0)
+    move_group.set_max_acceleration_scaling_factor(1.0)
 
     joint_goal = move_group.get_current_joint_values()
-    joint_goal[0] = 0
-    joint_goal[1] = 0
-    joint_goal[2] = 0
-    joint_goal[3] = 0
-    joint_goal[4] = 0
-    joint_goal[5] = 0
+    joint_goal[0] = a1
+    joint_goal[1] = a2
+    joint_goal[2] = a3
+    joint_goal[3] = a4
+    joint_goal[4] = a5
+    joint_goal[5] = a6
 
     move_group.go(joint_goal, wait=True)
 
@@ -144,9 +144,6 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     rot_list =[pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z, pose_goal.orientation.w]
     rx, ry, rz = euler_from_quaternion(rot_list)
-    print(rx)
-    print(ry)
-    print(rz)
     rx += rot
     quat = quaternion_from_euler(rx, ry, rz)
     pose_goal.orientation.x = quat[0]
@@ -282,6 +279,7 @@ def joint_test(data):
   tutorial.go_to_pose_goal(100.0/1000, 0.0/1000, 400.0/1000, -1.5707)
   time.sleep(10)
   tutorial.go_to_pose_goal(100.0/1000, 270.0/1000, 400.0/1000, 0)
+  tutorial.print_robot_info()
   time.sleep(10)
   tutorial.go_to_pose_goal(100.0/1000, 540.0/1000, 400.0/1000, 0)
   time.sleep(10)
