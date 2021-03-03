@@ -862,9 +862,12 @@ while(send_flag):
     img_right_sized = cv2.resize(img_right_remaped, (1080, 720))
 
     gray = cv2.cvtColor(img_left_sized, cv2.COLOR_BGR2GRAY)
-    corners, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams, cameraMatrix=KR, distCoeff=DR)
+    corners_left, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams, cameraMatrix=KR, distCoeff=DR)
+    gray = cv2.cvtColor(img_right_sized, cv2.COLOR_BGR2GRAY)
+    corners_right, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams, cameraMatrix=KR, distCoeff=DR)
 
-    img_left_sized = cv2.aruco.drawDetectedMarkers(img_left_sized, corners)
+    img_left_sized = cv2.aruco.drawDetectedMarkers(img_left_sized, corners_left)
+    img_right_sized = cv2.aruco.drawDetectedMarkers(img_right_sized, corners_right)
 
     left_img_pub.publish(br.cv2_to_imgmsg(img_left_sized))
     right_img_pub.publish(br.cv2_to_imgmsg(img_right_sized))
@@ -921,7 +924,7 @@ while(send_flag):
 
     if calib_flag:
         calib_flag = False
-        callibrate([img_right, img_left])
+        callibrate([img_right_remaped, img_left_remaped])
     elif detect_flag and is_calib_flag:
         detect_flag = False
         input_thread = threading.Thread(target=detect, args=([img_right_remaped, img_left_remaped],))
