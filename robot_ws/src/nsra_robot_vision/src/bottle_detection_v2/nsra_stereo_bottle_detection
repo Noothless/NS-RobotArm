@@ -520,9 +520,11 @@ def callibrate(img):
     corners, ids, rejected = cv2.aruco.detectMarkers(img[0], arucoDict,
 	parameters=arucoParams)
 
+    print("--------------------")
     print(corners)
     print(ids)
     print(rejected)
+    print("--------------------")
 
     for i in range(2):
         gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
