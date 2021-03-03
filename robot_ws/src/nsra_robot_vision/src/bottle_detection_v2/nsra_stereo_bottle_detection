@@ -923,12 +923,7 @@ while(send_flag):
 
     if calib_flag:
         calib_flag = False
-        cam_config_saved = cam_config
-        cam_config = [15.0,100000.0]
-        cam_left.change_params()
-        cam_right.change_params()
         callibrate([img_right_remaped, img_left_remaped])
-        cam_config = cam_config_saved
     elif detect_flag and is_calib_flag:
         detect_flag = False
         input_thread = threading.Thread(target=detect, args=([img_right_remaped, img_left_remaped],))
