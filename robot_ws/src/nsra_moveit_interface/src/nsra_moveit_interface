@@ -144,7 +144,7 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     rot_list =[pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z, pose_goal.orientation.w]
     rx, ry, rz = euler_from_quaternion(rot_list)
-    rz += rot
+    ry += rot
     quat = quaternion_from_euler(rx, ry, rz)
     pose_goal.orientation.x = quat[0]
     pose_goal.orientation.y = quat[1]
@@ -276,11 +276,11 @@ def robot_grasp_test(data):
 
 def joint_test(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
-  tutorial.go_to_pose_goal(555.0/1000, 355.0/1000, 500.0/1000, 0)
+  tutorial.go_to_pose_goal(400.0/1000, 270.0/1000, 500.0/1000, 0)
   time.sleep(2)
-  tutorial.go_to_pose_goal(555.0/1000, 355.0/1000, 500.0/1000, 90)
+  tutorial.go_to_pose_goal(400.0/1000, 270.0/1000, 500.0/1000, 90)
   time.sleep(5)
-  tutorial.go_to_pose_goal(555.0/1000, 355.0/1000, 500.0/1000, -90)
+  tutorial.go_to_pose_goal(400.0/1000, 270.0/1000, 500.0/1000, -90)
 
 rospy.Subscriber('nsra/robot_grasp', bd_robot_coords, robot_grasp)
 rospy.Subscriber('robot_grasp_test', String, robot_grasp_test)
