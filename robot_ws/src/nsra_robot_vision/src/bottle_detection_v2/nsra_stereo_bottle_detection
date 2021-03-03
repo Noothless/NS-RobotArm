@@ -80,7 +80,7 @@ RR = None
 RL = None
 
 #aruco
-arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
+arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_250)
 arucoParams = cv2.aruco.DetectorParameters_create()
 
 #color filter parameter 105/120/100/120/220/255
