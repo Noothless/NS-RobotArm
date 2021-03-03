@@ -857,11 +857,11 @@ while(send_flag):
     img_right = cam_right.get_frame(1)
 
     #Undistort rectify images
-    img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
-    img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+    img_left_remaped = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+    img_right_remaped = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
-    img_left_sized = cv2.resize(img_left, (1080, 720))
-    img_right_sized = cv2.resize(img_right, (1080, 720))
+    img_left_sized = cv2.resize(img_left_remaped, (1080, 720))
+    img_right_sized = cv2.resize(img_right_remaped, (1080, 720))
 
     left_img_pub.publish(br.cv2_to_imgmsg(img_left_sized))
     right_img_pub.publish(br.cv2_to_imgmsg(img_right_sized))
@@ -921,5 +921,5 @@ while(send_flag):
         callibrate([img_right, img_left])
     elif detect_flag and is_calib_flag:
         detect_flag = False
-        input_thread = threading.Thread(target=detect, args=([img_right, img_left],))
+        input_thread = threading.Thread(target=detect, args=([img_right_remaped, img_left_remaped],))
         input_thread.start()
