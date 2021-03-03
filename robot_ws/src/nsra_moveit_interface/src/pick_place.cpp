@@ -106,8 +106,8 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
 
 
   grasps[0].post_grasp_retreat.direction.header.frame_id = "world";
-  grasps[0].post_grasp_retreat.direction.vector.z = 0.0;
-  grasps[0].post_grasp_retreat.min_distance = 0.0;
+  grasps[0].post_grasp_retreat.direction.vector.z = 0.01;
+  grasps[0].post_grasp_retreat.min_distance = 0.01;
   grasps[0].post_grasp_retreat.desired_distance = 0.25;
 
 
