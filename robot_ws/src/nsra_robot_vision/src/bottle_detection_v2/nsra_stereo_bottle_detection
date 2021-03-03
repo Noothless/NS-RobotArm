@@ -513,6 +513,8 @@ def callibrate(img):
 
     for i in range(2):
         corners, ids, rejected = cv2.aruco.detectMarkers(img[i], arucoDict, parameters=arucoParams)
+        print(ids[1][0])
+        print(corners[0][0][1])
         if corners is not None:
             pnts_img[i,ids[0][0]-1,:] = corners[0][0][0]
             pnts_img[i,ids[1][0]-1,:] = corners[0][0][1]
