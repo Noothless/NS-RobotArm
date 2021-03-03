@@ -272,7 +272,7 @@ def robot_grasp_test(data):
   time.sleep(1)
   pub.publish(1)
   tutorial.go_to_pose_goal(555.0/1000 - 0.165, 355.0/1000, 350.0/1000, 0)
-  tutorial.go_to_joint_state()
+  tutorial.go_to_joint_state(-0.57385)
 
 def joint_test(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
@@ -296,9 +296,17 @@ def joint_test(data):
   time.sleep(10)
   tutorial.go_to_pose_goal(500.0/1000, 540.0/1000, 400.0/1000, 0)
 
+def axis1_test(data):
+  tutorial = MoveGroupPythonIntefaceTutorial()
+  tutorial.go_to_joint_state(0.78535, -0.57385, -1.10568, 0.0, 1.677876, -1.5707)
+  time.sleep(10)
+  tutorial.go_to_joint_state(0.0, -0.57385, -1.10568, 0.0, 1.677876, -1.5707)
+  time.sleep(10)
+  tutorial.go_to_joint_state(-0.78535, -0.57385, -1.10568, 0.0, 1.677876, -1.5707)
+
 rospy.Subscriber('nsra/robot_grasp', bd_robot_coords, robot_grasp)
 rospy.Subscriber('robot_grasp_test', String, robot_grasp_test)
-rospy.Subscriber('joint_test', String, joint_test)
+rospy.Subscriber('joint_test', String, axis1_test)
 
 def main():
   try:
