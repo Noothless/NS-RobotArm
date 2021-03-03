@@ -525,7 +525,8 @@ def callibrate(img):
         pnts_img[1,ids[1][0],:] = corners[0][0][1]
         pnts_img[1,ids[2][0],:] = corners[0][0][2]
 
-    print(pnts_img)
+    print(pnts_img[0,0,:])
+    print(pnts_img[1,0,:])
     p_4d_org = cv2.triangulatePoints(PR, PL, pnts_img[0,0,:], pnts_img[1,0:])
     p_4d_x = cv2.triangulatePoints(PR, PL, pnts_img[0,1,:], pnts_img[1,1,:])
     p_4d_y = cv2.triangulatePoints(PR, PL, pnts_img[0,2,:], pnts_img[1,2,:])
