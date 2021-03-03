@@ -47,6 +47,22 @@
         <joint name="Rev5" value="0"/>
         <joint name="Rev6" value="0"/>
     </group_state>
+    <group_state name="a2_test" group="nsra">
+        <joint name="Rev1" value="0"/>
+        <joint name="Rev2" value="0.6"/>
+        <joint name="Rev3" value="0"/>
+        <joint name="Rev4" value="0"/>
+        <joint name="Rev5" value="0"/>
+        <joint name="Rev6" value="0"/>
+    </group_state>
+    <group_state name="a3_test" group="nsra">
+        <joint name="Rev1" value="0"/>
+        <joint name="Rev2" value="0"/>
+        <joint name="Rev3" value="1.4"/>
+        <joint name="Rev4" value="0"/>
+        <joint name="Rev5" value="0"/>
+        <joint name="Rev6" value="0"/>
+    </group_state>
     <group_state name="a4_test" group="nsra">
         <joint name="Rev1" value="0"/>
         <joint name="Rev2" value="0"/>
