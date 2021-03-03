@@ -523,7 +523,7 @@ def callibrate(img):
 	parameters=arucoParams)
 
     print("--------------------")
-    print(corners)
+    print(aruco_corners)
     print(ids)
     print(rejected)
     print("--------------------")
