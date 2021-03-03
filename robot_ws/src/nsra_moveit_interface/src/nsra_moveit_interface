@@ -144,6 +144,9 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     rot_list =[pose_goal.orientation.x, pose_goal.orientation.y, pose_goal.orientation.z, pose_goal.orientation.w]
     rx, ry, rz = euler_from_quaternion(rot_list)
+    print(rx)
+    print(ry)
+    print(rz)
     ry += rot
     quat = quaternion_from_euler(rx, ry, rz)
     pose_goal.orientation.x = quat[0]
