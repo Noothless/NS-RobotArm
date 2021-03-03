@@ -106,9 +106,9 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
 
 
   grasps[0].post_grasp_retreat.direction.header.frame_id = "world";
-  grasps[0].post_grasp_retreat.direction.vector.z = 0.7;
-  grasps[0].post_grasp_retreat.min_distance = 0.1;
-  grasps[0].post_grasp_retreat.desired_distance = 0.25;
+  grasps[0].post_grasp_retreat.direction.vector.z = 0.0;
+  grasps[0].post_grasp_retreat.min_distance = 0.0;
+  grasps[0].post_grasp_retreat.desired_distance = 0.0;
 
 
   openGripper(grasps[0].pre_grasp_posture);
@@ -131,19 +131,19 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
 
   orientation.setRPY(0, 0, M_PI / 2);
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
-  place_location[0].place_pose.pose.position.x = 0;
-  place_location[0].place_pose.pose.position.y = 0.8;
-  place_location[0].place_pose.pose.position.z = 0.5;
+  place_location[0].place_pose.pose.position.x = y[index]/1000 - 0.16;
+  place_location[0].place_pose.pose.position.y = x[index]/1000;
+  place_location[0].place_pose.pose.position.z = z[index]/1000 - 0.08;
 
   place_location[0].pre_place_approach.direction.header.frame_id = "world";
-  place_location[0].pre_place_approach.direction.vector.z = -0.7;
-  place_location[0].pre_place_approach.min_distance = 0.095;
-  place_location[0].pre_place_approach.desired_distance = 0.115;
+  place_location[0].pre_place_approach.direction.vector.z = 0.0;
+  place_location[0].pre_place_approach.min_distance = 0.0;
+  place_location[0].pre_place_approach.desired_distance = 0.0;
 
   place_location[0].post_place_retreat.direction.header.frame_id = "world";
-  place_location[0].post_place_retreat.direction.vector.y = -0.7;
-  place_location[0].post_place_retreat.min_distance = 0.1;
-  place_location[0].post_place_retreat.desired_distance = 0.25;
+  place_location[0].post_place_retreat.direction.vector.y = 0.0;
+  place_location[0].post_place_retreat.min_distance = 0.0;
+  place_location[0].post_place_retreat.desired_distance = 0.0;
 
   openGripper(place_location[0].post_place_posture);
 
