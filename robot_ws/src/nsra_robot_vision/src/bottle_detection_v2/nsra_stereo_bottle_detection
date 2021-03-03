@@ -79,6 +79,11 @@ DL = None
 RR = None
 RL = None
 
+#aruco
+arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_100)
+arucoParams = cv2.aruco.DetectorParameters_create()
+
+
 #color filter parameter 105/120/100/120/220/255
 color_filter = [105,120,100,120,220,255]
 
@@ -511,6 +516,13 @@ def callibrate(img):
     global mtrx
     global org_coord
     global is_calib_flag
+
+    corners, ids, rejected = cv2.aruco.detectMarkers(img[0], arucoDict,
+	parameters=arucoParams)
+
+    print(corners)
+    print(ids)
+    print(rejected)
 
     for i in range(2):
         gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
