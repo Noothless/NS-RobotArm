@@ -106,8 +106,8 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
 
 
   grasps[0].post_grasp_retreat.direction.header.frame_id = "world";
-  grasps[0].post_grasp_retreat.direction.vector.z = 0.1;
-  grasps[0].post_grasp_retreat.min_distance = 0.1;
+  grasps[0].post_grasp_retreat.direction.vector.z = 0.0;
+  grasps[0].post_grasp_retreat.min_distance = 0.0;
   grasps[0].post_grasp_retreat.desired_distance = 0.25;
 
 
@@ -136,12 +136,12 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
   place_location[0].place_pose.pose.position.z = 0.7;
 
   place_location[0].pre_place_approach.direction.header.frame_id = "world";
-  place_location[0].pre_place_approach.direction.vector.z = -0.7;
+  place_location[0].pre_place_approach.direction.vector.z = -0.4;
   place_location[0].pre_place_approach.min_distance = 0.095;
   place_location[0].pre_place_approach.desired_distance = 0.115;
 
   place_location[0].post_place_retreat.direction.header.frame_id = "world";
-  place_location[0].post_place_retreat.direction.vector.y = -0.7;
+  place_location[0].post_place_retreat.direction.vector.x = -0.7;
   place_location[0].post_place_retreat.min_distance = 0.1;
   place_location[0].post_place_retreat.desired_distance = 0.25;
 
