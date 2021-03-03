@@ -110,18 +110,18 @@ try:
     mtrx[2,1] = config_object.getfloat("CONFIG", "mtrx_7")
     mtrx[2,2] = config_object.getfloat("CONFIG", "mtrx_8")
 
-    pnts_img[0,0] = config_object.getfloat("CONFIG", "pnts_0")
-    pnts_img[0,1] = config_object.getfloat("CONFIG", "pnts_1")
-    pnts_img[1,0] = config_object.getfloat("CONFIG", "pnts_2")
-    pnts_img[1,1] = config_object.getfloat("CONFIG", "pnts_3")
-    pnts_img[2,0] = config_object.getfloat("CONFIG", "pnts_4")
-    pnts_img[2,1] = config_object.getfloat("CONFIG", "pnts_5")
-    pnts_img[3,0] = config_object.getfloat("CONFIG", "pnts_6")
-    pnts_img[3,1] = config_object.getfloat("CONFIG", "pnts_7")
-    pnts_img[4,0] = config_object.getfloat("CONFIG", "pnts_8")
-    pnts_img[4,1] = config_object.getfloat("CONFIG", "pnts_9")
-    pnts_img[5,0] = config_object.getfloat("CONFIG", "pnts_10")
-    pnts_img[5,1] = config_object.getfloat("CONFIG", "pnts_11")
+    pnts_img[0,0,0] = config_object.getfloat("CONFIG", "pnts_0")
+    pnts_img[0,0,1] = config_object.getfloat("CONFIG", "pnts_1")
+    pnts_img[0,1,0] = config_object.getfloat("CONFIG", "pnts_2")
+    pnts_img[0,1,1] = config_object.getfloat("CONFIG", "pnts_3")
+    pnts_img[0,2,0] = config_object.getfloat("CONFIG", "pnts_4")
+    pnts_img[0,2,1] = config_object.getfloat("CONFIG", "pnts_5")
+    pnts_img[1,0,0] = config_object.getfloat("CONFIG", "pnts_6")
+    pnts_img[1,0,1] = config_object.getfloat("CONFIG", "pnts_7")
+    pnts_img[1,1,0] = config_object.getfloat("CONFIG", "pnts_8")
+    pnts_img[1,1,1] = config_object.getfloat("CONFIG", "pnts_9")
+    pnts_img[1,2,0] = config_object.getfloat("CONFIG", "pnts_10")
+    pnts_img[1,2,1] = config_object.getfloat("CONFIG", "pnts_11")
 
     cam_config[0] = config_object.getfloat("CAMERA", "cam_gain")
     cam_config[1] = config_object.getfloat("CAMERA", "cam_exposure")
@@ -561,18 +561,18 @@ def callibrate(img):
         "mtrx_7": str(mtrx[2,1]),
         "mtrx_8": str(mtrx[2,2]),
 
-        "pnts_0": str(pnts_img[0,0]),
-        "pnts_1": str(pnts_img[0,1]),
-        "pnts_2": str(pnts_img[1,0]),
-        "pnts_3": str(pnts_img[1,1]),
-        "pnts_4": str(pnts_img[2,0]),
-        "pnts_5": str(pnts_img[2,1]),
-        "pnts_6": str(pnts_img[3,0]),
-        "pnts_7": str(pnts_img[3,1]),
-        "pnts_8": str(pnts_img[4,0]),
-        "pnts_9": str(pnts_img[4,1]),
-        "pnts_10": str(pnts_img[5,0]),
-        "pnts_11": str(pnts_img[5,1]),
+        "pnts_0": str(pnts_img[0,0,0]),
+        "pnts_1": str(pnts_img[0,0,1]),
+        "pnts_2": str(pnts_img[0,1,0]),
+        "pnts_3": str(pnts_img[0,1,1]),
+        "pnts_4": str(pnts_img[0,2,0]),
+        "pnts_5": str(pnts_img[0,2,1]),
+        "pnts_6": str(pnts_img[1,0,0]),
+        "pnts_7": str(pnts_img[1,0,1]),
+        "pnts_8": str(pnts_img[1,1,0]),
+        "pnts_9": str(pnts_img[1,1,1]),
+        "pnts_10": str(pnts_img[1,2,0]),
+        "pnts_11": str(pnts_img[1,2,1]),
     }
 
     with open(pack_path + "/config/stereo_bd_config.yml", 'w') as conf:
