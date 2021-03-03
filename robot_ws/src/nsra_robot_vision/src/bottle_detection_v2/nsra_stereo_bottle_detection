@@ -83,7 +83,6 @@ RL = None
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
 arucoParams = cv2.aruco.DetectorParameters_create()
 
-
 #color filter parameter 105/120/100/120/220/255
 color_filter = [105,120,100,120,220,255]
 
@@ -102,6 +101,8 @@ pnts_img = np.array([[0.0,0.0],
                      [0.0,0.0],
                      [0.0,0.0],
                      [0.0,0.0]])
+
+aruco_corners = None
 
 #load config file
 try:
@@ -516,8 +517,9 @@ def callibrate(img):
     global mtrx
     global org_coord
     global is_calib_flag
+    global aruco_corners
 
-    corners, ids, rejected = cv2.aruco.detectMarkers(img[0], arucoDict,
+    aruco_corners, ids, rejected = cv2.aruco.detectMarkers(img[0], arucoDict,
 	parameters=arucoParams)
 
     print("--------------------")
@@ -869,6 +871,9 @@ while(send_flag):
     #Undistort rectify images
     img_left = cv2.remap(img_left,Left_Stereo_Map[0],Left_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+
+    if is_calib_flag:
+        img_right = aruco.drawDetectedMarkers(img_right, aruco_corners)
 
     img_left_sized = cv2.resize(img_left, (1080, 720))
     img_right_sized = cv2.resize(img_right, (1080, 720))
