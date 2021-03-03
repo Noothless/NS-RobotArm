@@ -513,7 +513,7 @@ def callibrate(img):
 
     gray = cv2.cvtColor(img[0], cv2.COLOR_BGR2GRAY)
     corners, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams, cameraMatrix=KR, distCoeff=DR)
-
+    print(corners)
     if corners is not None:
         pnts_img[0,ids[0][0],:] = corners[0][0][0]
         pnts_img[0,ids[1][0],:] = corners[0][0][1]
@@ -521,7 +521,7 @@ def callibrate(img):
 
     gray = cv2.cvtColor(img[1], cv2.COLOR_BGR2GRAY)
     corners, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams, cameraMatrix=KL, distCoeff=DL)
-
+    print(corners)
     if corners is not None:
         pnts_img[1,ids[0][0],:] = corners[0][0][0]
         pnts_img[1,ids[1][0],:] = corners[0][0][1]
