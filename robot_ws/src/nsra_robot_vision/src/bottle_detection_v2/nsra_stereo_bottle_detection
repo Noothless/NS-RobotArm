@@ -512,7 +512,8 @@ def callibrate(img):
     global is_calib_flag
 
     for i in range(2):
-        corners, ids, rejected = cv2.aruco.detectMarkers(img[i], arucoDict, parameters=arucoParams)
+        gray = cv2.cvtColor(img[i], cv2.COLOR_BGR2GRAY)
+        corners, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams)
         print(ids)
         print(corners)
         if corners is not None:
