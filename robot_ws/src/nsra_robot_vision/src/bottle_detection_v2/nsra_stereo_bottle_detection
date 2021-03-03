@@ -862,8 +862,8 @@ while(send_flag):
     gray = cv2.cvtColor(img_right_remaped, cv2.COLOR_BGR2GRAY)
     corners_right, ids, rejected = cv2.aruco.detectMarkers(gray, arucoDict, parameters=arucoParams, cameraMatrix=KR, distCoeff=DR)
 
-    img_left_remaped = cv2.aruco.drawDetectedMarkers(img_left_remaped, corners_left)
-    img_right_remaped = cv2.aruco.drawDetectedMarkers(img_right_remaped, corners_right)
+    #img_left_remaped = cv2.aruco.drawDetectedMarkers(img_left_remaped, corners_left)
+    #img_right_remaped = cv2.aruco.drawDetectedMarkers(img_right_remaped, corners_right)
 
     img_left_sized = cv2.resize(img_left_remaped, (1080, 720))
     img_right_sized = cv2.resize(img_right_remaped, (1080, 720))
