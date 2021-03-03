@@ -873,7 +873,7 @@ while(send_flag):
     img_right = cv2.remap(img_right,Right_Stereo_Map[0],Right_Stereo_Map[1], cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
 
     if is_calib_flag:
-        img_right = aruco.drawDetectedMarkers(img_right, aruco_corners)
+        img_right = cv2.aruco.drawDetectedMarkers(img_right, aruco_corners)
 
     img_left_sized = cv2.resize(img_left, (1080, 720))
     img_right_sized = cv2.resize(img_right, (1080, 720))
