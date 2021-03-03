@@ -129,9 +129,9 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
   place_location[0].place_pose.header.frame_id = "world";
   tf2::Quaternion orientation;
 
-  orientation.setRPY(0, 0, M_PI / 2);
+  orientation.setRPY(0, 0, 0);
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
-  place_location[0].place_pose.pose.position.x = 0.4;
+  place_location[0].place_pose.pose.position.x = 0.5;
   place_location[0].place_pose.pose.position.y = 0.27;
   place_location[0].place_pose.pose.position.z = 0.7;
 
