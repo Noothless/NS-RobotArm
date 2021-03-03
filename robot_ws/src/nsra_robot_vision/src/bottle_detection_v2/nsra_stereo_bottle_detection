@@ -867,9 +867,6 @@ while(send_flag):
     img_left_sized = cv2.resize(img_left_remaped, (1080, 720))
     img_right_sized = cv2.resize(img_right_remaped, (1080, 720))
 
-    left_img_pub.publish(br.cv2_to_imgmsg(img_left_sized))
-    right_img_pub.publish(br.cv2_to_imgmsg(img_right_sized))
-
     #blur_frame_left = cv2.GaussianBlur(img_left, (5,5), 1)
     #blur_frame_right = cv2.GaussianBlur(img_right, (5,5), 1)
 
@@ -902,6 +899,9 @@ while(send_flag):
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,0,0]*1080/3088)), int(round(pnts_img[0,0,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,1,0]*1080/3088)), int(round(pnts_img[0,1,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
     blur_frame_points_right = cv2.circle(blur_frame_points_right, (int(round(pnts_img[0,2,0]*1080/3088)), int(round(pnts_img[0,2,1]*720/2064))), radius=3, color=(0, 0, 255), thickness=-1)
+
+    left_img_pub.publish(br.cv2_to_imgmsg(blur_frame_points_left))
+    right_img_pub.publish(br.cv2_to_imgmsg(blur_frame_points_right))
 
     cv2.putText(blur_frame_points_left, str(test_nb),(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
