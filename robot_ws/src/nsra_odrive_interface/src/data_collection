@@ -131,7 +131,7 @@ def command(data):
             filename = file_path + '/data%d' % file_counter + "/data_axis%d_%d.csv" % (i+1, file_counter)
             with open(filename, "w") as out_file:
                 num_rows, num_cols = data_list.shape
-                out_file.write("should_axis%d,actual_axis%d" % (i+1, i+1))
+                out_file.write("should_axis%d,actual_axis%d" % (i+1, i+1) + "\n")
                 for n in range(num_rows-1):
                     out_string = ""
                     out_string += str(data_list[n+1,0])
