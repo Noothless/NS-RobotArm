@@ -1,6 +1,7 @@
 authors: []
 blacklist:
-- nsra_controller
+- nsra_robot_vision
+- nsra_moveit_interface
 build_space: build
 catkin_make_args: []
 cmake_args: []
@@ -19,4 +20,5 @@ make_args: []
 source_space: src
 use_env_cache: false
 use_internal_make_jobserver: true
-whitelist: []
+whitelist:
+- nsra_controller

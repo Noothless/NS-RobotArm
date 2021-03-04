@@ -1,6 +1,6 @@
 authors: []
 blacklist:
-- nsra_controller
+- nsra_robot_vision
 build_space: build
 catkin_make_args: []
 cmake_args: []
