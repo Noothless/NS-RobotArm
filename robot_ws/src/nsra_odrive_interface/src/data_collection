@@ -16,7 +16,7 @@ import os
 
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_odrive_interface')
-file_path = '/home/jetson/NS-RobotArm/odrive_data'
+file_path = '/home/jetson/NSRA_data/odrive_data'
 
 if not os.path.exists(file_path):
     os.makedirs(file_path)
