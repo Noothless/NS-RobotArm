@@ -12,9 +12,14 @@ import math
 import rospkg
 import numpy as np
 from termcolor import colored
+import os
 
 rospack = rospkg.RosPack()
 pack_path = rospack.get_path('nsra_odrive_interface')
+file_path = '/home/jetson/NS-RobotArm/odrive_data'
+
+if not os.path.exists(file_path):
+    os.makedirs(file_path)
 
 from nsra_odrive_interface.srv import *
 
@@ -99,6 +104,8 @@ def command(data):
     global file_counter
     
     if commandFlag:
+        if not os.path.exists(file_path + '/data%d' % file_counter):
+            os.makedirs(file_path + '/data%d' % file_counter)
 
         for i in range(6):
             data_list = None
@@ -121,7 +128,7 @@ def command(data):
                 data_list = data_points_axis6
                 data_points_axis6 = np.array([[0.0, 0.0]])
             
-            filename = pack_path + "/data_axis%d_%d.csv" % (i+1, file_counter)
+            filename = file_path + '/data%d' % file_counter + "/data_axis%d_%d.csv" % (i+1, file_counter)
             with open(filename, "w") as out_file:
                 num_rows, num_cols = data_list.shape
                 out_file.write("should_axis%d,actual_axis%d" % (i+1, i+1))
