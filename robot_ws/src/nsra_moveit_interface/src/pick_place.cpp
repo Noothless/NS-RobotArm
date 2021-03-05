@@ -132,8 +132,8 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
   orientation.setRPY(0, 0, 0);
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
   place_location[0].place_pose.pose.position.x = 0.5;
-  place_location[0].place_pose.pose.position.y = 0.1;
-  place_location[0].place_pose.pose.position.z = z[index]/1000 + 0.1;
+  place_location[0].place_pose.pose.position.y = -0.1;
+  place_location[0].place_pose.pose.position.z = z[index]/1000 - 0.1;
 
   place_location[0].pre_place_approach.direction.header.frame_id = "world";
   place_location[0].pre_place_approach.direction.vector.z = -0.2;
