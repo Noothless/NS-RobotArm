@@ -106,8 +106,8 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
 
 
   grasps[0].post_grasp_retreat.direction.header.frame_id = "world";
-  grasps[0].post_grasp_retreat.direction.vector.z = 0.01;
-  grasps[0].post_grasp_retreat.min_distance = 0.01;
+  grasps[0].post_grasp_retreat.direction.vector.z = 0.2;
+  grasps[0].post_grasp_retreat.min_distance = 0.2;
   grasps[0].post_grasp_retreat.desired_distance = 0.25;
 
 
@@ -132,11 +132,11 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
   orientation.setRPY(0, 0, 0);
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
   place_location[0].place_pose.pose.position.x = 0.5;
-  place_location[0].place_pose.pose.position.y = 0.27;
-  place_location[0].place_pose.pose.position.z = 0.7;
+  place_location[0].place_pose.pose.position.y = 0.1;
+  place_location[0].place_pose.pose.position.z = 0.3;
 
   place_location[0].pre_place_approach.direction.header.frame_id = "world";
-  place_location[0].pre_place_approach.direction.vector.z = -0.4;
+  place_location[0].pre_place_approach.direction.vector.z = -0.2;
   place_location[0].pre_place_approach.min_distance = 0.095;
   place_location[0].pre_place_approach.desired_distance = 0.115;
 
@@ -263,7 +263,7 @@ int main(int argc, char** argv)
 
       pick(group, val);
 
-      ros::WallDuration(10.0).sleep();
+      ros::WallDuration(1.0).sleep();
 
       place(group, val);
 
