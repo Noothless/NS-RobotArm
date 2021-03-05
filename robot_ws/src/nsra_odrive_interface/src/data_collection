@@ -107,8 +107,8 @@ def command(data):
     global file_counter
     
     if commandFlag:
-        if not os.path.exists(file_path + '/data%d' % file_counter):
-            os.makedirs(file_path + '/data%d' % file_counter)
+        if not os.path.exists(file_path + '/%s-data-%d' % (date, file_counter)):
+            os.makedirs(file_path + '/%s-data-%d' % (date, file_counter))
 
         for i in range(6):
             data_list = None
