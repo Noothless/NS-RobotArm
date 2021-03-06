@@ -276,7 +276,7 @@ def robot_grasp_test(data):
 
 def joint_test(data):
   tutorial = MoveGroupPythonIntefaceTutorial()
-  tutorial.go_to_pose_goal(90.0/1000, -50.0/1000, 330.0/1000, -1.5707)
+  tutorial.go_to_pose_goal(80.0/1000, -50.0/1000, 330.0/1000, -1.5707)
   time.sleep(15)
   tutorial.go_to_pose_goal(230.0/1000, -50.0/1000, 330.0/1000, 0)
   time.sleep(15)
@@ -296,7 +296,7 @@ def joint_test(data):
   time.sleep(15)
   tutorial.go_to_pose_goal(300.0 / 1000, 250.0 / 1000, 450.0 / 1000, 0)
   time.sleep(2)
-  tutorial.go_to_pose_goal(110.0/1000, 250.0/1000, 330.0/1000, 0)
+  tutorial.go_to_pose_goal(120.0/1000, 250.0/1000, 330.0/1000, 0)
   time.sleep(15)
   tutorial.go_to_pose_goal(230.0 / 1000, 250.0 / 1000, 330.0 / 1000, 0)
   time.sleep(15)
@@ -316,7 +316,7 @@ def joint_test(data):
   time.sleep(15)
   tutorial.go_to_pose_goal(300.0 / 1000, 550.0 / 1000, 450.0 / 1000, 0)
   time.sleep(2)
-  tutorial.go_to_pose_goal(90.0 / 1000, 550.0 / 1000, 330.0 / 1000, 0)
+  tutorial.go_to_pose_goal(80.0 / 1000, 550.0 / 1000, 330.0 / 1000, 0)
   time.sleep(15)
   tutorial.go_to_pose_goal(230.0 / 1000, 550.0 / 1000, 330.0 / 1000, 0)
   time.sleep(15)
