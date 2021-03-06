@@ -306,7 +306,7 @@ def axis1_test(data):
 
 rospy.Subscriber('nsra/robot_grasp', bd_robot_coords, robot_grasp)
 rospy.Subscriber('robot_grasp_test', String, robot_grasp_test)
-rospy.Subscriber('joint_test', String, axis1_test)
+rospy.Subscriber('joint_test', String, joint_test)
 
 def main():
   try:
