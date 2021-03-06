@@ -326,7 +326,7 @@ def joint_test_height(data):
   time.sleep(15)
   tutorial.go_to_pose_goal(220.0 / 1000, -50.0 / 1000, 550.0 / 1000, 0)
   time.sleep(15)
-  tutorial.go_to_pose_goal(220.0 / 1000, 270.0 / 1000, 650.0 / 1000, 0)
+  tutorial.go_to_pose_goal(220.0 / 1000, -50.0 / 1000, 650.0 / 1000, 0)
   time.sleep(15)
   tutorial.go_to_pose_goal(220.0 / 1000, 270.0 / 1000, 350.0 / 1000, 0)
   time.sleep(15)
