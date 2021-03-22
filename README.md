@@ -37,7 +37,7 @@ EDA files: https://github.com/Noothless/NS-RobotArm_EDA
 
 ## Overview
 **Basic inverse kinematics dataflow:**
-![logo](images/NSRA_basic_setup.png)
+![logo](images/NSRA_basic_setup_2.png)
 
 **NSRA Bottle Detection Demo:**
-![logo](images/bottle_detection_dataflow.png)
+![logo](images/NSRA_bottle_detection_dataflow_2.png)
