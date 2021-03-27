@@ -90,6 +90,9 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, double px, double py, double pz, int rot)
 {
 
+    move_group.set_max_velocity_scaling_factor(1.0);
+    move_group.set_max_acceleration_scaling_factor(1.0);
+
     std::vector< double > current_state = move_group.getCurrentRPY();
 
     current_state[0] += rot;
