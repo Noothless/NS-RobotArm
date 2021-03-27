@@ -540,7 +540,7 @@ def callibrate(img):
 
     y_coord = np.array([p_4d_y[0] / p_4d_y[3],
                         p_4d_y[1] / p_4d_y[3],
-                           p_4d_y[2] / p_4d_y[3]])
+                        p_4d_y[2] / p_4d_y[3]])
     
     x_vec = np.squeeze(np.subtract(x_coord, org_coord)) #TODO: Make sure they point in the right way!
     y_vec = np.squeeze(np.subtract(y_coord, org_coord))
