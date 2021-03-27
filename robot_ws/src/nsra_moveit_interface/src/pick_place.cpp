@@ -92,10 +92,10 @@ void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, do
     moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
 
     tf2::Quaternion q(
-            msg->current_state.orientation.x,
-            msg->current_state.orientation.y,
-            msg->current_state.orientation.z,
-            msg->current_state.orientation.w);
+            current_state.orientation.x,
+            current_state.orientation.y,
+            current_state.orientation.z,
+            current_state.orientation.w);
     tf2::Matrix3x3 m(q);
 
     double r, p, y;
@@ -108,10 +108,11 @@ void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, do
     myQuaternion=myQuaternion.normalize();
 
     geometry_msgs::Pose target_pose1;
-    target_pose1.orientation.x = myQuaternion.x;
-    target_pose1.orientation.y = myQuaternion.y;
-    target_pose1.orientation.z = myQuaternion.z;
-    target_pose1.orientation.w = myQuaternion.w;
+
+    target_pose1.orientation = myQuaternion;
+    //target_pose1.orientation.y = myQuaternion.y;
+    //target_pose1.orientation.z = myQuaternion.z;
+    //target_pose1.orientation.w = myQuaternion.w;
 
     target_pose1.position.x = px;
     target_pose1.position.y = py;
@@ -126,7 +127,7 @@ void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, do
 
     move_group.move();
     move_group.stop();
-    move_group.clear_pose_targets();
+    move_group.clearPoseTargets();
 }
 
 void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
@@ -310,8 +311,8 @@ int main(int argc, char** argv)
 
       ros::WallDuration(1.0).sleep();
 
-      empty_bottle(group, 555.0/1000 - 0.165, 355.0/1000 + 0.09, 500.0/1000, 0)
-      empty_bottle(group, 555.0/1000 - 0.165, 355.0/1000 + 0.09, 500.0/1000, 90)
+      empty_bottle(group, 555.0/1000 - 0.165, 355.0/1000 + 0.09, 500.0/1000, 0);
+      empty_bottle(group, 555.0/1000 - 0.165, 355.0/1000 + 0.09, 500.0/1000, 90);
 
       ros::WallDuration(1.0).sleep();
 
