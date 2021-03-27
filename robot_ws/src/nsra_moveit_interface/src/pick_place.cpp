@@ -45,6 +45,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <thread>
+#include <tf2/LinearMath/Quaternion.h>
+
 
 std::vector<double> x;
 std::vector<double> y;
@@ -82,6 +84,49 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].positions[1] = 0.02;
   posture.points[0].time_from_start = ros::Duration(2);
   
+}
+
+void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, double px, double py, double pz, int rot)
+{
+
+    moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
+
+    tf2::Quaternion q(
+            msg->current_state.orientation.x,
+            msg->current_state.orientation.y,
+            msg->current_state.orientation.z,
+            msg->current_state.orientation.w);
+    tf2::Matrix3x3 m(q);
+
+    double r, p, y;
+    m.getRPY(r, p, y);
+
+    r += rot;
+
+    tf2::Quaternion myQuaternion;
+    myQuaternion.setRPY(r,p,y);
+    myQuaternion=myQuaternion.normalize();
+
+    geometry_msgs::Pose target_pose1;
+    target_pose1.orientation.x = myQuaternion.x;
+    target_pose1.orientation.y = myQuaternion.y;
+    target_pose1.orientation.z = myQuaternion.z;
+    target_pose1.orientation.w = myQuaternion.w;
+
+    target_pose1.position.x = px;
+    target_pose1.position.y = py;
+    target_pose1.position.z = pz;
+    move_group.setPoseTarget(target_pose1);
+
+    moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+
+    bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    ROS_INFO_NAMED("pick_place", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
+
+    move_group.move();
+    move_group.stop();
+    move_group.clear_pose_targets();
 }
 
 void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
@@ -262,6 +307,11 @@ int main(int argc, char** argv)
       exec_flag = true;
 
       pick(group, val);
+
+      ros::WallDuration(1.0).sleep();
+
+      empty_bottle(group, 555.0/1000 - 0.165, 355.0/1000 + 0.09, 500.0/1000, 0)
+      empty_bottle(group, 555.0/1000 - 0.165, 355.0/1000 + 0.09, 500.0/1000, 90)
 
       ros::WallDuration(1.0).sleep();
 
