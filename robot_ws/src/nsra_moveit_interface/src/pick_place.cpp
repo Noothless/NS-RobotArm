@@ -98,9 +98,7 @@ void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, do
     myQuaternion.setRPY(current_state[0],current_state[1],current_state[2]);
     myQuaternion = myQuaternion.normalize();
 
-    geometry_msgs::Quaternion quat;
-
-    tf2::quaternionTFToMsg(myQuaternion , quat);
+    geometry_msgs::Quaternion quat = tf2::toMsg(myQuaternion);
 
     geometry_msgs::Pose target_pose1;
 
