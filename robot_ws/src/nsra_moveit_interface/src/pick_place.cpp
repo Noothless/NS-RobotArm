@@ -174,7 +174,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group, int index)
   orientation.setRPY(0, 0, 0);
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
   place_location[0].place_pose.pose.position.x = 0.5;
-  place_location[0].place_pose.pose.position.y = -0.1;
+  place_location[0].place_pose.pose.position.y = 0.1;
   place_location[0].place_pose.pose.position.z = z[index]/1000 - 0.1;
 
   place_location[0].pre_place_approach.direction.header.frame_id = "world";
@@ -307,10 +307,10 @@ int main(int argc, char** argv)
 
       ros::WallDuration(1.0).sleep();
 
-      empty_bottle(group, 400.0/1000, 400.0/1000, 500.0/1000, 0);
-      empty_bottle(group, 400.0/1000, 400.0/1000, 500.0/1000, 90);
+      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 0);
+      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 90);
       ros::WallDuration(7.0).sleep();
-      empty_bottle(group, 400.0/1000, 400.0/1000, 500.0/1000, -45);
+      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, -45);
 
       ros::WallDuration(1.0).sleep();
 
