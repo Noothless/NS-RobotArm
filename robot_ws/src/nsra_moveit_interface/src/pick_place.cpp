@@ -100,7 +100,7 @@ void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, do
 
     geometry_msgs::Quaternion quat;
 
-    quaternionTFToMsg(myQuaternion , quat);
+    tf2::quaternionTFToMsg(myQuaternion , quat);
 
     geometry_msgs::Pose target_pose1;
 
