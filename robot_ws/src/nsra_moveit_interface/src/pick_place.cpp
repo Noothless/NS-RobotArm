@@ -46,6 +46,7 @@
 #include <iostream>
 #include <thread>
 #include <tf2/LinearMath/Quaternion.h>
+#include <tf2/transform_datatypes.h>
 
 
 std::vector<double> x;
@@ -89,30 +90,24 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 void empty_bottle(moveit::planning_interface::MoveGroupInterface& move_group, double px, double py, double pz, int rot)
 {
 
-    moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
+    std::vector< double > current_state = move_group.getCurrentRPY();
 
-    tf2::Quaternion q(
-            current_state.orientation.x,
-            current_state.orientation.y,
-            current_state.orientation.z,
-            current_state.orientation.w);
-    tf2::Matrix3x3 m(q);
-
-    double r, p, y;
-    m.getRPY(r, p, y);
-
-    r += rot;
+    current_state[0] += rot;
 
     tf2::Quaternion myQuaternion;
-    myQuaternion.setRPY(r,p,y);
-    myQuaternion=myQuaternion.normalize();
+    myQuaternion.setRPY(current_state[0],current_state[1],current_state[2]);
+    myQuaternion = myQuaternion.normalize();
+
+    geometry_msgs::Quaternion = quat;
+
+    quaternionTFToMsg(myQuaternion , quat);
 
     geometry_msgs::Pose target_pose1;
 
-    target_pose1.orientation = myQuaternion;
-    //target_pose1.orientation.y = myQuaternion.y;
-    //target_pose1.orientation.z = myQuaternion.z;
-    //target_pose1.orientation.w = myQuaternion.w;
+    target_pose1.orientation.x = quat.x;
+    target_pose1.orientation.y = quat.y;
+    target_pose1.orientation.z = quat.z;
+    target_pose1.orientation.w = quat.w;
 
     target_pose1.position.x = px;
     target_pose1.position.y = py;
