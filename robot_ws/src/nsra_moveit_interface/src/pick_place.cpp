@@ -308,7 +308,7 @@ int main(int argc, char** argv)
       ros::WallDuration(1.0).sleep();
 
       empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 0);
-      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, -110);
+      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, -100);
       ros::WallDuration(7.0).sleep();
       empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 70);
 
