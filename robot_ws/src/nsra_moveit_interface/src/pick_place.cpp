@@ -308,11 +308,13 @@ int main(int argc, char** argv)
       ros::WallDuration(1.0).sleep();
 
       empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 0);
-      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 90);
+      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, -90);
       ros::WallDuration(7.0).sleep();
-      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, -45);
+      empty_bottle(group, 300.0/1000, 500.0/1000, 500.0/1000, 45);
 
       ros::WallDuration(1.0).sleep();
+
+      std::cin >> var;
 
       place(group, val);
 
