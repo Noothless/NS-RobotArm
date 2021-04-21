@@ -138,7 +138,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group, int index)
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = y[index]/1000 - 0.16;
   grasps[0].grasp_pose.pose.position.y = x[index]/1000;
-  grasps[0].grasp_pose.pose.position.z = z[index]/1000 - 0.1;
+  grasps[0].grasp_pose.pose.position.z = z[index]/1000 - 0.07;
 
 
   grasps[0].pre_grasp_approach.direction.header.frame_id = "world";
