@@ -314,8 +314,6 @@ int main(int argc, char** argv)
 
       ros::WallDuration(1.0).sleep();
 
-      std::cin >> var;
-
       place(group, val);
 
       exec_flag = false;
